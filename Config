@@ -1,0 +1,37 @@
+# -*-perl-*-
+
+package.Nodejs-Alexa = {
+    interfaces = (1.0);
+
+    deploy = {
+        generic = true;
+    };
+
+    build-environment = {
+        chroot = basic;
+        network-access = blocked;
+    };
+
+    # Use CopySrcBuild. See https://w.amazon.com/index.php/CopySrcBuild
+    build-system = copysrc;
+    build-tools = {
+        1.0 = {
+            CopySrcBuild = 1.0;
+        };
+    };
+
+    # Use runtime-dependencies for when you want to bring in additional
+    # packages when deploying.
+    # Use dependencies instead if you intend for these dependencies to
+    # be exported to other packages that build against you.
+    dependencies = {
+        1.0 = {
+        };
+    };
+
+    runtime-dependencies = {
+        1.0 = {
+        };
+    };
+
+};
