@@ -1,0 +1,17 @@
+{
+  "name": "alexa-sdk",
+  "version": "1.0.0",
+  "description": "Alexa SDK for Javascript",
+  "main": "index.js",
+  "contributors": [
+    "Diego Benitez <diegoben@amazon.com>"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Alexa"
+  ],
+  "author": "Amazon.com",
+  "license": "Apache-2.0"
+}
