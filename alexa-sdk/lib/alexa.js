@@ -1,7 +1,9 @@
-"use strict";
+'use strict';
 
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
+var responseHandlers = require('./response');
+var _StateString = 'STATESTRING';
 
 function AlexaRequestEmitter() {
     EventEmitter.call(this);
@@ -9,16 +11,23 @@ function AlexaRequestEmitter() {
 
 util.inherits(AlexaRequestEmitter, EventEmitter);
 
-function alexaRequestHandler(appId, event, context) {
+function alexaRequestHandler(event, context, callback) {
+    if(!event.session['attributes']) {
+        event.session['attributes'] = {};
+    }
+
     var handler = new AlexaRequestEmitter();
-    handler.setMaxListeners(Infinity);
-    handler._appId = appId;
     handler._event = event;
     handler._context = context;
 
-    handler.prototype.registerHandlers = RegisterHandlers;
+    handler.setMaxListeners(Infinity);
+    handler.setAppId = SetAppId;
+    handler.registerHandlers = RegisterHandlers;
+    handler.registerHandlers(responseHandlers);
 
-    handler.on(':lambdaEvent', HandleLambdaEvent);
+    handler.execute = function() {
+        HandleLambdaEvent.apply(handler);
+    };
 
     return handler;
 }
@@ -29,22 +38,41 @@ function HandleLambdaEvent() {
     var handlerAppId = this._appId;
     var requestAppId = event.session['application']['applicationId'];
 
-    try {
-        console.log('session applicationId: ' + event.session['application']['applicationId']);
+    if(!handlerAppId){
+        console.log('Warning: Application ID is not set');
+    }
 
+    try {
         // Validate that this request originated from authorized source.
         if (handlerAppId && (requestAppId !== handlerAppId)) {
-            console.log('The applicationIds don\'t match: ' + requestAppId + ' and ' + handlerAppId);
-            return context.fail('Invalid ApplicationId: ' + requestAppId);
+            console.log(`The applicationIds don\'t match: ${requestAppId} and ${handlerAppId}`);
+            return context.fail('Invalid ApplicationId: ' + handlerAppId);
+        }
+
+        var eventString = '';
+
+        if(event.request.type === 'IntentRequest') {
+            eventString = event.request.intent.name;
+        }
+
+        var state = this._event.session.attributes[_StateString];
+
+        if(state) {
+            eventString += state;
         }
 
         if (event.session['new']) {
-            this.emit(':NewSession');
-        } else {
-            this.emit(':' + event.request.type);
+            return this.emit(':NewSession');
         }
+
+        if(this.listenerCount(eventString) < 1){
+          this.emit('Unhandled' + state);
+        } else {
+            this.emit(eventString);
+        }
+
     } catch (e) {
-        console.log(util.format('Unexpected exception \'%s\':\n%s', e, e.stack));
+        console.log(`Unexpected exception '${e}':\n${e.stack}`);
         context.fail(e);
     }
 }
@@ -60,23 +88,64 @@ function RegisterHandlers() {
         var eventNames = Object.keys(handlerObject);
 
         for(var i = 0; i < eventNames.length; i++) {
-            var handlerFunction = {
-                name: eventNames[i]
-            };
-
-            var func = handlerObject[eventNames[i]];
-
-            if(typeof(func) !== 'function') {
-                throw `Event handler for "${eventNames[i]}" was not a function`;
+            if(typeof(handlerObject[eventNames[i]]) !== 'function') {
+                throw `Event handler for '${eventNames[i]}' was not a function`;
             }
 
-            this.on(eventNames[i], func.bind(handlerFunction));
+            var eventName = eventNames[i];
+
+            if(handlerObject[_StateString]){
+                eventName += handlerObject[_StateString];
+            }
+
+            var handlerContext = {
+                on: this.on.bind(this),
+                emit: this.emit.bind(this),
+                handler: this,
+                event: this._event,
+                attributes: this._event.session.attributes,
+                context: this._context,
+                getSSMLResponse: getSSMLResponse,
+                name: eventName,
+                isOverridden:  IsOverridden.bind(this, eventName)
+            };
+
+            this.on(eventName, handlerObject[eventNames[i]].bind(handlerContext));
         }
     }
+}
+
+function SetAppId(appId){
+    this._appId = appId;
 }
 
 function isObject(obj) {
     return (!!obj) && (obj.constructor === Object);
 }
 
-module.exports = alexaRequestHandler;
+function IsOverridden(name) {
+    return this.listenerCount(name) > 1;
+}
+
+function getSSMLResponse(message) {
+    return {
+        type: 'SSML',
+        speech: `<speak> ${message} </speak>`
+    };
+}
+
+function createStateHandler(state, obj){
+    if(!obj) {
+        obj = {};
+    }
+
+    Object.defineProperty(obj, _StateString, {
+        value: state ? state : ''
+    });
+
+    return obj;
+}
+
+module.exports.LambdaHandler = alexaRequestHandler;
+module.exports.CreateStateHandler = createStateHandler;
+module.exports.StateString = _StateString;
