@@ -1,37 +1,124 @@
 'use strict';
+var attributesHelper = require('./DynamoAttributesHelper');
 
 module.exports = (function () {
     return {
         ':tell': function (speechOutput) {
-            console.log(`${this.name} overridden: ${this.isOverridden()}`);
-            this.handler.response = buildSpeechletResponse({
-                sessionAttributes: this.attributes,
-                output: speechOutput,
-                shouldEndSession: true
-            });
-            this.emit(':ResponseReady');
-        },
-        ':ask': function (speechOutput, repromptSpeech) {
-            console.log(`${this.name} overridden: ${this.isOverridden()}`);
-            this.handler.response = buildSpeechletResponse({
-                sessionAttributes: this.attributes,
-                output: speechOutput,
-                reprompt: repromptSpeech,
-                shouldEndSession: false
-            });
-            this.emit(':ResponseReady');
-        },
-        ':ResponseReady': function () {
-            console.log(`${this.name} overridden: ${this.isOverridden()}`);
-            if(this.event.debug) {
-                console.log('Response:\n' + JSON.stringify(this.handler.response, null, 4));
+            if(this.isOverridden()) {
+                return;
             }
 
-            if(this.handler.response.shouldEndSession) {
-                this.emit(':SessionEndedRequest');
+            this.handler.response = buildSpeechletResponse({
+                sessionAttributes: this.attributes,
+                output: getSSMLResponse(speechOutput),
+                shouldEndSession: true
+            });
+            this.emit(':responseReady');
+        },
+        ':ask': function (speechOutput, repromptSpeech) {
+            if(this.isOverridden()) {
+                return;
+            }
+
+            this.handler.response = buildSpeechletResponse({
+                sessionAttributes: this.attributes,
+                output: getSSMLResponse(speechOutput),
+                reprompt: getSSMLResponse(repromptSpeech),
+                shouldEndSession: false
+            });
+            this.emit(':responseReady');
+        },
+        ':askWithCard': function(speechOutput, repromptSpeech, cardTitle, cardContent, imageObj) {
+            if(this.isOverridden()) {
+                return;
+            }
+
+            this.handler.response = buildSpeechletResponse({
+                sessionAttributes: this.attributes,
+                output: getSSMLResponse(speechOutput),
+                reprompt: getSSMLResponse(repromptSpeech),
+                cardTitle: cardTitle,
+                cardContent: cardContent,
+                cardImage: imageObj,
+                shouldEndSession: false
+            });
+            this.emit(':responseReady');
+        },
+        ':tellWithCard': function(speechOutput, cardTitle, cardContent, imageObj) {
+            if(this.isOverridden()) {
+                return;
+            }
+
+            this.handler.response = buildSpeechletResponse({
+                sessionAttributes: this.attributes,
+                output: getSSMLResponse(speechOutput),
+                cardTitle: cardTitle,
+                cardContent: cardContent,
+                cardImage: imageObj,
+                shouldEndSession: true
+            });
+            this.emit(':responseReady');
+        },
+        ':tellWithLinkAccountCard': function(speechOutput) {
+            if(this.isOverridden()) {
+                return;
+            }
+
+            this.handler.response = buildSpeechletResponse({
+                sessionAttributes: this.attributes,
+                output: getSSMLResponse(speechOutput),
+                cardType: 'LinkAccount',
+                shouldEndSession: true
+            });
+            this.emit(':responseReady');
+        },
+        ':askWithLinkAccountCard': function(speechOutput, repromptSpeech) {
+            if(this.isOverridden()) {
+                return;
+            }
+
+            this.handler.response = buildSpeechletResponse({
+                sessionAttributes: this.attributes,
+                output: getSSMLResponse(speechOutput),
+                reprompt: getSSMLResponse(repromptSpeech),
+                cardType: 'LinkAccount',
+                shouldEndSession: false
+            });
+            this.emit(':responseReady');
+        },
+        ':responseReady': function () {
+            if (this.isOverridden()) {
+                return;
+            }
+
+            if (this.persistSessionAttributes) {
+                return this.emit(':saveState');
+            }
+
+            this.context.succeed(this.handler.response);
+        },
+        ':saveState': function() {
+            if (this.isOverridden()) {
+                return;
+            }
+
+            if(this.saveBeforeResponse || this.handler.response.shouldEndSession) {
+                attributesHelper.set.call(this, this.event.session.user.userId, this.attributes, function(err){
+                    if(err) {
+                        return this.emit(':saveStateError', err);
+                    }
+                    this.context.succeed(this.handler.response);
+                });
             } else {
                 this.context.succeed(this.handler.response);
             }
+        },
+        ':saveStateError': function(err) {
+            if(this.isOverridden()) {
+                return;
+            }
+            console.log(`Error saving state: ${err}\n${err.stack}`);
+            this.context.fail(err);
         }
     };
 })();
@@ -68,7 +155,25 @@ function buildSpeechletResponse(options) {
             title: options.cardTitle,
             content: options.cardContent
         };
+
+        if(options.cardImage && (options.cardImage.smallImageUrl || options.cardImage.largeImageUrl)) {
+            alexaResponse.card.type = 'Standard';
+            alexaResponse.card['image'] = {};
+
+            if(options.cardImage.smallImageUrl) {
+                alexaResponse.card.image['smallImageUrl'] = options.cardImage.smallImageUrl;
+            }
+
+            if(options.cardImage.largeImageUrl) {
+                alexaResponse.card.image['largeImageUrl'] = options.cardImage.largeImageUrl;
+            }
+        }
+    } else if (options.cardType === 'LinkAccount') {
+        alexaResponse.card = {
+            type: 'LinkAccount'
+        };
     }
+
     var returnResult = {
         version: '1.0',
         response: alexaResponse
@@ -78,4 +183,11 @@ function buildSpeechletResponse(options) {
         returnResult.sessionAttributes = options.sessionAttributes;
     }
     return returnResult;
+}
+
+function getSSMLResponse(message) {
+    return {
+        type: 'SSML',
+        speech: `<speak> ${message} </speak>`
+    };
 }
