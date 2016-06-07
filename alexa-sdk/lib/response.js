@@ -19,7 +19,6 @@ module.exports = (function () {
             if(this.isOverridden()) {
                 return;
             }
-
             this.handler.response = buildSpeechletResponse({
                 sessionAttributes: this.attributes,
                 output: getSSMLResponse(speechOutput),
@@ -91,7 +90,11 @@ module.exports = (function () {
                 return;
             }
 
-            if (this.persistSessionAttributes) {
+            if(this.handler.state) {
+                this.handler.response.sessionAttributes['STATE'] = this.handler.state;
+            }
+
+            if (this.handler.persistSessionAttributes) {
                 return this.emit(':saveState');
             }
 
@@ -103,7 +106,7 @@ module.exports = (function () {
             }
 
             if(this.saveBeforeResponse || this.handler.response.shouldEndSession) {
-                attributesHelper.set.call(this, this.event.session.user.userId, this.attributes, function(err){
+                attributesHelper.set.call(this, this.event.session.user.userId, this.attributes, function(err) {
                     if(err) {
                         return this.emit(':saveStateError', err);
                     }

@@ -4,7 +4,7 @@ var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var attributesHelper = require('./DynamoAttributesHelper');
 var responseHandlers = require('./response');
-var _StateString = 'STATESTRING';
+var _StateString = 'STATE';
 
 function AlexaRequestEmitter() {
     EventEmitter.call(this);
@@ -66,13 +66,15 @@ function alexaRequestHandler(event, context, callback) {
     });
 
     Object.defineProperty(handler, 'registerHandlers', {
-        value: RegisterHandlers,
+        value: function() {
+            RegisterHandlers.apply(handler, arguments);
+        },
         writable: false
     });
 
     Object.defineProperty(handler, 'execute', {
         value: function() {
-            HandleLambdaEvent.apply(handler);
+            HandleLambdaEvent.call(handler);
         },
         writable: false
     });
@@ -85,7 +87,7 @@ function alexaRequestHandler(event, context, callback) {
 function HandleLambdaEvent() {
     var event = this._event;
     var context = this._context;
-    var handlerAppId = this._appId;
+    var handlerAppId = this.appId;
     var requestAppId = event.session.application.applicationId;
 
     if(!handlerAppId){
@@ -99,6 +101,8 @@ function HandleLambdaEvent() {
             return context.fail('Invalid ApplicationId: ' + handlerAppId);
         }
 
+        this.state = event.session.attributes[_StateString];
+
         var eventString = '';
 
         if (event.session['new']) {
@@ -111,17 +115,18 @@ function HandleLambdaEvent() {
 
         eventString += this.state || '';
 
+        var emitContext = this; // TODO: switch to arrow function
         if(this.persistSessionAttributes && event.session['new']) {
-            attributesHelper.get.call(this, this.event.session.user.userId, function(err, data) {
+            attributesHelper.get.call(this, event.session.user.userId, function(err, data) {
                 if(err) {
                     return context.fail('Error fetching user state: ' + err);
                 }
 
                 event.session.attributes = data;
-                EmitEvent.call(this, eventString);
+                EmitEvent.call(emitContext, eventString);
             });
         } else {
-            EmitEvent.call(this, eventString);
+            EmitEvent.call(emitContext, eventString);
         }
     } catch (e) {
         console.log(`Unexpected exception '${e}':\n${e.stack}`);
@@ -130,8 +135,8 @@ function HandleLambdaEvent() {
 }
 
 function EmitEvent(eventString) {
-    if(this.listenerCount(eventString) < 1){
-        this.emit('Unhandled' + this.state || '');
+    if(this.listenerCount(eventString) < 1) {
+        this.emit('Unhandled' + this.handler.state || '');
     } else {
         this.emit(eventString);
     }
@@ -167,7 +172,7 @@ function RegisterHandlers() {
                 context: this._context,
                 name: eventName,
                 isOverridden:  IsOverridden.bind(this, eventName)
-            };
+            }
 
             this.on(eventName, handlerObject[eventNames[i]].bind(handlerContext));
         }
