@@ -16,7 +16,8 @@ You will need an AWS account
 npm install --save alexa-sdk
 ```
 2. Create a file named index.js and add the following to it:
-```javascript
+
+```
 var Alexa = require('alexa-sdk');
 
 exports.handler = function(event, context, callback){
@@ -28,7 +29,7 @@ exports.handler = function(event, context, callback){
 3. Create an event handler
 There is a built-in event is emitted on session start called `NewSession`, let's create a handler for it.
 
-```javascript
+```
 var handlers = {
     'NewSession': function() {
         this.emit(':tell', 'Hello world!');
@@ -40,7 +41,7 @@ var handlers = {
 4. Register the event handlers
 Use the `registerHandlers` function to add event handler function to the Alexa event handler.
 
-```javascript
+```
 exports.handler = function(event, context, callback){
     var alexa = Alexa.handler(event, context);
     alexa.registerHandlers(handlers);
@@ -48,14 +49,14 @@ exports.handler = function(event, context, callback){
 ```
 
 You can register multiple handler objects at once:
-```javascript
+```
     alexa.registerHandlers(handlers1, handlers2, handlers3, ...);
 ```
 
 5. Execute the incoming Lambda event
 Once you are done registering all of your intent handler functions, use `execute()` to run your skill logic.
 
-```javascript
+```
 exports.handler = function(event, context, callback){
     var alexa = Alexa.handler(event, context);
     alexa.registerHandlers(handlers);
@@ -71,7 +72,7 @@ The ASK will route incoming intents to the correct function handler based on sta
 
 For example, let's create a simple number-guessing game with "start" and "guess" states.
 
-```javascript
+```
 var states = {
     GUESSMODE: '_GUESSMODE', // User is trying to guess the number.
     STARTMODE: '_STARTMODE'  // Prompt the user to start or restart the game.
@@ -160,7 +161,7 @@ Notice that the `Alexa.CreateStateHandler` function is used. It creates an objec
 ## Using the state sample
 
 Here is the Intent Schema for the above:
-```javascript
+```
 {
   "intents": [
     {
@@ -200,7 +201,7 @@ Create a skill in the Developer portal called 'High low' and try it out.
 
 
 # Built in functions reference
-```javascript
+```
 var speechOutput = 'Hello world!';
 var repromptSpeech = 'Hello again!';
 
