@@ -8,10 +8,12 @@ ASK Features:
 - Helper functions to build state-machine based Intent handling
 
 # Getting Started
+
 Prerequisites:
 You will need an AWS account
 
 1. Install the ASK package. In your project directory:
+
 ```
 npm install --save alexa-sdk
 ```
@@ -27,6 +29,7 @@ exports.handler = function(event, context, callback){
 ```
 
 3. Create an event handler
+
 There is a built-in event is emitted on session start called `NewSession`, let's create a handler for it.
 
 ```
@@ -39,6 +42,7 @@ var handlers = {
 ```
 
 4. Register the event handlers
+
 Use the `registerHandlers` function to add event handler function to the Alexa event handler.
 
 ```
@@ -54,6 +58,7 @@ You can register multiple handler objects at once:
 ```
 
 5. Execute the incoming Lambda event
+
 Once you are done registering all of your intent handler functions, use `execute()` to run your skill logic.
 
 ```
@@ -65,7 +70,9 @@ exports.handler = function(event, context, callback){
 ```
 
 6. Zip and upload to Lambda
+
 Zip `index.js` and the `node_modules` folder and upload to Lambda. Use the function ARN to point to your skill on developer.amazon.com
+
 
 # Using State
 The ASK will route incoming intents to the correct function handler based on state. It is simply a string stored in your session attributes indicating the current state of the skill. You can emulate the built-in intent routing by appending the state string to the intent name when defining your intent handlers, but the ASK helps do that for you.
