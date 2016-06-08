@@ -188,6 +188,7 @@ function buildSpeechletResponse(options) {
     return returnResult;
 }
 
+// TODO: check for ssml content in card
 function getSSMLResponse(message) {
     return {
         type: 'SSML',
