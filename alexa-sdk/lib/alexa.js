@@ -123,10 +123,10 @@ function HandleLambdaEvent() {
                 }
 
                 event.session.attributes = data;
-                EmitEvent.call(emitContext, eventString);
+                EmitEvent.call(emitContext, eventString, emitContext.state);
             });
         } else {
-            EmitEvent.call(emitContext, eventString);
+            EmitEvent.call(emitContext, eventString, this.state);
         }
     } catch (e) {
         console.log(`Unexpected exception '${e}':\n${e.stack}`);
@@ -134,9 +134,9 @@ function HandleLambdaEvent() {
     }
 }
 
-function EmitEvent(eventString) {
+function EmitEvent(eventString, state) {
     if(this.listenerCount(eventString) < 1) {
-        this.emit('Unhandled' + this.handler.state || '');
+        this.emit('Unhandled' + state || '');
     } else {
         this.emit(eventString);
     }
@@ -172,7 +172,7 @@ function RegisterHandlers() {
                 context: this._context,
                 name: eventName,
                 isOverridden:  IsOverridden.bind(this, eventName)
-            }
+            };
 
             this.on(eventName, handlerObject[eventNames[i]].bind(handlerContext));
         }
