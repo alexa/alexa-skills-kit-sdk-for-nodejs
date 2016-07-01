@@ -4,9 +4,9 @@ var doc;
 
 module.exports = (function() {
     return {
-        get: function(userId, callback) {
-            if(!this.dynamoDBTableName) {
-                this.context.fail('DynamoDB table name is not set.');
+        get: function(table, userId, callback) {
+            if(!table) {
+                callback('DynamoDB Table name is not set.', null);
             }
 
             if(!doc) {
@@ -17,14 +17,27 @@ module.exports = (function() {
                 Key: {
                     userId: userId
                 },
-                TableName: this.dynamoDBTableName,
+                TableName: table,
                 ConsistentRead: true
             };
 
             doc.get(params, function(err, data){
                 if(err) {
                     console.log('get error: ' + JSON.stringify(err, null, 4));
-                    callback(err, null);
+
+                    if(err.code === 'ResourceNotFoundException') {
+                        var dynamoClient = new aws.DynamoDB();
+                        newTableParams['TableName'] = table;
+                        dynamoClient.createTable(newTableParams, function (err, data) {
+                            if(err) {
+                                console.log('Error creating table: ' + JSON.stringify(err, null, 4));
+                            }
+                            console.log('Creating table ' + table + ':\n' + JSON.stringify(data));
+                            callback(err, {});
+                        });
+                    } else {
+                        callback(err, null);
+                    }
                 } else {
                     if(isEmptyObject(data)) {
                         callback(null, {});
@@ -35,9 +48,9 @@ module.exports = (function() {
             });
         },
 
-        set: function(userId, data, callback) {
-            if(!this.dynamoDBTableName) {
-                this.context.fail('DynamoDB table name is not set.');
+        set: function(table, userId, data, callback) {
+            if(!table) {
+                callback('DynamoDB Table name is not set.', null);
             }
 
             if(!doc) {
@@ -49,14 +62,13 @@ module.exports = (function() {
                     userId: userId,
                     mapAttr: data
                 },
-                TableName: this.dynamoDBTableName
+                TableName: table
             };
 
             doc.put(params, function(err, data) {
                 if(err) {
                     console.log('Error during DynamoDB put:' + err);
                 }
-
                 callback(err, data);
             });
         }
@@ -65,4 +77,23 @@ module.exports = (function() {
 
 function isEmptyObject(obj) {
     return !Object.keys(obj).length;
+}
+
+var newTableParams = {
+    AttributeDefinitions: [
+        {
+            AttributeName: 'userId',
+            AttributeType: 'S'
+        }
+    ],
+    KeySchema: [
+        {
+            AttributeName: 'userId',
+            KeyType: 'HASH'
+        }
+    ],
+    ProvisionedThroughput: {
+        ReadCapacityUnits: 5,
+        WriteCapacityUnits: 5
+    }
 }

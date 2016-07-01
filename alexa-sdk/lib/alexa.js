@@ -55,11 +55,6 @@ function alexaRequestHandler(event, context, callback) {
         writable: true
     });
 
-    Object.defineProperty(handler, 'persistSessionAttributes', {
-        value: false,
-        writable: true
-    });
-
     Object.defineProperty(handler, 'saveBeforeResponse', {
         value: false,
         writable: true
@@ -115,18 +110,18 @@ function HandleLambdaEvent() {
 
         eventString += this.state || '';
 
-        var emitContext = this; // TODO: switch to arrow function
-        if(this.persistSessionAttributes && event.session['new']) {
-            attributesHelper.get.call(this, event.session.user.userId, function(err, data) {
+        if(this.dynamoDBTableName && event.session['new']) {
+            attributesHelper.get(this.dynamoDBTableName, event.session.user.userId, (err, data) => {
                 if(err) {
                     return context.fail('Error fetching user state: ' + err);
                 }
 
-                event.session.attributes = data;
-                EmitEvent.call(emitContext, eventString, emitContext.state);
+                Object.assign(this._event.session.attributes, data);
+
+                EmitEvent.call(this, eventString, this.state);
             });
         } else {
-            EmitEvent.call(emitContext, eventString, this.state);
+            EmitEvent.call(this, eventString, this.state);
         }
     } catch (e) {
         console.log(`Unexpected exception '${e}':\n${e.stack}`);

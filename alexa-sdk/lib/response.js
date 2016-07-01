@@ -94,10 +94,10 @@ module.exports = (function () {
                 this.handler.response.sessionAttributes['STATE'] = this.handler.state;
             }
 
-            if (this.handler.persistSessionAttributes) {
+            if (this.handler.dynamoDBTableName) {
                 return this.emit(':saveState');
             }
-
+            
             this.context.succeed(this.handler.response);
         },
         ':saveState': function() {
@@ -105,12 +105,13 @@ module.exports = (function () {
                 return;
             }
 
-            if(this.saveBeforeResponse || this.handler.response.shouldEndSession) {
-                attributesHelper.set.call(this, this.event.session.user.userId, this.attributes, function(err) {
-                    if(err) {
-                        return this.emit(':saveStateError', err);
-                    }
-                    this.context.succeed(this.handler.response);
+            if(this.saveBeforeResponse || this.handler.response.response.shouldEndSession) {
+                attributesHelper.set(this.handler.dynamoDBTableName, this.event.session.user.userId, this.attributes,
+                    (err) => {
+                        if(err) {
+                            return this.emit(':saveStateError', err);
+                        }
+                        this.context.succeed(this.handler.response);
                 });
             } else {
                 this.context.succeed(this.handler.response);
