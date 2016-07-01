@@ -97,15 +97,15 @@ module.exports = (function () {
             if (this.handler.dynamoDBTableName) {
                 return this.emit(':saveState');
             }
-            
+
             this.context.succeed(this.handler.response);
         },
-        ':saveState': function() {
+        ':saveState': function(forceSave) {
             if (this.isOverridden()) {
                 return;
             }
 
-            if(this.saveBeforeResponse || this.handler.response.response.shouldEndSession) {
+            if(this.saveBeforeResponse || this.handler.response.response.shouldEndSession || forceSave) {
                 attributesHelper.set(this.handler.dynamoDBTableName, this.event.session.user.userId, this.attributes,
                     (err) => {
                         if(err) {
