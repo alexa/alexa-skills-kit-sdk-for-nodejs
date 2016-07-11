@@ -96,20 +96,6 @@ function HandleLambdaEvent() {
             return context.fail('Invalid ApplicationId: ' + handlerAppId);
         }
 
-        this.state = event.session.attributes[_StateString];
-
-        var eventString = '';
-
-        if (event.session['new']) {
-            eventString = 'NewSession';
-        } else if(event.request.type === 'IntentRequest') {
-            eventString = event.request.intent.name;
-        } else if (event.request.type === 'SessionEndedRequest'){
-            eventString = 'SessionEndedRequest';
-        }
-
-        eventString += this.state || '';
-
         if(this.dynamoDBTableName && event.session['new']) {
             attributesHelper.get(this.dynamoDBTableName, event.session.user.userId, (err, data) => {
                 if(err) {
@@ -118,10 +104,10 @@ function HandleLambdaEvent() {
 
                 Object.assign(this._event.session.attributes, data);
 
-                EmitEvent.call(this, eventString, this.state);
+                EmitEvent.call(this);
             });
         } else {
-            EmitEvent.call(this, eventString, this.state);
+            EmitEvent.call(this);
         }
     } catch (e) {
         console.log(`Unexpected exception '${e}':\n${e.stack}`);
@@ -129,9 +115,23 @@ function HandleLambdaEvent() {
     }
 }
 
-function EmitEvent(eventString, state) {
+function EmitEvent() {
+    this.state = this._event.session.attributes[_StateString] || '';
+
+    var eventString = '';
+
+    if (this._event.session['new'] && this.listenerCount('NewSession' + this.state) === 1) {
+        eventString = 'NewSession';
+    } else if(this._event.request.type === 'IntentRequest') {
+        eventString = this._event.request.intent.name;
+    } else if (this._event.request.type === 'SessionEndedRequest'){
+        eventString = 'SessionEndedRequest';
+    }
+
+    eventString += this.state;
+
     if(this.listenerCount(eventString) < 1) {
-        this.emit('Unhandled' + state || '');
+        this.emit('Unhandled' + this.state);
     } else {
         this.emit(eventString);
     }
@@ -161,6 +161,8 @@ function RegisterHandlers() {
             var handlerContext = {
                 on: this.on.bind(this),
                 emit: this.emit.bind(this),
+                emitWithState: EmitWithState.bind(this),
+                state: this.state,
                 handler: this,
                 event: this._event,
                 attributes: this._event.session.attributes,
@@ -192,6 +194,10 @@ function createStateHandler(state, obj){
     });
 
     return obj;
+}
+
+function EmitWithState(event) {
+    this.emit(event + this.state);
 }
 
 process.on('uncaughtException', function(err) {
