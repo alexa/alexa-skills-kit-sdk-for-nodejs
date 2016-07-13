@@ -1,7 +1,7 @@
 {
   "name": "alexa-sdk",
   "version": "1.0.0",
-  "description": "Alexa SDK for Node.js”,
+  "description": "Alexa SDK for Node.js",
   "main": "index.js",
   "contributors": [
     "Diego Benitez <diegoben@amazon.com>"
