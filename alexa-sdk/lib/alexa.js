@@ -13,7 +13,9 @@ function AlexaRequestEmitter() {
 util.inherits(AlexaRequestEmitter, EventEmitter);
 
 function alexaRequestHandler(event, context, callback) {
-    if(!event.session['attributes']) {
+    if (!event.session) {
+        event.session = { 'attributes': {} };
+    } else if (!event.session['attributes']) {
         event.session['attributes'] = {};
     }
 
@@ -83,7 +85,7 @@ function HandleLambdaEvent() {
     var event = this._event;
     var context = this._context;
     var handlerAppId = this.appId;
-    var requestAppId = event.session.application.applicationId;
+    var requestAppId = event.context.System.application.applicationId;
 
     if(!handlerAppId){
         console.log('Warning: Application ID is not set');
@@ -96,8 +98,8 @@ function HandleLambdaEvent() {
             return context.fail('Invalid ApplicationId: ' + handlerAppId);
         }
 
-        if(this.dynamoDBTableName && event.session['new']) {
-            attributesHelper.get(this.dynamoDBTableName, event.session.user.userId, (err, data) => {
+        if(this.dynamoDBTableName && (!event.session.sessionId || event.session['new']) ) {
+            attributesHelper.get(this.dynamoDBTableName, event.context.System.user.userId, (err, data) => {
                 if(err) {
                     return context.fail('Error fetching user state: ' + err);
                 }
@@ -128,6 +130,10 @@ function EmitEvent() {
         eventString = this._event.request.intent.name;
     } else if (this._event.request.type === 'SessionEndedRequest'){
         eventString = 'SessionEndedRequest';
+    } else if (this._event.request.type.substring(0,11) === 'AudioPlayer') {
+        eventString = this._event.request.type.substring(12);
+    } else if (this._event.request.type.substring(0,18) === 'PlaybackController') {
+        eventString = this._event.request.type.substring(19);
     }
 
     eventString += this.state;
@@ -163,7 +169,6 @@ function RegisterHandlers() {
             if(handlerObject[_StateString]) {
                 eventName += handlerObject[_StateString];
             }
-
             var handlerContext = {
                 on: this.on.bind(this),
                 emit: this.emit.bind(this),
@@ -174,7 +179,8 @@ function RegisterHandlers() {
                 attributes: this._event.session.attributes,
                 context: this._context,
                 name: eventName,
-                isOverridden:  IsOverridden.bind(this, eventName)
+                isOverridden:  IsOverridden.bind(this, eventName),
+                response: ResponseBuilder(this)
             };
 
             this.on(eventName, handlerObject[eventNames[i]].bind(handlerContext));
@@ -188,6 +194,137 @@ function isObject(obj) {
 
 function IsOverridden(name) {
     return this.listenerCount(name) > 1;
+}
+
+function ResponseBuilder(self) {
+    var responseObject = self.response;
+    responseObject.version = '1.0';
+    responseObject.response = {
+        shouldEndSession: true
+    };
+    responseObject.sessionAttributes = self._event.session.attributes;
+
+    return (function () {
+        return {
+            'speak': function (speechOutput) {
+                responseObject.response.outputSpeech = createSpeechObject(speechOutput);
+                return this;
+            },
+            'listen': function (repromptSpeech) {
+                responseObject.response.reprompt = {
+                    outputSpeech: createSpeechObject(repromptSpeech)
+                };
+                responseObject.response.shouldEndSession = false;
+                return this;
+            },
+            'cardRenderer': function (cardTitle, cardContent, cardImage) {
+                var card = {
+                    type: 'Simple',
+                    title: cardTitle,
+                    content: cardContent
+                };
+
+                if(cardImage && (cardImage.smallImageUrl || cardImage.largeImageUrl)) {
+                    card.type = 'Standard';
+                    card['image'] = {};
+
+                    if(cardImage.smallImageUrl) {
+                        card.image['smallImageUrl'] = cardImage.smallImageUrl;
+                    }
+
+                    if(cardImage.largeImageUrl) {
+                        card.image['largeImageUrl'] = cardImage.largeImageUrl;
+                    }
+                }
+
+                responseObject.response.card = card;
+                return this;
+            },
+            'linkAccountCard': function () {
+                responseObject.response.card = {
+                    type: 'LinkAccount'
+                };
+                return this;
+            },
+            'audioPlayer': function (directiveType, behavior, url, token, expectedPreviousToken, offsetInMilliseconds) {
+                var audioPlayerDirective;
+                if (directiveType === 'play') {
+                    audioPlayerDirective = {
+                        "type": "AudioPlayer.Play",
+                        "playBehavior": behavior,
+                        "audioItem": {
+                            "stream": {
+                                "url": url,
+                                "token": token,
+                                "expectedPreviousToken": expectedPreviousToken,
+                                "offsetInMilliseconds": offsetInMilliseconds
+                            }
+                        }
+                    };
+                } else if (directive === 'stop') {
+                    audioPlayerDirective = {
+                        "type": "AudioPlayer.Stop"
+                    };
+                } else {
+                    audioPlayerDirective = {
+                        "type": "AudioPlayer.Stop",
+                        "clearBehavior": behavior
+                    };
+                }
+
+                responseObject.response.directives = [audioPlayerDirective];
+                return this;
+            },
+            'audioPlayerPlay': function (behavior, url, token, expectedPreviousToken, offsetInMilliseconds) {
+                var audioPlayerDirective = {
+                    "type": "AudioPlayer.Play",
+                    "playBehavior": behavior,
+                    "audioItem": {
+                        "stream": {
+                            "url": url,
+                            "token": token,
+                            "expectedPreviousToken": expectedPreviousToken,
+                            "offsetInMilliseconds": offsetInMilliseconds
+                        }
+                    }
+                };
+
+                responseObject.response.directives = [audioPlayerDirective];
+                return this;
+            },
+            'audioPlayerStop': function () {
+                var audioPlayerDirective = {
+                    "type": "AudioPlayer.Stop"
+                };
+
+                responseObject.response.directives = [audioPlayerDirective];
+                return this;
+            },
+            'audioPlayerClearQueue': function (clearBehavior) {
+                var audioPlayerDirective = {
+                    "type": "AudioPlayer.ClearQueue",
+                    "playBehavior": clearBehavior
+                };
+
+                responseObject.response.directives = [audioPlayerDirective];
+                return this;
+            }
+        }
+    })();
+}
+
+function createSpeechObject(optionsParam) {
+    if (optionsParam && optionsParam.type === 'SSML') {
+        return {
+            type: optionsParam.type,
+            ssml: optionsParam['speech']
+        };
+    } else {
+        return {
+            type: optionsParam.type || 'PlainText',
+            text: optionsParam['speech'] || optionsParam
+        };
+    }
 }
 
 function createStateHandler(state, obj){

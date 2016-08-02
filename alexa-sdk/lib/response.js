@@ -110,14 +110,20 @@ module.exports = (function () {
             }
 
             if(this.saveBeforeResponse || forceSave || this.handler.response.response.shouldEndSession) {
-                attributesHelper.set(this.handler.dynamoDBTableName, this.event.session.user.userId, this.attributes,
+                attributesHelper.set(this.handler.dynamoDBTableName, this.event.context.System.user.userId, this.attributes,
                     (err) => {
                         if(err) {
                             return this.emit(':saveStateError', err);
                         }
+                        // To save the state when AudioPlayer Requests come without sending a response.
+                        if (Object.keys(this.handler.response).length === 0 && this.handler.response.constructor === Object) {
+                            this.handler.response =  true;
+                        }
+
                         this.context.succeed(this.handler.response);
-                });
+                    });
             } else {
+                this.handler.response = this.handler.response || true;
                 this.context.succeed(this.handler.response);
             }
         },
@@ -169,7 +175,7 @@ function buildSpeechletResponse(options) {
             alexaResponse.card['image'] = {};
 
             delete alexaResponse.card.content;
-            alexaResponse.card.text = options.cardContent;
+            alexaResponse.card.text = options.content;
 
             if(options.cardImage.smallImageUrl) {
                 alexaResponse.card.image['smallImageUrl'] = options.cardImage.smallImageUrl;
