@@ -122,6 +122,8 @@ function EmitEvent() {
 
     if (this._event.session['new'] && this.listenerCount('NewSession' + this.state) === 1) {
         eventString = 'NewSession';
+    } else if(this._event.request.type === 'LaunchRequest') {
+        eventString = 'LaunchRequest';
     } else if(this._event.request.type === 'IntentRequest') {
         eventString = this._event.request.intent.name;
     } else if (this._event.request.type === 'SessionEndedRequest'){
@@ -131,10 +133,14 @@ function EmitEvent() {
     eventString += this.state;
 
     if(this.listenerCount(eventString) < 1) {
-        this.emit('Unhandled' + this.state);
-    } else {
-        this.emit(eventString);
+        eventString = 'Unhandled' + this.state;
     }
+
+    if(this.listenerCount(eventString) < 1){
+        throw new Error(`No 'Unhandled' function defined for event: ${eventString}`);
+    }
+
+    this.emit(eventString);
 }
 
 function RegisterHandlers() {
@@ -142,14 +148,14 @@ function RegisterHandlers() {
         var handlerObject = arguments[arg];
 
         if(!isObject(handlerObject)) {
-            throw `Argument #${arg} was not an Object`;
+            throw new Error(`Argument #${arg} was not an Object`);
         }
 
         var eventNames = Object.keys(handlerObject);
 
         for(var i = 0; i < eventNames.length; i++) {
             if(typeof(handlerObject[eventNames[i]]) !== 'function') {
-                throw `Event handler for '${eventNames[i]}' was not a function`;
+                throw new Error(`Event handler for '${eventNames[i]}' was not a function`);
             }
 
             var eventName = eventNames[i];
@@ -196,8 +202,12 @@ function createStateHandler(state, obj){
     return obj;
 }
 
-function EmitWithState(event) {
-    this.emit(event + this.state);
+function EmitWithState() {
+    if(arguments.length === 0) {
+        throw new Error('EmitWithState called without arguments');
+    }
+    arguments[0] = arguments[0] + this.state;
+    this.emit.apply(this, arguments);
 }
 
 process.on('uncaughtException', function(err) {

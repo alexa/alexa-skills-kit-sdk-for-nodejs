@@ -1,17 +1,31 @@
 {
   "name": "alexa-sdk",
-  "version": "1.0.0",
-  "description": "Alexa SDK for Javascript",
+  "version": "1.0.1",
+  "description": "Alexa Skill SDK for Node.js",
   "main": "index.js",
   "contributors": [
     "Diego Benitez <diegoben@amazon.com>"
   ],
+  "dependencies": {
+    "aws-sdk": "^2.4.7"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexa/alexa-skill-sdk-for-nodejs.git"
+  },
   "keywords": [
-    "Alexa"
+    "Alexa",
+    "skill",
+    "sdk"
   ],
   "author": "Amazon.com",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/alexa/alexa-skill-sdk-for-nodejs/issues"
+  },
+  "homepage": "https://github.com/alexa/alexa-skill-sdk-for-nodejs#readme"
 }

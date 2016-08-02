@@ -96,4 +96,4 @@ var newTableParams = {
         ReadCapacityUnits: 5,
         WriteCapacityUnits: 5
     }
-}
+};

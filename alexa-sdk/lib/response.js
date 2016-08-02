@@ -105,7 +105,11 @@ module.exports = (function () {
                 return;
             }
 
-            if(this.saveBeforeResponse || this.handler.response.response.shouldEndSession || forceSave) {
+            if(forceSave && this.handler.state){
+                this.attributes['STATE'] = this.handler.state;
+            }
+
+            if(this.saveBeforeResponse || forceSave || this.handler.response.response.shouldEndSession) {
                 attributesHelper.set(this.handler.dynamoDBTableName, this.event.session.user.userId, this.attributes,
                     (err) => {
                         if(err) {
@@ -163,6 +167,9 @@ function buildSpeechletResponse(options) {
         if(options.cardImage && (options.cardImage.smallImageUrl || options.cardImage.largeImageUrl)) {
             alexaResponse.card.type = 'Standard';
             alexaResponse.card['image'] = {};
+
+            delete alexaResponse.card.content;
+            alexaResponse.card.text = options.cardContent;
 
             if(options.cardImage.smallImageUrl) {
                 alexaResponse.card.image['smallImageUrl'] = options.cardImage.smallImageUrl;
