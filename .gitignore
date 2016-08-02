@@ -1,0 +1,5 @@
+.idea/
+.DS_STORE
+*.zip
+*.log
+node_module/
