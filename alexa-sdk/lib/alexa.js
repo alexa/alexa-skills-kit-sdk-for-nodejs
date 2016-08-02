@@ -228,6 +228,9 @@ function ResponseBuilder(self) {
                     card.type = 'Standard';
                     card['image'] = {};
 
+                    delete card.content;
+                    card.text = cardContent;
+
                     if(cardImage.smallImageUrl) {
                         card.image['smallImageUrl'] = cardImage.smallImageUrl;
                     }
