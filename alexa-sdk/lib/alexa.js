@@ -207,12 +207,12 @@ function ResponseBuilder(self) {
     return (function () {
         return {
             'speak': function (speechOutput) {
-                responseObject.response.outputSpeech = createSpeechObject(speechOutput);
+                responseObject.response.outputSpeech = createSSMLSpeechObject(speechOutput);
                 return this;
             },
             'listen': function (repromptSpeech) {
                 responseObject.response.reprompt = {
-                    outputSpeech: createSpeechObject(repromptSpeech)
+                    outputSpeech: createSSMLSpeechObject(repromptSpeech)
                 };
                 responseObject.response.shouldEndSession = false;
                 return this;
@@ -316,18 +316,11 @@ function ResponseBuilder(self) {
     })();
 }
 
-function createSpeechObject(optionsParam) {
-    if (optionsParam && optionsParam.type === 'SSML') {
-        return {
-            type: optionsParam.type,
-            ssml: optionsParam['speech']
-        };
-    } else {
-        return {
-            type: optionsParam.type || 'PlainText',
-            text: optionsParam['speech'] || optionsParam
-        };
-    }
+function createSSMLSpeechObject(message) {
+    return {
+        type: 'SSML',
+        ssml: `<speak> ${message} </speak>`
+    };
 }
 
 function createStateHandler(state, obj){
