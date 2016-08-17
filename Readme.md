@@ -23,8 +23,9 @@ With the new alexa-sdk, our goal is to help you build skills faster while allowi
 ### Installing and Working with the Alexa Skills Kit SDK for Node.js (alexa-sdk)
 
 The alexa-sdk is immediately available on [github](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs) and can be deployed as a node package using the following command from within your Node.js environment:
-
-    npm install --save alexa-sdk
+```bash
+npm install --save alexa-sdk
+```
 
 In order to start using the alexa-sdk first import the library. To do this within your own project simply create a file named index.js and add the following to it:
 ```javascript
@@ -116,7 +117,7 @@ You can download a full working sample off github. We have also updated the foll
 
 Alexa-sdk will route incoming intents to the correct function handler based on state. State is stored as a string in your session attributes indicating the current state of the skill. You can emulate the built-in intent routing by appending the state string to the intent name when defining your intent handlers, but alexa-sdk helps do that for you.
 
-For example, let's create a simple number-guessing game with 'start' and 'guess' states based on our previous example of handling a NewSession event.
+For example, let's create a simple number-guessing game with 'start' and 'guess' states based on our previous example of handling a `NewSession` event.
 ```javascript
 var states = {
     GUESSMODE: '_GUESSMODE', // User is trying to guess the number.
@@ -140,7 +141,7 @@ var newSessionHandlers = {
 ```
 Notice that when a new session is created we simply set the state of our skill into `STARTMODE` using this.handler.state. The skills state will automatically be persisted in your skill's session attributes, and will be optionally persisted across sessions if you set a DynamoDB table.
 
-It is also important point out that NewSession is a great catch-all behavior and a good entry point but it is not required. NewSession will only be invoked if a handler with that name is defined. Each state you define can have its own NewSession handler which will be invoked if you are using the built-in persistence. In the above example we could define different NewSession behavior for both `states.STARTMODE` and `states.GUESSMODE` giving us added flexibility.
+It is also important point out that `NewSession` is a great catch-all behavior and a good entry point but it is not required. `NewSession` will only be invoked if a handler with that name is defined. Each state you define can have its own `NewSession` handler which will be invoked if you are using the built-in persistence. In the above example we could define different `NewSession` behavior for both `states.STARTMODE` and `states.GUESSMODE` giving us added flexibility.
 
 In order to define intents that will respond to the different states of our skill, we need to use the `Alexa.CreateStateHandler` function. Any intent handlers defined here will only work when the skill is in a specific state, giving us even greater flexibility!
 
@@ -191,47 +192,48 @@ var guessModeHandlers = Alexa.CreateStateHandler(states.GUESSMODE, {
 
 });
 ```
-On the flip side, if I am in STARTMODE I can define my StateHandlers to be the following:
+On the flip side, if I am in `STARTMODE` I can define my `StateHandlers` to be the following:
 
-    var startGameHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
-    
-        'NewSession': function () {
-            this.emit('NewSession'); // Uses the handler in newSessionHandlers
-        },
-    
-        'AMAZON.HelpIntent': function() {
-            var message = 'I will think of a number between zero and one hundred, try to guess and I will tell you if it' +
-                ' is higher or lower. Do you want to start the game?';
-            this.emit(':ask', message, message);
-        },
-    
-        'AMAZON.YesIntent': function() {
-            this.attributes['guessNumber'] = Math.floor(Math.random() * 100);
-            this.handler.state = states.GUESSMODE;
-            this.emit(':ask', 'Great! ' + 'Try saying a number to start the game.', 'Try saying a number.');
-        },
-    
-        'AMAZON.NoIntent': function() {
-            this.emit(':tell', 'Ok, see you next time!');
-        },
-    
-        'SessionEndedRequest': function () {
-            console.log('session ended!');
-            this.attributes['endedSessionCount'] += 1;
-            this.emit(':saveState', true);
-        },
-    
-        'Unhandled': function() {
-            var message = 'Say yes to continue, or no to end the game.';
-            this.emit(':ask', message, message);
-        }
+```javascript
+var startGameHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
+
+    'NewSession': function () {
+        this.emit('NewSession'); // Uses the handler in newSessionHandlers
+    },
+
+    'AMAZON.HelpIntent': function() {
+        var message = 'I will think of a number between zero and one hundred, try to guess and I will tell you if it' +
+            ' is higher or lower. Do you want to start the game?';
+        this.emit(':ask', message, message);
+    },
+
+    'AMAZON.YesIntent': function() {
+        this.attributes['guessNumber'] = Math.floor(Math.random() * 100);
+        this.handler.state = states.GUESSMODE;
+        this.emit(':ask', 'Great! ' + 'Try saying a number to start the game.', 'Try saying a number.');
+    },
+
+    'AMAZON.NoIntent': function() {
+        this.emit(':tell', 'Ok, see you next time!');
+    },
+
+    'SessionEndedRequest': function () {
+        console.log('session ended!');
+        this.attributes['endedSessionCount'] += 1;
+        this.emit(':saveState', true);
+    },
+
+    'Unhandled': function() {
+        var message = 'Say yes to continue, or no to end the game.';
+        this.emit(':ask', message, message);
     }
+}
+```
+Take a look at how `AMAZON.YesIntent` and `AMAZON.NoIntent` are not defined in the `guessModeHandlers` object, since it doesn't make sense for a 'yes' or 'no' response in this state. Those intents will be caught by the `Unhandled` handler.
 
-Take a look at how AMAZON.YesIntent and AMAZON.NoIntent are not defined in the guessModeHandlers object, since it doesn't make sense for a 'yes' or 'no' response in this state. Those intents will be caught by the 'Unhandled' handler.
+Also, notice the different behavior for `NewSession` and `Unhandled` across both states? In this game, we 'reset' the state by calling a `NewSession` handler defined in the `newSessionHandlers` object. You can also skip defining it and alexa-sdk will call the intent handler for the current state. Just remember to register your State Handlers before you call `alexa.execute()` or they will not be found.
 
-Also, notice the different behavior for NewSession and Unhandled across both states? In this game, we 'reset' the state by calling a NewSession handler defined in the newSessionHandlers object. You can also skip defining it and alexa-sdk will call the intent handler for the current state. Just remember to register your State Handlers before you call alexa.execute() or they will not be found.
-
-Your attributes will be automatically saved when you end the session, but if the user ends the session you have to emit the ':saveState' event (this.emit(':saveState', true) to force a save. You should do this in your SessionEndedRequest handler which is called when the user ends the session by saying 'quit' or timing out. Take a look at the example above.
+Your attributes will be automatically saved when you end the session, but if the user ends the session you have to emit the `:saveState` event (`this.emit(':saveState', true)`) to force a save. You should do this in your `SessionEndedRequest` handler which is called when the user ends the session by saying 'quit' or timing out. Take a look at the example above.
 
 We have wrapped up the above example into a high/low number guessing game skill you can [download here](https://github.com/alexa/skill-sample-nodejs-highlowgame).
 
@@ -251,7 +253,7 @@ exports.handler = function (event, context, callback) {
 ```
 
 Then later on to set a value you simply need to call into the attributes property of the alexa object. No more separate `put` and `get` functions!
-```
+```javascript
 this.attributes['yourAttribute'] = 'value';
 ```
 
