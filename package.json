@@ -7,7 +7,9 @@
     "Diego Benitez <diegoben@amazon.com>"
   ],
   "dependencies": {
-    "aws-sdk": "^2.4.7"
+    "aws-sdk": "^2.4.7",
+    "i18next": "^3.4.1",
+    "i18next-sprintf-postprocessor": "^0.2.2"
   },
   "devDependencies": {},
   "scripts": {
