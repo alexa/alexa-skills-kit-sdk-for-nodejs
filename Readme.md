@@ -52,11 +52,12 @@ this.emit(':ask', 'What would you like to do?', 'Please say that again?');
 In fact, many of the responses follow this same syntax! Here are some additional examples for common skill responses:
 ```javascript
 var speechOutput = 'Hello world!';
-var repromptSpeech = 'Hello again!';
+var repromptSpeech = 'Hello again!'; // optional
 
 this.emit(':tell', speechOutput);
 
-this.emit(':ask', speechOutput, repromptSpeech);
+// if reprompt is not provided for any `:ask*` response it will fallback to the `speechOutput` provided
+this.emit(':ask', speechOutput[, repromptSpeech]);
 
 var cardTitle = 'Hello World Card';
 var cardContent = 'This text will be displayed in the companion app card.';
@@ -204,7 +205,7 @@ var startGameHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
     'AMAZON.HelpIntent': function() {
         var message = 'I will think of a number between zero and one hundred, try to guess and I will tell you if it' +
             ' is higher or lower. Do you want to start the game?';
-        this.emit(':ask', message, message);
+        this.emit(':ask', message);
     },
 
     'AMAZON.YesIntent': function() {
@@ -225,7 +226,7 @@ var startGameHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
 
     'Unhandled': function() {
         var message = 'Say yes to continue, or no to end the game.';
-        this.emit(':ask', message, message);
+        this.emit(':ask', message);
     }
 }
 ```
