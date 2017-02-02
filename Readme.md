@@ -1,6 +1,6 @@
 # Alexa Skills Kit SDK for Node.js
 
-Today we're happy to announce the new [alexa-sdk](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs) for Node.js to help you build skills faster and with less complexity. 
+Today we're happy to announce the new [alexa-sdk](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs) for Node.js to help you build skills faster and with less complexity.
 
 Creating an Alexa skill using the [Alexa Skills Kit](http://developer.amazon.com/ask), [Node.js](https://nodejs.org/en/) and [AWS Lambda](https://aws.amazon.com/lambda/) has become one of the most popular ways we see skills created today. The event-driven, non-blocking I/O model of Node.js is well suited for an Alexa skill and Node.js is one of the largest ecosystems of open source libraries in the world. Plus, AWS Lambda is free for the first one million calls per month, which is enough for most developers. Also, when using AWS Lambda you don't need to manage any SSL certificates since the Alexa Skills Kit is a trusted trigger.
 
@@ -32,7 +32,7 @@ In order to start using the alexa-sdk first import the library. To do this withi
 var Alexa = require('alexa-sdk');
 
 exports.handler = function(event, context, callback){
-    var alexa = Alexa.handler(event, context);
+    var alexa = Alexa.handler(event, context, callback);
 };
 ```
 This will import alexa-sdk and set up an `Alexa` object for us to work with. Next, we need to handle the intents for our skill. Alexa-sdk makes it simple to have a function fire an Intent. For example, to create a handler for 'HelloWorldIntent' we simply add the following:
@@ -83,7 +83,7 @@ this.emit(':saveStateError'); // Called if there is an error while saving state.
 Once we have set up our event handlers we need to register them using the registerHandlers function of the alexa object we just created.
 ```javascript
   exports.handler = function(event, context, callback) {
-      var alexa = Alexa.handler(event, context);
+      var alexa = Alexa.handler(event, context, callback);
       alexa.registerHandlers(handlers);
   };
 ```
@@ -106,7 +106,7 @@ var handlers = {
 Once you are done registering all of your intent handler functions, you simply use the execute function from the alexa object to run your skill's logic. The final line would look like this:
 ```javascript
 exports.handler = function(event, context, callback) {
-    var alexa = Alexa.handler(event, context);
+    var alexa = Alexa.handler(event, context, callback);
     alexa.registerHandlers(handlers);
     alexa.execute();
 };
@@ -244,7 +244,7 @@ Many of you would like to persist your session attribute values into storage for
 Simply set the name of the DynamoDB table on your alexa object before you call alexa.execute.
 ```javascript
 exports.handler = function (event, context, callback) {
-    var alexa = Alexa.handler(event, context);
+    var alexa = Alexa.handler(event, context, callback);
     alexa.appId = appId;
     alexa.dynamoDBTableName = 'YourTableName'; // That's it!
     alexa.registerHandlers(State1Handlers, State2Handlers);
@@ -270,17 +270,17 @@ Try extending the HighLow game:
 For more information about getting started with the Alexa Skills Kit, check out the following additional assets:
 
  [Alexa Skills Kit SDK for Node.js](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs)
- 
+
  [Alexa Dev Chat Podcast](http://bit.ly/alexadevchat)
- 
+
  [Alexa Training with Big Nerd Ranch](https://developer.amazon.com/public/community/blog/tag/Big+Nerd+Ranch)
- 
+
  [Intro to Alexa Skills On Demand](https://goto.webcasts.com/starthere.jsp?ei=1087595)
- 
+
  [Voice Design 101 On Demand](https://goto.webcasts.com/starthere.jsp?ei=1087592)
- 
+
  [Alexa Skills Kit (ASK)](https://developer.amazon.com/ask)
- 
+
  [Alexa Developer Forums](https://forums.developer.amazon.com/forums/category.jspa?categoryID=48)
 
 -Dave ( [@TheDaveDev](http://twitter.com/thedavedev))
