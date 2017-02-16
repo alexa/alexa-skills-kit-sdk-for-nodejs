@@ -269,8 +269,6 @@ Try extending the HighLow game:
 
 For more information about getting started with the Alexa Skills Kit, check out the following additional assets:
 
- [Alexa Skills Kit SDK for Node.js](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs)
- 
  [Alexa Dev Chat Podcast](http://bit.ly/alexadevchat)
  
  [Alexa Training with Big Nerd Ranch](https://developer.amazon.com/public/community/blog/tag/Big+Nerd+Ranch)
