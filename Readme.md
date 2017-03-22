@@ -45,7 +45,7 @@ var handlers = {
 
 };
 ```
-Notice the new syntax above for ':tell'? Alexa-sdk follows a tell/ask response methodology for generating your [outputSpeech response objects](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/alexa-skills-kit-interface-reference#Response%20Format). To ask the user for information we would instead us an `:ask`.
+Notice the new syntax above for ':tell'? Alexa-sdk follows a tell/ask response methodology for generating your [outputSpeech response objects](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/alexa-skills-kit-interface-reference#Response%20Format). To ask the user for information we would instead use an `:ask`.
 ```javascript
 this.emit(':ask', 'What would you like to do?', 'Please say that again?');
 ```
