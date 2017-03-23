@@ -45,7 +45,7 @@ var handlers = {
 
 };
 ```
-Notice the new syntax above for ':tell'? Alexa-sdk follows a tell/ask response methodology for generating your [outputSpeech response objects](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/alexa-skills-kit-interface-reference#Response%20Format). To ask the user for information we would instead us an `:ask`.
+Notice the new syntax above for ':tell'? Alexa-sdk follows a tell/ask response methodology for generating your [outputSpeech response objects](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/alexa-skills-kit-interface-reference#Response%20Format). To ask the user for information we would instead use an `:ask`.
 ```javascript
 this.emit(':ask', 'What would you like to do?', 'Please say that again?');
 ```
@@ -268,8 +268,6 @@ Try extending the HighLow game:
 - Give the player a limited amount of guesses
 
 For more information about getting started with the Alexa Skills Kit, check out the following additional assets:
-
- [Alexa Skills Kit SDK for Node.js](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs)
 
  [Alexa Dev Chat Podcast](http://bit.ly/alexadevchat)
 
