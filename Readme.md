@@ -1,6 +1,6 @@
 # Alexa Skills Kit SDK for Node.js
 
-Today we're happy to announce the new [alexa-sdk](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs) for Node.js to help you build skills faster and with less complexity. 
+Today we're happy to announce the new [alexa-sdk](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs) for Node.js to help you build skills faster and with less complexity.
 
 Creating an Alexa skill using the [Alexa Skills Kit](http://developer.amazon.com/ask), [Node.js](https://nodejs.org/en/) and [AWS Lambda](https://aws.amazon.com/lambda/) has become one of the most popular ways we see skills created today. The event-driven, non-blocking I/O model of Node.js is well suited for an Alexa skill and Node.js is one of the largest ecosystems of open source libraries in the world. Plus, AWS Lambda is free for the first one million calls per month, which is enough for most developers. Also, when using AWS Lambda you don't need to manage any SSL certificates since the Alexa Skills Kit is a trusted trigger.
 
@@ -264,6 +264,61 @@ You can [create the table manually](http://docs.aws.amazon.com/amazondynamodb/la
 - In order to "transfer" a call from one state handler to another, `this.handler.state` needs to be set to the name of the target state. If the target state is "", then `this.emit("TargetStateName")` should be called. For any other states, `this.emitWithState("TargetStateName")` must be called instead.
 - The contents of the prompt and repompt values get wrapped in SSML tags. This means that any special XML characters within the value need to be escape coded. For example, this.emit(":ask", "I like M&M's") will cause a failure because the `&` character needs to be encoded as `&amp;`. Other characters that need to be encoded include: `<` -> `&lt;`, and `>` -> `&gt;`.
 
+### Adding Multi-Language Support for Skill
+Let's take the Hello World example here. Define all user-facing language strings in the following format.
+```javascript
+var languageStrings = {
+    'en-GB': {
+        'translation': {
+            'SAY_HELLO_MESSAGE' : 'Hello World!'
+        }
+    },
+    'en-US': {
+        'translation': {
+            'SAY_HELLO_MESSAGE' : 'Hello World!'
+        }
+    },
+    'de-DE': {
+        'translation': {
+            'SAY_HELLO_MESSAGE' : 'Hallo Welt!'
+        }
+    }
+};
+```
+
+To enable string internationalization features in Alexa-sdk, set resources to the object we created above.
+```javascript
+exports.handler = function(event, context, callback) {
+    var alexa = Alexa.handler(event, context);
+    alexa.APP_ID = APP_ID;
+    // To enable string internationalization (i18n) features, set a resources object.
+    alexa.resources = languageStrings;
+    alexa.registerHandlers(handlers);
+    alexa.execute();
+};
+```
+
+Once you are done defining and enabling language strings, you can access these strings using the this.t() function. Strings will be rendered in the language that matches the locale of the incoming request.
+```javascript
+var handlers = {
+    'LaunchRequest': function () {
+        this.emit('SayHello');
+    },
+    'HelloWorldIntent': function () {
+        this.emit('SayHello');
+    },
+    'SayHello': function () {
+        this.emit(':tell', this.t('SAY_HELLO_MESSAGE'));
+    }
+};
+```
+For more infomation about developing and deploying skills in multiple languages, please go [here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/developing-skills-in-multiple-languages).
+
+### Device ID Support
+When a customer enables your Alexa skill, your skill can obtain the customer’s permission to use address data associated with the customer’s Alexa device. You can then use this address data to provide key functionality for the skill, or to enhance the customer experience. See the [Device Address API documentation](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/device-location-api) for more information on how to configure your skill to obtain customer permissions for the device address.
+
+The `deviceId` is now exposed through the context object in each request and can be accessed in any intent handler through `this.event.context.System.device.deviceId`. See the [Settings API sample skill](https://github.com/alexa/skill-sample-nodejs-settings-api) to see how we leveraged the deviceId and Device Address API to use a user's device address in a skill.
+
 ### Next Steps
 
 Try extending the HighLow game:
@@ -275,15 +330,15 @@ Try extending the HighLow game:
 For more information about getting started with the Alexa Skills Kit, check out the following additional assets:
 
  [Alexa Dev Chat Podcast](http://bit.ly/alexadevchat)
- 
+
  [Alexa Training with Big Nerd Ranch](https://developer.amazon.com/public/community/blog/tag/Big+Nerd+Ranch)
- 
+
  [Intro to Alexa Skills On Demand](https://goto.webcasts.com/starthere.jsp?ei=1087595)
- 
+
  [Voice Design 101 On Demand](https://goto.webcasts.com/starthere.jsp?ei=1087592)
- 
+
  [Alexa Skills Kit (ASK)](https://developer.amazon.com/ask)
- 
+
  [Alexa Developer Forums](https://forums.developer.amazon.com/forums/category.jspa?categoryID=48)
 
 -Dave ( [@TheDaveDev](http://twitter.com/thedavedev))
