@@ -317,7 +317,7 @@ For more infomation about developing and deploying skills in multiple languages,
 ### Device ID Support
 When a customer enables your Alexa skill, your skill can obtain the customer’s permission to use address data associated with the customer’s Alexa device. You can then use this address data to provide key functionality for the skill, or to enhance the customer experience. See the [Device Address API documentation](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/device-location-api) for more information on how to configure your skill to obtain customer permissions for the device address.
 
-The `deviceId` is now exposed through the context object in each request and can be accessed in any intent handler through `this.event.context.System.device.deviceId`. See the [Settings API sample skill](https://github.com/alexa/skill-sample-nodejs-settings-api) to see how we leveraged the deviceId and Device Address API to use a user's device address in a skill.
+The `deviceId` is now exposed through the context object in each request and can be accessed in any intent handler through `this.event.context.System.device.deviceId`. See the [Address API sample skill](https://github.com/alexa/skill-sample-node-device-address-api) to see how we leveraged the deviceId and the Address API to use a user's device address in a skill.
 
 ### Next Steps
 
