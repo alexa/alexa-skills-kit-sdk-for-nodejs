@@ -1,6 +1,6 @@
 # Alexa Skills Kit SDK for Node.js
 
-Today we're happy to announce the new [alexa-sdk](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs) for Node.js to help you build skills faster and with less complexity. 
+Today we're happy to announce the new [alexa-sdk](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs) for Node.js to help you build skills faster and with less complexity.
 
 Creating an Alexa skill using the [Alexa Skills Kit](http://developer.amazon.com/ask), [Node.js](https://nodejs.org/en/) and [AWS Lambda](https://aws.amazon.com/lambda/) has become one of the most popular ways we see skills created today. The event-driven, non-blocking I/O model of Node.js is well suited for an Alexa skill and Node.js is one of the largest ecosystems of open source libraries in the world. Plus, AWS Lambda is free for the first one million calls per month, which is enough for most developers. Also, when using AWS Lambda you don't need to manage any SSL certificates since the Alexa Skills Kit is a trusted trigger.
 
@@ -259,7 +259,35 @@ this.attributes['yourAttribute'] = 'value';
 
 You can [create the table manually](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SampleData.CreateTables.html) beforehand or simply give your Lambda function DynamoDB [create table permissions](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_CreateTable.html) and it will happen automatically. Just remember it can take a minute or so for the table to be created on the first invocation. If you create the table manually, the Primary Key must be a string value called "userId".
 
+### Generating your own responses
+
+Normally emitting a response event like `this.emit(':tell')` will set up the response and sends it to Alexa for you, using any speech or card values you pass it. If you want to manually create your own responses, you can use `this.response` to help. `this.response` contains a series of functions, that you can use to set the different properties of the response. This allows you to take advantage of the Alexa Skills Kit's built-in audio player support. Once you've set up your response, you can just call `this.emit(':responseReady')` to send your response to Alexa. The functions within `this.response` are also chainable, so you can use as many as you want in a row.
+
+For example, the below code is equivalent to `this.emit(':ask', 'foo', 'bar');`
+
+```javascript
+this.response.speak('foo').listen('bar').setResponse();
+this.emit(':responseReady');
+```
+
+Here's the API for using `this.response`:
+
+- `this.response.speak(outputSpeech)`: sets the first speech output of the response to `outputSpeech`.
+- `this.response.listen(repromptSpeech)`: sets the reprompt speech of the response to `repromptSpeech` and `shouldEndSession` to false. Without this, default `this.response` will set `shouldEndSession` to true.
+- `this.response.cardRenderer(cardTitle, cardContent, cardImage)`: sets the card in the response to have the title `cardTitle`, the content `cardContent`, and the image `cardImage`. `cardImage` can be excluded, but if it's included it must be of the correct image object format, detailed above.
+- `this.response.linkAccountCard()`: sets the type of the card to a 'Link Account' card.
+- `this.response.audioPlayer(directiveType, behavior, url, token, expectedPreviousToken, offsetInMilliseconds)`: sets the audioPlayer directive using the provided parameters. See the [audioPlayer interface reference](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/custom-audioplayer-interface-reference) for more details. Options for `directiveType` are `'play'`, `'stop'` and `'clearqueue'`. Inputting any other value is equivalent to `'clearqueue'`.
+    - If you use `'play'`, you need to include all the parameters after: `behavior, url, token, expectedPreviousToken, offsetInMilliseconds`.
+    - If you use `'stop'`, no further parameters are needed.
+    - If you use `'clearQueue'`, you only need to include the `behaviour` parameter.
+- `this.response.audioPlayerPlay(behavior, url, token, expectedPreviousToken, offsetInMilliseconds)`: sets the audioPlayer directive using the provided parameters, and `AudioPlayer.Play` as the directive type. This will make the audioPlayer play an audio file at a requested URL.
+- `this.response.audioPlayerStop()` sets the directive type to `AudioPlayer.Stop`. This will make the audioPlayer stop.
+- `this.response.audioPlayerClearQueue(clearBehaviour)` sets the directive type to `AudioPlayer.ClearQueue` and sets the clear behaviour of the directive. Options for this value are `'CLEAR_ENQUEUED'` and `'CLEAR_ALL'`. This will either clear the queue and continue the current stream, or clear the queue and stop.
+
+After you have set up your response as desired, you **must** call `this.response.setResponse()`. You can either call this separately, or at the end of your chain of functions, as shown above. If you don't call it, your response will not be changed. Then simply call `this.emit(':responseReady');` to send your response off.
+
 ### Tips
+
 - When any of the response events are emitted `:ask`, `:tell`, `:askWithCard`, etc. The lambda context.succeed() method is called, which immediately stops processing of any further background tasks. Any asynchronous jobs that are still will not be completed and any lines of code below the response emit statement will not be executed. This is not the case for non responding events like `:saveState`.
 - In order to "transfer" a call from one state handler to another, `this.handler.state` needs to be set to the name of the target state. If the target state is "", then `this.emit("TargetStateName")` should be called. For any other states, `this.emitWithState("TargetStateName")` must be called instead.
 - The contents of the prompt and repompt values get wrapped in SSML tags. This means that any special XML characters within the value need to be escape coded. For example, this.emit(":ask", "I like M&M's") will cause a failure because the `&` character needs to be encoded as `&amp;`. Other characters that need to be encoded include: `<` -> `&lt;`, and `>` -> `&gt;`.
@@ -275,15 +303,15 @@ Try extending the HighLow game:
 For more information about getting started with the Alexa Skills Kit, check out the following additional assets:
 
  [Alexa Dev Chat Podcast](http://bit.ly/alexadevchat)
- 
+
  [Alexa Training with Big Nerd Ranch](https://developer.amazon.com/public/community/blog/tag/Big+Nerd+Ranch)
- 
+
  [Intro to Alexa Skills On Demand](https://goto.webcasts.com/starthere.jsp?ei=1087595)
- 
+
  [Voice Design 101 On Demand](https://goto.webcasts.com/starthere.jsp?ei=1087592)
- 
+
  [Alexa Skills Kit (ASK)](https://developer.amazon.com/ask)
- 
+
  [Alexa Developer Forums](https://forums.developer.amazon.com/forums/category.jspa?categoryID=48)
 
 -Dave ( [@TheDaveDev](http://twitter.com/thedavedev))
