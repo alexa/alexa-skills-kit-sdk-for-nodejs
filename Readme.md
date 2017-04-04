@@ -273,16 +273,16 @@ this.emit(':responseReady');
 Here's the API for using `this.response`:
 
 - `this.response.speak(outputSpeech)`: sets the first speech output of the response to `outputSpeech`.
-- `this.response.listen(repromptSpeech)`: sets the reprompt speech of the response to `repromptSpeech` and `shouldEndSession` to false. Without this, default `this.response` will set `shouldEndSession` to true.
+- `this.response.listen(repromptSpeech)`: sets the reprompt speech of the response to `repromptSpeech` and `shouldEndSession` to false. Unless this function is called, `this.response` will set `shouldEndSession` to true.
 - `this.response.cardRenderer(cardTitle, cardContent, cardImage)`: sets the card in the response to have the title `cardTitle`, the content `cardContent`, and the image `cardImage`. `cardImage` can be excluded, but if it's included it must be of the correct image object format, detailed above.
 - `this.response.linkAccountCard()`: sets the type of the card to a 'Link Account' card.
 - `this.response.audioPlayer(directiveType, behavior, url, token, expectedPreviousToken, offsetInMilliseconds)`: sets the audioPlayer directive using the provided parameters. See the [audioPlayer interface reference](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/custom-audioplayer-interface-reference) for more details. Options for `directiveType` are `'play'`, `'stop'` and `'clearqueue'`. Inputting any other value is equivalent to `'clearqueue'`.
     - If you use `'play'`, you need to include all the parameters after: `behavior, url, token, expectedPreviousToken, offsetInMilliseconds`.
     - If you use `'stop'`, no further parameters are needed.
     - If you use `'clearQueue'`, you only need to include the `behaviour` parameter.
-- `this.response.audioPlayerPlay(behavior, url, token, expectedPreviousToken, offsetInMilliseconds)`: sets the audioPlayer directive using the provided parameters, and `AudioPlayer.Play` as the directive type. This will make the audioPlayer play an audio file at a requested URL.
-- `this.response.audioPlayerStop()` sets the directive type to `AudioPlayer.Stop`. This will make the audioPlayer stop.
-- `this.response.audioPlayerClearQueue(clearBehaviour)` sets the directive type to `AudioPlayer.ClearQueue` and sets the clear behaviour of the directive. Options for this value are `'CLEAR_ENQUEUED'` and `'CLEAR_ALL'`. This will either clear the queue and continue the current stream, or clear the queue and stop.
+- `this.response.audioPlayerPlay(behavior, url, token, expectedPreviousToken, offsetInMilliseconds)`: sets the audioPlayer directive using the provided parameters, and `AudioPlayer.Play` as the directive type. This will make the audio player play an audio file at a requested URL.
+- `this.response.audioPlayerStop()` sets the directive type to `AudioPlayer.Stop`. This will make the audio player stop.
+- `this.response.audioPlayerClearQueue(clearBehaviour)` sets the directive type to `AudioPlayer.ClearQueue` and sets the clear behaviour of the directive. Options for this value are `'CLEAR_ENQUEUED'` and `'CLEAR_ALL'`. This will either clear the queue and continue the current stream, or clear the queue and stop the current stream.
 
 After you have set up your response as desired, you **must** call `this.response.setResponse()`. You can either call this separately, or at the end of your chain of functions, as shown above. If you don't call it, your response will not be changed. Then simply call `this.emit(':responseReady');` to send your response off.
 
