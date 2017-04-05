@@ -66,6 +66,8 @@ var imageObj = {
     largeImageUrl: 'https://imgs.xkcd.com/comics/standards.png'
 };
 
+var permissionArray = ['read::alexa:device:all:address'];
+
 this.emit(':askWithCard', speechOutput, repromptSpeech, cardTitle, cardContent, imageObj);
 
 this.emit(':tellWithCard', speechOutput, cardTitle, cardContent, imageObj);
@@ -73,6 +75,8 @@ this.emit(':tellWithCard', speechOutput, cardTitle, cardContent, imageObj);
 this.emit(':tellWithLinkAccountCard', speechOutput);
 
 this.emit(':askWithLinkAccountCard', speechOutput);
+
+this.emit(':tellWithPermissionCard', speechOutput, permissionArray);
 
 this.emit(':responseReady'); // Called after the response is built but before it is returned to the Alexa service. Calls :saveState. Can be overridden.
 
