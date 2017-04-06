@@ -319,6 +319,13 @@ When a customer enables your Alexa skill, your skill can obtain the customer’s
 
 The `deviceId` is now exposed through the context object in each request and can be accessed in any intent handler through `this.event.context.System.device.deviceId`. See the [Address API sample skill](https://github.com/alexa/skill-sample-node-device-address-api) to see how we leveraged the deviceId and the Address API to use a user's device address in a skill.
 
+### Speechcons (Interjections)
+
+[Speechcons](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speechcon-reference) are special words and phrases that Alexa pronounces more expressively. In order to use them you can just include the SSML markup in the text to emit. 
+
+* `this.emit(':tell', 'Sometimes when I look at the Alexa skills you have all taught me, I just have to say, <say-as interpret-as="interjection">Bazinga.</say-as> ');`
+* `this.emit(':tell', '<say-as interpret-as="interjection">Oh boy</say-as><break time="1s"/> this is just an example.');`
+
 ### Next Steps
 
 Try extending the HighLow game:
