@@ -66,6 +66,8 @@ var imageObj = {
     largeImageUrl: 'https://imgs.xkcd.com/comics/standards.png'
 };
 
+var permissionArray = ['read::alexa:device:all:address'];
+
 this.emit(':askWithCard', speechOutput, repromptSpeech, cardTitle, cardContent, imageObj);
 
 this.emit(':tellWithCard', speechOutput, cardTitle, cardContent, imageObj);
@@ -73,6 +75,8 @@ this.emit(':tellWithCard', speechOutput, cardTitle, cardContent, imageObj);
 this.emit(':tellWithLinkAccountCard', speechOutput);
 
 this.emit(':askWithLinkAccountCard', speechOutput);
+
+this.emit(':tellWithPermissionCard', speechOutput, permissionArray);
 
 this.emit(':responseReady'); // Called after the response is built but before it is returned to the Alexa service. Calls :saveState. Can be overridden.
 
@@ -260,7 +264,7 @@ this.attributes['yourAttribute'] = 'value';
 You can [create the table manually](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SampleData.CreateTables.html) beforehand or simply give your Lambda function DynamoDB [create table permissions](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_CreateTable.html) and it will happen automatically. Just remember it can take a minute or so for the table to be created on the first invocation. If you create the table manually, the Primary Key must be a string value called "userId".
 
 ### Tips
-- When any of the response events are emitted `:ask`, `:tell`, `:askWithCard`, etc. The lambda context.succeed() method is called, which immediately stops processing of any further background tasks. Any asynchronous jobs that are still will not be completed and any lines of code below the response emit statement will not be executed. This is not the case for non responding events like `:saveState`.
+- When any of the response events are emitted `:ask`, `:tell`, `:askWithCard`, etc. The lambda context.succeed() method is called, which immediately stops processing of any further background tasks. Any asynchronous jobs that are still executing will not be completed and any lines of code below the response emit statement will not be executed. This is not the case for non responding events like `:saveState`.
 - In order to "transfer" a call from one state handler to another, `this.handler.state` needs to be set to the name of the target state. If the target state is "", then `this.emit("TargetStateName")` should be called. For any other states, `this.emitWithState("TargetStateName")` must be called instead.
 - The contents of the prompt and repompt values get wrapped in SSML tags. This means that any special XML characters within the value need to be escape coded. For example, this.emit(":ask", "I like M&M's") will cause a failure because the `&` character needs to be encoded as `&amp;`. Other characters that need to be encoded include: `<` -> `&lt;`, and `>` -> `&gt;`.
 
@@ -340,5 +344,7 @@ For more information about getting started with the Alexa Skills Kit, check out 
  [Alexa Skills Kit (ASK)](https://developer.amazon.com/ask)
 
  [Alexa Developer Forums](https://forums.developer.amazon.com/forums/category.jspa?categoryID=48)
+
+ [Training for the Alexa Skills Kit](https://developer.amazon.com/alexa-skills-kit/alexa-skills-developer-training)
 
 -Dave ( [@TheDaveDev](http://twitter.com/thedavedev))

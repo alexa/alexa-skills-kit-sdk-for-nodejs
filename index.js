@@ -1,3 +1,5 @@
+'use strict';
+
 const AlexaLambdaHandler = require('./lib/alexa');
 
 module.exports.handler = AlexaLambdaHandler.LambdaHandler;
