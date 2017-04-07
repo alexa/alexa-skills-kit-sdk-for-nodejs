@@ -66,6 +66,8 @@ var imageObj = {
     largeImageUrl: 'https://imgs.xkcd.com/comics/standards.png'
 };
 
+var permissionArray = ['read::alexa:device:all:address'];
+
 this.emit(':askWithCard', speechOutput, repromptSpeech, cardTitle, cardContent, imageObj);
 
 this.emit(':tellWithCard', speechOutput, cardTitle, cardContent, imageObj);
@@ -73,6 +75,8 @@ this.emit(':tellWithCard', speechOutput, cardTitle, cardContent, imageObj);
 this.emit(':tellWithLinkAccountCard', speechOutput);
 
 this.emit(':askWithLinkAccountCard', speechOutput);
+
+this.emit(':tellWithPermissionCard', speechOutput, permissionArray);
 
 this.emit(':responseReady'); // Called after the response is built but before it is returned to the Alexa service. Calls :saveState. Can be overridden.
 
@@ -287,10 +291,64 @@ Here's the API for using `this.response`:
 After you have set up your response as desired, you **must** call `this.response.setResponse()`. You can either call this separately, or at the end of your chain of functions, as shown above. If you don't call it, your response will not be changed. Then simply call `this.emit(':responseReady');` to send your response off.
 
 ### Tips
-
-- When any of the response events are emitted `:ask`, `:tell`, `:askWithCard`, etc. The lambda context.succeed() method is called, which immediately stops processing of any further background tasks. Any asynchronous jobs that are still will not be completed and any lines of code below the response emit statement will not be executed. This is not the case for non responding events like `:saveState`.
+- When any of the response events are emitted `:ask`, `:tell`, `:askWithCard`, etc. The lambda context.succeed() method is called, which immediately stops processing of any further background tasks. Any asynchronous jobs that are still executing will not be completed and any lines of code below the response emit statement will not be executed. This is not the case for non responding events like `:saveState`.
 - In order to "transfer" a call from one state handler to another, `this.handler.state` needs to be set to the name of the target state. If the target state is "", then `this.emit("TargetStateName")` should be called. For any other states, `this.emitWithState("TargetStateName")` must be called instead.
 - The contents of the prompt and repompt values get wrapped in SSML tags. This means that any special XML characters within the value need to be escape coded. For example, this.emit(":ask", "I like M&M's") will cause a failure because the `&` character needs to be encoded as `&amp;`. Other characters that need to be encoded include: `<` -> `&lt;`, and `>` -> `&gt;`.
+
+### Adding Multi-Language Support for Skill
+Let's take the Hello World example here. Define all user-facing language strings in the following format.
+```javascript
+var languageStrings = {
+    'en-GB': {
+        'translation': {
+            'SAY_HELLO_MESSAGE' : 'Hello World!'
+        }
+    },
+    'en-US': {
+        'translation': {
+            'SAY_HELLO_MESSAGE' : 'Hello World!'
+        }
+    },
+    'de-DE': {
+        'translation': {
+            'SAY_HELLO_MESSAGE' : 'Hallo Welt!'
+        }
+    }
+};
+```
+
+To enable string internationalization features in Alexa-sdk, set resources to the object we created above.
+```javascript
+exports.handler = function(event, context, callback) {
+    var alexa = Alexa.handler(event, context);
+    alexa.APP_ID = APP_ID;
+    // To enable string internationalization (i18n) features, set a resources object.
+    alexa.resources = languageStrings;
+    alexa.registerHandlers(handlers);
+    alexa.execute();
+};
+```
+
+Once you are done defining and enabling language strings, you can access these strings using the this.t() function. Strings will be rendered in the language that matches the locale of the incoming request.
+```javascript
+var handlers = {
+    'LaunchRequest': function () {
+        this.emit('SayHello');
+    },
+    'HelloWorldIntent': function () {
+        this.emit('SayHello');
+    },
+    'SayHello': function () {
+        this.emit(':tell', this.t('SAY_HELLO_MESSAGE'));
+    }
+};
+```
+For more infomation about developing and deploying skills in multiple languages, please go [here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/developing-skills-in-multiple-languages).
+
+### Device ID Support
+When a customer enables your Alexa skill, your skill can obtain the customer’s permission to use address data associated with the customer’s Alexa device. You can then use this address data to provide key functionality for the skill, or to enhance the customer experience.
+
+The `deviceId` is now exposed through the context object in each request and can be accessed in any intent handler through `this.event.context.System.device.deviceId`. See the [Address API sample skill](https://github.com/alexa/skill-sample-node-device-address-api) to see how we leveraged the deviceId and the Address API to use a user's device address in a skill.
 
 ### Next Steps
 
@@ -313,5 +371,7 @@ For more information about getting started with the Alexa Skills Kit, check out 
  [Alexa Skills Kit (ASK)](https://developer.amazon.com/ask)
 
  [Alexa Developer Forums](https://forums.developer.amazon.com/forums/category.jspa?categoryID=48)
+
+ [Training for the Alexa Skills Kit](https://developer.amazon.com/alexa-skills-kit/alexa-skills-developer-training)
 
 -Dave ( [@TheDaveDev](http://twitter.com/thedavedev))
