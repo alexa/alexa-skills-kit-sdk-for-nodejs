@@ -323,6 +323,51 @@ When a customer enables your Alexa skill, your skill can obtain the customer’s
 
 The `deviceId` is now exposed through the context object in each request and can be accessed in any intent handler through `this.event.context.System.device.deviceId`. See the [Address API sample skill](https://github.com/alexa/skill-sample-node-device-address-api) to see how we leveraged the deviceId and the Address API to use a user's device address in a skill.
 
+### Tracking Usage with Amazon Mobile Analytics
+
+Wouldn't it be nice if you could track all LaunchRequest, IntentRequest, and SessionEndedRequest request types in [Amazon Mobile Analytics](https://aws.amazon.com/mobileanalytics/) with a single setting?
+
+Simply set the mobile analytics settings on your alexa object before you call alexa.execute. These settings include the skill name as well as the application id created in Mobile Analytics:
+```javascript
+exports.handler = function (event, context, callback) {
+    var alexa = Alexa.handler(event, context);
+    alexa.appId = appId;
+    
+    // That's it!
+    alexa.mobileAnalyticsSettings = {
+        appId: 'b2a5.....', 
+        appTitle: 'MY SKILL NAME' 
+    };
+
+    alexa.registerHandlers(State1Handlers, State2Handlers);
+    alexa.execute();
+};
+```
+
+How about a custom event in a handler function? Call **this.recordMobileAnalyticsEvent**:
+
+```javascript
+'GetFact': function () {
+    var attributes = {},
+        metrics = {};
+
+    this.recordMobileAnalyticsEvent('CustomEvent', this.event.session.sessionId, attributes, metrics, (err, data) => {
+
+        // Get a random space fact from the space facts list
+        // Use this.t() to get corresponding language data
+        var factArr = this.t('FACTS');
+        var factIndex = Math.floor(Math.random() * factArr.length);
+        var randomFact = factArr[factIndex];
+
+        // Create speech output
+        var speechOutput = this.t("GET_FACT_MESSAGE") + randomFact;
+        this.emit(':tellWithCard', speechOutput, this.t("SKILL_NAME"), randomFact)
+    });    
+},  
+```
+Use the IAM console and add the **AmazonMobileAnalyticsWriteOnlyAccess** policy to the Role associated with the Lambda function for your skill.
+
+
 ### Next Steps
 
 Try extending the HighLow game:
