@@ -326,7 +326,7 @@ The `deviceId` is now exposed through the context object in each request and can
 * `this.emit(':tell', 'Sometimes when I look at the Alexa skills you have all taught me, I just have to say, <say-as interpret-as="interjection">Bazinga.</say-as> ');`
 * `this.emit(':tell', '<say-as interpret-as="interjection">Oh boy</say-as><break time="1s"/> this is just an example.');`
 
-_Keep in mind that speechcons can be used only in English (en-US) skills. They are not currently available for English (en-UK) or German (DE) skills._
+_Keep in mind that speechcons can be used only in English (US) skills. They are not currently available for English (UK) or German skills._
 
 ### Next Steps
 
