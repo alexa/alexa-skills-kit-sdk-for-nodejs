@@ -137,6 +137,8 @@ exports.handler = function(event, context, callback) {
 ```
 You can download a full working sample off github. We have also updated the following Node.js sample skills to work with the alexa-sdk: [Fact](https://github.com/alexa/skill-sample-nodejs-fact), [HelloWorld](https://github.com/alexa/skill-sample-nodejs-hello-world), [HighLow](https://github.com/alexa/skill-sample-nodejs-highlowgame), [HowTo](https://github.com/alexa/skill-sample-nodejs-howto) and [Trivia](https://github.com/alexa/skill-sample-nodejs-trivia).
 
+Note: for specifications regarding the ```imgObj``` please see [here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/providing-home-cards-for-the-amazon-alexa-app).
+
 ### Making Skill State Management Simpler
 
 Alexa-sdk will route incoming intents to the correct function handler based on state. State is stored as a string in your session attributes indicating the current state of the skill. You can emulate the built-in intent routing by appending the state string to the intent name when defining your intent handlers, but alexa-sdk helps do that for you.
