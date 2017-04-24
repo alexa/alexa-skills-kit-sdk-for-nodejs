@@ -251,7 +251,7 @@ var startGameHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
         var message = 'Say yes to continue, or no to end the game.';
         this.emit(':ask', message, message);
     }
-}
+});
 ```
 Take a look at how `AMAZON.YesIntent` and `AMAZON.NoIntent` are not defined in the `guessModeHandlers` object, since it doesn't make sense for a 'yes' or 'no' response in this state. Those intents will be caught by the `Unhandled` handler.
 
