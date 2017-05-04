@@ -283,6 +283,33 @@ this.attributes['yourAttribute'] = 'value';
 
 You can [create the table manually](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SampleData.CreateTables.html) beforehand or simply give your Lambda function DynamoDB [create table permissions](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_CreateTable.html) and it will happen automatically. Just remember it can take a minute or so for the table to be created on the first invocation. If you create the table manually, the Primary Key must be a string value called "userId".
 
+### Generating your own responses
+
+Normally emitting a response event like `this.emit(':tell')` will set up the response and sends it to Alexa for you, using any speech or card values you pass it. If you want to manually create your own responses, you can use `this.response` to help. `this.response` contains a series of functions, that you can use to set the different properties of the response. This allows you to take advantage of the Alexa Skills Kit's built-in audio player support. Once you've set up your response, you can just call `this.emit(':responseReady')` to send your response to Alexa. The functions within `this.response` are also chainable, so you can use as many as you want in a row.
+
+For example, the below code is equivalent to `this.emit(':ask', 'foo', 'bar');`
+
+```javascript
+this.response.speak('foo').listen('bar');
+this.emit(':responseReady');
+```
+
+Here's the API for using `this.response`:
+
+- `this.response.speak(outputSpeech)`: sets the first speech output of the response to `outputSpeech`.
+- `this.response.listen(repromptSpeech)`: sets the reprompt speech of the response to `repromptSpeech` and `shouldEndSession` to false. Unless this function is called, `this.response` will set `shouldEndSession` to true.
+- `this.response.cardRenderer(cardTitle, cardContent, cardImage)`: sets the card in the response to have the title `cardTitle`, the content `cardContent`, and the image `cardImage`. `cardImage` can be excluded, but if it's included it must be of the correct image object format, detailed above.
+- `this.response.linkAccountCard()`: sets the type of the card to a 'Link Account' card.
+- `this.response.audioPlayer(directiveType, behavior, url, token, expectedPreviousToken, offsetInMilliseconds)`: sets the audioPlayer directive using the provided parameters. See the [audioPlayer interface reference](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/custom-audioplayer-interface-reference) for more details. Options for `directiveType` are `'play'`, `'stop'` and `'clearqueue'`. Inputting any other value is equivalent to `'clearqueue'`.
+    - If you use `'play'`, you need to include all the parameters after: `behavior, url, token, expectedPreviousToken, offsetInMilliseconds`.
+    - If you use `'stop'`, no further parameters are needed.
+    - If you use `'clearQueue'`, you only need to include the `behaviour` parameter.
+- `this.response.audioPlayerPlay(behavior, url, token, expectedPreviousToken, offsetInMilliseconds)`: sets the audioPlayer directive using the provided parameters, and `AudioPlayer.Play` as the directive type. This will make the audio player play an audio file at a requested URL.
+- `this.response.audioPlayerStop()` sets the directive type to `AudioPlayer.Stop`. This will make the audio player stop.
+- `this.response.audioPlayerClearQueue(clearBehaviour)` sets the directive type to `AudioPlayer.ClearQueue` and sets the clear behaviour of the directive. Options for this value are `'CLEAR_ENQUEUED'` and `'CLEAR_ALL'`. This will either clear the queue and continue the current stream, or clear the queue and stop the current stream.
+
+When you've set up your response, simply call `this.emit(':responseReady');` to send your response off.
+
 ### Tips
 
 - When any of the response events are emitted `:ask`, `:tell`, `:askWithCard`, etc. The lambda context.succeed() method is called, which immediately stops processing of any further background tasks. Any asynchronous jobs that are still will not be completed and any lines of code below the response emit statement will not be executed. This is not the case for non responding events like `:saveState`.
@@ -349,7 +376,7 @@ The `Dialog` interface provides directives for managing a multi-turn conversatio
 
 You can use `this.event.request.dialogState` to access current `dialogState`.
 
-#### Delegate Directive 
+#### Delegate Directive
 Sends Alexa a command to handle the next turn in the dialog with the user. You can use this directive if the skill has a dialog model and the current status of the dialog (`dialogState`) is either `STARTED` or `IN_PROGRESS`. You cannot emit this directive if the `dialogState` is `COMPLETED`.
 
 You can use `this.emit(':delegate')` to send delegate directive response.
@@ -372,7 +399,7 @@ var handlers = {
 };
 ```
 
-#### Elicit Slot Directive 
+#### Elicit Slot Directive
 Sends Alexa a command to ask the user for the value of a specific slot. Specify the name of the slot to elicit in the `slotToElicit`. Provide a prompt to ask the user for the slot value in `speechOutput`.
 
 You can use `this.emit(':elicitSlot')` or `this.emit(':elicitSlotWithCard')` to send elicit slot directive response.
@@ -394,12 +421,12 @@ var handlers = {
             var cardContent = 'What is the destination?';
             var cardTitle = 'Destination';
             var updatedIntent = intentObj;
-            // An intent object representing the intent sent to your skill. 
+            // An intent object representing the intent sent to your skill.
             // You can use this property set or change slot values and confirmation status if necessary.
             var imageObj = {
                 smallImageUrl: 'https://imgs.xkcd.com/comics/standards.png',
                 largeImageUrl: 'https://imgs.xkcd.com/comics/standards.png'
-            }; 
+            };
             this.emit(':elicitSlotWithCard', slotToElicit, speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj);
         } else {
             handlePlanMyTripIntentAllSlotsAreFilled();
@@ -408,7 +435,7 @@ var handlers = {
 };
 ```
 
-#### Confirm Slot Directive 
+#### Confirm Slot Directive
 Sends Alexa a command to confirm the value of a specific slot before continuing with the dialog. Specify the name of the slot to confirm in the `slotToConfirm`. Provide a prompt to ask the user for confirmation in `speechOutput`.
 
 You can use `this.emit(':confirmSlot')` or `this.emit(':confirmSlotWithCard')` to send confirm slot directive response.
@@ -452,7 +479,7 @@ var handlers = {
 };
 ```
 
-#### Confirm Intent Directive 
+#### Confirm Intent Directive
 Sends Alexa a command to confirm the all the information the user has provided for the intent before the skill takes action. Provide a prompt to ask the user for confirmation in `speechOutput`. Be sure to repeat back all the values the user needs to confirm in the prompt.
 
 You can use `this.emit(':confirmIntent')` or `this.emit(':confirmIntentWithCard')` to send confirm intent directive response.
@@ -465,7 +492,7 @@ var handlers = {
         if (intentObj.confirmationStatus !== 'CONFIRMED') {
             if (intentObj.confirmationStatus !== 'DENIED') {
                 // Intent is not confirmed
-                var speechOutput = 'You would like to book flight from ' + intentObj.slots.Source.value + ' to ' + 
+                var speechOutput = 'You would like to book flight from ' + intentObj.slots.Source.value + ' to ' +
                 intentObj.slots.Destination.value + ', is that correct?';
                 var cardTitle = 'Booking Summary';
                 var repromptSpeech = speechOutput;
