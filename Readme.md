@@ -68,6 +68,12 @@ var imageObj = {
 
 var permissionArray = ['read::alexa:device:all:address'];
 
+var updatedIntent = this.event.request.intent;
+
+var slotToElicit = "Slot to elicit";
+
+var slotToConfirm = "Slot to confirm";
+
 this.emit(':askWithCard', speechOutput, repromptSpeech, cardTitle, cardContent, imageObj);
 
 this.emit(':tellWithCard', speechOutput, cardTitle, cardContent, imageObj);
@@ -77,6 +83,20 @@ this.emit(':tellWithLinkAccountCard', speechOutput);
 this.emit(':askWithLinkAccountCard', speechOutput);
 
 this.emit(':tellWithPermissionCard', speechOutput, permissionArray);
+
+this.emit(':delegate', updatedIntent);
+
+this.emit(':elicitSlot', slotToElicit, speechOutput, repromptSpeech, updatedIntent);
+
+this.emit(':elicitSlotWithCard', slotToElicit, speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj);
+
+this.emit(':confirmSlot', slotToConfirm, speechOutput, repromptSpeech, updatedIntent);
+
+this.emit(':confirmSlotWithCard', slotToConfirm, speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj);
+
+this.emit(':confirmIntent', speechOutput, repromptSpeech, updatedIntent);
+
+this.emit(':confirmIntentWithCard', speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj);
 
 this.emit(':responseReady'); // Called after the response is built but before it is returned to the Alexa service. Calls :saveState. Can be overridden.
 
@@ -231,7 +251,7 @@ var startGameHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
         var message = 'Say yes to continue, or no to end the game.';
         this.emit(':ask', message, message);
     }
-}
+});
 ```
 Take a look at how `AMAZON.YesIntent` and `AMAZON.NoIntent` are not defined in the `guessModeHandlers` object, since it doesn't make sense for a 'yes' or 'no' response in this state. Those intents will be caught by the `Unhandled` handler.
 
@@ -292,8 +312,8 @@ After you have set up your response as desired, you **must** call `this.response
 
 ### Tips
 - When any of the response events are emitted `:ask`, `:tell`, `:askWithCard`, etc. The lambda context.succeed() method is called, which immediately stops processing of any further background tasks. Any asynchronous jobs that are still executing will not be completed and any lines of code below the response emit statement will not be executed. This is not the case for non responding events like `:saveState`.
-- In order to "transfer" a call from one state handler to another, `this.handler.state` needs to be set to the name of the target state. If the target state is "", then `this.emit("TargetStateName")` should be called. For any other states, `this.emitWithState("TargetStateName")` must be called instead.
-- The contents of the prompt and repompt values get wrapped in SSML tags. This means that any special XML characters within the value need to be escape coded. For example, this.emit(":ask", "I like M&M's") will cause a failure because the `&` character needs to be encoded as `&amp;`. Other characters that need to be encoded include: `<` -> `&lt;`, and `>` -> `&gt;`.
+- In order to "transfer" a call from one state handler to another, `this.handler.state` needs to be set to the name of the target state. If the target state is "", then `this.emit('TargetStateName')` should be called. For any other states, `this.emitWithState('TargetStateName')` must be called instead.
+- The contents of the prompt and repompt values get wrapped in SSML tags. This means that any special XML characters within the value need to be escape coded. For example, this.emit(':ask', 'I like M&M\'s') will cause a failure because the `&` character needs to be encoded as `&amp;`. Other characters that need to be encoded include: `<` -> `&lt;`, and `>` -> `&gt;`.
 
 ### Adding Multi-Language Support for Skill
 Let's take the Hello World example here. Define all user-facing language strings in the following format.
@@ -321,7 +341,7 @@ To enable string internationalization features in Alexa-sdk, set resources to th
 ```javascript
 exports.handler = function(event, context, callback) {
     var alexa = Alexa.handler(event, context);
-    alexa.APP_ID = APP_ID;
+    alexa.appId = appId;
     // To enable string internationalization (i18n) features, set a resources object.
     alexa.resources = languageStrings;
     alexa.registerHandlers(handlers);
@@ -349,6 +369,144 @@ For more infomation about developing and deploying skills in multiple languages,
 When a customer enables your Alexa skill, your skill can obtain the customer’s permission to use address data associated with the customer’s Alexa device. You can then use this address data to provide key functionality for the skill, or to enhance the customer experience.
 
 The `deviceId` is now exposed through the context object in each request and can be accessed in any intent handler through `this.event.context.System.device.deviceId`. See the [Address API sample skill](https://github.com/alexa/skill-sample-node-device-address-api) to see how we leveraged the deviceId and the Address API to use a user's device address in a skill.
+
+### Dialog Management Support for Skill
+The `Dialog` interface provides directives for managing a multi-turn conversation between your skill and the user. You can use the directives to ask the user for the information you need to fulfill their request. See the [Dialog Interface](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/dialog-interface-reference) and [Skill Editor](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/ask-define-the-vui-with-gui) documentation for more information on how to use dialog directives.
+
+You can use `this.event.request.dialogState` to access current `dialogState`.
+
+#### Delegate Directive 
+Sends Alexa a command to handle the next turn in the dialog with the user. You can use this directive if the skill has a dialog model and the current status of the dialog (`dialogState`) is either `STARTED` or `IN_PROGRESS`. You cannot emit this directive if the `dialogState` is `COMPLETED`.
+
+You can use `this.emit(':delegate')` to send delegate directive response.
+```javascript
+var handlers = {
+    'BookFlightIntent': function () {
+        if (this.event.request.dialogState === 'STARTED') {
+            var updatedIntent = this.event.request.intent;
+            // Pre-fill slots: update the intent object with slot values for which
+            // you have defaults, then emit :delegate with this updated intent.
+            updatedIntent.slots.SlotName.value = 'DefaultValue';
+            this.emit(':delegate', updatedIntent);
+        } else if (this.event.request.dialogState !== 'COMPLETED'){
+            this.emit(':delegate');
+        } else {
+            // All the slots are filled (And confirmed if you choose to confirm slot/intent)
+            handlePlanMyTripIntent();
+        }
+    }
+};
+```
+
+#### Elicit Slot Directive 
+Sends Alexa a command to ask the user for the value of a specific slot. Specify the name of the slot to elicit in the `slotToElicit`. Provide a prompt to ask the user for the slot value in `speechOutput`.
+
+You can use `this.emit(':elicitSlot')` or `this.emit(':elicitSlotWithCard')` to send elicit slot directive response.
+
+When using `this.emit(':elicitSlotWithCard')`, `updatedIntent` and `imageObj` are optional parameters. You can set them to `null` or not pass them.
+```javascript
+var handlers = {
+    'BookFlightIntent': function () {
+        var intentObj = this.event.request.intent;
+        if (!intentObj.slots.Source.value) {
+            var slotToElicit = 'Source';
+            var speechOutput = 'Where would you like to fly from?';
+            var repromptSpeech = speechOutput;
+            this.emit(':elicitSlot', slotToElicit, speechOutput, repromptSpeech);
+        } else if (!intentObj.slots.Destination.value) {
+            var slotToElicit = 'Destination';
+            var speechOutput = 'Where would you like to fly to?';
+            var repromptSpeech = speechOutput;
+            var cardContent = 'What is the destination?';
+            var cardTitle = 'Destination';
+            var updatedIntent = intentObj;
+            // An intent object representing the intent sent to your skill. 
+            // You can use this property set or change slot values and confirmation status if necessary.
+            var imageObj = {
+                smallImageUrl: 'https://imgs.xkcd.com/comics/standards.png',
+                largeImageUrl: 'https://imgs.xkcd.com/comics/standards.png'
+            }; 
+            this.emit(':elicitSlotWithCard', slotToElicit, speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj);
+        } else {
+            handlePlanMyTripIntentAllSlotsAreFilled();
+        }
+    }
+};
+```
+
+#### Confirm Slot Directive 
+Sends Alexa a command to confirm the value of a specific slot before continuing with the dialog. Specify the name of the slot to confirm in the `slotToConfirm`. Provide a prompt to ask the user for confirmation in `speechOutput`.
+
+You can use `this.emit(':confirmSlot')` or `this.emit(':confirmSlotWithCard')` to send confirm slot directive response.
+
+When using `this.emit(':confirmSlotWithCard')`, `updatedIntent` and `imageObj` are optional parameters. You can set them to `null` or not pass them.
+```javascript
+var handlers = {
+    'BookFlightIntent': function () {
+        var intentObj = this.event.request.intent;
+        if (intentObj.slots.Source.confirmationStatus !== 'CONFIRMED') {
+            if (intentObj.slots.Source.confirmationStatus !== 'DENIED') {
+                // Slot value is not confirmed
+                var slotToConfirm = 'Source';
+                var speechOutput = 'You want to fly from ' + intentObj.slots.Source.value + ', is that correct?';
+                var repromptSpeech = speechOutput;
+                this.emit(':confirmSlot', slotToConfirm, speechOutput, repromptSpeech);
+            } else {
+                // Users denies the confirmation of slot value
+                var slotToElicit = 'Source';
+                var speechOutput = 'Okay, Where would you like to fly from?';
+                this.emit(':elicitSlot', slotToElicit, speechOutput, speechOutput);
+            }
+        } else if (intentObj.slots.Destination.confirmationStatus !== 'CONFIRMED') {
+            if (intentObj.slots.Destination.confirmationStatus !== 'DENIED') {
+                var slotToConfirm = 'Destination';
+                var speechOutput = 'You would like to fly to ' + intentObj.slots.Destination.value + ', is that correct?';
+                var repromptSpeech = speechOutput;
+                var cardContent = speechOutput;
+                var cardTitle = 'Confirm Destination';
+                this.emit(':confirmSlotWithCard', slotToConfirm, speechOutput, repromptSpeech, cardTitle, cardContent);
+            } else {
+                var slotToElicit = 'Destination';
+                var speechOutput = 'Okay, Where would you like to fly to?';
+                var repromptSpeech = speechOutput;
+                this.emit(':elicitSlot', slotToElicit, speechOutput, repromptSpeech);
+            }
+        } else {
+            handlePlanMyTripIntentAllSlotsAreConfirmed();
+        }
+    }
+};
+```
+
+#### Confirm Intent Directive 
+Sends Alexa a command to confirm the all the information the user has provided for the intent before the skill takes action. Provide a prompt to ask the user for confirmation in `speechOutput`. Be sure to repeat back all the values the user needs to confirm in the prompt.
+
+You can use `this.emit(':confirmIntent')` or `this.emit(':confirmIntentWithCard')` to send confirm intent directive response.
+
+When using `this.emit(':confirmIntentWithCard')`, `updatedIntent` and `imageObj` are optional parameters. You can set them to `null` or not pass them.
+```javascript
+var handlers = {
+    'BookFlightIntent': function () {
+        var intentObj = this.event.request.intent;
+        if (intentObj.confirmationStatus !== 'CONFIRMED') {
+            if (intentObj.confirmationStatus !== 'DENIED') {
+                // Intent is not confirmed
+                var speechOutput = 'You would like to book flight from ' + intentObj.slots.Source.value + ' to ' + 
+                intentObj.slots.Destination.value + ', is that correct?';
+                var cardTitle = 'Booking Summary';
+                var repromptSpeech = speechOutput;
+                var cardContent = speechOutput;
+                this.emit(':confirmIntentWithCard', speechOutput, repromptSpeech, cardTitle, cardContent);
+            } else {
+                // Users denies the confirmation of intent. May be value of the slots are not correct.
+                handleIntentConfimationDenial();
+            }
+        } else {
+            handlePlanMyTripIntentAllSlotsAndIntentAreConfirmed();
+        }
+    }
+};
+```
 
 ### Next Steps
 

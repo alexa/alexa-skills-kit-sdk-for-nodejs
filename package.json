@@ -1,6 +1,6 @@
 {
   "name": "alexa-sdk",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Alexa Skill SDK for Node.js",
   "main": "index.js",
   "contributors": [
@@ -19,6 +19,10 @@
     {
       "name": "Leandro Pascual",
       "email": "leandrop@amazon.com"
+    },
+    {
+      "name": "Krish Furia",
+      "email": "krishf@amazon.com"
     }
   ],
   "dependencies": {
