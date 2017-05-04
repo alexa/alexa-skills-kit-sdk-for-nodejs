@@ -290,7 +290,7 @@ Normally emitting a response event like `this.emit(':tell')` will set up the res
 For example, the below code is equivalent to `this.emit(':ask', 'foo', 'bar');`
 
 ```javascript
-this.response.speak('foo').listen('bar').setResponse();
+this.response.speak('foo').listen('bar');
 this.emit(':responseReady');
 ```
 
@@ -308,7 +308,7 @@ Here's the API for using `this.response`:
 - `this.response.audioPlayerStop()` sets the directive type to `AudioPlayer.Stop`. This will make the audio player stop.
 - `this.response.audioPlayerClearQueue(clearBehaviour)` sets the directive type to `AudioPlayer.ClearQueue` and sets the clear behaviour of the directive. Options for this value are `'CLEAR_ENQUEUED'` and `'CLEAR_ALL'`. This will either clear the queue and continue the current stream, or clear the queue and stop the current stream.
 
-After you have set up your response as desired, you **must** call `this.response.setResponse()`. You can either call this separately, or at the end of your chain of functions, as shown above. If you don't call it, your response will not be changed. Then simply call `this.emit(':responseReady');` to send your response off.
+When you've set up your response, simply call `this.emit(':responseReady');` to send your response off.
 
 ### Tips
 - When any of the response events are emitted `:ask`, `:tell`, `:askWithCard`, etc. The lambda context.succeed() method is called, which immediately stops processing of any further background tasks. Any asynchronous jobs that are still executing will not be completed and any lines of code below the response emit statement will not be executed. This is not the case for non responding events like `:saveState`.
@@ -375,7 +375,7 @@ The `Dialog` interface provides directives for managing a multi-turn conversatio
 
 You can use `this.event.request.dialogState` to access current `dialogState`.
 
-#### Delegate Directive 
+#### Delegate Directive
 Sends Alexa a command to handle the next turn in the dialog with the user. You can use this directive if the skill has a dialog model and the current status of the dialog (`dialogState`) is either `STARTED` or `IN_PROGRESS`. You cannot emit this directive if the `dialogState` is `COMPLETED`.
 
 You can use `this.emit(':delegate')` to send delegate directive response.
@@ -398,7 +398,7 @@ var handlers = {
 };
 ```
 
-#### Elicit Slot Directive 
+#### Elicit Slot Directive
 Sends Alexa a command to ask the user for the value of a specific slot. Specify the name of the slot to elicit in the `slotToElicit`. Provide a prompt to ask the user for the slot value in `speechOutput`.
 
 You can use `this.emit(':elicitSlot')` or `this.emit(':elicitSlotWithCard')` to send elicit slot directive response.
@@ -420,12 +420,12 @@ var handlers = {
             var cardContent = 'What is the destination?';
             var cardTitle = 'Destination';
             var updatedIntent = intentObj;
-            // An intent object representing the intent sent to your skill. 
+            // An intent object representing the intent sent to your skill.
             // You can use this property set or change slot values and confirmation status if necessary.
             var imageObj = {
                 smallImageUrl: 'https://imgs.xkcd.com/comics/standards.png',
                 largeImageUrl: 'https://imgs.xkcd.com/comics/standards.png'
-            }; 
+            };
             this.emit(':elicitSlotWithCard', slotToElicit, speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj);
         } else {
             handlePlanMyTripIntentAllSlotsAreFilled();
@@ -434,7 +434,7 @@ var handlers = {
 };
 ```
 
-#### Confirm Slot Directive 
+#### Confirm Slot Directive
 Sends Alexa a command to confirm the value of a specific slot before continuing with the dialog. Specify the name of the slot to confirm in the `slotToConfirm`. Provide a prompt to ask the user for confirmation in `speechOutput`.
 
 You can use `this.emit(':confirmSlot')` or `this.emit(':confirmSlotWithCard')` to send confirm slot directive response.
@@ -478,7 +478,7 @@ var handlers = {
 };
 ```
 
-#### Confirm Intent Directive 
+#### Confirm Intent Directive
 Sends Alexa a command to confirm the all the information the user has provided for the intent before the skill takes action. Provide a prompt to ask the user for confirmation in `speechOutput`. Be sure to repeat back all the values the user needs to confirm in the prompt.
 
 You can use `this.emit(':confirmIntent')` or `this.emit(':confirmIntentWithCard')` to send confirm intent directive response.
@@ -491,7 +491,7 @@ var handlers = {
         if (intentObj.confirmationStatus !== 'CONFIRMED') {
             if (intentObj.confirmationStatus !== 'DENIED') {
                 // Intent is not confirmed
-                var speechOutput = 'You would like to book flight from ' + intentObj.slots.Source.value + ' to ' + 
+                var speechOutput = 'You would like to book flight from ' + intentObj.slots.Source.value + ' to ' +
                 intentObj.slots.Destination.value + ', is that correct?';
                 var cardTitle = 'Booking Summary';
                 var repromptSpeech = speechOutput;
