@@ -1,10 +1,29 @@
 {
   "name": "alexa-sdk",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "description": "Alexa Skill SDK for Node.js",
   "main": "index.js",
   "contributors": [
-    "Diego Benitez <diegoben@amazon.com>"
+    {
+      "name": "Diego Benitez",
+      "email": "diegoben@amazon.com"
+    },
+    {
+      "name": "Yang Zhang",
+      "email": "ygzg@amazon.com"
+    },
+    {
+      "name": "Brendan Clement",
+      "email": "clebrend@amazon.com"
+    },
+    {
+      "name": "Leandro Pascual",
+      "email": "leandrop@amazon.com"
+    },
+    {
+      "name": "Krish Furia",
+      "email": "krishf@amazon.com"
+    }
   ],
   "dependencies": {
     "aws-sdk": "^2.4.7",
