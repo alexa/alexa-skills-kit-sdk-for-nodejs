@@ -32,7 +32,7 @@ In order to start using the alexa-sdk first import the library. To do this withi
 var Alexa = require('alexa-sdk');
 
 exports.handler = function(event, context, callback){
-    var alexa = Alexa.handler(event, context);
+    var alexa = Alexa.handler(event, context, callback);
 };
 ```
 This will import alexa-sdk and set up an `Alexa` object for us to work with. Next, we need to handle the intents for our skill. Alexa-sdk makes it simple to have a function fire an Intent. For example, to create a handler for 'HelloWorldIntent' we simply add the following:
@@ -107,7 +107,7 @@ this.emit(':saveStateError'); // Called if there is an error while saving state.
 Once we have set up our event handlers we need to register them using the registerHandlers function of the alexa object we just created.
 ```javascript
   exports.handler = function(event, context, callback) {
-      var alexa = Alexa.handler(event, context);
+      var alexa = Alexa.handler(event, context, callback);
       alexa.registerHandlers(handlers);
   };
 ```
@@ -130,7 +130,7 @@ var handlers = {
 Once you are done registering all of your intent handler functions, you simply use the execute function from the alexa object to run your skill's logic. The final line would look like this:
 ```javascript
 exports.handler = function(event, context, callback) {
-    var alexa = Alexa.handler(event, context);
+    var alexa = Alexa.handler(event, context, callback);
     alexa.registerHandlers(handlers);
     alexa.execute();
 };
@@ -270,7 +270,7 @@ Many of you would like to persist your session attribute values into storage for
 Simply set the name of the DynamoDB table on your alexa object before you call alexa.execute.
 ```javascript
 exports.handler = function (event, context, callback) {
-    var alexa = Alexa.handler(event, context);
+    var alexa = Alexa.handler(event, context, callback);
     alexa.appId = appId;
     alexa.dynamoDBTableName = 'YourTableName'; // That's it!
     alexa.registerHandlers(State1Handlers, State2Handlers);
