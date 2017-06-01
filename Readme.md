@@ -525,10 +525,6 @@ For more information about getting started with the Alexa Skills Kit, check out 
 
  [Alexa Training with Big Nerd Ranch](https://developer.amazon.com/public/community/blog/tag/Big+Nerd+Ranch)
 
- [Intro to Alexa Skills On Demand](https://goto.webcasts.com/starthere.jsp?ei=1087595)
-
- [Voice Design 101 On Demand](https://goto.webcasts.com/starthere.jsp?ei=1087592)
-
  [Alexa Skills Kit (ASK)](https://developer.amazon.com/ask)
 
  [Alexa Developer Forums](https://forums.developer.amazon.com/forums/category.jspa?categoryID=48)
