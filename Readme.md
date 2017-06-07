@@ -287,7 +287,7 @@ You can [create the table manually](http://docs.aws.amazon.com/amazondynamodb/la
 
 ### Generating your own responses
 
-Normally emitting a response event like `this.emit(':tell')` will set up the response and sends it to Alexa for you, using any speech or card values you pass it. If you want to manually create your own responses, you can use `this.response` to help. `this.response` contains a series of functions, that you can use to set the different properties of the response. This allows you to take advantage of the Alexa Skills Kit's built-in audio player support. Once you've set up your response, you can just call `this.emit(':responseReady')` to send your response to Alexa. The functions within `this.response` are also chainable, so you can use as many as you want in a row.
+Normally emitting a response event like `this.emit(':tell', speechOutput, repromptSpeech)` will set up the response and send it to Alexa for you, using any speech or card values you pass it. If you want to manually create your own responses, you can use `this.response` to help. `this.response` contains a series of functions, that you can use to set the different properties of the response. This allows you to take advantage of the Alexa Skills Kit's built-in audio player support. Once you've set up your response, you can just call `this.emit(':responseReady')` to send your response to Alexa. The functions within `this.response` are also chainable, so you can use as many as you want in a row.
 
 For example, the below code is equivalent to `this.emit(':ask', 'foo', 'bar');`
 
@@ -413,9 +413,9 @@ var handlers = {
 #### Elicit Slot Directive
 Sends Alexa a command to ask the user for the value of a specific slot. Specify the name of the slot to elicit in the `slotToElicit`. Provide a prompt to ask the user for the slot value in `speechOutput`.
 
-You can use `this.emit(':elicitSlot')` or `this.emit(':elicitSlotWithCard')` to send elicit slot directive response.
+You can use `this.emit(':elicitSlot', slotToElicit, speechOutput, repromptSpeech, updatedIntent)` or `this.emit(':elicitSlotWithCard', slotToElicit, speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj)` to send elicit slot directive response.
 
-When using `this.emit(':elicitSlotWithCard')`, `updatedIntent` and `imageObj` are optional parameters. You can set them to `null` or not pass them.
+When using `this.emit(':elicitSlotWithCard', slotToElicit, speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj)`, `updatedIntent` and `imageObj` are optional parameters. You can set them to `null` or not pass them.
 ```javascript
 var handlers = {
     'BookFlightIntent': function () {
@@ -449,9 +449,9 @@ var handlers = {
 #### Confirm Slot Directive
 Sends Alexa a command to confirm the value of a specific slot before continuing with the dialog. Specify the name of the slot to confirm in the `slotToConfirm`. Provide a prompt to ask the user for confirmation in `speechOutput`.
 
-You can use `this.emit(':confirmSlot')` or `this.emit(':confirmSlotWithCard')` to send confirm slot directive response.
+You can use `this.emit(':confirmSlot', slotToConfirm, speechOutput, repromptSpeech, updatedIntent)` or `this.emit(':confirmSlotWithCard', slotToConfirm, speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj)` to send confirm slot directive response.
 
-When using `this.emit(':confirmSlotWithCard')`, `updatedIntent` and `imageObj` are optional parameters. You can set them to `null` or not pass them.
+When using `this.emit(':confirmSlotWithCard', slotToConfirm, speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj)`, `updatedIntent` and `imageObj` are optional parameters. You can set them to `null` or not pass them.
 ```javascript
 var handlers = {
     'BookFlightIntent': function () {
@@ -493,9 +493,9 @@ var handlers = {
 #### Confirm Intent Directive
 Sends Alexa a command to confirm the all the information the user has provided for the intent before the skill takes action. Provide a prompt to ask the user for confirmation in `speechOutput`. Be sure to repeat back all the values the user needs to confirm in the prompt.
 
-You can use `this.emit(':confirmIntent')` or `this.emit(':confirmIntentWithCard')` to send confirm intent directive response.
+You can use `this.emit(':confirmIntent', speechOutput, repromptSpeech, updatedIntent)` or `this.emit(':confirmIntentWithCard', speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj)` to send confirm intent directive response.
 
-When using `this.emit(':confirmIntentWithCard')`, `updatedIntent` and `imageObj` are optional parameters. You can set them to `null` or not pass them.
+When using `this.emit(':confirmIntentWithCard', speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj)`, `updatedIntent` and `imageObj` are optional parameters. You can set them to `null` or not pass them.
 ```javascript
 var handlers = {
     'BookFlightIntent': function () {
