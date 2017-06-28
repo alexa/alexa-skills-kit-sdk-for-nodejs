@@ -314,7 +314,7 @@ When you've set up your response, simply call `this.emit(':responseReady');` to 
 
 ### Tips
 
-- When any of the response events are emitted `:ask`, `:tell`, `:askWithCard`, etc. The lambda context.succeed() method is called, which immediately stops processing of any further background tasks. Any asynchronous jobs that are still will not be completed and any lines of code below the response emit statement will not be executed. This is not the case for non responding events like `:saveState`.
+- When any of the response events are emitted `:ask`, `:tell`, `:askWithCard`, etc. The lambda context.succeed() method is called, which immediately stops processing of any further background tasks. Any asynchronous jobs that are still running will not be completed and any lines of code below the response emit statement will not be executed. This is not the case for non responding events like `:saveState`.
 - In order to "transfer" a call from one state handler to another, `this.handler.state` needs to be set to the name of the target state. If the target state is "", then `this.emit("TargetHandlerName")` should be called. For any other states, `this.emitWithState("TargetHandlerName")` must be called instead.
 - The contents of the prompt and repompt values get wrapped in SSML tags. This means that any special XML characters within the value need to be escape coded. For example, this.emit(":ask", "I like M&M's") will cause a failure because the `&` character needs to be encoded as `&amp;`. Other characters that need to be encoded include: `<` -> `&lt;`, and `>` -> `&gt;`.
 
