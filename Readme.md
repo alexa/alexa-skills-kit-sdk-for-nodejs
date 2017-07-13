@@ -271,7 +271,7 @@ Simply set the name of the DynamoDB table on your alexa object before you call a
 ```javascript
 exports.handler = function (event, context, callback) {
     var alexa = Alexa.handler(event, context, callback);
-    alexa.appId = appId;
+    alexa.APP_ID = appId;
     alexa.dynamoDBTableName = 'YourTableName'; // That's it!
     alexa.registerHandlers(State1Handlers, State2Handlers);
     alexa.execute();
@@ -344,7 +344,7 @@ To enable string internationalization features in Alexa-sdk, set resources to th
 ```javascript
 exports.handler = function(event, context, callback) {
     var alexa = Alexa.handler(event, context);
-    alexa.appId = appId;
+    alexa.APP_ID = appId;
     // To enable string internationalization (i18n) features, set a resources object.
     alexa.resources = languageStrings;
     alexa.registerHandlers(handlers);
