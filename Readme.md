@@ -344,7 +344,7 @@ To enable string internationalization features in Alexa-sdk, set resources to th
 ```javascript
 exports.handler = function(event, context, callback) {
     var alexa = Alexa.handler(event, context);
-    alexa.appId = appId;
+    alexa.APP_ID = appId;
     // To enable string internationalization (i18n) features, set a resources object.
     alexa.resources = languageStrings;
     alexa.registerHandlers(handlers);
