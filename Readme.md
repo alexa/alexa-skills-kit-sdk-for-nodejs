@@ -309,6 +309,11 @@ Here's the API for using `this.response`:
 - `this.response.audioPlayerPlay(behavior, url, token, expectedPreviousToken, offsetInMilliseconds)`: sets the audioPlayer directive using the provided parameters, and `AudioPlayer.Play` as the directive type. This will make the audio player play an audio file at a requested URL.
 - `this.response.audioPlayerStop()` sets the directive type to `AudioPlayer.Stop`. This will make the audio player stop.
 - `this.response.audioPlayerClearQueue(clearBehaviour)` sets the directive type to `AudioPlayer.ClearQueue` and sets the clear behaviour of the directive. Options for this value are `'CLEAR_ENQUEUED'` and `'CLEAR_ALL'`. This will either clear the queue and continue the current stream, or clear the queue and stop the current stream.
+.- `this.response.renderTemplate(template)` adds a `Display.RenderTemplate` Directive to the response with the specified template object. See the [Display.RenderTemplate reference](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/display-interface-reference) for more information.
+- `this.response.hint(hintText)` adds a `Hint` Directive to the response with the specified hintText. See the [Hint Directive reference](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/display-interface-reference#hint-directive) for more information
+- `this.response.playVideo(url, metadata)` adds a `VideoApp.Play` directive.
+  - `url (string)` - url to the video source. See the [VideoApp Interface reference](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/videoapp-interface-reference) for details on supported video formats.
+  - `metadata ({ title : string, subtitle : string }) [optional]` - specify the title and secondary title to show with the video
 
 When you've set up your response, simply call `this.emit(':responseReady');` to send your response off.
 
@@ -375,7 +380,7 @@ The `deviceId` is now exposed through the context object in each request and can
 
 ### Speechcons (Interjections)
 
-[Speechcons](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speechcon-reference) are special words and phrases that Alexa pronounces more expressively. In order to use them you can just include the SSML markup in the text to emit. 
+[Speechcons](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speechcon-reference) are special words and phrases that Alexa pronounces more expressively. In order to use them you can just include the SSML markup in the text to emit.
 
 * `this.emit(':tell', 'Sometimes when I look at the Alexa skills you have all taught me, I just have to say, <say-as interpret-as="interjection">Bazinga.</say-as> ');`
 * `this.emit(':tell', '<say-as interpret-as="interjection">Oh boy</say-as><break time="1s"/> this is just an example.');`
@@ -519,6 +524,126 @@ var handlers = {
     }
 };
 ```
+
+### Building Echo Show templates
+Template Builders are now included in alexa-sdk in the templateBuilders namespace. These provide a set of helper methods to build the JSON template for the Display.RenderTemplate directive. In the example below we use the BodyTemplate1Builder.
+
+```javascript
+const Alexa = require('alexa-sdk');
+// utility methods for creating Image and TextField objects
+const makePlainText = Alexa.utils.TextUtils.makePlainText;
+const makeImage = Alexa.utils.ImageUtils.makeImage;
+
+// ...
+'LaunchRequest' : function() {
+    const builder = new Alexa.templateBuilders.BodyTemplate1Builder();
+
+    let template = builder.setTitle('My BodyTemplate1')
+                          .setBackgroundImage(makeImage('http://url/to/my/img.png'))
+                          .setTextContent(makePlainText('Text content'))
+                          .build();
+
+    this.response.speak('Rendering a template!')
+                 .renderTemplate(template);
+    this.emit(':responseReady');
+}
+```
+
+We've added helper utility methods to build Image and TextField objects. They are located in the `Alexa.utils` namespace.
+
+```javascript
+const ImageUtils = require('alexa-sdk').utils.ImageUtils;
+
+// Outputs an image with a single source
+ImageUtils.makeImage(url, widthPixels, heightPixels, size, description)
+/**
+Outputs {
+    contentDescription : '<description>'
+    sources : [
+        {
+            url : '<url>',
+            widthPixels : '<widthPixels>',
+            heightPixels : '<heightPixels>',
+            size : '<size>'
+        }
+    ]
+}
+*/
+
+ImageUtils.makeImages(imgArr, description)
+/**
+Outputs {
+    contentDescription : '<description>'
+    sources : <imgArr> // array of {url, size, widthPixels, heightPixels}
+}
+*/
+
+
+const TextUtils = require('alexa-sdk').utils.TextUtils;
+
+TextUtils.makePlainText('my plain text field');
+/**
+Outputs {
+    text : 'my plain text field',
+    type : 'PlainText'
+}
+*/
+
+TextUtils.makeRichText('my rich text field');
+/**
+Outputs {
+    text : 'my rich text field',
+    type : 'RichText'
+}
+*/
+
+```
+
+### Building Multi-modal skills
+
+Sending a Display.RenderTemplate directive to a headless device (like an echo) will result in an invalid directive error being thrown. To check whether a device supports a particular directive, you can check the device's supportedInterfaces property.
+
+```javascript
+let handler = {
+    'LaunchRequest' : function() {
+
+        this.response.speak('Hello there');
+
+        // Display.RenderTemplate directives can be added to the response
+        if (this.event.context.System.device.supportedInterfaces.Display) {
+            //... build mytemplate using TemplateBuilder
+            this.response.renderTemplate(myTemplate);
+        }
+
+        this.emit(':responseReady');
+    }
+}
+```
+
+Similarly for video, you check if VideoPlayer is a supported interface of the device
+
+```javascript
+let handler = {
+    'PlayVideoIntent' : function() {
+
+        // VideoApp.Play directives can be added to the response
+        if (this.event.context.System.device.supportedInterfaces.VideoPlayer) {
+            this.response.playVideo('http://path/to/my/video.mp4');
+        } else {
+            this.response.speak("The video cannot be played on your device. " +
+                "To watch this video, try launching the skill from your echo show device.");
+        }
+
+        this.emit(':responseReady');
+    }
+}
+```
+
+### Setting up your development environment
+ - Requirements
+    - Gulp & mocha  ```npm install -g gulp mocha```
+    - Run npm install to pull down stuff
+    - run gulp to run tests/linter (soon)
 
 ### Next Steps
 
