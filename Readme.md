@@ -620,14 +620,14 @@ let handler = {
 }
 ```
 
-Similarly for video, you check if VideoPlayer is a supported interface of the device
+Similarly for video, you check if VideoApp is a supported interface of the device
 
 ```javascript
 let handler = {
     'PlayVideoIntent' : function() {
 
         // VideoApp.Play directives can be added to the response
-        if (this.event.context.System.device.supportedInterfaces.VideoPlayer) {
+        if (this.event.context.System.device.supportedInterfaces.VideoApp) {
             this.response.playVideo('http://path/to/my/video.mp4');
         } else {
             this.response.speak("The video cannot be played on your device. " +
