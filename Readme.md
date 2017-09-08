@@ -263,6 +263,85 @@ Your attributes will be automatically saved when you end the session, but if the
 
 We have wrapped up the above example into a high/low number guessing game skill you can [download here](https://github.com/alexa/skill-sample-nodejs-highlowgame).
 
+### Additional Event Processing
+
+The `OnRequest` event is similar to the `NewSession` event but is called regardless of the value of `event.session.new`. If you define `OnRequest` you cannot define `NewSession`. In fact all events will go to `OnRequest` and you will need to call another emit to have processing continue:
+
+```javascript
+var startGameHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
+
+    'OnRequest': function () {
+        if (this.event.session.new) {
+            this.emit('NewSession'); // Uses the handler in newSessionHandlers
+        } else {
+            // Process request when session is not new
+        }
+        
+    },
+
+    // The OnRequest code above is equivalent to following event using NewSession:
+
+    //'NewSession': function () {
+    //    this.emit('NewSession'); // Uses the handler in newSessionHandlers
+    //},
+```
+
+Another important pattern with `OnRequest` is calling `this.emit(':forward')`:
+
+```javascript
+var someHandlers = Alexa.CreateStateHandler(states.SOMEMODE, {
+
+    'OnRequest': function () {
+        if (this.event.session.new) {
+            this.data.value = createNewValue();
+        } else {
+            this.data.value = getExistingValue();
+        }
+
+        this.emit(':forward');
+    },
+    'FirstIntent': function () {
+        console.log('Enter FirstIntent: ' + this.data.value);       
+    },
+    'SecondIntent': function () {
+        console.log('Enter SecondIntent: ' + this.data.value);       
+    },    
+```
+
+Calling `':forward'` will emit to the event that would have been called if it were not intercepted by `OnRequest`. This includes `LaunchRequest`, `SessionEndedRequest`, and any request of type `IntentRequest`. Emitting the `':forward'` event can also be done from `NewSession` instead of `OnRequest`.
+
+In the above example, let's say the `FirstIntent` would have been called if it wasn't intercepted by `OnRequest`. Here we set the `data.value` property based on whether it is a new session or not. By calling `this.emit(':forward')`, the call continues on to `FirstIntent`. Likewise, if the call intercepted by `OnRequest` was `SecondIntent`, then `this.emit(':forward')` would call `SecondIntent`.
+
+Note that the `this.data` property exists as a place to put transient data for the duration of processing a single request across multiple events. Think of it like `this.attributes` without it being returned as part of the response or stored in DynamoDB if that is enabled. Make sure that you add properties to the data object (ex: `this.data.value = 1`) and NOT overwrite the root data object (ex: `this.data = 1`).
+
+By default, `this.emit(':forward')` calls `this.emitWithState` so it will take into consideration state when determining the event to forward to. The `':forward'` event takes an optional options object which has the folowing default values if not supplied:
+
+```javascript
+var defaults = {
+    emitWithState: true,
+    filter: null
+}; 
+```
+It is not likely that you will need to set `emitWithState` to something other than `true`. When the `filter` option is `null` that means that no filter is applied and the call to `':forward'` will occur whatever the original request was.
+
+You can also set `filter` to an array of one or more event names and the forward will occur only if the original request was for an event of that name:
+
+```javascript
+var someHandlers = Alexa.CreateStateHandler(states.SOMEMODE, {
+
+    'OnRequest': function () {
+        // do something
+        this.emit(':forward', { filter: ['SessionEndedRequest', 'SecondIntent']});
+    },
+    'FirstIntent': function () {
+        // do something
+    },
+    'SecondIntent': function () {
+        // do something
+    },    
+```
+The above shows that after `OnRequest` is executed, the processing will continue to the orginal request only if the event name was `SessionEndedRequest` or `SecondIntent`. Note that `LaunchRequest`, `FirstIntent`, or any other event name will not be processed. The event name is case-sensitive.
+
 ### Persisting Skill Attributes through DynamoDB
 
 Many of you would like to persist your session attribute values into storage for further use. Alexa-sdk integrates directly with [Amazon DynamoDB](https://aws.amazon.com/dynamodb/) (a NoSQL database service) to enable you to do this with a single line of code.
