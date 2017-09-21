@@ -1,7 +1,6 @@
 'use strict';
 
 const gulp = require('gulp');
-const mocha = require('gulp-mocha');
 const jshint = require('gulp-jshint');
 
 module.exports = {
