@@ -378,6 +378,36 @@ When a customer enables your Alexa skill, your skill can obtain the customer’s
 
 The `deviceId` is now exposed through the context object in each request and can be accessed in any intent handler through `this.event.context.System.device.deviceId`. See the [Address API sample skill](https://github.com/alexa/skill-sample-node-device-address-api) to see how we leveraged the deviceId and the Address API to use a user's device address in a skill.
 
+### List, AudioPlayer and PlaybackController Event Support
+
+When building skills that leverage [List templates](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/display-interface-reference) on Echo Show or the [AudioPlayer](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/custom-audioplayer-interface-reference) and [PlaybackController](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/alexa-playbackcontroller#alexa-playbackcontroller-interface-alexa-skills-kit) Interfaces, you can configure handlers for their respective events.
+
+```javascript
+var handlers = {
+    'ElementSelected': function () {
+        this.emit('SayHello');
+    },
+    'PlaybackStarted': function () {
+        this.emit('handlePlaybackStarted');
+    },
+    'PlaybackFinished': function () {
+        this.emit('handlePlaybackFinished');
+    },
+    'PlaybackStopped': function () {
+        this.emit('handlePlaybackStopped');
+    },
+    'PlaybackNearlyFinished': function () {
+        this.emit('handlePlaybackNearlyFinished');
+    },
+    'PlaybackFailed': function () {
+        this.emit('handlePlaybackFailed');
+    },
+    'PlaybackController': function() {
+        this.emit('handlePlaybackControl');
+    }
+};
+```
+
 ### Speechcons (Interjections)
 
 [Speechcons](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speechcon-reference) are special words and phrases that Alexa pronounces more expressively. In order to use them you can just include the SSML markup in the text to emit.
