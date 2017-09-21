@@ -40,12 +40,12 @@ describe('ResponseBuilder Tests', () => {
         expect(result).to.equal(responseBuilder);
     });
 
-      it('should make a card', () => {
+    it('should make a card', () => {
         const expectedTitle = 'my reprompt';
-        const result = responseBuilder.cardRenderer(expectedTitle, "", {});
+        const result = responseBuilder.cardRenderer(expectedTitle, "card content", { smallImageUrl : 'small_url', largeImageUrl : 'larg_url' });
 
         expect(response.card.title).to.contain(expectedTitle);
-        expect(result).to.equal(responseBuilder);
+        expect(result).to.deep.equal(responseBuilder);
     });
 
     it('should make a link account card', () => {
@@ -53,6 +53,20 @@ describe('ResponseBuilder Tests', () => {
 
         expect(response.card.type).to.equal(CARD_TYPES.LINK_ACCOUNT);
         expect(result).to.equal(responseBuilder);
+    });
+
+    it('should create audioPlayer directive', () => {
+        const playDirective = responseBuilder.audioPlayer('play', 'behavior', 'url', 'token', '', 100);
+        const stopDirective = responseBuilder.audioPlayer('stop', 'behavior', 'url', 'token', '', 100);
+        const clearQueueDirective = responseBuilder.audioPlayer('', 'behavior', 'url', 'token', '', 100);
+        
+        expect(response.directives.length).to.equal(3);
+        expect(response.directives[0].type).to.equal(DIRECTIVE_TYPES.AUDIOPLAYER.PLAY);
+        expect(response.directives[1].type).to.equal(DIRECTIVE_TYPES.AUDIOPLAYER.STOP);
+        expect(response.directives[2].type).to.equal(DIRECTIVE_TYPES.AUDIOPLAYER.CLEAR_QUEUE);
+        expect(playDirective).to.deep.equal(responseBuilder);
+        expect(stopDirective).to.deep.equal(responseBuilder);
+        expect(clearQueueDirective).to.deep.equal(responseBuilder);
     });
 
     it('should create audioPlayer directive on play', () => {
@@ -102,10 +116,11 @@ describe('ResponseBuilder Tests', () => {
     });
 
     it('should create videoapp directive', () => {
-        const result = responseBuilder.playVideo('url');
+        const result = responseBuilder.playVideo('url', { metadata: 'text' });
         expect(response.directives.length).to.equal(1);
         expect(response.directives[0].type).to.equal(DIRECTIVE_TYPES.VIDEOAPP.LAUNCH);
-        expect(result).to.equal(responseBuilder);
+        expect(result).to.deep.equal(responseBuilder);
+        expect(result._responseObject.response.directives).to.have.deep.members(responseBuilder._responseObject.response.directives);
     });
 
     it('should remove shouldEndSession when specifying videoApp directive', () => {
