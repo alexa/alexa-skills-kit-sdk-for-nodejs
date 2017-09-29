@@ -1,4 +1,6 @@
-# Alexa Skills Kit SDK for Node.js
+## Alexa Skills Kit SDK for Node.js
+
+## Overview
 
 Today we're happy to announce the new [alexa-sdk](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs) for Node.js to help you build skills faster and with less complexity.
 
@@ -6,7 +8,33 @@ Creating an Alexa skill using the [Alexa Skills Kit](http://developer.amazon.com
 
 While setting up an Alexa skill using AWS Lambda, Node.js and the Alexa Skills Kit has been a simple process, the actual amount of code you have had to write has not. We have seen a large amount of time spent in Alexa skills on handling session attributes, skill state persistence, response building and behavior modeling. With that in mind the Alexa team set out to build an Alexa Skills Kit SDK specifically for Node.js that will help you avoid common hang-ups and focus on your skill's logic instead of boilerplate code.
 
-### Enabling Faster Alexa Skill Development with the Alexa Skills Kit SDK for Node.js (alexa-sdk)
+<!-- TOC -->
+
+- [Alexa Skills Kit SDK for Node.js](#alexa-skills-kit-sdk-for-nodejs)
+- [Overview](#overview)
+- [Enabling Faster Alexa Skill Development with the Alexa Skills Kit SDK for Node.js (alexa-sdk)](#enabling-faster-alexa-skill-development-with-the-alexa-skills-kit-sdk-for-nodejs-alexa-sdk)
+- [Installing and Working with the Alexa Skills Kit SDK for Node.js (alexa-sdk)](#installing-and-working-with-the-alexa-skills-kit-sdk-for-nodejs-alexa-sdk)
+- [Making Skill State Management Simpler](#making-skill-state-management-simpler)
+- [Persisting Skill Attributes through DynamoDB](#persisting-skill-attributes-through-dynamodb)
+- [Generating your own responses](#generating-your-own-responses)
+- [Tips](#tips)
+- [Adding Multi-Language Support for Skill](#adding-multi-language-support-for-skill)
+- [Device ID Support](#device-id-support)
+- [Speechcons (Interjections)](#speechcons-interjections)
+- [Dialog Management Support for Skill](#dialog-management-support-for-skill)
+    - [Delegate Directive](#delegate-directive)
+    - [Elicit Slot Directive](#elicit-slot-directive)
+    - [Confirm Slot Directive](#confirm-slot-directive)
+    - [Confirm Intent Directive](#confirm-intent-directive)
+- [Building Echo Show templates](#building-echo-show-templates)
+- [Building Multi-modal skills](#building-multi-modal-skills)
+- [Skill and List Events](#skill-and-list-events)
+- [Setting up your development environment](#setting-up-your-development-environment)
+- [Next Steps](#next-steps)
+
+<!-- /TOC -->
+
+## Enabling Faster Alexa Skill Development with the Alexa Skills Kit SDK for Node.js (alexa-sdk)
 
 With the new alexa-sdk, our goal is to help you build skills faster while allowing you to avoid unneeded complexity. Today, we are launching the SDK with the following capabilities:
 
@@ -20,7 +48,7 @@ With the new alexa-sdk, our goal is to help you build skills faster while allowi
 - Lambda event and context objects are fully available via `this.event` and `this.context`
 - Ability to override built-in functions giving you more flexibility on how you manage state or build responses. For example, saving state attributes to AWS S3.
 
-### Installing and Working with the Alexa Skills Kit SDK for Node.js (alexa-sdk)
+## Installing and Working with the Alexa Skills Kit SDK for Node.js (alexa-sdk)
 
 The alexa-sdk is immediately available on [github](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs) and can be deployed as a node package using the following command from within your Node.js environment:
 ```bash
@@ -139,7 +167,7 @@ You can download a full working sample off github. We have also updated the foll
 
 Note: for specifications regarding the ```imgObj``` please see [here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/providing-home-cards-for-the-amazon-alexa-app).
 
-### Making Skill State Management Simpler
+## Making Skill State Management Simpler
 
 Alexa-sdk will route incoming intents to the correct function handler based on state. State is stored as a string in your session attributes indicating the current state of the skill. You can emulate the built-in intent routing by appending the state string to the intent name when defining your intent handlers, but alexa-sdk helps do that for you.
 
@@ -263,7 +291,7 @@ Your attributes will be automatically saved when you end the session, but if the
 
 We have wrapped up the above example into a high/low number guessing game skill you can [download here](https://github.com/alexa/skill-sample-nodejs-highlowgame).
 
-### Persisting Skill Attributes through DynamoDB
+## Persisting Skill Attributes through DynamoDB
 
 Many of you would like to persist your session attribute values into storage for further use. Alexa-sdk integrates directly with [Amazon DynamoDB](https://aws.amazon.com/dynamodb/) (a NoSQL database service) to enable you to do this with a single line of code.
 
@@ -285,7 +313,7 @@ this.attributes['yourAttribute'] = 'value';
 
 You can [create the table manually](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SampleData.CreateTables.html) beforehand or simply give your Lambda function DynamoDB [create table permissions](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_CreateTable.html) and it will happen automatically. Just remember it can take a minute or so for the table to be created on the first invocation. If you create the table manually, the Primary Key must be a string value called "userId".
 
-### Generating your own responses
+## Generating your own responses
 
 Normally emitting a response event like `this.emit(':tell', speechOutput, repromptSpeech)` will set up the response and send it to Alexa for you, using any speech or card values you pass it. If you want to manually create your own responses, you can use `this.response` to help. `this.response` contains a series of functions, that you can use to set the different properties of the response. This allows you to take advantage of the Alexa Skills Kit's built-in audio player support. Once you've set up your response, you can just call `this.emit(':responseReady')` to send your response to Alexa. The functions within `this.response` are also chainable, so you can use as many as you want in a row.
 
@@ -317,13 +345,13 @@ Here's the API for using `this.response`:
 
 When you've set up your response, simply call `this.emit(':responseReady');` to send your response off.
 
-### Tips
+## Tips
 
 - When any of the response events are emitted `:ask`, `:tell`, `:askWithCard`, etc. The lambda context.succeed() method is called, which immediately stops processing of any further background tasks. Any asynchronous jobs that are still will not be completed and any lines of code below the response emit statement will not be executed. This is not the case for non responding events like `:saveState`.
 - In order to "transfer" a call from one state handler to another, `this.handler.state` needs to be set to the name of the target state. If the target state is "", then `this.emit("TargetHandlerName")` should be called. For any other states, `this.emitWithState("TargetHandlerName")` must be called instead.
 - The contents of the prompt and repompt values get wrapped in SSML tags. This means that any special XML characters within the value need to be escape coded. For example, this.emit(":ask", "I like M&M's") will cause a failure because the `&` character needs to be encoded as `&amp;`. Other characters that need to be encoded include: `<` -> `&lt;`, and `>` -> `&gt;`.
 
-### Adding Multi-Language Support for Skill
+## Adding Multi-Language Support for Skill
 Let's take the Hello World example here. Define all user-facing language strings in the following format.
 ```javascript
 var languageStrings = {
@@ -373,12 +401,12 @@ var handlers = {
 ```
 For more infomation about developing and deploying skills in multiple languages, please go [here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/developing-skills-in-multiple-languages).
 
-### Device ID Support
+## Device ID Support
 When a customer enables your Alexa skill, your skill can obtain the customer’s permission to use address data associated with the customer’s Alexa device. You can then use this address data to provide key functionality for the skill, or to enhance the customer experience.
 
 The `deviceId` is now exposed through the context object in each request and can be accessed in any intent handler through `this.event.context.System.device.deviceId`. See the [Address API sample skill](https://github.com/alexa/skill-sample-node-device-address-api) to see how we leveraged the deviceId and the Address API to use a user's device address in a skill.
 
-### Speechcons (Interjections)
+## Speechcons (Interjections)
 
 [Speechcons](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speechcon-reference) are special words and phrases that Alexa pronounces more expressively. In order to use them you can just include the SSML markup in the text to emit.
 
@@ -387,12 +415,12 @@ The `deviceId` is now exposed through the context object in each request and can
 
 _Speechcons are supported for English (US), English (UK), and German._
 
-### Dialog Management Support for Skill
+## Dialog Management Support for Skill
 The `Dialog` interface provides directives for managing a multi-turn conversation between your skill and the user. You can use the directives to ask the user for the information you need to fulfill their request. See the [Dialog Interface](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/dialog-interface-reference) and [Skill Editor](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/ask-define-the-vui-with-gui) documentation for more information on how to use dialog directives.
 
 You can use `this.event.request.dialogState` to access current `dialogState`.
 
-#### Delegate Directive
+### Delegate Directive
 Sends Alexa a command to handle the next turn in the dialog with the user. You can use this directive if the skill has a dialog model and the current status of the dialog (`dialogState`) is either `STARTED` or `IN_PROGRESS`. You cannot emit this directive if the `dialogState` is `COMPLETED`.
 
 You can use `this.emit(':delegate')` to send delegate directive response.
@@ -415,7 +443,7 @@ var handlers = {
 };
 ```
 
-#### Elicit Slot Directive
+### Elicit Slot Directive
 Sends Alexa a command to ask the user for the value of a specific slot. Specify the name of the slot to elicit in the `slotToElicit`. Provide a prompt to ask the user for the slot value in `speechOutput`.
 
 You can use `this.emit(':elicitSlot', slotToElicit, speechOutput, repromptSpeech, updatedIntent)` or `this.emit(':elicitSlotWithCard', slotToElicit, speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj)` to send elicit slot directive response.
@@ -451,7 +479,7 @@ var handlers = {
 };
 ```
 
-#### Confirm Slot Directive
+### Confirm Slot Directive
 Sends Alexa a command to confirm the value of a specific slot before continuing with the dialog. Specify the name of the slot to confirm in the `slotToConfirm`. Provide a prompt to ask the user for confirmation in `speechOutput`.
 
 You can use `this.emit(':confirmSlot', slotToConfirm, speechOutput, repromptSpeech, updatedIntent)` or `this.emit(':confirmSlotWithCard', slotToConfirm, speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj)` to send confirm slot directive response.
@@ -495,7 +523,7 @@ var handlers = {
 };
 ```
 
-#### Confirm Intent Directive
+### Confirm Intent Directive
 Sends Alexa a command to confirm the all the information the user has provided for the intent before the skill takes action. Provide a prompt to ask the user for confirmation in `speechOutput`. Be sure to repeat back all the values the user needs to confirm in the prompt.
 
 You can use `this.emit(':confirmIntent', speechOutput, repromptSpeech, updatedIntent)` or `this.emit(':confirmIntentWithCard', speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj)` to send confirm intent directive response.
@@ -525,7 +553,7 @@ var handlers = {
 };
 ```
 
-### Building Echo Show templates
+## Building Echo Show templates
 Template Builders are now included in alexa-sdk in the templateBuilders namespace. These provide a set of helper methods to build the JSON template for the Display.RenderTemplate directive. In the example below we use the BodyTemplate1Builder.
 
 ```javascript
@@ -599,7 +627,7 @@ Outputs {
 
 ```
 
-### Building Multi-modal skills
+## Building Multi-modal skills
 
 Sending a Display.RenderTemplate directive to a headless device (like an echo) will result in an invalid directive error being thrown. To check whether a device supports a particular directive, you can check the device's supportedInterfaces property.
 
@@ -639,13 +667,46 @@ let handler = {
 }
 ```
 
-### Setting up your development environment
+## Skill and List Events
+Skill developers have the capability to integrate with Alexa skill events directly. If the skill is subscribed to these events, the skill is notified when an event occurs.
+
+In order to use events in your skill service, you must set up access to the Alexa Skill Management API (SMAPI) as described in [Add Events to Your Skill With SMAPI](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/add-events-to-your-skill-with-smapi).
+
+Skill and List Events come out of session. Once your skill has been set up to receive these events. You can specify behaviour by adding the event names to your default event handler.
+
+```javascript
+const handlers = {
+    'AlexaSkillEvent.SkillEnabled' : function() {
+        let userId = this.event.context.System.user.userId;
+        console.log(`skill was enabled for user: ${userId}`);
+    },
+    'AlexaHouseholdListEvent.ItemsCreated' : function() {
+        const listId = this.event.request.body.listId;
+        const listItemIds = this.event.request.body.listItemIds;
+        console.log(`The items: ${JSON.stringify(listItemIds)} were added to list ${listId}`);
+    },
+    //...
+};
+
+exports.handler = function(event, context, callback) {
+    var alexa = Alexa.handler(event, context, callback);
+    alexa.registerHandlers(handlers);
+    alexa.execute();
+};
+```
+
+We've created a [sample skill and walk-through](https://github.com/Alexa/alexa-cookbook/tree/master/context/skill-events) to guide you through the process of subscribing to skill events.
+
+
+
+## Setting up your development environment
+
  - Requirements
     - Gulp & mocha  ```npm install -g gulp mocha```
     - Run npm install to pull down stuff
     - run gulp to run tests/linter (soon)
 
-### Next Steps
+## Next Steps
 
 Try extending the HighLow game:
 
