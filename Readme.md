@@ -315,7 +315,7 @@ You can [create the table manually](http://docs.aws.amazon.com/amazondynamodb/la
 
 ## Generating your own responses
 
-Normally emitting a response event like `this.emit(':tell', speechOutput, repromptSpeech)` will set up the response and send it to Alexa for you, using any speech or card values you pass it. If you want to manually create your own responses, you can use `this.response` to help. `this.response` contains a series of functions, that you can use to set the different properties of the response. This allows you to take advantage of the Alexa Skills Kit's built-in audio player support. Once you've set up your response, you can just call `this.emit(':responseReady')` to send your response to Alexa. The functions within `this.response` are also chainable, so you can use as many as you want in a row.
+Normally emitting a response event like `this.emit(':ask', speechOutput, repromptSpeech)` will set up the response and send it to Alexa for you, using any speech or card values you pass it. If you want to manually create your own responses, you can use `this.response` to help. `this.response` contains a series of functions, that you can use to set the different properties of the response. This allows you to take advantage of the Alexa Skills Kit's built-in audio player support. Once you've set up your response, you can just call `this.emit(':responseReady')` to send your response to Alexa. The functions within `this.response` are also chainable, so you can use as many as you want in a row.
 
 For example, the below code is equivalent to `this.emit(':ask', 'foo', 'bar');`
 
