@@ -8,7 +8,8 @@ module.exports = {
     lint : () => {
         return gulp.src(['lib/**/*.js', 'test/**/*.js'])
                .pipe(jshint())
-               .pipe(jshint.reporter('default'));
+               .pipe(jshint.reporter('default'))
+               .pipe(jshint.reporter('fail'));
     },
     test : () => {
         return gulp.src('test/**/*.spec.js', { read : false })

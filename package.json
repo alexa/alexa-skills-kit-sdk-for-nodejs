@@ -1,6 +1,6 @@
 {
   "name": "alexa-sdk",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Alexa Skill SDK for Node.js",
   "main": "index.js",
   "contributors": [
@@ -23,6 +23,10 @@
     {
       "name": "Krish Furia",
       "email": "krishf@amazon.com"
+    },
+    {
+      "name": "Tianren Zhang",
+      "email": "tianrenz@amazon.com"
     }
   ],
   "dependencies": {

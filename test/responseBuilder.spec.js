@@ -55,6 +55,15 @@ describe('ResponseBuilder Tests', () => {
         expect(result).to.equal(responseBuilder);
     });
 
+    it('should make a askForPermissionsConsent card', ()=> {
+        const expectedPermission = ["read::alexa:device:all:address"];
+        const result = responseBuilder.askForPermissionsConsentCard(expectedPermission);
+
+        expect(response.card.type).to.equal(CARD_TYPES.ASK_FOR_PERMISSIONS_CONSENT);
+        expect(response.card.permissions[0]).to.equal(expectedPermission[0]);
+        expect(result).to.equal(responseBuilder);
+    });
+
     it('should create audioPlayer directive on play', () => {
         const result = responseBuilder.audioPlayerPlay('', '', '', '', '');
 
