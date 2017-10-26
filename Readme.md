@@ -685,6 +685,10 @@ const handlers = {
         const listItemIds = this.event.request.body.listItemIds;
         console.log(`The items: ${JSON.stringify(listItemIds)} were added to list ${listId}`);
     },
+    'AlexaHouseholdListEvent.ListCreated' : function() {
+        const listId = this.event.request.body.listId;
+        console.log(`The new list: ${JSON.stringify(listId)} was created`);
+    }
     //...
 };
 

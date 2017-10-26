@@ -6,10 +6,11 @@ const sampleRequests = require('./sampleRequests');
 
 describe('Event Parser can parse Launch Requests', () => {
     it('should return LaunchRequest', () => {
+        const expectedEventName = 'LaunchRequest';
         const request = sampleRequests.LaunchRequest;
         const result = EventParser.parseEventName(request);
 
-        expect(result).to.equal('LaunchRequest');
+        expect(result).to.equal(expectedEventName);
     });
 });
 
@@ -44,11 +45,21 @@ describe('Event Parser can parse Display Requests', () => {
 });
 
 describe('Event Parser can parse SkillEvent Requests', () => {
-    it('should return the display command name', () => {
+    it('should return the skill event name', () => {
+        const expectedEventName = 'AlexaSkillEvent.SkillEnabled';
+        const request = sampleRequests.SkillEnabledRequest;
+        const result = EventParser.parseEventName(request);
+
+        expect(result).to.equal(expectedEventName);
+    });
+});
+
+describe('Event Parser can parse HouseholdListEvent Requests', () => {
+    it('should return the HouseholdListEvent name', () => {
         const expectedEventName = 'AlexaHouseholdListEvent.ItemsCreated';
         const request = sampleRequests.HouseholdListEvent;
         const result = EventParser.parseEventName(request);
 
-        expect(result).to.equal(expectedEventName);
+        expect(result).to.equal(expectedEventName); 
     });
 });

@@ -1,6 +1,6 @@
 {
   "name": "alexa-sdk",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Alexa Skill SDK for Node.js",
   "main": "index.js",
   "contributors": [
