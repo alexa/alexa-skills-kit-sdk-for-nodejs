@@ -14,6 +14,10 @@ module.exports.templateBuilders = {
     ListItemBuilder : require('./lib/templateBuilders/listItemBuilder').ListItemBuilder
 };
 
+module.exports.services = {
+    DeviceAddressService : require('./lib/services/deviceAddressService')
+};
+
 module.exports.utils = {
     ImageUtils : require('./lib/utils/imageUtils').ImageUtils,
     TextUtils : require('./lib/utils/textUtils').TextUtils
