@@ -71,10 +71,13 @@ describe('DeviceAddressService', () => {
             });
     });
 
-    it('should reject promise with error message if the notification API returns a non 2xx status', () => {
+
+    it('should reject promise with error message if the device API returns a non 2xx status', () => {
         //Set up
         const apiStub = {
+
             get : () => Promise.resolve(mockAPIFailFailureResult)
+
         };
 
         //Expect
@@ -87,6 +90,7 @@ describe('DeviceAddressService', () => {
                 expect.fail('should have thrown error');
             })
             .catch((error) => {
+                expect(error.statusCode).to.equal(400);
                 expect(error.message).to.equal(expectedErrMsg);
             });
     });

@@ -701,7 +701,87 @@ exports.handler = function(event, context, callback) {
 
 We've created a [sample skill and walk-through](https://github.com/Alexa/alexa-cookbook/tree/master/context/skill-events) to guide you through the process of subscribing to skill events.
 
+## Services
+### DeviceAddressService
 
+Alexa NodeJS SDK provides a ```DeviceAddressService``` helper class that utilizes Device Address API to retrieve customer device address information. Currently the following methods are provided:
+
+```javascript
+getFullAddress(deviceId, apiEndpoint, token)
+getCountryAndPostalCode(deviceId, apiEndpoint, token)
+```
+``apiEndpoint`` and ``token`` can be retrieved from the request at ``this.event.context.System.apiEndpoint`` and ``this.event.context.System.user.permissions.consentToken``
+
+``deviceId`` can also be retrieved from request at ``this.event.context.System.device.deviceId``
+
+```javascript
+const Alexa = require('alexa-sdk');
+
+'DeviceAddressIntent': function () {
+        if (this.event.context.System.user.permissions) {
+              let token = this.event.context.System.user.permissions.consentToken;
+              let apiEndpoint = this.event.context.System.apiEndpoint;
+              let deviceId = this.event.context.System.device.deviceId;
+
+              let das = new Alexa.services.DeviceAddressService();
+              das.getFullAddress(deviceId, apiEndpoint, token)
+                    .then((data) => {
+                             this.response.speak('<address information>');
+                             console.log('Address get: ' + JSON.stringify(data));
+                             this.emit(':responseReady');
+                     })
+                   .catch((error) => {
+                             this.response.speak('I\'m sorry. Something went wrong.');
+                             this.emit(':responseReady');
+                             console.log(error.message);
+                     });
+        } else {
+              this.response.speak('Please grant skill permissions to access your device address.');
+              this.emit(':responseReady');
+        }
+}
+```
+
+
+### ListManagementService
+
+Alexa customers have access to two default lists: Alexa to-do and Alexa shopping. In addition, Alexa customer can create and manage custom lists in a skill that supports that.
+
+Alexa NodeJS SDK provides a ```ListManagementService``` helper class to help developer create skills that manage default and custom Alexa lists more easily. Currently the following methods are provided:
+
+````javascript
+getListsMetadata(token)
+createList(listObkect, token)
+getList(listId, itemStatus, token)
+updateList(listId, listObject, token)
+deleteList(listId, token)
+createListItem(listId, listItemObject, token)
+getListItem(listId, itemId, token)
+updateListItem(listId, itemId, listItemObject, token)
+deleteListItem(listId, itemId, token)
+````
+
+``token`` can be retrieved from the request at ``this.event.context.System.user.permissions.consentToken``
+
+``listId`` can be retrieved from a ``GetListsMetadata`` call.
+``itemId`` can be retrieved from a ``GetList`` call
+
+````javascript
+const Alexa = require('alexa-sdk');
+
+function getListsMetadata(token) {
+            let lms = new Alexa.services.ListManagementService();
+            lms.getListsMetadata(token)
+                .then((data) => {
+                    console.log('List retrieved: ' + JSON.stringify(data));
+                    this.context.succeed();
+                })
+                .catch((error) => {
+                    console.log(error.message);
+                                 
+                });
+        }
+````
 
 ## Setting up your development environment
 

@@ -15,7 +15,8 @@ module.exports.templateBuilders = {
 };
 
 module.exports.services = {
-    DeviceAddressService : require('./lib/services/deviceAddressService')
+    DeviceAddressService : require('./lib/services/deviceAddressService'),
+    ListManagementService : require('./lib/services/listManagementService')
 };
 
 module.exports.utils = {

@@ -6,7 +6,6 @@ const expect = require('chai').expect;
 
 const url = 'http://dummy';
 
-
 describe('APIClient', () => {
     it('should form POST request with passed headers, body and uri', () => {
         const apiClient = new ApiClient();
