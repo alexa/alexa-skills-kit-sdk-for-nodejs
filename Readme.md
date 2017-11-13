@@ -783,12 +783,49 @@ function getListsMetadata(token) {
         }
 ````
 
+### Directive Service
+
+`enqueue(directive, endpoint, token)`
+
+Returns a directive to an Alexa device asynchronously during skill execution. It currently accepts speak directives only, with both SSML (inclusive of MP3 audio) and plain text output formats being supported. Directives can only be returned to the originating device when the skill is active. `apiEndpoint` and `token` parameters can be retrieved from the request at `this.event.context.System.apiEndpoint` and `this.event.context.System.apiAccessToken` respectively.
+- The response speech should be limited to 600 characters.
+- Any audio snippets referenced in SSML should be limited to 30 seconds.
+- There is no limit on the number of directives that a skill can send through the directive service. If necessary, skills can send multiple requests for each execution.
+- The directive service does not contain any deduplication processing, so we do not recommend any form of retry processing as it may result in users receiving the same directive multiple times.
+- In the case when skill service response is received before directive service responses, the directive service responses will be ignored. 
+
+```javascript
+const Alexa = require('alexa-sdk');
+
+const handlers = {
+    'SearchIntent' : function() {
+        const requestId = this.event.request.requestId;
+        const token = this.event.context.System.apiAccessToken;
+        const endpoint = this.event.context.System.apiEndpoint;
+        const ds = new Alexa.services.DirectiveService();
+
+        const directive = new Alexa.directives.VoicePlayerSpeakDirective(requestId, "Please wait...");
+        ds.enqueue(directive, endpoint, token)
+          .catch((err) => {
+              // catch API errors so skill processing an continue
+          });
+
+        // Simulate a 3 second API call to avoid the case that the skill service response is received before directive service responses
+        setTimeout(() => {
+            this.response.speak('I found the following results');
+            this.emit(':responseReady');
+        }, 3000);
+    }
+}
+
+```
+
 ## Setting up your development environment
 
  - Requirements
     - Gulp & mocha  ```npm install -g gulp mocha```
     - Run npm install to pull down stuff
-    - run gulp to run tests/linter (soon)
+    - run gulp to run tests/linter
 
 ## Next Steps
 

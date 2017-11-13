@@ -16,7 +16,12 @@ module.exports.templateBuilders = {
 
 module.exports.services = {
     DeviceAddressService : require('./lib/services/deviceAddressService'),
-    ListManagementService : require('./lib/services/listManagementService')
+    ListManagementService : require('./lib/services/listManagementService'),    
+	DirectiveService : require('./lib/services/directiveService')
+};
+
+module.exports.directives = {
+    VoicePlayerSpeakDirective : require('./lib/directives/voicePlayerSpeakDirective')
 };
 
 module.exports.utils = {
