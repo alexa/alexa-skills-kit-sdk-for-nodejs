@@ -751,7 +751,7 @@ Alexa NodeJS SDK provides a ```ListManagementService``` helper class to help dev
 
 ````javascript
 getListsMetadata(token)
-createList(listObkect, token)
+createList(listObject, token)
 getList(listId, itemStatus, token)
 updateList(listId, listObject, token)
 deleteList(listId, token)
