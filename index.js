@@ -9,6 +9,7 @@ module.exports.templateBuilders = {
     BodyTemplate2Builder : require('./lib/templateBuilders/bodyTemplate2Builder').BodyTemplate2Builder,
     BodyTemplate3Builder : require('./lib/templateBuilders/bodyTemplate3Builder').BodyTemplate3Builder,
     BodyTemplate6Builder : require('./lib/templateBuilders/bodyTemplate6Builder').BodyTemplate6Builder,
+    BodyTemplate7Builder : require('./lib/templateBuilders/bodyTemplate7Builder').BodyTemplate7Builder,
     ListTemplate1Builder : require('./lib/templateBuilders/listTemplate1Builder').ListTemplate1Builder,
     ListTemplate2Builder : require('./lib/templateBuilders/listTemplate2Builder').ListTemplate2Builder,
     ListItemBuilder : require('./lib/templateBuilders/listItemBuilder').ListItemBuilder
@@ -16,8 +17,8 @@ module.exports.templateBuilders = {
 
 module.exports.services = {
     DeviceAddressService : require('./lib/services/deviceAddressService'),
-    ListManagementService : require('./lib/services/listManagementService'),    
-	DirectiveService : require('./lib/services/directiveService')
+    ListManagementService : require('./lib/services/listManagementService'),
+    DirectiveService : require('./lib/services/directiveService')
 };
 
 module.exports.directives = {
