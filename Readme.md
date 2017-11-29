@@ -554,7 +554,11 @@ var handlers = {
 ```
 
 ## Building Echo Show templates
-Template Builders are now included in alexa-sdk in the templateBuilders namespace. These provide a set of helper methods to build the JSON template for the Display.RenderTemplate directive. In the example below we use the BodyTemplate1Builder.
+Template Builders are now included in alexa-sdk in the templateBuilders namespace. These provide a set of helper methods to build the JSON template for the Display.RenderTemplate directive.  There are two types: `BodyTemplateBuilder` and `ListTemplateBuilder`.  
+
+### BodyTemplateBuilder
+
+ In the example below we use the BodyTemplate1Builder.
 
 ```javascript
 const Alexa = require('alexa-sdk');
@@ -571,6 +575,34 @@ const makeImage = Alexa.utils.ImageUtils.makeImage;
                           .setTextContent(makePlainText('Text content'))
                           .build();
 
+    this.response.speak('Rendering a template!')
+                 .renderTemplate(template);
+    this.emit(':responseReady');
+}
+```
+
+### ListTemplateBuilder
+
+ In the example below we use the ListTemplate1Builder.
+
+```javascript
+const Alexa = require('alexa-sdk');
+// utility methods for creating Image and TextField objects
+const makePlainText = Alexa.utils.TextUtils.makePlainText;
+const makeImage = Alexa.utils.ImageUtils.makeImage;
+
+// ...
+'LaunchRequest' : function() {
+    const builder = new Alexa.templateBuilders.ListTemplate1Builder();
+    const listBuilder = new Alexa.templateBuilders.ListItemBuilder()
+	
+	
+	listBuilder.addItem(makeImage('http://url/to/my/img1.png'), 'Item1', makePlainText('Item1PrimaryText'), makePlainText('Item1SecondaryText'), makePlainText('Item1TertiaryText'))
+	listBuilder.addItem(makeImage('http://url/to/my/img2.png'), 'Item2', makePlainText('Item2PrimaryText'), makePlainText('Item2SecondaryText'), makePlainText('Item2TertiaryText'))
+	listBuilder.addItem(makeImage('http://url/to/my/img3.png'), 'Item3', makePlainText('Item3PrimaryText'), makePlainText('Item3SecondaryText'), makePlainText('Item3TertiaryText'))
+
+	let template = builder.setListItems(listBuilder.build()).build()
+	
     this.response.speak('Rendering a template!')
                  .renderTemplate(template);
     this.emit(':responseReady');
