@@ -45,7 +45,8 @@
     "nock": "^9.0.25"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/_mocha"
+    "test": "gulp test",
+    "lint": "gulp lint"
   },
   "repository": {
     "type": "git",
