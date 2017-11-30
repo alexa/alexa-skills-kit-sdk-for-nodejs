@@ -1,0 +1,9 @@
+{
+    // JSHint Test Specific configuration file. This overrides options only applicable
+    // to testing files
+
+    // Relaxing
+    "expr"    : true,     // true: Tolerate `ExpressionStatement` as Programs
+
+    "extends" : "../.jshintrc" // Include all of the core linting options from the main file
+}
