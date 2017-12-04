@@ -29,6 +29,10 @@ While setting up an Alexa skill using AWS Lambda, Node.js and the Alexa Skills K
 - [Building Echo Show templates](#building-echo-show-templates)
 - [Building Multi-modal skills](#building-multi-modal-skills)
 - [Skill and List Events](#skill-and-list-events)
+- [Services](#services)
+    - [Device Address Service](#device-address-service)
+    - [List Management Service](#list-management-service)
+    - [Directive Service](#directive-service)
 - [Setting up your development environment](#setting-up-your-development-environment)
 - [Next Steps](#next-steps)
 
@@ -702,7 +706,7 @@ exports.handler = function(event, context, callback) {
 We've created a [sample skill and walk-through](https://github.com/Alexa/alexa-cookbook/tree/master/context/skill-events) to guide you through the process of subscribing to skill events.
 
 ## Services
-### DeviceAddressService
+### Device Address Service
 
 Alexa NodeJS SDK provides a ```DeviceAddressService``` helper class that utilizes Device Address API to retrieve customer device address information. Currently the following methods are provided:
 
@@ -743,7 +747,7 @@ const Alexa = require('alexa-sdk');
 ```
 
 
-### ListManagementService
+### List Management Service
 
 Alexa customers have access to two default lists: Alexa to-do and Alexa shopping. In addition, Alexa customer can create and manage custom lists in a skill that supports that.
 
@@ -792,29 +796,29 @@ Returns a directive to an Alexa device asynchronously during skill execution. It
 - Any audio snippets referenced in SSML should be limited to 30 seconds.
 - There is no limit on the number of directives that a skill can send through the directive service. If necessary, skills can send multiple requests for each execution.
 - The directive service does not contain any deduplication processing, so we do not recommend any form of retry processing as it may result in users receiving the same directive multiple times.
-- In the case when skill service response is received before directive service responses, the directive service responses will be ignored. 
 
 ```javascript
 const Alexa = require('alexa-sdk');
-
+ 
 const handlers = {
     'SearchIntent' : function() {
         const requestId = this.event.request.requestId;
         const token = this.event.context.System.apiAccessToken;
         const endpoint = this.event.context.System.apiEndpoint;
         const ds = new Alexa.services.DirectiveService();
-
+ 
         const directive = new Alexa.directives.VoicePlayerSpeakDirective(requestId, "Please wait...");
-        ds.enqueue(directive, endpoint, token)
-          .catch((err) => {
-              // catch API errors so skill processing an continue
-          });
-
-        // Simulate a 3 second API call to avoid the case that the skill service response is received before directive service responses
-        setTimeout(() => {
-            this.response.speak('I found the following results');
-            this.emit(':responseReady');
-        }, 3000);
+        const progressiveResponse = ds.enqueue(directive, endpoint, token)
+                                      .catch((err) => {
+                                          // catch API errors so skill processing an continue
+                                      });
+        const serviceCall = callMyService();
+ 
+        Promise.all(progressiveResponse, serviceCall)
+               .then(() => {
+                   this.response.speak('I found the following results');
+                   this.emit(':responseReady');
+               });
     }
 }
 
