@@ -814,7 +814,7 @@ const handlers = {
                                       });
         const serviceCall = callMyService();
  
-        Promise.all(progressiveResponse, serviceCall)
+        Promise.all([progressiveResponse, serviceCall])
                .then(() => {
                    this.response.speak('I found the following results');
                    this.emit(':responseReady');
