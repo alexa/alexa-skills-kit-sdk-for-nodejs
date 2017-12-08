@@ -366,7 +366,12 @@ var languageStrings = {
     },
     'en-US': {
         'translation': {
-            'SAY_HELLO_MESSAGE' : 'Hello World!'
+            // When there are multiple values a random one will be selected.
+            'SAY_HELLO_MESSAGE' : [
+              'Hello World!',
+              'Hi there World!',
+              'Howa doing World?'
+            ]
         }
     },
     'de-DE': {
@@ -384,6 +389,9 @@ exports.handler = function(event, context, callback) {
     alexa.appId = appId;
     // To enable string internationalization (i18n) features, set a resources object.
     alexa.resources = languageStrings;
+    // Set to firstTranslationOnly to disable random phrase selection and return stable
+    // values, most useful when writing automated tests.
+    alexa.firstTranslationOnly = false;
     alexa.registerHandlers(handlers);
     alexa.execute();
 };
