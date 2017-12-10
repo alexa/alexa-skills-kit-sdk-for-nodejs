@@ -631,6 +631,36 @@ Outputs {
 
 ```
 
+In the next example we have used the ListTemplate1Builder in conjunction with the ListItemBuilder helper object.
+
+```javascript
+const Alexa = require('alexa-sdk');
+// utility methods for creating Image and TextField objects
+const makeRichText = Alexa.utils.TextUtils.makeRichText;
+const makeImage = Alexa.utils.ImageUtils.makeImage;
+
+
+const builder = new Alexa.templateBuilders.ListTemplate1Builder();
+// utility object for creating list items for the list template
+const itemBuilder = new Alexa.templateBuilders.ListItemBuilder();
+
+// create the list items
+itemBuilder.addItem(makeImage("http://url/to/my/img.png"), "listitemtoken1", makeRichText('List Item 1'))
+            .addItem(makeImage("http://url/to/my/img.png"), "listitemtoken1", makeRichText('List Item 2'));
+
+// create the ListTemplate1Builder template and add the built list
+let template = builder.setToken("listtoken")
+            .setTitle("ListTemplate1Builder example")
+            .setListItems(itemBuilder.build())
+            .build();
+            
+this.response.speak("This code excert is an example of List Template 1 Builder in action utilising list item builder.")
+                .listen("Neat isn't it?")
+                .renderTemplate(template);
+
+this.emit(':responseReady');
+```
+
 ## Building Multi-modal skills
 
 Sending a Display.RenderTemplate directive to a headless device (like an echo) will result in an invalid directive error being thrown. To check whether a device supports a particular directive, you can check the device's supportedInterfaces property.
