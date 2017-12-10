@@ -635,18 +635,22 @@ In the next example we have used the ListTemplate1Builder in conjunction with th
 
 ```javascript
 const Alexa = require('alexa-sdk');
+// utility methods for creating Image and TextField objects
 const makeRichText = Alexa.utils.TextUtils.makeRichText;
 const makeImage = Alexa.utils.ImageUtils.makeImage;
 
+
 const builder = new Alexa.templateBuilders.ListTemplate1Builder();
+// utility object for creating list items for the list template
 const itemBuilder = new Alexa.templateBuilders.ListItemBuilder();
-            
+
+// create the list items
 itemBuilder.addItem(makeImage("http://url/to/my/img.png"), "listitemtoken1", makeRichText('List Item 1'))
-            .addItem(makeImage("http://url/to/my/img.png"), "listitemtoken1", makeRichText('List Item 2'))
-            .addItem(makeImage("http://url/to/my/img.png"), "listitemtoken1", makeRichText('List Item 3'))
-            .addItem(makeImage("http://url/to/my/img.png"), "listitemtoken1", makeRichText('List Item 4'));
+            .addItem(makeImage("http://url/to/my/img.png"), "listitemtoken1", makeRichText('List Item 2'));
+
+// create the ListTemplate1Builder template and add the built list
 let template = builder.setToken("listtoken")
-            .setTitle("test")
+            .setTitle("ListTemplate1Builder example")
             .setListItems(itemBuilder.build())
             .build();
             
