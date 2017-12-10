@@ -654,10 +654,11 @@ let template = builder.setToken("listtoken")
             .setListItems(itemBuilder.build())
             .build();
             
-            this.response.speak("This code excert is an example of List Template 1 Builder in action utilising list item builder.")
-                            .listen("Neat isn't it?")
-                            .renderTemplate(template);
-            this.emit(':responseReady');
+this.response.speak("This code excert is an example of List Template 1 Builder in action utilising list item builder.")
+                .listen("Neat isn't it?")
+                .renderTemplate(template);
+
+this.emit(':responseReady');
 ```
 
 ## Building Multi-modal skills
