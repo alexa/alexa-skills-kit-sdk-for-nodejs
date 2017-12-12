@@ -250,7 +250,7 @@ var guessModeHandlers = Alexa.CreateStateHandler(states.GUESSMODE, {
 
 });
 ```
-On the flip side, if I am in `STARTMODE` I can define my `StateHandlers` to be the following:
+On the flip side, if we are in `STARTMODE` we can define our `StateHandlers` to be the following:
 
 ```javascript
 var startGameHandlers = Alexa.CreateStateHandler(states.STARTMODE, {
