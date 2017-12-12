@@ -417,7 +417,7 @@ The `deviceId` is now exposed through the context object in each request and can
 * `this.emit(':tell', 'Sometimes when I look at the Alexa skills you have all taught me, I just have to say, <say-as interpret-as="interjection">Bazinga.</say-as> ');`
 * `this.emit(':tell', '<say-as interpret-as="interjection">Oh boy</say-as><break time="1s"/> this is just an example.');`
 
-_Speechcons are supported for English (US), English (UK), and German._
+_Speechcons are supported for English (US), English (UK), English (India), and German._
 
 ## Dialog Management Support for Skill
 The `Dialog` interface provides directives for managing a multi-turn conversation between your skill and the user. You can use the directives to ask the user for the information you need to fulfill their request. See the [Dialog Interface](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/dialog-interface-reference) and [Skill Editor](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/ask-define-the-vui-with-gui) documentation for more information on how to use dialog directives.
