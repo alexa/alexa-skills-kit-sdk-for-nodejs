@@ -23,7 +23,6 @@
         - [VideoApp Interface](#videoapp-interface)
         - [Skill and List Events](#skill-and-list-events)
     - [Services](#services)
-        - [Speechcons (Interjections)](#speechcons-interjections)
         - [Device Address Service](#device-address-service)
         - [List Management Service](#list-management-service)
         - [Directive Service](#directive-service)
@@ -32,6 +31,7 @@
         - [Persisting Skill Attributes through DynamoDB](#persisting-skill-attributes-through-dynamodb)
         - [Adding Multi-Language Support for Skill](#adding-multi-language-support-for-skill)
         - [Device ID Support](#device-id-support)
+        - [Speechcons (Interjections)](#speechcons-interjections)
     - [Setting up your development environment](#setting-up-your-development-environment)
 
 <!-- /TOC -->
@@ -659,15 +659,6 @@ We've created a [sample skill and walk-through](https://github.com/Alexa/alexa-c
 
 ## Services
 
-### Speechcons (Interjections)
-
-[Speechcons](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speechcon-reference) are special words and phrases that Alexa pronounces more expressively. In order to use them you can just include the SSML markup in the text to emit.
-
-* `this.emit(':tell', 'Sometimes when I look at the Alexa skills you have all taught me, I just have to say, <say-as interpret-as="interjection">Bazinga.</say-as> ');`
-* `this.emit(':tell', '<say-as interpret-as="interjection">Oh boy</say-as><break time="1s"/> this is just an example.');`
-
-_Speechcons are supported for English (US), English (UK), English (India), and German._
-
 ### Device Address Service
 
 Alexa NodeJS SDK provides a ```DeviceAddressService``` helper class that utilizes Device Address API to retrieve customer device address information. Currently the following methods are provided:
@@ -927,8 +918,6 @@ this.handler.state = '' \\ delete this.handler.state might cause reference error
 delete this.attributes['STATE'];
 ```
 
-
-
 ### Persisting Skill Attributes through DynamoDB
 
 Many of you would like to persist your session attribute values into storage for further use. Alexa-sdk integrates directly with [Amazon DynamoDB](https://aws.amazon.com/dynamodb/) (a NoSQL database service) to enable you to do this with a single line of code.
@@ -1009,6 +998,14 @@ When a customer enables your Alexa skill, your skill can obtain the customer’s
 
 The `deviceId` is now exposed through the context object in each request and can be accessed in any intent handler through `this.event.context.System.device.deviceId`. See the [Address API sample skill](https://github.com/alexa/skill-sample-node-device-address-api) to see how we leveraged the deviceId and the Address API to use a user's device address in a skill.
 
+### Speechcons (Interjections)
+
+[Speechcons](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speechcon-reference) are special words and phrases that Alexa pronounces more expressively. In order to use them you can just include the SSML markup in the text to emit.
+
+* `this.emit(':tell', 'Sometimes when I look at the Alexa skills you have all taught me, I just have to say, <say-as interpret-as="interjection">Bazinga.</say-as> ');`
+* `this.emit(':tell', '<say-as interpret-as="interjection">Oh boy</say-as><break time="1s"/> this is just an example.');`
+
+_Speechcons are supported for English (US), English (UK), English (India), and German._
 
 ## Setting up your development environment
 
