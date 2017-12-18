@@ -42,7 +42,7 @@ describe('ResponseBuilder Tests', () => {
 
       it('should make a card', () => {
         const expectedTitle = 'my reprompt';
-        const result = responseBuilder.cardRenderer(expectedTitle, "", {});
+        const result = responseBuilder.cardRenderer(expectedTitle, '', {});
 
         expect(response.card.title).to.contain(expectedTitle);
         expect(result).to.equal(responseBuilder);
@@ -56,7 +56,7 @@ describe('ResponseBuilder Tests', () => {
     });
 
     it('should make a askForPermissionsConsent card', ()=> {
-        const expectedPermission = ["read::alexa:device:all:address"];
+        const expectedPermission = ['read::alexa:device:all:address'];
         const result = responseBuilder.askForPermissionsConsentCard(expectedPermission);
 
         expect(response.card.type).to.equal(CARD_TYPES.ASK_FOR_PERMISSIONS_CONSENT);
@@ -81,7 +81,7 @@ describe('ResponseBuilder Tests', () => {
     });
 
     it('should create audioPlayer directive on clearQueue', () => {
-        const result = responseBuilder.audioPlayerClearQueue("");
+        const result = responseBuilder.audioPlayerClearQueue('');
 
         expect(response.directives.length).to.equal(1);
         expect(response.directives[0].type).to.equal(DIRECTIVE_TYPES.AUDIOPLAYER.CLEAR_QUEUE);

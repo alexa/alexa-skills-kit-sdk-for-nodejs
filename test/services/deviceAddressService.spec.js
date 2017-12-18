@@ -29,7 +29,6 @@ describe('DeviceAddressService', () => {
             });
     });
 
-
     it('should properly construct uri and headers with given null parameters', () => {
         //Set up
         const apiStub = {
@@ -70,7 +69,6 @@ describe('DeviceAddressService', () => {
                 expect(error.message).to.equal(expectedErrMsg);
             });
     });
-
 
     it('should reject promise with error message if the device API returns a non 2xx status', () => {
         //Set up
