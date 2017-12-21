@@ -123,11 +123,11 @@ The handlers can forward request to each other, making it possible to chain hand
 const handlers = {
     'LaunchRequest': function () {
     	this.emit('HelloWorldIntent');
-	},
+    },
 
-	'HelloWorldIntent': function () {
+    'HelloWorldIntent': function () {
     	this.emit(':tell', 'Hello World!');
-	}
+    }
 };
 ```
 
@@ -459,12 +459,12 @@ const makeImage = Alexa.utils.ImageUtils.makeImage;
 	const builder = new Alexa.templateBuilders.BodyTemplate1Builder();
 
 	const template = builder.setTitle('My BodyTemplate1')
-							.setBackgroundImage(makeImage('http://url/to/my/img.png'))
-							.setTextContent(makePlainText('Text content'))
-							.build();
+		.setBackgroundImage(makeImage('http://url/to/my/img.png'))
+		.setTextContent(makePlainText('Text content'))
+		.build();
 
 	this.response.speak('Rendering a body template!')
-				.renderTemplate(template);
+		    .renderTemplate(template);
 	this.emit(':responseReady');
 }
 ```
@@ -534,11 +534,11 @@ const makeImage = Alexa.utils.ImageUtils.makeImage;
     listItemBuilder.addItem(itemImage, 'listItemToken4', makePlainText('List Item 4'));
     const listItems = listItemBuilder.build();
     const listTemplate = listTemplateBuilder.setToken('listToken')
-    										.setTitle('listTemplate1')
-    										.setListItems(listItems)
-    										.build();
+		.setTitle('listTemplate1')
+		.setListItems(listItems)
+		.build();
     this.response.speak('Rendering a list template!')
-    			.renderTemplate(template);
+		.renderTemplate(template);
     this.emit(':responseReady');
 }
 ```
@@ -799,7 +799,7 @@ const newSessionHandlers = {
         }
         this.handler.state = states.STARTMODE;
         this.response.speak('Welcome to High Low guessing game. You have played '
-                        + this.attributes['gamesPlayed'].toString() + ' times. Would you like to play?',)
+                        + this.attributes['gamesPlayed'].toString() + ' times. Would you like to play?')
                     .listen('Say yes to start the game or no to quit.');
         this.emit(':responseReady');
     }
@@ -843,8 +843,7 @@ const guessModeHandlers = Alexa.CreateStateHandler(states.GUESSMODE, {
 },
 
 'AMAZON.HelpIntent': function() {
-    this.response.speak('I am thinking of a number between zero and one hundred, try to guess and I will tell you' +
-    ' if it is higher or lower.')
+    this.response.speak('I am thinking of a number between zero and one hundred, try to guess and I will tell you if it is higher or lower.')
                 .listen('Try saying a number.');
     this.emit(':responseReady');
 },
@@ -856,7 +855,7 @@ const guessModeHandlers = Alexa.CreateStateHandler(states.GUESSMODE, {
 },
 
 'Unhandled': function() {
-    this.response.spean('Sorry, I didn\'t get that. Try saying a number.')
+    this.response.speak('Sorry, I didn\'t get that. Try saying a number.')
                 .listen('Try saying a number.');
     this.emit(':responseReady');
 }
