@@ -254,7 +254,7 @@ Developers can include the following directives in their skill responses (respec
 
 Here is an example of using `PlayDirective` to stream audio:
 ```javascript
-const hanlders = {
+const handlers = {
     'LaunchRequest' : function() {
         const speechOutput = 'Hello world!';
         const behavior = 'PlayBehavior.REPLACE_ALL';
