@@ -1,6 +1,6 @@
 {
   "name": "alexa-sdk",
-  "version": "1.0.10",
+  "version": "1.0.24",
   "description": "Alexa Skill SDK for Node.js",
   "main": "index.js",
   "contributors": [
@@ -23,6 +23,14 @@
     {
       "name": "Krish Furia",
       "email": "krishf@amazon.com"
+    },
+    {
+      "name": "Tianren Zhang",
+      "email": "tianrenz@amazon.com"
+    },
+    {
+      "name": "Tiantian Xie",
+      "email": "xtiantia@amazon.com"	
     }
   ],
   "dependencies": {
@@ -30,7 +38,16 @@
     "i18next": "^3.4.1",
     "i18next-sprintf-postprocessor": "^0.2.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.4",
+    "gulp-mocha": "^4.3.1",
+    "jshint": "^2.9.5",
+    "mocha": "^3.5.0",
+    "sinon": "^4.0.2",
+    "nock": "^9.0.25"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
