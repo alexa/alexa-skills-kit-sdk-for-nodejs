@@ -807,7 +807,7 @@ const newSessionHandlers = {
 ```
 Notice that when a new session is created we simply set the state of our skill into `STARTMODE` using `this.handler.state`. The skills state will automatically be persisted in your skill's session attributes, and will be optionally persisted across sessions if you set a DynamoDB table.
 
-It is also important point out that `NewSession` is a great catch-all behavior and a good entry point but it is not required. `NewSession` will only be invoked if a handler with that name is defined. Each state you define can have its own `NewSession` handler which will be invoked if you are using the built-in persistence. In the above example we could define different `NewSession` behavior for both `states.STARTMODE` and `states.GUESSMODE` giving us added flexibility.
+It is also important to point out that `NewSession` is a great catch-all behavior and a good entry point but it is not required. `NewSession` will only be invoked if a handler with that name is defined. Each state you define can have its own `NewSession` handler which will be invoked if you are using the built-in persistence. In the above example we could define different `NewSession` behavior for both `states.STARTMODE` and `states.GUESSMODE` giving us added flexibility.
 
 In order to define intents that will respond to the different states of our skill, we need to use the `Alexa.CreateStateHandler` function. Any intent handlers defined here will only work when the skill is in a specific state, giving us even greater flexibility!
 
@@ -914,7 +914,7 @@ Your attributes will be automatically saved when you end the session, but if the
 
 If you wants to explicitly reset the state, the following code should work:
 ```javascript
-this.handler.state = '' \\ delete this.handler.state might cause reference errors
+this.handler.state = '' // delete this.handler.state might cause reference errors
 delete this.attributes['STATE'];
 ```
 
