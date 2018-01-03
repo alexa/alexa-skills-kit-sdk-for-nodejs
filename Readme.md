@@ -193,7 +193,7 @@ Here is full list example of creating response using responseBuilder.
 |this.response.renderTemplate(template);| Add a [Display.RenderTemplate directive](https://developer.amazon.com/docs/custom-skills/display-interface-reference.html) in response|
 |this.response.hint(hintText, hintType);| Add a [Hint directive](https://developer.amazon.com/docs/custom-skills/display-interface-reference.html#hint-directive) in response|
 |this.response.playVideo(videoSource metadata);|Add a [VideoApp.Play directive](https://developer.amazon.com/docs/custom-skills/videoapp-interface-reference.html#videoapp-directives) in response|
-|this.response.shouldEndSession(bool);| Set shouldEndSession manually|
+|this.response.shouldEndSession = bool;| Set shouldEndSession manually|
 
 When you have finished set up your response, simply call `this.emit(':responseReady')` to send your response off.
 Below are two examples that build response with several response objects:
