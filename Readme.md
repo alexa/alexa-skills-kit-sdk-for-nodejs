@@ -257,18 +257,29 @@ Here is an example of using `PlayDirective` to stream audio:
 const handlers = {
     'LaunchRequest' : function() {
         const speechOutput = 'Hello world!';
+	const directiveType = 'play';
         const behavior = 'PlayBehavior.REPLACE_ALL';
         const url = 'https://url/to/audiosource';
         const token = 'myMusic';
         const expectedPreviousToken = 'expectedPreviousStream';
         const offsetInMilliseconds = 10000;
-        this.response.speak(speechOutput)
-                    .audioPlayer(behavior, url, token, expectedPreviousToken, offsetInMilliseconds);
+        this.response
+	    .speak(speechOutput)
+	    .audioPlayer(
+	    	directiveType,
+		behavior,
+		url,
+		token,
+		expectedPreviousToken,
+		offsetInMilliseconds
+	    );
         this.emit(':responseReady');
     }
 };
 ```
-In the above example, Alexa will speak the `speechOutput` first and then try to play audio. 
+In the above example, Alexa will speak the `speechOutput` first and then try to play audio.
+
+`directiveType` in the above example could be either `'play'` to issue the `PlayDirective`, `'stop'` to issue the `StopDirective`, or if any other value is passed, the `ClearQueueDirective` directive will be issued.
 
 When building skills that leverage the [AudioPlayer](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html) interfaces, the `playback` requests will be send to notify the skill about changes to the `playback` state.You can implement handler functions for their respective events.
 ```javascript
