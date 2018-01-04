@@ -162,7 +162,7 @@ Here are full list examples for common skill responses below:
 |this.emit(':askWithCard', speechOutput, repromptSpeech, cardTitle, cardContent, imageObj);| Ask with [speechOutput](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#outputspeech-object), [repromptSpeech](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#reprompt-object) and [standard card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object)|
 |this.emit(':tellWithLinkAccountCard', speechOutput);|  Tell with [linkAccount card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object), for more information, click [here](https://developer.amazon.com/docs/custom-skills/link-an-alexa-user-with-a-user-in-your-system.html)|
 |this.emit(':askWithLinkAccountCard', speechOutput);| Ask with [linkAccount card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object), for more information, click [here](https://developer.amazon.com/docs/custom-skills/link-an-alexa-user-with-a-user-in-your-system.html)|
-|this.emit(':tellWithPermissionCard', speechOutput, permissionArray);| Tell with [perimission card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#session-object), for more information, click [here](https://developer.amazon.com/docs/custom-skills/configure-permissions-for-customer-information-in-your-skill.html)|
+|this.emit(':tellWithPermissionCard', speechOutput, permissionArray);| Tell with [permission card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#session-object), for more information, click [here](https://developer.amazon.com/docs/custom-skills/configure-permissions-for-customer-information-in-your-skill.html)|
 |this.emit(':askWithPermissionCard', speechOutput, repromptSpeech, permissionArray)| Ask with [permission card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#session-object), for more information, click [here](https://developer.amazon.com/docs/custom-skills/configure-permissions-for-customer-information-in-your-skill.html)|
 |this.emit(':delegate', updatedIntent);|Response with [delegate directive](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#delegate) in [dialog model](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#dialog-model-required)|
 |this.emit(':elicitSlot', slotToElicit, speechOutput, repromptSpeech, updatedIntent);|Response with [elicitSlot directive](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#elicitslot) in [dialog model](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#dialog-model-required)|
@@ -192,7 +192,7 @@ Here is full list example of creating response using responseBuilder.
 |this.response.audioPlayerClearQueue(clearBehavior);|Add an [AudioPlayer.ClearQueue directive](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html#clearqueue) and set the clear behaviour of the directive.|
 |this.response.renderTemplate(template);| Add a [Display.RenderTemplate directive](https://developer.amazon.com/docs/custom-skills/display-interface-reference.html) in response|
 |this.response.hint(hintText, hintType);| Add a [Hint directive](https://developer.amazon.com/docs/custom-skills/display-interface-reference.html#hint-directive) in response|
-|this.response.playVideo(videoSource metadata);|Add a [VideoApp.Play directive](https://developer.amazon.com/docs/custom-skills/videoapp-interface-reference.html#videoapp-directives) in response|
+|this.response.playVideo(videoSource, metadata);|Add a [VideoApp.Play directive](https://developer.amazon.com/docs/custom-skills/videoapp-interface-reference.html#videoapp-directives) in response|
 |this.response.shouldEndSession(bool);| Set shouldEndSession manually|
 
 When you have finished set up your response, simply call `this.emit(':responseReady')` to send your response off.
@@ -212,7 +212,7 @@ this.emit(':responseReady');
 Since responseBuilder is more flexible to build rich response objects, we prefer using this method to build the response.
 
 ### Tips
-- When any of the response events are emitted `:ask`, `:tell`, `:askWithCard`, etc. The lambda context.succeed() method is called if the developer doesn't pass in `callback` function, which immediately stops processing of any further background tasks. Any asynchronous jobs that are still will not be completed and any lines of code below the response emit statement will not be executed. This is not the case for non responding events like `:saveState`.
+- When any of the response events are emitted `:ask`, `:tell`, `:askWithCard`, etc. The lambda context.succeed() method is called if the developer doesn't pass in `callback` function, which immediately stops processing of any further background tasks. Any asynchronous jobs that are still incomplete will not be completed and any lines of code below the response emit statement will not be executed. This is not the case for non responding events like `:saveState`.
 - To "transfer" a request from one state handler to another which is called intent forwarding, `this.handler.state` needs to be set to the name of the target state. If the target state is "", then `this.emit("TargetHandlerName")` should be called. For any other states, `this.emitWithState("TargetHandlerName")` must be called instead.
 - The contents of the prompt and reprompt values get wrapped in SSML tags. This means that any special XML characters within the value need to be escape coded. For example, this.emit(":ask", "I like M&M's") will cause a failure because the `&` character needs to be encoded as `&amp;`. Other characters that need to be encoded include: `<` -> `&lt;`, and `>` -> `&gt;`.
 
@@ -254,7 +254,7 @@ Developers can include the following directives in their skill responses (respec
 
 Here is an example of using `PlayDirective` to stream audio:
 ```javascript
-const hanlders = {
+const handlers = {
     'LaunchRequest' : function() {
         const speechOutput = 'Hello world!';
         const behavior = 'PlayBehavior.REPLACE_ALL';
@@ -538,7 +538,7 @@ const makeImage = Alexa.utils.ImageUtils.makeImage;
     										.setListItems(listItems)
     										.build();
     this.response.speak('Rendering a list template!')
-    			.renderTemplate(template);
+    			.renderTemplate(listTemplate);
     this.emit(':responseReady');
 }
 ```
@@ -799,7 +799,7 @@ const newSessionHandlers = {
         }
         this.handler.state = states.STARTMODE;
         this.response.speak('Welcome to High Low guessing game. You have played '
-                        + this.attributes['gamesPlayed'].toString() + ' times. Would you like to play?',)
+                        + this.attributes['gamesPlayed'].toString() + ' times. Would you like to play?')
                     .listen('Say yes to start the game or no to quit.');
         this.emit(':responseReady');
     }
@@ -807,7 +807,7 @@ const newSessionHandlers = {
 ```
 Notice that when a new session is created we simply set the state of our skill into `STARTMODE` using `this.handler.state`. The skills state will automatically be persisted in your skill's session attributes, and will be optionally persisted across sessions if you set a DynamoDB table.
 
-It is also important point out that `NewSession` is a great catch-all behavior and a good entry point but it is not required. `NewSession` will only be invoked if a handler with that name is defined. Each state you define can have its own `NewSession` handler which will be invoked if you are using the built-in persistence. In the above example we could define different `NewSession` behavior for both `states.STARTMODE` and `states.GUESSMODE` giving us added flexibility.
+It is also important to point out that `NewSession` is a great catch-all behavior and a good entry point but it is not required. `NewSession` will only be invoked if a handler with that name is defined. Each state you define can have its own `NewSession` handler which will be invoked if you are using the built-in persistence. In the above example we could define different `NewSession` behavior for both `states.STARTMODE` and `states.GUESSMODE` giving us added flexibility.
 
 In order to define intents that will respond to the different states of our skill, we need to use the `Alexa.CreateStateHandler` function. Any intent handlers defined here will only work when the skill is in a specific state, giving us even greater flexibility!
 
@@ -856,7 +856,7 @@ const guessModeHandlers = Alexa.CreateStateHandler(states.GUESSMODE, {
 },
 
 'Unhandled': function() {
-    this.response.spean('Sorry, I didn\'t get that. Try saying a number.')
+    this.response.speak('Sorry, I didn\'t get that. Try saying a number.')
                 .listen('Try saying a number.');
     this.emit(':responseReady');
 }
@@ -914,7 +914,7 @@ Your attributes will be automatically saved when you end the session, but if the
 
 If you wants to explicitly reset the state, the following code should work:
 ```javascript
-this.handler.state = '' \\ delete this.handler.state might cause reference errors
+this.handler.state = '' // delete this.handler.state might cause reference errors
 delete this.attributes['STATE'];
 ```
 
