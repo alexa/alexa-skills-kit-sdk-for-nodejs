@@ -912,7 +912,7 @@ Also, notice the different behavior for `NewSession` and `Unhandled` across both
 
 Your attributes will be automatically saved when you end the session, but if the user ends the session you have to emit the `:saveState` event (`this.emit(':saveState', true)`) to force a save. You should do this in your `SessionEndedRequest` handler which is called when the user ends the session by saying 'quit' or timing out. Take a look at the example above.
 
-If you wants to explicitly reset the state, the following code should work:
+If you want to explicitly reset the state, the following code should work:
 ```javascript
 this.handler.state = '' // delete this.handler.state might cause reference errors
 delete this.attributes['STATE'];
