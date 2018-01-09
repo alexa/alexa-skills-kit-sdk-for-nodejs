@@ -82,7 +82,7 @@ exports.handler = function(event, context, callback) {
 This will import alexa-sdk and set up an Alexa object for us to work with. 
 
 ### Implement Handler Functions
-Next, we need to handle the events and intents for our skill. Alexa-sdk makes it simple to have a function fire an intent. You can implement the handers functions in index.js file just created or you can also write in seperate files and import them later. For example, to create a handler for 'HelloWorldIntent', we can do it in two ways:
+Next, we need to handle the events and intents for our skill. Alexa-sdk makes it simple to have a function fire an intent. You can implement the handers functions in index.js file just created or you can also write in separate files and import them later. For example, to create a handler for 'HelloWorldIntent', we can do it in two ways:
 ```javascript
 const handlers = {
     'HelloWorldIntent' : function() {
