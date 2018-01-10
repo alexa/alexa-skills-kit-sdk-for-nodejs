@@ -82,7 +82,7 @@ exports.handler = function(event, context, callback) {
 This will import alexa-sdk and set up an Alexa object for us to work with. 
 
 ### Implement Handler Functions
-Next, we need to handle the events and intents for our skill. Alexa-sdk makes it simple to have a function fire an intent. You can implement the handers functions in index.js file just created or you can also write in seperate files and import them later. For example, to create a handler for 'HelloWorldIntent', we can do it in two ways:
+Next, we need to handle the events and intents for our skill. Alexa-sdk makes it simple to have a function fire an intent. You can implement the handers functions in index.js file just created or you can also write in separate files and import them later. For example, to create a handler for 'HelloWorldIntent', we can do it in two ways:
 ```javascript
 const handlers = {
     'HelloWorldIntent' : function() {
@@ -186,7 +186,7 @@ Here is full list example of creating response using responseBuilder.
 |this.response.cardRenderer(cardTitle, cardContent, cardImage);| Add a [standard card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object) with cardTitle, cardContent and cardImage in response|
 |this.response.linkAccountCard();| Add a [linkAccount card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object) in response, for more information, click [here](https://developer.amazon.com/docs/custom-skills/link-an-alexa-user-with-a-user-in-your-system.html)|
 |this.response.askForPermissionsConsentCard(permissions);| Add  a card to ask for [perimission](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#session-object) in response, for more information, click [here](https://developer.amazon.com/docs/custom-skills/configure-permissions-for-customer-information-in-your-skill.html)|
-|this.response.audioPlayer(behavior, url, token, expectedPreviousToken, offsetInMilliseconds); | Add an [AudioPlayer directive](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html) with provided parameters in response.|
+|this.response.audioPlayer(directiveType, behavior, url, token, expectedPreviousToken, offsetInMilliseconds);(Deprecated) | Add an [AudioPlayer directive](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html) with provided parameters in response.|
 |this.response.audioPlayerPlay(behavior, url, token, expectedPreviousToken, offsetInMilliseconds);| Add an [AudioPlayer directive](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html) using the provided parameters, and set    [`AudioPlayer.Play`](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html#play) as the directive type.|
 |this.response.audioPlayerStop();| Add an [AudioPlayer.Stop directive](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html#stop)|
 |this.response.audioPlayerClearQueue(clearBehavior);|Add an [AudioPlayer.ClearQueue directive](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html#clearqueue) and set the clear behaviour of the directive.|
@@ -257,13 +257,13 @@ Here is an example of using `PlayDirective` to stream audio:
 const handlers = {
     'LaunchRequest' : function() {
         const speechOutput = 'Hello world!';
-        const behavior = 'PlayBehavior.REPLACE_ALL';
+        const behavior = 'REPLACE_ALL';
         const url = 'https://url/to/audiosource';
         const token = 'myMusic';
         const expectedPreviousToken = 'expectedPreviousStream';
         const offsetInMilliseconds = 10000;
         this.response.speak(speechOutput)
-                    .audioPlayer(behavior, url, token, expectedPreviousToken, offsetInMilliseconds);
+                    .audioPlayerPlay(behavior, url, token, expectedPreviousToken, offsetInMilliseconds);
         this.emit(':responseReady');
     }
 };
@@ -912,7 +912,7 @@ Also, notice the different behavior for `NewSession` and `Unhandled` across both
 
 Your attributes will be automatically saved when you end the session, but if the user ends the session you have to emit the `:saveState` event (`this.emit(':saveState', true)`) to force a save. You should do this in your `SessionEndedRequest` handler which is called when the user ends the session by saying 'quit' or timing out. Take a look at the example above.
 
-If you wants to explicitly reset the state, the following code should work:
+If you want to explicitly reset the state, the following code should work:
 ```javascript
 this.handler.state = '' // delete this.handler.state might cause reference errors
 delete this.attributes['STATE'];
