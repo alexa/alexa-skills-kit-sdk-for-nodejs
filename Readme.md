@@ -586,16 +586,16 @@ Additional documentation on `Display` interface can be found [here](https://deve
 The `PlaybackController` interface enables skills to handles requests sent when a customer interacts with player controls such as buttons on a device or a remote control. Those requests are different from normal voice requests such as "Alexa, next song" which are standard intent requests. In order to enable skill to handle `PlaybackController` requests, developers must implement `PlaybackController` interface in Alexa Node.js SDK.
 ```javascript
 const handlers = {
-    'PlaybackController.NextCommandIssued' : function() {
+    'NextCommandIssued' : function() {
         //Your skill can respond to NextCommandIssued with any AudioPlayer directive.
     },
-    'PlaybackController.PauseCommandIssued' : function() {
+    'PauseCommandIssued' : function() {
         //Your skill can respond to PauseCommandIssued with any AudioPlayer directive.
     },
-    'PlaybackController.PlayCommandIssued' : function() {
+    'PlayCommandIssued' : function() {
         //Your skill can respond to PlayCommandIssued with any AudioPlayer directive.
     },
-    'PlaybackController.PreviousCommandIssued' : function() {
+    'PreviousCommandIssued' : function() {
         //Your skill can respond to PreviousCommandIssued with any AudioPlayer directive.
     },
     'System.ExceptionEncountered' : function() {
