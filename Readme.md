@@ -617,7 +617,7 @@ Here is an example to stream video:
     	'title': 'Title for Sample Video',
     	'subtitle': 'Secondary Title for Sample Video'
     };
-    this.response.playVideo(videoSource metadata);
+    this.response.playVideo(videoSource, metadata);
     this.emit(':responseReady');
 }
 ```
