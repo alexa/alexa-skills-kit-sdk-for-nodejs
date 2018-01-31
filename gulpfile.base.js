@@ -6,7 +6,7 @@ const jshint = require('gulp-jshint');
 
 module.exports = {
     lint : () => {
-        return gulp.src(['lib/**/*.js', 'test/**/*.js'])
+        return gulp.src(['index.js', 'lib/**/*.js', 'test/**/*.js'])
                .pipe(jshint())
                .pipe(jshint.reporter('default'))
                .pipe(jshint.reporter('fail'));
