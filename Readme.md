@@ -82,7 +82,7 @@ exports.handler = function(event, context, callback) {
 This will import alexa-sdk and set up an Alexa object for us to work with. 
 
 ### Implement Handler Functions
-Next, we need to handle the events and intents for our skill. Alexa-sdk makes it simple to have a function fire an intent. You can implement the handers functions in index.js file just created or you can also write in separate files and import them later. For example, to create a handler for 'HelloWorldIntent', we can do it in two ways:
+Next, we need to handle the events and intents for our skill. Alexa-sdk makes it simple to have a function fire an intent. You can implement the handlers functions in index.js file just created or you can also write in separate files and import them later. For example, to create a handler for 'HelloWorldIntent', we can do it in two ways:
 ```javascript
 const handlers = {
     'HelloWorldIntent' : function() {
@@ -273,19 +273,19 @@ In the above example, Alexa will speak the `speechOutput` first and then try to 
 When building skills that leverage the [AudioPlayer](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html) interfaces, the `playback` requests will be send to notify the skill about changes to the `playback` state.You can implement handler functions for their respective events.
 ```javascript
 const handlers = {
-    'AudioPlayer.PlaybackStarted' : function() {
+    'PlaybackStarted' : function() {
     	console.log('Alexa begins playing the audio stream');
     },
-    'AudioPlayer.PlaybackFinished' : function() {
+    'PlaybackFinished' : function() {
     	console.log('The stream comes to an end');
     },
-    'AudioPlayer.PlaybackStopped' : function() {
+    'PlaybackStopped' : function() {
     	console.log('Alexa stops playing the audio stream');
     },
-    'AudioPlayer.PlaybackNearlyFinished' : function() {
+    'PlaybackNearlyFinished' : function() {
     	console.log('The currently playing stream is nearly complate and the device is ready to receive a new stream');
     },
-    'AudioPlayer.PlaybackFailed' : function() {
+    'PlaybackFailed' : function() {
     	console.log('Alexa encounters an error when attempting to play a stream');
     }
 };
@@ -586,16 +586,16 @@ Additional documentation on `Display` interface can be found [here](https://deve
 The `PlaybackController` interface enables skills to handles requests sent when a customer interacts with player controls such as buttons on a device or a remote control. Those requests are different from normal voice requests such as "Alexa, next song" which are standard intent requests. In order to enable skill to handle `PlaybackController` requests, developers must implement `PlaybackController` interface in Alexa Node.js SDK.
 ```javascript
 const handlers = {
-    'PlaybackController.NextCommandIssued' : function() {
+    'NextCommandIssued' : function() {
         //Your skill can respond to NextCommandIssued with any AudioPlayer directive.
     },
-    'PlaybackController.PauseCommandIssued' : function() {
+    'PauseCommandIssued' : function() {
         //Your skill can respond to PauseCommandIssued with any AudioPlayer directive.
     },
-    'PlaybackController.PlayCommandIssued' : function() {
+    'PlayCommandIssued' : function() {
         //Your skill can respond to PlayCommandIssued with any AudioPlayer directive.
     },
-    'PlaybackController.PreviousCommandIssued' : function() {
+    'PreviousCommandIssued' : function() {
         //Your skill can respond to PreviousCommandIssued with any AudioPlayer directive.
     },
     'System.ExceptionEncountered' : function() {
@@ -617,7 +617,7 @@ Here is an example to stream video:
     	'title': 'Title for Sample Video',
     	'subtitle': 'Secondary Title for Sample Video'
     };
-    this.response.playVideo(videoSource metadata);
+    this.response.playVideo(videoSource, metadata);
     this.emit(':responseReady');
 }
 ```
