@@ -780,7 +780,7 @@ const handlers = {
 
 ### Skill State Management
 
-Alexa-sdk use state manager to route the incoming intents to the correct function handler. State is stored as a string in the session attributes indicating the current state of the skill. You can emulate the built-in intent routing by appending the state string to the intent name when defining your intent handlers, but alexa-sdk helps do that for you.
+Alexa-sdk uses a state manager to route the incoming intents to the correct function handler. State is stored as a string in the session attributes indicating the current state of the skill. You can emulate the built-in intent routing by appending the state string to the intent name when defining your intent handlers, but alexa-sdk helps do that for you.
 
 Let's take a sample skill [highlowgame](https://github.com/alexa/skill-sample-nodejs-highlowgame/blob/master/lambda/custom/index.js) as an example to explain how state management works in SDK. In this skill, the customer will guess a number and the Alexa will tell if the number is higher or lower. It will also tell how many times the customer has played. It has two states 'start' and 'guess':
 ```javascript
