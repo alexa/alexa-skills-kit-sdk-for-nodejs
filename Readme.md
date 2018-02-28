@@ -1009,10 +1009,8 @@ _Speechcons are supported for English (US), English (UK), English (India), and G
 
 ## Setting up your development environment
 
-- Requirements
-- Gulp & mocha  ```npm install -g gulp mocha```
-- Run npm install to pull down stuff
-- run gulp to run tests/linter
+- Run `npm install` to install dependencies
+- run `npm test` to run tests/linter
 
 For more information about getting started with the Alexa Skills Kit, check out the following additional assets:
 
