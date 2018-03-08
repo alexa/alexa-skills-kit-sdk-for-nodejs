@@ -185,7 +185,7 @@ Here is full list example of creating response using responseBuilder.
 |this.response.listen(repromptSpeech);| Set the reprompt speech output to [repromptSpeech](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#reprompt-object), shouldEndSession to false. Unless this function is called, this.response will set shouldEndSession to true.|
 |this.response.cardRenderer(cardTitle, cardContent, cardImage);| Add a [standard card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object) with cardTitle, cardContent and cardImage in response|
 |this.response.linkAccountCard();| Add a [linkAccount card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object) in response, for more information, click [here](https://developer.amazon.com/docs/custom-skills/link-an-alexa-user-with-a-user-in-your-system.html)|
-|this.response.askForPermissionsConsentCard(permissions);| Add  a card to ask for [perimission](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#session-object) in response, for more information, click [here](https://developer.amazon.com/docs/custom-skills/configure-permissions-for-customer-information-in-your-skill.html)|
+|this.response.askForPermissionsConsentCard(permissions);| Add  a card to ask for [permission](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#session-object) in response, for more information, click [here](https://developer.amazon.com/docs/custom-skills/configure-permissions-for-customer-information-in-your-skill.html)|
 |this.response.audioPlayer(directiveType, behavior, url, token, expectedPreviousToken, offsetInMilliseconds);(Deprecated) | Add an [AudioPlayer directive](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html) with provided parameters in response.|
 |this.response.audioPlayerPlay(behavior, url, token, expectedPreviousToken, offsetInMilliseconds);| Add an [AudioPlayer directive](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html) using the provided parameters, and set    [`AudioPlayer.Play`](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html#play) as the directive type.|
 |this.response.audioPlayerStop();| Add an [AudioPlayer.Stop directive](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html#stop)|
@@ -283,7 +283,7 @@ const handlers = {
     	console.log('Alexa stops playing the audio stream');
     },
     'PlaybackNearlyFinished' : function() {
-    	console.log('The currently playing stream is nearly complate and the device is ready to receive a new stream');
+    	console.log('The currently playing stream is nearly complete and the device is ready to receive a new stream');
     },
     'PlaybackFailed' : function() {
     	console.log('Alexa encounters an error when attempting to play a stream');
@@ -553,7 +553,7 @@ const handler = {
 
     // Display.RenderTemplate directives can be added to the response
     if (this.event.context.System.device.supportedInterfaces.Display) {
-        //... build mytemplate using TemplateBuilder
+        //... build myTemplate using TemplateBuilder
         this.response.renderTemplate(myTemplate);
     }
 
@@ -940,7 +940,7 @@ this.attributes['yourAttribute'] = 'value';
 
 You can [create the table manually](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SampleData.CreateTables.html) beforehand or simply give your Lambda function DynamoDB [create table permissions](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_CreateTable.html) and it will happen automatically. Just remember it can take a minute or so for the table to be created on the first invocation. If you create the table manually, the Primary Key must be a string value called "userId".
 
-Note: If you host your skill on lambda and choose to persist skill attributes through DynamoDB, please make sure the excution role of lambda function includes access to DynamoDB. 
+Note: If you host your skill on lambda and choose to persist skill attributes through DynamoDB, please make sure the execution role of lambda function includes access to DynamoDB. 
 
 ### Adding Multi-Language Support for Skill
 Let's take the Hello World example here. Define all user-facing language strings in the following format.
@@ -991,7 +991,7 @@ const handlers = {
     }
 };
 ```
-For more infomation about developing and deploying skills in multiple languages, please go [here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/developing-skills-in-multiple-languages).
+For more information about developing and deploying skills in multiple languages, please go [here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/developing-skills-in-multiple-languages).
 
 ### Device ID Support
 When a customer enables your Alexa skill, your skill can obtain the customer’s permission to use address data associated with the customer’s Alexa device. You can then use this address data to provide key functionality for the skill, or to enhance the customer experience.
