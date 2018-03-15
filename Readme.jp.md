@@ -2,37 +2,37 @@
 <!-- TOC -->
 
 - [Alexa Skills Kit SDK for Node.js](#alexa-skills-kit-sdk-for-nodejs)
-    - [概要](#overview)
-    - [セットアップガイド](#setup-guide)
-    - [Getting Started: Hello Worldスキルの記述](#getting-started-writing-a-hello-world-skill)
-        - [基本的なプロジェクトの構造](#basic-project-structure)
-        - [エントリポイントを設定する](#set-entry-point)
-        - [ハンドラ関数を実装する](#implement-handler-functions)
-    - [Response vs ResponseBuilder](#response-vs-responsebuilder)
+    - [概要](#概要)
+    - [セットアップガイド](#セットアップガイド)
+    - [Getting Started: Hello Worldスキルの記述](#getting-started-hello-worldスキルの記述)
+        - [基本的なプロジェクトの構造](#基本的なプロジェクトの構造)
+        - [エントリポイントを設定する](#エントリポイントを設定する)
+        - [ハンドラ関数を実装する](#ハンドラ関数を実装する)
+    - [レスポンス vs ResponseBuilder](#レスポンス-vs-responsebuilder)
         - [Tips](#tips)
-    - [標準のリクエストとレスポンス](#standard-request-and-response)
-    - [インターフェース](#interfaces)
-        - [AudioPlayerインターフェース](#audioplayer-interface)
-        - [Dialogインターフェース](#dialog-interface)
-            - [Delegateディレクティブ](#delegate-directive)
-            - [Elicit Slotディレクティブ](#elicit-slot-directive)
-            - [Confirm Slotディレクティブ](#confirm-slot-directive)
-            - [Confirm Intentディレクティブ](#confirm-intent-directive)
-        - [Displayインターフェース](#display-interface)
-        - [Playback Controllerインターフェース](#playback-controller-interface)
-        - [VideoAppインターフェース](#videoapp-interface)
-        - [SkillとList Events](#skill-and-list-events)
-    - [サービス](#services)
-        - [Device Addressサービス](#device-address-service)
-        - [List Managementサービス](#list-management-service)
-        - [ディレクティブサービス](#directive-service)
-    - [機能を拡張する](#extend-features)
-        - [スキルの状態管理](#skill-state-management)
-        - [DynamoDBによるスキル属性の保持](#persisting-skill-attributes-through-dynamodb)
-        - [スキルへの多言語対応の追加](#adding-multi-language-support-for-skill)
-        - [Device IDのサポート](#device-id-support)
-        - [Speechcons (感嘆詞)](#speechcons-interjections)
-    - [開発環境のセットアップ](#setting-up-your-development-environment)
+    - [標準のリクエストとレスポンス](#標準のリクエストとレスポンス)
+    - [インターフェース](#インターフェース)
+        - [AudioPlayerインターフェース](#audioplayerインターフェース)
+        - [Dialogインターフェース](#dialogインターフェース)
+            - [Delegateディレクティブ](#delegateディレクティブ)
+            - [Elicit Slotディレクティブ](#elicit-slotディレクティブ)
+            - [Confirm Slotディレクティブ](#confirm-slotディレクティブ)
+            - [Confirm Intentディレクティブ](#confirm-intentディレクティブ)
+        - [Displayインターフェース](#displayインターフェース)
+        - [Playback Controllerインターフェース](#playback-controllerインターフェース)
+        - [VideoAppインターフェース](#videoappインターフェース)
+        - [SkillとList Events](#skillとlist-events)
+    - [サービス](#サービス)
+        - [Device Addressサービス](#device-addressサービス)
+        - [List Managementサービス](#list-managementサービス)
+        - [ディレクティブサービス](#ディレクティブサービス)
+    - [機能を拡張する](#機能を拡張する)
+        - [スキルの状態管理](#スキルの状態管理)
+        - [DynamoDBによるスキル属性の保持](#dynamodbによるスキル属性の保持)
+        - [スキルへの多言語対応の追加](#スキルへの多言語対応の追加)
+        - [Device IDのサポート](#device-idのサポート)
+        - [Speechcons (感嘆詞)](#speechcons-%E6%84%9F%E5%98%86%E8%A9%9E)
+    - [開発環境のセットアップ](#開発環境のセットアップ)
 
 <!-- /TOC -->
 
@@ -150,25 +150,25 @@ alexa.registerHandlers(handlers, handlers2, handlers3, ...);
 
 ## レスポンス vs ResponseBuilder
 
-現在、Node.js SDKで[レスポンスオブジェクト](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#Response%20Format)を生成するには、2つの方法があります。最初の方法は、this.emit(`:${action}`, 'responseContent') の形式にしたがう構文を使用します。一般的なスキルのレスポンスについて、例の完全なリストを次に示します。
+現在、Node.js SDKで[レスポンスオブジェクト](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#Response%20Format)を生成するには、2つの方法があります。最初の方法は、this.emit(`:${action}`, 'responseContent') の形式にしたがう構文を使用します。一般的なスキルのレスポンスについて、例の完全なリストを次に示します。
 
 |レスポンス構文 | 説明 |
 |----------------|-----------|
-| this.emit(':tell',speechOutput);| [speechOutput](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#outputspeech-object)を使ったTell| 
-|this.emit(':ask', speechOutput, repromptSpeech);|[speechOutput](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#outputspeech-object)と[repromptSpeech](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#reprompt-object)を使ったAsk|
-|this.emit(':tellWithCard', speechOutput, cardTitle, cardContent, imageObj);| [speechOutput](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#outputspeech-object)と[standard card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object)を使ったTell|
-|this.emit(':askWithCard', speechOutput, repromptSpeech, cardTitle, cardContent, imageObj);| [speechOutput](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#outputspeech-object), [repromptSpeech](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#reprompt-object)と[standard card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object)を使ったAsk|
-|this.emit(':tellWithLinkAccountCard', speechOutput);| [linkAccount card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object)を使ったTell, 詳しくは[こちら](https://developer.amazon.com/docs/custom-skills/link-an-alexa-user-with-a-user-in-your-system.html)をクリック|
-|this.emit(':askWithLinkAccountCard', speechOutput);| [linkAccount card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object)を使ったAsk, 詳しくは[こちら](https://developer.amazon.com/docs/custom-skills/link-an-alexa-user-with-a-user-in-your-system.html)をクリック|
-|this.emit(':tellWithPermissionCard', speechOutput, permissionArray);| Tell with [permission card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#session-object)を使ったTell, 詳しくは[こちら](https://developer.amazon.com/docs/custom-skills/configure-permissions-for-customer-information-in-your-skill.html)をクリック|
-|this.emit(':askWithPermissionCard', speechOutput, repromptSpeech, permissionArray)| [permission card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#session-object)を使ったAsk, 詳しくは[こちら](https://developer.amazon.com/docs/custom-skills/configure-permissions-for-customer-information-in-your-skill.html)をクリック|
-|this.emit(':delegate', updatedIntent);|[dialog model](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#dialog-model-required)で[delegate directive](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#delegate)を使ったレスポンス |
-|this.emit(':elicitSlot', slotToElicit, speechOutput, repromptSpeech, updatedIntent);|[dialog model](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#dialog-model-required)で[elicitSlot directive](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#elicitslot)を使ったレスポンス |
-|this.emit(':elicitSlotWithCard', slotToElicit, speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj);| [card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object)と[dialog model](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#dialog-model-required)の[elicitSlot directive](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#elicitslot)を使ったレスポンス |
-|this.emit(':confirmSlot', slotToConfirm, speechOutput, repromptSpeech, updatedIntent);|[dialog model](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#dialog-model-required)で[confirmSlot directive](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#confirmslot)を使ったレスポンス|
-|this.emit(':confirmSlotWithCard', slotToConfirm, speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj);| [card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object)と[dialog model](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#dialog-model-required)で[confirmSlot directive](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#confirmslot)を使ったレスポンス|
-|this.emit(':confirmIntent', speechOutput, repromptSpeech, updatedIntent);|[dialog model](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#dialog-model-required)で[confirmIntent directive](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#confirmintent)を使ったレスポンス |
-|this.emit(':confirmIntentWithCard', speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj);| [card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object)と[dialog model](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#dialog-model-required)で[confirmIntent directive](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html#confirmintent)を使ったレスポンス|
+| this.emit(':tell',speechOutput);| [speechOutput](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#outputspeech-object)を使ったTell| 
+|this.emit(':ask', speechOutput, repromptSpeech);|[speechOutput](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#outputspeech-object)と[repromptSpeech](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#reprompt-object)を使ったAsk|
+|this.emit(':tellWithCard', speechOutput, cardTitle, cardContent, imageObj);| [speechOutput](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#outputspeech-object)と[standard card](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#card-object)を使ったTell|
+|this.emit(':askWithCard', speechOutput, repromptSpeech, cardTitle, cardContent, imageObj);| [speechOutput](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#outputspeech-object), [repromptSpeech](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#reprompt-object)と[standard card](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#card-object)を使ったAsk|
+|this.emit(':tellWithLinkAccountCard', speechOutput);| [linkAccount card](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#card-object)を使ったTell, 詳しくは[こちら](https://developer.amazon.com/ja/docs/custom-skills/link-an-alexa-user-with-a-user-in-your-system.html)をクリック|
+|this.emit(':askWithLinkAccountCard', speechOutput);| [linkAccount card](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#card-object)を使ったAsk, 詳しくは[こちら](https://developer.amazon.com/ja/docs/custom-skills/link-an-alexa-user-with-a-user-in-your-system.html)をクリック|
+|this.emit(':tellWithPermissionCard', speechOutput, permissionArray);| [permission card](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#session-object)を使ったTell, 詳しくは[こちら](https://developer.amazon.com/ja/docs/custom-skills/configure-permissions-for-customer-information-in-your-skill.html)をクリック|
+|this.emit(':askWithPermissionCard', speechOutput, repromptSpeech, permissionArray)| [permission card](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#session-object)を使ったAsk, 詳しくは[こちら](https://developer.amazon.com/ja/docs/custom-skills/configure-permissions-for-customer-information-in-your-skill.html)をクリック|
+|this.emit(':delegate', updatedIntent);|[dialog model](https://developer.amazon.com/ja/docs/custom-skills/dialog-interface-reference.html#dialog-model-required)で[delegate directive](https://developer.amazon.com/ja/docs/custom-skills/dialog-interface-reference.html#delegate)を使ったレスポンス |
+|this.emit(':elicitSlot', slotToElicit, speechOutput, repromptSpeech, updatedIntent);|[dialog model](https://developer.amazon.com/ja/docs/custom-skills/dialog-interface-reference.html#dialog-model-required)で[elicitSlot directive](https://developer.amazon.com/ja/docs/custom-skills/dialog-interface-reference.html#elicitslot)を使ったレスポンス |
+|this.emit(':elicitSlotWithCard', slotToElicit, speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj);| [card](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#card-object)と[dialog model](https://developer.amazon.com/ja/docs/custom-skills/dialog-interface-reference.html#dialog-model-required)の[elicitSlot directive](https://developer.amazon.com/ja/docs/custom-skills/dialog-interface-reference.html#elicitslot)を使ったレスポンス |
+|this.emit(':confirmSlot', slotToConfirm, speechOutput, repromptSpeech, updatedIntent);|[dialog model](https://developer.amazon.com/ja/docs/custom-skills/dialog-interface-reference.html#dialog-model-required)で[confirmSlot directive](https://developer.amazon.com/ja/docs/custom-skills/dialog-interface-reference.html#confirmslot)を使ったレスポンス|
+|this.emit(':confirmSlotWithCard', slotToConfirm, speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj);| [card](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#card-object)と[dialog model](https://developer.amazon.com/ja/docs/custom-skills/dialog-interface-reference.html#dialog-model-required)で[confirmSlot directive](https://developer.amazon.com/ja/docs/custom-skills/dialog-interface-reference.html#confirmslot)を使ったレスポンス|
+|this.emit(':confirmIntent', speechOutput, repromptSpeech, updatedIntent);|[dialog model](https://developer.amazon.com/ja/docs/custom-skills/dialog-interface-reference.html#dialog-model-required)で[confirmIntent directive](https://developer.amazon.com/ja/docs/custom-skills/dialog-interface-reference.html#confirmintent)を使ったレスポンス |
+|this.emit(':confirmIntentWithCard', speechOutput, repromptSpeech, cardTitle, cardContent, updatedIntent, imageObj);| [card](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#card-object)と[dialog model](https://developer.amazon.com/ja/docs/custom-skills/dialog-interface-reference.html#dialog-model-required)で[confirmIntent directive](https://developer.amazon.com/ja/docs/custom-skills/dialog-interface-reference.html#confirmintent)を使ったレスポンス|
 |this.emit(':responseReady');|レスポンスが構築された後、Alexaサービスに返される前に呼び出される。saveStateを呼び出す。上書きできる。|
 |this.emit(':saveState', false);|this.attributesの内容と現在のハンドラの状態をDynamoDBに保存し、それより前に構築したレスポンスをAlexaサービスに送信する。異なる永続性プロバイダを使用したい場合は、上書きする。2番目の属性はオプションで、保存を強制するために'true'を設定できる。|
 |this.emit(':saveStateError'); |状態の保存中にエラーが発生すると呼び出される。上書きしてエラーを処理する。|
@@ -177,18 +177,18 @@ alexa.registerHandlers(handlers, handlers2, handlers3, ...);
 
 |レスポンス構文 | 説明 |
 |----------------|-----------|
-|this.response.speak(speechOutput);| 最初の音声出力を[speechOutput](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#outputspeech-object)に設定する|
-|this.response.listen(repromptSpeech);| 再読み上げの音声出力を[repromptSpeech](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#reprompt-object)に設定し、shouldEndSessionをfalseにする。この関数が呼び出されないかぎり、this.responseは、shouldEndSessionをtrueに設定する。|
-|this.response.cardRenderer(cardTitle, cardContent, cardImage);| レスポンスとして[standard card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object)にcardTitle, cardContent, cardImageを追加する|
-|this.response.linkAccountCard();| レスポンスとして[linkAccount card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object)を追加する。詳しくは[こちら](https://developer.amazon.com/docs/custom-skills/link-an-alexa-user-with-a-user-in-your-system.html)をクリック|
-|this.response.askForPermissionsConsentCard(permissions);| レスポンスに[perimission](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#session-object)を要求するカードを追加する。詳しくは[こちら](https://developer.amazon.com/docs/custom-skills/configure-permissions-for-customer-information-in-your-skill.html)をクリック|
-|this.response.audioPlayer(directiveType, behavior, url, token, expectedPreviousToken, offsetInMilliseconds);(Deprecated) | 提供されたパラメータでレスポンスに[AudioPlayer directive](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html)を追加する。|
-|this.response.audioPlayerPlay(behavior, url, token, expectedPreviousToken, offsetInMilliseconds);| 提供されたパラメータを使用して[AudioPlayer directive](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html)を追加し、ディレクティブタイプとして[`AudioPlayer.Play`](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html#play)を設定する。|
-|this.response.audioPlayerStop();| [AudioPlayer.Stop directive](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html#stop)を追加する|
-|this.response.audioPlayerClearQueue(clearBehavior);|[AudioPlayer.ClearQueue directive](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html#clearqueue)を追加してディレクティブをクリアする振る舞いを設定する。|
-|this.response.renderTemplate(template);| レスポンスに[Display.RenderTemplate directive](https://developer.amazon.com/docs/custom-skills/display-interface-reference.html)を追加する|
-|this.response.hint(hintText, hintType);| レスポンスに[Hint directive](https://developer.amazon.com/docs/custom-skills/display-interface-reference.html#hint-directive)を追加する|
-|this.response.playVideo(videoSource, metadata);|レスポンスに[VideoApp.Play directive](https://developer.amazon.com/docs/custom-skills/videoapp-interface-reference.html#videoapp-directives)を追加する|
+|this.response.speak(speechOutput);| 最初の音声出力を[speechOutput](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#outputspeech-object)に設定する|
+|this.response.listen(repromptSpeech);| 再読み上げの音声出力を[repromptSpeech](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#reprompt-object)に設定し、shouldEndSessionをfalseにする。この関数が呼び出されないかぎり、this.responseは、shouldEndSessionをtrueに設定する。|
+|this.response.cardRenderer(cardTitle, cardContent, cardImage);| レスポンスとして[standard card](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#card-object)にcardTitle, cardContent, cardImageを追加する|
+|this.response.linkAccountCard();| レスポンスとして[linkAccount card](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#card-object)を追加する。詳しくは[こちら](https://developer.amazon.com/ja/docs/custom-skills/link-an-alexa-user-with-a-user-in-your-system.html)をクリック|
+|this.response.askForPermissionsConsentCard(permissions);| レスポンスに[perimission](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#session-object)を要求するカードを追加する。詳しくは[こちら](https://developer.amazon.com/ja/docs/custom-skills/configure-permissions-for-customer-information-in-your-skill.html)をクリック|
+|this.response.audioPlayer(directiveType, behavior, url, token, expectedPreviousToken, offsetInMilliseconds);(Deprecated) | 提供されたパラメータでレスポンスに[AudioPlayer directive](https://developer.amazon.com/ja/docs/custom-skills/audioplayer-interface-reference.html)を追加する。|
+|this.response.audioPlayerPlay(behavior, url, token, expectedPreviousToken, offsetInMilliseconds);| 提供されたパラメータを使用して[AudioPlayer directive](https://developer.amazon.com/ja/docs/custom-skills/audioplayer-interface-reference.html)を追加し、ディレクティブタイプとして[`AudioPlayer.Play`](https://developer.amazon.com/ja/docs/custom-skills/audioplayer-interface-reference.html#play)を設定する。|
+|this.response.audioPlayerStop();| [AudioPlayer.Stop directive](https://developer.amazon.com/ja/docs/custom-skills/audioplayer-interface-reference.html#stop)を追加する|
+|this.response.audioPlayerClearQueue(clearBehavior);|[AudioPlayer.ClearQueue directive](https://developer.amazon.com/ja/docs/custom-skills/audioplayer-interface-reference.html#clearqueue)を追加してディレクティブをクリアする振る舞いを設定する。|
+|this.response.renderTemplate(template);| レスポンスに[Display.RenderTemplate directive](https://developer.amazon.com/ja/docs/custom-skills/display-interface-reference.html)を追加する|
+|this.response.hint(hintText, hintType);| レスポンスに[Hint directive](https://developer.amazon.com/ja/docs/custom-skills/display-interface-reference.html#hint-directive)を追加する|
+|this.response.playVideo(videoSource, metadata);|レスポンスに[VideoApp.Play directive](https://developer.amazon.com/ja/docs/custom-skills/videoapp-interface-reference.html#videoapp-directives)を追加する|
 |this.response.shouldEndSession(bool);| shouldEndSessionを手動で設定する|
 
 レスポンスの設定が完了したら、単に`this.emit(':responseReady')`を呼び出してレスポンスを送信してください。いくつかのレスポンスオブジェクトでレスポンスを作成する2つの例を次に示します。
@@ -212,7 +212,7 @@ responseBuilderにはリッチなレスポンスオブジェクトを作成で�
 - promptとrepromptの値の内容は、SSMLタグでラップされます。つまり、値に含まれるすべての特殊なXML文字をエスケープする必要があります。たとえば、this.emit(":ask", "I like M&M's")は、そのままだと失敗します。`&`文字を`&amp;`にエンコードする必要があるためです。エンコードする必要がある他の文字には、`<` -> `&lt;`と`>` -> `&gt;`があります。
 
 ## 標準のリクエストとレスポンス
-Alexaは、HTTPSを使用するリクエスト/レスポンスの仕組みを介して、スキルサービスと通信します。ユーザーがAlexaスキルと対話すると、あなたのサービスはJSONのbodyを含むPOSTリクエストを受け取ります。リクエストbodyには、サービスがロジックを実行してJSON形式のレスポンスを生成するために必要なパラメータが含まれています。Node.jsはJSONをネイティブに処理できるので、Alexa Node.js SDKはJSONのシリアライズとデシリアライズをする必要はありません。開発者は、Alexaがユーザーのリクエストに応答するために、適切なレスポンスオブジェクトを提供する責任だけを持ちます。リクエストbodyのJSON構造に関するドキュメントは、[こちら](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#request-format)にあります。
+Alexaは、HTTPSを使用するリクエスト/レスポンスの仕組みを介して、スキルサービスと通信します。ユーザーがAlexaスキルと対話すると、あなたのサービスはJSONのbodyを含むPOSTリクエストを受け取ります。リクエストbodyには、サービスがロジックを実行してJSON形式のレスポンスを生成するために必要なパラメータが含まれています。Node.jsはJSONをネイティブに処理できるので、Alexa Node.js SDKはJSONのシリアライズとデシリアライズをする必要はありません。開発者は、Alexaがユーザーのリクエストに応答するために、適切なレスポンスオブジェクトを提供する責任だけを持ちます。リクエストbodyのJSON構造に関するドキュメントは、[こちら](https://developer.amazon.com/ja/docs/custom-skills/request-and-response-json-reference.html#request-format)にあります。
 
 SpeechletResponseには、次の属性が含まれます。
 - OutputSpeech
@@ -265,7 +265,7 @@ const handlers = {
 ```
 上の例では、Alexaはまず`speechOutput`を発声してからオーディオを再生しようとします。
 
-[AudioPlayer](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html)インターフェースを利用するスキルを構築する場合、`playback`状態への変更を通知するために、スキルに`playback`リクエストが送信されます。それぞれのイベントに対してハンドラ関数を実装できます。
+[AudioPlayer](https://developer.amazon.com/ja/docs/custom-skills/audioplayer-interface-reference.html)インターフェースを利用するスキルを構築する場合、`playback`状態への変更を通知するために、スキルに`playback`リクエストが送信されます。それぞれのイベントに対してハンドラ関数を実装できます。
 ```javascript
 const handlers = {
     'AudioPlayer.PlaybackStarted' : function() {
@@ -286,9 +286,10 @@ const handlers = {
 };
 ```
 
-`AudioPlayer`インターフェースについての追加のドキュメントは、[こちら](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html)にあります。
+`AudioPlayer`インターフェースについての追加のドキュメントは、[こちら](https://developer.amazon.com/ja/docs/custom-skills/audioplayer-interface-reference.html)にあります。
 
-注意: `imgObj`に関する仕様については、[こちら](https://developer.amazon.com/docs/custom-skills/include-a-card-in-your-skills-response.html#creating-a-home-card-to-display-text-and-an-image)を参照してください。
+注意: `imgObj`に関する仕様については、[こちら](https://developer.amazon.com/ja/docs/custom-skills/include-a-card-in-your-skills-response.html#creating-a-home-card-to-display-text-and-an-image)を参照してください。
+
 ### Dialogインターフェース
 `Dialog`インターフェースは、スキルとユーザーの間で複数のターンを持つ会話を管理するディレクティブを提供します。ユーザーの要求を満たすために必要な情報をユーザーに質問するために、このディレクティブを使用できます。[Dialog Interface](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/dialog-interface-reference)と[スキルビルダー](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/ask-define-the-vui-with-gui)のドキュメントを参照してください。
 
@@ -426,7 +427,7 @@ const handlers = {
     }
 };
 ```
-`Dialog`インターフェースについての追加のドキュメントは、[こちら](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html)にあります。
+`Dialog`インターフェースについての追加のドキュメントは、[こちら](https://developer.amazon.com/ja/docs/custom-skills/dialog-interface-reference.html)にあります。
 
 ### Displayインターフェース
 幅広い表現をサポートするために、Alexaはいくつかの`Display templates`を提供しています。現在、`Display templates`には2つのカテゴリがあります。
@@ -575,7 +576,7 @@ const handler = {
     }
 };
 ```
-`Display`インターフェースに関する追加のドキュメントは、[こちら](https://developer.amazon.com/docs/custom-skills/display-interface-reference.html)にあります。
+`Display`インターフェースに関する追加のドキュメントは、[こちら](https://developer.amazon.com/ja/docs/custom-skills/display-interface-reference.html)にあります。
 
 ### Playback Controllerインターフェース
 `PlaybackController`インターフェースは、ユーザーがデバイスのボタンやリモコンのようなプレイヤーコントロールとやり取りするときに送信されるリクエストを、スキルで処理できるようにします。これらのリクエストは、意図を表わすリクエストとして標準的である「アレクサ、次の曲」のような通常の音声による要求と異なります。スキルに`PlaybackController`リクエストを処理させるには、開発者がAlexa Node.js SDKで`PlaybackController`インターフェースを実装しなければいけません。
@@ -598,7 +599,7 @@ const handlers = {
     }
 };
 ```
-`PlaybackController`インターフェースについての追加のドキュメントは、[こちら](https://developer.amazon.com/docs/custom-skills/playback-controller-interface-reference.html)にあります。
+`PlaybackController`インターフェースについての追加のドキュメントは、[こちら](https://developer.amazon.com/ja/docs/custom-skills/playback-controller-interface-reference.html)にあります。
 
 
 ### VideoAppインターフェース
@@ -616,7 +617,7 @@ Echo Showでネイティブビデオファイルをストリーミングする�
     this.emit(':responseReady');
 }
 ```
-`VideoApp`インターフェースに関する追加のドキュメントは、[こちら](https://developer.amazon.com/docs/custom-skills/videoapp-interface-reference.html)にあります。
+`VideoApp`インターフェースに関する追加のドキュメントは、[こちら](https://developer.amazon.com/ja/docs/custom-skills/videoapp-interface-reference.html)にあります。
 
 ### SkillとList Events
 Alexaスキルイベントにスキルがサブスクライブすると、イベントが発生した時にスキルは通知を受けます。
@@ -936,7 +937,7 @@ exports.handler = function (event, context, callback) {
 this.attributes['yourAttribute'] = 'value';
 ```
 
-事前に[テーブルを手動で作成する](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SampleData.CreateTables.html)か、Lambda関数にDynamoDBの[テーブル作成を許可する](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_CreateTable.html)ことで、自動的に実行されます。最初の呼び出しで、テーブルが作成されるまでに1〜2分かかることだけを覚えておいてください。手動でテーブルを作成する場合、主キーは"userId"という文字列値でなければいけません。
+事前に[テーブルを手動で作成する](http://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/SampleData.CreateTables.html)か、Lambda関数にDynamoDBの[テーブル作成を許可する](http://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/APIReference/API_CreateTable.html)ことで、自動的に実行されます。最初の呼び出しで、テーブルが作成されるまでに1〜2分かかることだけを覚えておいてください。手動でテーブルを作成する場合、主キーは"userId"という文字列値でなければいけません。
 
 注意: Lambdaでスキルをホストし、DynamoDBでスキル属性を保持することを選んだ場合は、Lambda関数の実行ロールにDynamoDBへのアクセス権限を含めてください。
 
@@ -989,7 +990,7 @@ const handlers = {
     }
 };
 ```
-多言語でのスキルの開発とデプロイについて、さらに詳しい情報は[こちら](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/developing-skills-in-multiple-languages)を参照してください。
+多言語でのスキルの開発とデプロイについて、さらに詳しい情報は[こちら](https://developer.amazon.com/ja/docs/custom-skills/develop-skills-in-multiple-languages.html)を参照してください。
 
 ### Device IDのサポート
 ユーザーがAlexaスキルを有効化すると、スキルは、ユーザーのAlexaデバイスに関連づけられたアドレスデータを使用するためのユーザー許可を取得できます。このアドレスデータを使用して、スキルに重要な機能を提供したり、ユーザー体験を強化したりできます。
@@ -998,7 +999,7 @@ const handlers = {
 
 ### Speechcons (感嘆詞)
 
-[Speechcons](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speechcon-reference)は、Alexaがより表現力豊かに発音する特殊な単語とフレーズです。出力するテキストにSSMLマークアップを入れるだけで使えます。
+[Speechcons](https://developer.amazon.com/ja/docs/custom-skills/speechcon-reference-interjections-japanese.html)は、Alexaがより表現力豊かに発音する特殊な単語とフレーズです。出力するテキストにSSMLマークアップを入れるだけで使えます。
 
 * `this.emit(':tell', 'あなたが教えてくれたAlexaスキルを見ると、わたしはときどき <say-as interpret-as="interjection">やれやれ</say-as> と言わざるをえません。');`
 * `this.emit(':tell', '<say-as interpret-as="interjection">いらっしゃいませ</say-as><break time="1s"/> これはただの一例です。');`
@@ -1016,7 +1017,7 @@ Alexa Skills Kitを開始する方法の詳細は、次の追加のドキュメ�
 
 [Alexa Training with Big Nerd Ranch](https://developer.amazon.com/public/community/blog/tag/Big+Nerd+Ranch)
 
-[Alexa Skills Kit (ASK)](https://developer.amazon.com/ask)
+[Alexa Skills Kit (ASK)](https://developer.amazon.com/ja/alexa-skills-kit)
 
 [Alexa Developer Forums](https://forums.developer.amazon.com/forums/category.jspa?categoryID=48)
 
