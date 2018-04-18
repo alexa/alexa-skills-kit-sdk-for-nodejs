@@ -1,0 +1,46 @@
+{
+  "name": "ask-sdk-v1adapter",
+  "version": "2.0.0",
+  "description": "Adapter from v1 Alexa Node.js SDK to v2",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "default": "gulp"
+  },
+  "author": "Amazon.com",
+  "contributors": [
+    {
+      "name": "Tianren Zhang",
+      "email": "tianrenz@amazon.com"
+    },
+    {
+      "name": "Tiantian Xie",
+      "email": "xtiantia@amazon.com"
+    }
+  ],
+  "license": "Apache-2.0",
+  "keywords": [
+    "Alexa",
+    "Skill",
+    "SDK"
+  ],
+  "dependencies": {
+    "i18next": "^3.4.1",
+    "i18next-sprintf-postprocessor": "^0.2.2"
+  },
+  "peerDependencies": {
+    "ask-sdk": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^9.6.1",
+    "ask-sdk": "^2.0.0",
+    "del": "^3.0.0",
+    "gulp": "^4.0.0",
+    "nock": "^9.2.3",
+    "tslint": "^5.9.1",
+    "typescript": "^2.8.1"
+  },
+  "repository": "github:alexa/alexa-skills-kit-sdk-for-nodejs",
+  "bugs": "https://github.com/alexa/alexa-skill-sdk-for-nodejs/issues",
+  "homepage": "https://github.com/alexa/alexa-skill-sdk-for-nodejs#readme"
+}
