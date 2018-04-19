@@ -13,7 +13,7 @@
 
 'use strict';
 
-import { interfaces } from 'ask-sdk-model';
+import {interfaces, ui} from 'ask-sdk-model';
 import { expect } from 'chai';
 import { ImageHelper } from '../../lib/response/ImageHelper';
 import { ResponseBuilder } from '../../lib/response/ResponseBuilder';
@@ -24,6 +24,7 @@ import PlayBehavior = interfaces.audioplayer.PlayBehavior;
 import ClearBehavior = interfaces.audioplayer.ClearBehavior;
 import Image = interfaces.display.Image;
 import BodyTemplate1 = interfaces.display.BodyTemplate1;
+import SsmlOutputSpeech = ui.SsmlOutputSpeech;
 
 describe('ResponseFactory', () => {
 
@@ -54,6 +55,15 @@ describe('ResponseFactory', () => {
         expect(responseBuilder.speak(speechOutput2).getResponse()).to.deep.equal(expectResponse);
     });
 
+    it('should build random response with with array as outputSpeech', () => {
+        const responseBuilder : ResponseBuilder = ResponseFactory.init();
+        const speechOutput = ['HelloWorld!', 'Good day!'];
+        const expectResponse = speechOutput.map((text) => `<speak>${text}</speak>`);
+
+        const {outputSpeech} = responseBuilder.speak(speechOutput).getResponse();
+        expect((outputSpeech as SsmlOutputSpeech).ssml).to.oneOf(expectResponse);
+    });
+
     it('should build response with Ssml reprompt', () => {
         const responseBuilder : ResponseBuilder = ResponseFactory.init();
         const speechOutput = 'HelloWorld!';
@@ -68,6 +78,15 @@ describe('ResponseFactory', () => {
             };
 
         expect(responseBuilder.reprompt(speechOutput).getResponse()).to.deep.equal(expectResponse);
+    });
+
+    it('should build random response with with array as reprompt', () => {
+        const responseBuilder : ResponseBuilder = ResponseFactory.init();
+        const speechOutput = ['HelloWorld!', 'Good day!'];
+        const expectResponse = speechOutput.map((text) => `<speak>${text}</speak>`);
+
+        const {reprompt} = responseBuilder.reprompt(speechOutput).getResponse();
+        expect((reprompt.outputSpeech as SsmlOutputSpeech).ssml).to.oneOf(expectResponse);
     });
 
     it('should build response with simple card', () => {

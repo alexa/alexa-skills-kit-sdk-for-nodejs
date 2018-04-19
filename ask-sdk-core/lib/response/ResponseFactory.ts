@@ -71,22 +71,26 @@ export class ResponseFactory {
         }
 
         return {
-            speak(speechOutput : string) : ResponseBuilder {
+            speak(speechOutput : string | string[]) : ResponseBuilder {
+                const speech : string = Array.isArray(speechOutput) ? speechOutput[Math.floor(Math.random() * speechOutput.length)] : speechOutput;
+
                 response.outputSpeech = {
                     type : 'SSML',
                     ssml : '<speak>'
-                           + trimOutputSpeech(speechOutput)
+                           + trimOutputSpeech(speech)
                            + '</speak>',
                 };
 
                 return this;
             },
-            reprompt(repromptSpeechOutput : string) : ResponseBuilder {
+            reprompt(repromptSpeechOutput : string | string[]) : ResponseBuilder {
+                const speech : string = Array.isArray(repromptSpeechOutput) ? repromptSpeechOutput[Math.floor(Math.random() * repromptSpeechOutput.length)] : repromptSpeechOutput;
+
                 response.reprompt = {
                     outputSpeech : {
                         type : 'SSML',
                         ssml : '<speak>'
-                               + trimOutputSpeech(repromptSpeechOutput)
+                               + trimOutputSpeech(speech)
                                + '</speak>',
                     },
                 };
