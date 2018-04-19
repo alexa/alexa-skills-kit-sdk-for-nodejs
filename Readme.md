@@ -1,9 +1,9 @@
 
-The ASK SDK v2 for Node.js makes it easier for you to build highly engaging skills by allowing you to spend more time on implementing features and less less writing boiler-plate code.
+The ASK SDK v2 for Node.js makes it easier for you to build highly engaging skills by allowing you to spend more time on implementing features and less writing boiler-plate code.
 
 To help you get started more quickly with the SDK, see the following resources.
 
-## Technial Documentation
+## Technical Documentation
 
 ### [Setting Up The ASK SDK](../../wiki/Setting-Up-The-ASK-SDK)
 Shows how to install the SDK as a dependency in your NPM project.
