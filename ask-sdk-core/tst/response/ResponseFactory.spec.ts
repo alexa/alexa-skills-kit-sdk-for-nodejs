@@ -44,6 +44,7 @@ describe('ResponseFactory', () => {
         const responseBuilder : ResponseBuilder = ResponseFactory.init();
         const speechOutput = '<speak>   HelloWorld!  </speak>';
         const speechOutput2 = '  <speak>  HelloWorld! </speak>  ';
+        const speechOutput3 = '<speak>HelloWorld!</speak>';
         const expectResponse = {
             outputSpeech: {
                 ssml: '<speak>' + 'HelloWorld!' + '</speak>',
@@ -52,6 +53,7 @@ describe('ResponseFactory', () => {
         };
         expect(responseBuilder.speak(speechOutput).getResponse()).to.deep.equal(expectResponse);
         expect(responseBuilder.speak(speechOutput2).getResponse()).to.deep.equal(expectResponse);
+        expect(responseBuilder.speak(speechOutput3).getResponse()).to.deep.equal(expectResponse);
     });
 
     it('should build response with Ssml reprompt', () => {
