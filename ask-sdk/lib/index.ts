@@ -20,6 +20,7 @@ export { SkillBuilders } from './skill/SkillBuilders';
 export {
     AttributesManager,
     AttributesManagerFactory,
+    AudioPlayerRequestHandler,
     BaseSkillBuilder,
     BaseSkillFactory,
     CustomSkillBuilder,
