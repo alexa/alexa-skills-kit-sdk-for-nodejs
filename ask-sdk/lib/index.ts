@@ -20,6 +20,7 @@ export { SkillBuilders } from './skill/SkillBuilders';
 export {
     AttributesManager,
     AttributesManagerFactory,
+    AudioPlayerRequestHandler,
     BaseSkillBuilder,
     BaseSkillFactory,
     CustomSkillBuilder,
@@ -36,6 +37,7 @@ export {
     HandlerAdapter,
     HandlerInput,
     ImageHelper,
+    NamedIntentRequestHandler,
     PersistenceAdapter,
     PlainTextContentHelper,
     RequestDispatcher,
