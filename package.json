@@ -3,7 +3,7 @@
 	"scripts": {
 		"lerna": "./node_modules/.bin/lerna",
 		"bootstrap": "npm run lerna -- bootstrap --hoist --nohoist=ts-node",
-		"gulp": "npm run lerna -- exec gulp",
+		"gulp": "npm run lerna -- exec ./node_modules/.bin/gulp",
 		"tsc": "npm run gulp -- tsc",
 		"tslint": "npm run gulp -- tslint",
 		"test": "npm run gulp -- test",

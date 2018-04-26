@@ -13,26 +13,49 @@
 
 'use strict';
 
+import { services } from 'ask-sdk-model';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
+import { ApiClient } from '../../lib/services/apiClient';
 import { ListManagementService } from '../../lib/services/listManagementService';
 
 const mockToken = 'token';
 const mockListId = 'listId';
 const mockListItemId = 'listItemId';
 const mockListItemStatus = 'active';
-const mockAPIResult = { statusCode: 200, body: '' };
-const mockAPIFailFailureResult = { statusCode: 400, body: 'Error'};
-
+const mockAPIResult : services.ApiClientResponse = {
+    headers : [],
+    statusCode: 200,
+    body: '',
+};
+const mockAPIFailedResult : services.ApiClientResponse = {
+    headers : [],
+    statusCode: 400,
+    body: 'Error',
+};
 describe('ListManagementService', () => {
     it('should call corresponding apiClient method', () => {
         const mockListObject = {};
         const mockListItemObject = {};
-        const apiStub = {
-            post : () => Promise.resolve(mockAPIResult),
-            put : () => Promise.resolve(mockAPIResult),
-            get : () => Promise.resolve(mockAPIResult),
-            delete : () => Promise.resolve(mockAPIResult),
+        const apiStub : ApiClient = {
+            post : (
+                uri : string,
+                headers : Array<{key : string, value : string}>,
+                body : string,
+            ) => Promise.resolve(mockAPIResult),
+            put : (
+                uri : string,
+                headers : Array<{key : string, value : string}>,
+                body : string,
+            ) => Promise.resolve(mockAPIResult),
+            get : (
+                uri : string,
+                headers : Array<{key : string, value : string}>,
+            ) => Promise.resolve(mockAPIResult),
+            delete : (
+                uri : string,
+                headers : Array<{key : string, value : string}>,
+            ) => Promise.resolve(mockAPIResult),
         };
         const spyPost = sinon.spy(apiStub, 'post');
         const spyPut = sinon.spy(apiStub, 'put');
@@ -85,8 +108,11 @@ describe('ListManagementService', () => {
     });
 
     it('should properly construct uri and headers with given non empty query parameters', () => {
-        const apiStub = {
-            get : () => Promise.resolve(mockAPIResult),
+        const apiStub : ApiClient = {
+            get : (
+                uri : string,
+                headers : Array<{key : string, value : string}>,
+            ) => Promise.resolve(mockAPIResult),
         };
         const spyGet = sinon.spy(apiStub, 'get');
 
@@ -103,8 +129,11 @@ describe('ListManagementService', () => {
     });
 
     it('should reject promise on http request error', () => {
-        const apiStub = {
-            get : () => Promise.reject(new Error('Error')),
+        const apiStub : ApiClient = {
+            get : (
+                uri : string,
+                headers : Array<{key : string, value : string}>,
+            ) => Promise.reject(new Error('Error')),
         };
 
         const expectedErrMsg = 'Error';
@@ -121,8 +150,11 @@ describe('ListManagementService', () => {
     });
 
     it('should reject promise with error message if the device API returns a non 2xx status', () => {
-        const apiStub = {
-            get : () => Promise.resolve(mockAPIFailFailureResult),
+        const apiStub : ApiClient = {
+            get : (
+                uri : string,
+                headers : Array<{key : string, value : string}>,
+            ) => Promise.resolve(mockAPIFailedResult),
         };
 
         const expectedErrMsg = JSON.stringify('Error');
