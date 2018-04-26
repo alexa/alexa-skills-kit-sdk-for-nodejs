@@ -13,8 +13,8 @@
 
 'use strict';
 
-export { DynamoDbPersistenceAdapter } from './lib/attributes/persistence/DynamoDbPersistenceAdapter';
+export { DynamoDbPersistenceAdapter } from './attributes/persistence/DynamoDbPersistenceAdapter';
 export {
     PartitionKeyGenerator,
     PartitionKeyGenerators,
-} from './lib/attributes/persistence/PartitionKeyGenerators';
+} from './attributes/persistence/PartitionKeyGenerators';

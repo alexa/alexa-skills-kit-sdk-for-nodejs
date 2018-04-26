@@ -1,0 +1,10 @@
+{
+  "lerna": "2.10.2",
+  "packages": [
+    "ask-sdk",
+    "ask-sdk-core",
+    "ask-sdk-dynamodb-persistence-adapter",
+    "ask-sdk-v1adapter"
+  ],
+  "version": "independent"
+}

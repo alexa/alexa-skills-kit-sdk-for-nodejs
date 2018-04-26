@@ -1,11 +1,11 @@
 {
   "name": "ask-sdk-v1adapter",
-  "version": "2.0.1",
+  "version": "2.0.2-SNAPSHOT",
   "description": "Adapter from v1 Alexa Node.js SDK to v2",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "default": "gulp"
+    "default": "./node_modules/.bin/gulp"
   },
   "author": "Amazon.com",
   "contributors": [

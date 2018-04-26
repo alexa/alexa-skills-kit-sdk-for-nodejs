@@ -16,7 +16,7 @@
 import {
     HandlerInput,
     RequestInterceptor,
-} from 'ask-sdk-core';
+} from 'ask-sdk';
 
 export class CopySessionAttributesInterceptor implements RequestInterceptor {
     public process(handlerInput : HandlerInput) : void {

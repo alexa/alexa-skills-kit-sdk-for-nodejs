@@ -1,11 +1,11 @@
 {
   "name": "ask-sdk-dynamodb-persistence-adapter",
-  "version": "2.0.0",
+  "version": "2.0.1-SNAPSHOT",
   "description": "DynamoDB based implementation package of PersistenceAdapter interface in ASK SDK v2 for Node.js",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "default": "gulp"
+    "default": "./node_modules/.bin/gulp"
   },
   "author": "Amazon.com",
   "contributors": [
