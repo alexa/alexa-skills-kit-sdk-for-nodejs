@@ -61,6 +61,9 @@ export class ResponseFactory {
         }
 
         function trimOutputSpeech(speechOutput : string) : string {
+            if (!speechOutput) {
+                return '';
+            }
             const speech = speechOutput.trim();
             const length = speech.length;
             if (speech.startsWith('<speak>') && speech.endsWith('</speak>')) {

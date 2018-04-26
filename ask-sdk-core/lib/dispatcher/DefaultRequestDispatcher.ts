@@ -76,7 +76,7 @@ export class DefaultRequestDispatcher implements RequestDispatcher {
         if (!handlerChain) {
             throw createAskSdkError(
                 this.constructor.name,
-                'RequestHandlerChain not found!');
+                `Could not find handler that can handle the request: ${JSON.stringify(handlerInput.requestEnvelope.request, null, 2)}`);
         }
 
         const handler = handlerChain.getRequestHandler();

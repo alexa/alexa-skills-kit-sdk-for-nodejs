@@ -40,7 +40,13 @@ export const JsonProvider = {
                     },
                 },
             },
-            request: null,
+            request: {
+                type: 'LaunchRequest',
+                requestId: null,
+                timestamp : null,
+                locale: null,
+
+            },
             session: {
                 application: {
                     applicationId: null,

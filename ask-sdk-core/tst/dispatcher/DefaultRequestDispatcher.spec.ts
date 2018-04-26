@@ -236,7 +236,7 @@ describe('DefaultRequestDispatcher', () => {
             await dispatcher.dispatch(handlerInput);
         } catch (err) {
             expect(err.name).equal('AskSdk.DefaultRequestDispatcher Error');
-            expect(err.message).equal('RequestHandlerChain not found!');
+            expect(err.message).equal(`Could not find handler that can handle the request: ${JSON.stringify(handlerInput.requestEnvelope.request, null, 2)}`);
 
             return;
         }
@@ -306,7 +306,7 @@ describe('DefaultRequestDispatcher', () => {
             await dispatcher.dispatch(handlerInput);
         } catch (err) {
             expect(err.name).equal('AskSdk.DefaultRequestDispatcher Error');
-            expect(err.message).equal('RequestHandlerChain not found!');
+            expect(err.message).equal(`Could not find handler that can handle the request: ${JSON.stringify(handlerInput.requestEnvelope.request, null, 2)}`);
 
             return;
         }

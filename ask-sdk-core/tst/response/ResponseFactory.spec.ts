@@ -51,9 +51,22 @@ describe('ResponseFactory', () => {
                 type: 'SSML',
             },
         };
+
         expect(responseBuilder.speak(speechOutput).getResponse()).to.deep.equal(expectResponse);
         expect(responseBuilder.speak(speechOutput2).getResponse()).to.deep.equal(expectResponse);
         expect(responseBuilder.speak(speechOutput3).getResponse()).to.deep.equal(expectResponse);
+    });
+
+    it('should return empty string for trimOutputSpeech function if speechOutput is null or undefined or empty string', () => {
+        const responseBuilder : ResponseBuilder = ResponseFactory.init();
+        const expectResponse = {
+            outputSpeech: {
+                ssml: '<speak>' + '</speak>',
+                type: 'SSML',
+            },
+        };
+
+        expect(responseBuilder.speak(null).getResponse()).to.deep.equal(expectResponse);
     });
 
     it('should build response with Ssml reprompt', () => {

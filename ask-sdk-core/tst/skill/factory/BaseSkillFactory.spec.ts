@@ -252,7 +252,7 @@ describe('BaseSkillFactory', () => {
         const skill = BaseSkillFactory.init()
             .addErrorHandler(
                 (handlerInput, error) => {
-                    return error.message === 'RequestHandlerChain not found!';
+                    return error.message === `Could not find handler that can handle the request: ${JSON.stringify(handlerInput.requestEnvelope.request, null, 2)}`;
                 },
                 (handlerInput, error) => {
                     return handlerInput.responseBuilder.speak('In ErrorHandler').getResponse();
@@ -325,7 +325,7 @@ describe('BaseSkillFactory', () => {
         };
 
         skillLambda(wrongRequestEnvelope, null, (error, responseEnvelope) => {
-            expect(error.message).equal('RequestHandlerChain not found!');
+            expect(error.message).equal(`Could not find handler that can handle the request: ${JSON.stringify(wrongRequestEnvelope.request, null, 2)}`);
             done();
         });
     });
