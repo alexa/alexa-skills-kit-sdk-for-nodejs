@@ -45,7 +45,7 @@ export class DefaultRequestDispatcher implements RequestDispatcher {
      * Main entry point for dispatching logic.
      * Dispatches handlerInput to requestHandlers and error, if any, to _errorHandlers
      * @param {HandlerInput} handlerInput
-     * @returns {Promise<ResponseEnvelope>}
+     * @returns {Promise<Response>}
      */
     public async dispatch(handlerInput : HandlerInput) : Promise<Response> {
         let response : Response;
