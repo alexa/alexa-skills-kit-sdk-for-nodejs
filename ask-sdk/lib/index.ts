@@ -36,6 +36,7 @@ export {
     HandlerAdapter,
     HandlerInput,
     ImageHelper,
+    NamedIntentRequestHandler,
     PersistenceAdapter,
     PlainTextContentHelper,
     RequestDispatcher,

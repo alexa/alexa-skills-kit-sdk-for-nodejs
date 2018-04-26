@@ -26,6 +26,7 @@ export { GenericRequestHandlerChain } from './dispatcher/request/handler/Generic
 export { HandlerAdapter } from './dispatcher/request/handler/HandlerAdapter';
 export { HandlerInput } from './dispatcher/request/handler/HandlerInput';
 export { RequestHandler } from './dispatcher/request/handler/RequestHandler';
+export { NamedIntentRequestHandler } from './dispatcher/request/handler/NamedIntentRequestHandler';
 export { RequestHandlerChain } from './dispatcher/request/handler/RequestHandlerChain';
 export { RequestInterceptor } from './dispatcher/request/interceptor/RequestInterceptor';
 export { ResponseInterceptor } from './dispatcher/request/interceptor/ResponseInterceptor';
