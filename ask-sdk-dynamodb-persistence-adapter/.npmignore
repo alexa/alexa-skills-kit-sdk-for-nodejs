@@ -1,0 +1,11 @@
+coverage/
+doc/
+lib/
+node_modules/
+tst/
+gulpfile.js
+gulpfile-base.js
+lib/index.ts
+package-lock.json
+tsconfig.json
+tslint.json

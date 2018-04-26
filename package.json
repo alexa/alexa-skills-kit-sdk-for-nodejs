@@ -1,0 +1,18 @@
+{
+	"private": true,
+	"scripts": {
+		"lerna": "./node_modules/.bin/lerna",
+		"bootstrap": "npm run lerna -- bootstrap --hoist --nohoist=ts-node",
+		"gulp": "npm run lerna -- exec ./node_modules/.bin/gulp",
+		"tsc": "npm run gulp -- tsc",
+		"tslint": "npm run gulp -- tslint",
+		"test": "npm run gulp -- test",
+		"doc": "npm run gulp -- doc",
+		"clean-build": "npm run gulp -- clean",
+		"clean-node_modules": "npm run lerna -- clean",
+		"clean-all": "npm run clean-build && npm run clean-node_modules"
+	},
+	"devDependencies": {
+		"lerna": "^2.10.2"
+	}
+}

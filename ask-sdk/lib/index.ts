@@ -13,9 +13,9 @@
 
 'use strict';
 
-export { StandardSkillBuilder } from './lib/skill/factory/StandardSkillBuilder';
-export { StandardSkillFactory } from './lib/skill/factory/StandardSkillFactory';
-export { SkillBuilders } from './lib/skill/SkillBuilders';
+export { StandardSkillBuilder } from './skill/factory/StandardSkillBuilder';
+export { StandardSkillFactory } from './skill/factory/StandardSkillFactory';
+export { SkillBuilders } from './skill/SkillBuilders';
 
 export {
     AttributesManager,

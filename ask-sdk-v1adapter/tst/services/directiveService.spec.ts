@@ -13,19 +13,36 @@
 
 'use strict';
 
+import { services } from 'ask-sdk-model';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { VoicePlayerSpeakDirective } from '../../lib/directives/voicePlayerSpeakDirective';
+import { ApiClient } from '../../lib/services/apiClient';
 import { DirectiveService } from '../../lib/services/directiveService';
 
 const testEndpoint = 'http://dummy';
 const testToken = 'token';
 const directive : VoicePlayerSpeakDirective = new VoicePlayerSpeakDirective('mock id', 'mock speech content');
+const mockAPIResult : services.ApiClientResponse = {
+    headers : [],
+    statusCode: 200,
+    body: '',
+};
+const mockAPIFailedResult : services.ApiClientResponse = {
+    headers : [],
+    statusCode: 400,
+    body: 'Error',
+};
 
 describe('DirectiveService', () => {
     it('should call /v1/directives API', () => {
-        const fakeApiResult = { statusCode: 200, body: '' };
-        const apiStub = { post : () => Promise.resolve(fakeApiResult) };
+        const apiStub : ApiClient = {
+            post : (
+                uri : string,
+                headers : Array<{key : string, value : string}>,
+                body : string,
+            ) => Promise.resolve(mockAPIResult),
+        };
         const spy = sinon.spy(apiStub, 'post');
 
         const ds = new DirectiveService(apiStub);
@@ -37,8 +54,13 @@ describe('DirectiveService', () => {
     });
 
     it('should not reject promise on error', () => {
-        const errMsg = 'error';
-        const apiStub = { post : () => Promise.reject(new Error(errMsg)) };
+        const apiStub : ApiClient = {
+            post : (
+                uri : string,
+                headers : Array<{key : string, value : string}>,
+                body : string,
+            ) => Promise.reject(new Error('error')),
+        };
 
         const ds = new DirectiveService(apiStub);
 
@@ -47,14 +69,18 @@ describe('DirectiveService', () => {
                 expect.fail('should have thrown exception');
             })
             .catch((err) => {
-                expect(err.message).to.equal(errMsg);
+                expect(err.message).to.equal('error');
             });
     });
 
     it('should reject the promise with the error message if the API client returns a non 2xx status', () => {
-        const expectedMessage = 'Invalid Directive';
-        const fakeApiResult = { statusCode: 400, body: `${expectedMessage}` };
-        const apiStub = { post: () =>  Promise.resolve(fakeApiResult) };
+        const apiStub : ApiClient = {
+            post : (
+                uri : string,
+                headers : Array<{key : string, value : string}>,
+                body : string,
+            ) => Promise.resolve(mockAPIFailedResult),
+        };
 
         const ds = new DirectiveService(apiStub);
 
@@ -64,14 +90,18 @@ describe('DirectiveService', () => {
             })
             .catch((err) => {
                 expect(err.statusCode).to.equal(400);
-                expect(err.message).to.equal(JSON.stringify(expectedMessage));
+                expect(err.message).to.equal(JSON.stringify('Error'));
             });
     });
 
     it('should not expose any implementation details on the returning promise', () => {
-        const fakeApiResult = { statusCode: 200, body: '' };
-        const apiStub = { post : () => Promise.resolve(fakeApiResult) };
-
+        const apiStub : ApiClient = {
+            post : (
+                uri : string,
+                headers : Array<{key : string, value : string}>,
+                body : string,
+            ) => Promise.resolve(mockAPIResult),
+        };
         const ds = new DirectiveService(apiStub);
 
         return ds.enqueue(directive, testEndpoint, testToken)

@@ -12,27 +12,27 @@
  */
 
 import { RequestEnvelope } from 'ask-sdk-model';
-import { Adapter } from './lib/adapter';
-import { VoicePlayerSpeakDirective } from './lib/directives/voicePlayerSpeakDirective';
-import { DeviceAddressService } from './lib/services/deviceAddressService';
-import { DirectiveService } from './lib/services/directiveService';
-import { ListManagementService } from './lib/services/listManagementService';
-import { BodyTemplate1Builder } from './lib/templateBuilders/bodyTemplate1Builder';
-import { BodyTemplate2Builder } from './lib/templateBuilders/bodyTemplate2Builder';
-import { BodyTemplate3Builder } from './lib/templateBuilders/bodyTemplate3Builder';
-import { BodyTemplate6Builder } from './lib/templateBuilders/bodyTemplate6Builder';
-import { BodyTemplate7Builder } from './lib/templateBuilders/bodyTemplate7Builder';
-import { ListItemBuilder } from './lib/templateBuilders/listItemBuilder';
-import { ListTemplate1Builder } from './lib/templateBuilders/listTemplate1Builder';
-import { ListTemplate2Builder } from './lib/templateBuilders/listTemplate2Builder';
-import { ImageUtils } from './lib/utils/imageUtils';
-import { TextUtils } from './lib/utils/textUtils';
-import { V1Handler } from './lib/v1Handler';
+import { Adapter } from './adapter';
+import { VoicePlayerSpeakDirective } from './directives/voicePlayerSpeakDirective';
+import { DeviceAddressService } from './services/deviceAddressService';
+import { DirectiveService } from './services/directiveService';
+import { ListManagementService } from './services/listManagementService';
+import { BodyTemplate1Builder } from './templateBuilders/bodyTemplate1Builder';
+import { BodyTemplate2Builder } from './templateBuilders/bodyTemplate2Builder';
+import { BodyTemplate3Builder } from './templateBuilders/bodyTemplate3Builder';
+import { BodyTemplate6Builder } from './templateBuilders/bodyTemplate6Builder';
+import { BodyTemplate7Builder } from './templateBuilders/bodyTemplate7Builder';
+import { ListItemBuilder } from './templateBuilders/listItemBuilder';
+import { ListTemplate1Builder } from './templateBuilders/listTemplate1Builder';
+import { ListTemplate2Builder } from './templateBuilders/listTemplate2Builder';
+import { ImageUtils } from './utils/imageUtils';
+import { TextUtils } from './utils/textUtils';
+import { V1Handler } from './v1Handler';
 
-export { Adapter } from './lib/adapter';
-export { Handler } from './lib/handler';
-export { V1Handler } from './lib/v1Handler';
-export { ResponseBuilder } from './lib/responseBuilderShim';
+export { Adapter } from './adapter';
+export { Handler } from './handler';
+export { V1Handler } from './v1Handler';
+export { ResponseBuilder } from './responseBuilderShim';
 
 export const services = {
     DeviceAddressService,

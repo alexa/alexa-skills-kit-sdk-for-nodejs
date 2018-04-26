@@ -13,10 +13,12 @@
 
 'use strict';
 
-import { DefaultApiClient,
-         RequestHandler,
-         SkillBuilders } from 'ask-sdk';
-import { DynamoDbPersistenceAdapter, PartitionKeyGenerators } from 'ask-sdk-dynamodb-persistence-adapter';
+import {
+    DefaultApiClient,
+    DynamoDbPersistenceAdapter,
+    RequestHandler,
+    SkillBuilders,
+} from 'ask-sdk';
 import { RequestEnvelope, Response, ResponseEnvelope } from 'ask-sdk-model';
 import { DynamoDB } from 'aws-sdk';
 import { EventEmitter } from 'events';
