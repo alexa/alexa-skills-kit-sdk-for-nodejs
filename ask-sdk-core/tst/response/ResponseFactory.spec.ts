@@ -344,8 +344,15 @@ describe('ResponseFactory', () => {
         const behavior : PlayBehavior = 'ENQUEUE';
         const audioSource = 'https://url/to/audiosource';
         const audioToken = 'audio token';
-        const previousToken = 'previous token';
         const offset = 10000;
+        const previousToken = 'previous token';
+        const audioItemMetadata = {
+            title : 'title',
+            subtitle : 'subtitle',
+            art : new ImageHelper().withDescription('description').addImageInstance('fakeUrl.com').getImage(),
+            backgroundImage : new ImageHelper().withDescription('description').addImageInstance('fakeUrl.com').getImage(),
+        };
+
         const expectResponse1 = {
             directives : [
                 {   audioItem : {
@@ -375,8 +382,47 @@ describe('ResponseFactory', () => {
                 },
             ],
         };
+
+        const expectResponse3 = {
+            directives: [
+                {
+                    audioItem: {
+                        metadata: {
+                            art: {
+                                contentDescription: 'description',
+                                sources: [
+                                    {
+                                        url: 'fakeUrl.com',
+                                    },
+                                ],
+                            },
+                            backgroundImage: {
+                                contentDescription: 'description',
+                                sources: [
+                                    {
+                                        url: 'fakeUrl.com',
+                                    },
+                                ],
+                            },
+                            subtitle: 'subtitle',
+                            title: 'title',
+                        },
+                        stream: {
+                            expectedPreviousToken: 'previous token',
+                            offsetInMilliseconds: 10000,
+                            token: 'audio token',
+                            url: 'https://url/to/audiosource',
+                        },
+                    },
+                    playBehavior: 'ENQUEUE',
+                    type: 'AudioPlayer.Play',
+                },
+            ],
+        };
+
         expect(ResponseFactory.init().addAudioPlayerPlayDirective(behavior, audioSource, audioToken, offset, previousToken).getResponse()).to.deep.equals(expectResponse1);
         expect(ResponseFactory.init().addAudioPlayerPlayDirective(behavior, audioSource, audioToken, offset).getResponse()).to.deep.equals(expectResponse2);
+        expect(ResponseFactory.init().addAudioPlayerPlayDirective(behavior, audioSource, audioToken, offset, previousToken, audioItemMetadata).getResponse()).to.deep.equals(expectResponse3);
     });
 
     it('should build response with AudioPlayer.Stop directive', () => {

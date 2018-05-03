@@ -19,6 +19,7 @@ import {
     interfaces,
     Response,
 } from 'ask-sdk-model';
+import AudioItemMetadata = interfaces.audioplayer.AudioItemMetadata;
 
 /**
  * An interface which helps building a response.
@@ -113,13 +114,15 @@ export interface ResponseBuilder {
      * This property is required and allowed only when the playBehavior is ENQUEUE.
      * This is used to prevent potential race conditions if requests to progress
      * through a playlist and change tracks occur at the same time.
+     * @param {interfaces.audioplayer.AudioItemMetadata} audioItemMetadata Metadata that can be displayed on screen enabled devices
      * @returns {ResponseBuilder}
      */
     addAudioPlayerPlayDirective(playBehavior : interfaces.audioplayer.PlayBehavior,
                                 url : string,
                                 token : string,
                                 offsetInMilliseconds : number,
-                                expectedPreviousToken? : string) : this;
+                                expectedPreviousToken? : string,
+                                audioItemMetadata? : AudioItemMetadata) : this;
     /**
      * Adds an AudioPlayer Stop directive - Stops the current audio Playback
      * @returns {ResponseBuilder}
