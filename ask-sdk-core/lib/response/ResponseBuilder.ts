@@ -26,18 +26,19 @@ import AudioItemMetadata = interfaces.audioplayer.AudioItemMetadata;
  */
 export interface ResponseBuilder {
     /**
-     * Has Alexa say the provided speech to the user
+     * Has Alexa say the provided speech to the user. If speechOutput is an array, pick one of the strings randomly.
      * @param {string} speechOutput
      * @returns {ResponseBuilder}
      */
-    speak(speechOutput : string) : this;
+    speak(speechOutput : string | string[]) : this;
     /**
      * Has alexa listen for speech from the user. If the user doesn't respond within 8 seconds
-     * then has alexa reprompt with the provided reprompt speech
+     * then has alexa reprompt with the provided reprompt speech. If repromptSpeechOutput is an array,
+     * pick one of the strings randomly.
      * @param {string} repromptSpeechOutput
      * @returns {ResponseBuilder}
      */
-    reprompt(repromptSpeechOutput : string) : this;
+    reprompt(repromptSpeechOutput : string | string[]) : this;
     /**
      * Renders a simple card with the following title and content
      * @param {string} cardTitle
