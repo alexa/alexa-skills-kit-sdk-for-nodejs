@@ -37,6 +37,9 @@ Covers how to use service clients in your skill to access Alexa APIs.
 ### [Skill Builders](../../wiki/Skill-Builders)
 Covers how to configure and construct a skill instance.
 
+### [Managing In-Skill Purchases](../../wiki/Managing-In-Skill-Purchases)
+Covers how to manage in-skill products and the purchase experience in your skills.
+
 ## Samples
 
 ### [Hello World](https://github.com/alexa/skill-sample-nodejs-hello-world)
