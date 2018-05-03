@@ -37,6 +37,7 @@ import DelegateDirective = dialog.DelegateDirective;
 import ElicitSlotDirective = dialog.ElicitSlotDirective;
 import ConfirmSlotDirective = dialog.ConfirmSlotDirective;
 import ConfirmIntentDirective = dialog.ConfirmIntentDirective;
+import AudioItemMetadata = interfaces.audioplayer.AudioItemMetadata;
 
 /**
  * Responsible for building JSON responses using ask-sdk-model as per the Alexa skills kit interface
@@ -205,7 +206,8 @@ export class ResponseFactory {
                 url : string,
                 token : string,
                 offsetInMilliseconds : number,
-                expectedPreviousToken? : string) : ResponseBuilder {
+                expectedPreviousToken? : string,
+                audioItemMetadata? : AudioItemMetadata) : ResponseBuilder {
                 const stream : Stream = {
                     url,
                     token,
@@ -219,6 +221,10 @@ export class ResponseFactory {
                 const audioItem : AudioItem = {
                     stream,
                 };
+
+                if (audioItemMetadata) {
+                    audioItem.metadata = audioItemMetadata;
+                }
 
                 const playDirective : PlayDirective = {
                     type : 'AudioPlayer.Play',
