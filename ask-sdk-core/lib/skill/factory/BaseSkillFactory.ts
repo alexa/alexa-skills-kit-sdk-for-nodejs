@@ -43,7 +43,7 @@ export type LambdaHandler = (
 
 export class BaseSkillFactory {
     public static init() : BaseSkillBuilder {
-        const thisRequestHandlers : RequestHandler[] = [];
+        const thisRequestHandlerChains : DefaultRequestHandlerChain[] = [];
         const thisRequestInterceptors : RequestInterceptor[] = [];
         const thisResponseInterceptors : ResponseInterceptor[] = [];
         const thisErrorHandlers : ErrorHandler[] = [];
@@ -78,16 +78,21 @@ export class BaseSkillFactory {
                             `Matcher must be of type string or function, got: ${typeof matcher}!`);
                     }
                 }
-
-                thisRequestHandlers.push({
-                    canHandle,
-                    handle : executor,
-                });
+                thisRequestHandlerChains.push(new DefaultRequestHandlerChain({
+                    requestHandler : {
+                        canHandle,
+                        handle : executor,
+                    },
+                }));
 
                 return this;
             },
             addRequestHandlers(...requestHandlers : RequestHandler[]) : BaseSkillBuilder {
-                thisRequestHandlers.push(...requestHandlers);
+                for ( const requestHandler of requestHandlers ) {
+                    thisRequestHandlerChains.push(new DefaultRequestHandlerChain({
+                        requestHandler,
+                    }));
+                }
 
                 return this;
             },
@@ -165,18 +170,8 @@ export class BaseSkillFactory {
                 return this;
             },
             getSkillConfiguration() : SkillConfiguration {
-                const requestHandlerChains : DefaultRequestHandlerChain[] = [];
-
-                for ( const requestHandler of thisRequestHandlers ) {
-                    requestHandlerChains.push(new DefaultRequestHandlerChain({
-                        requestHandler,
-                        requestInterceptors : thisRequestInterceptors,
-                        responseInterceptors : thisResponseInterceptors,
-                    }));
-                }
-
                 const requestMapper = new DefaultRequestMapper({
-                    requestHandlerChains,
+                    requestHandlerChains : thisRequestHandlerChains,
                 });
 
                 const errorMapper = thisErrorHandlers.length
@@ -189,6 +184,8 @@ export class BaseSkillFactory {
                     requestMappers : [requestMapper],
                     handlerAdapters : [new DefaultHandlerAdapter()],
                     errorMapper,
+                    requestInterceptors : thisRequestInterceptors,
+                    responseInterceptors : thisResponseInterceptors,
                     customUserAgent : thisCustomUserAgent,
                     skillId : thisSkillId,
                 };

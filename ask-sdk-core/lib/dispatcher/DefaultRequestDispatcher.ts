@@ -20,6 +20,8 @@ import { ErrorMapper } from './error/ErrorMapper';
 import { HandlerAdapter } from './request/handler/HandlerAdapter';
 import { HandlerInput } from './request/handler/HandlerInput';
 import { RequestHandlerChain } from './request/handler/RequestHandlerChain';
+import { RequestInterceptor } from './request/interceptor/RequestInterceptor';
+import { ResponseInterceptor } from './request/interceptor/ResponseInterceptor';
 import { RequestMapper } from './request/mapper/RequestMapper';
 import { RequestDispatcher } from './RequestDispatcher';
 
@@ -30,15 +32,21 @@ export class DefaultRequestDispatcher implements RequestDispatcher {
     protected requestMappers : RequestMapper[];
     protected errorMapper : ErrorMapper;
     protected handlerAdapters : HandlerAdapter[];
+    protected requestInterceptors : RequestInterceptor[];
+    protected responseInterceptors : ResponseInterceptor[];
 
     constructor(options : {
         requestMappers : RequestMapper[],
         handlerAdapters : HandlerAdapter[],
         errorMapper? : ErrorMapper,
+        requestInterceptors? : RequestInterceptor[],
+        responseInterceptors? : ResponseInterceptor[],
     }) {
         this.requestMappers = options.requestMappers;
         this.handlerAdapters = options.handlerAdapters;
         this.errorMapper = options.errorMapper;
+        this.requestInterceptors = options.requestInterceptors;
+        this.responseInterceptors = options.responseInterceptors;
     }
 
     /**
@@ -50,7 +58,22 @@ export class DefaultRequestDispatcher implements RequestDispatcher {
     public async dispatch(handlerInput : HandlerInput) : Promise<Response> {
         let response : Response;
         try {
+            // Execute global request interceptors
+            if (this.requestInterceptors) {
+                for (const requestInterceptor of this.requestInterceptors) {
+                    await requestInterceptor.process(handlerInput);
+                }
+            }
+
+            // Dispatch request to handler chain
             response = await this.dispatchRequest(handlerInput);
+
+            // Execute global response interceptors
+            if (this.responseInterceptors) {
+                for (const responseInterceptor of this.responseInterceptors) {
+                    await responseInterceptor.process(handlerInput, response);
+                }
+            }
         } catch (err) {
             response = await this.dispatchError(handlerInput, err);
         }
@@ -64,25 +87,26 @@ export class DefaultRequestDispatcher implements RequestDispatcher {
      * @returns {Promise<Response>}
      */
     protected async dispatchRequest(handlerInput : HandlerInput) : Promise<Response> {
+        // Get the request handler chain that can handle the request
         let handlerChain : RequestHandlerChain;
-
         for (const requestMapper of this.requestMappers) {
             handlerChain = await requestMapper.getRequestHandlerChain(handlerInput);
             if (handlerChain) {
                 break;
             }
         }
-
         if (!handlerChain) {
             throw createAskSdkError(
                 this.constructor.name,
                 `Could not find handler that can handle the request: ${JSON.stringify(handlerInput.requestEnvelope.request, null, 2)}`);
         }
 
+        // Extract the handler and interceptors from the handler chain
         const handler = handlerChain.getRequestHandler();
         const requestInterceptors = handlerChain.getRequestInterceptors();
         const responseInterceptors = handlerChain.getResponseInterceptors();
 
+        // Get the handler adapter that supports the request handler
         let adapter : HandlerAdapter;
         for (const handlerAdapter of this.handlerAdapters) {
             if (handlerAdapter.supports(handler)) {
@@ -90,23 +114,23 @@ export class DefaultRequestDispatcher implements RequestDispatcher {
                 break;
             }
         }
-
         if (!adapter) {
             throw createAskSdkError(
                 this.constructor.name,
-                'HandlerAdapter not found!');
+                `Could not find the handler adapter that supports the request handler.`);
         }
 
-        // Pre-processing logic. Going in order
+        // Execute request interceptors that are local to the handler chain
         if (requestInterceptors) {
             for (const requestInterceptor of requestInterceptors) {
                 await requestInterceptor.process(handlerInput);
             }
         }
 
+        // Invoke the request handler
         const response = await adapter.execute(handlerInput, handler);
 
-        // Post-processing logic. Going in order
+        // Execute response interceptors that are local to the handler chain
         if (responseInterceptors) {
             for (const responseInterceptor of responseInterceptors) {
                 await responseInterceptor.process(handlerInput, response);

@@ -13,8 +13,12 @@
 
 'use strict';
 
-import { ui } from 'ask-sdk-model';
+import {
+    Response,
+    ui,
+} from 'ask-sdk-model';
 import { expect } from 'chai';
+import * as sinon from 'sinon';
 import { AttributesManagerFactory } from '../../lib/attributes/AttributesManagerFactory';
 import { DefaultRequestDispatcher } from '../../lib/dispatcher/DefaultRequestDispatcher';
 import { DefaultErrorMapper } from '../../lib/dispatcher/error/DefaultErrorMapper';
@@ -26,12 +30,7 @@ import { ResponseFactory } from '../../lib/response/ResponseFactory';
 import { MockAlwaysFalseHandlerAdapter } from '../mocks/adapter/MockAlwaysFalseHandlerAdapter';
 import { MockAlwaysFalseErrorHandler } from '../mocks/error/MockAlwaysFalseErrorHandler';
 import { MockAlwaysTrueErrorHandler } from '../mocks/error/MockAlwaysTrueErrorHandler';
-import { MockPersistentAttributesRequestInterceptor } from '../mocks/interceptor/MockPersistentAttributesRequestInterceptor';
-import { MockPersistentAttributesResponseInterceptor } from '../mocks/interceptor/MockPersistentAttributesResponseInterceptor';
-import { MockSessionAttributesRequestInterceptor } from '../mocks/interceptor/MockSessionAttributesRequestInterceptor';
-import { MockSessionAttributesResponseInterceptor } from '../mocks/interceptor/MockSessionAttributesResponseInterceptor';
 import { JsonProvider } from '../mocks/JsonProvider';
-import { MockPersistenceAdapter } from '../mocks/persistence/MockPersistenceAdapter';
 import { MockAlwaysFalseRequestHandler } from '../mocks/request/MockAlwaysFalseRequestHandler';
 import { MockAlwaysTrueRequestHandler } from '../mocks/request/MockAlwaysTrueRequestHandler';
 import SsmlOutputSpeech = ui.SsmlOutputSpeech;
@@ -76,108 +75,100 @@ describe('DefaultRequestDispatcher', () => {
             .equal('<speak>Request received at MockAlwaysTrueRequestHandler.</speak>');
     });
 
-    it('should be able to send HandlerInput to all RequestInterceptor before sending to RequestHandler', async() => {
+    it('should be able to send HandlerInput to interceptors and handler in correct order', async() => {
+        function interceptor(input : HandlerInput) : Promise<void> {
+            return;
+        }
+
+        function matcher(input : HandlerInput) : boolean {
+            return true;
+        }
+
+        function executor(input : HandlerInput) : Response {
+            return {};
+        }
+
+        const firstGlobalRequestInterceptor = sinon.spy(interceptor);
+        const secondGlobalRequestInterceptor = sinon.spy(interceptor);
+        const firstLocalRequestInterceptor = sinon.spy(interceptor);
+        const secondLocalRequestInterceptor = sinon.spy(interceptor);
+        const firstLocalResponseInterceptor = sinon.spy(interceptor);
+        const secondLocalResponseInterceptor = sinon.spy(interceptor);
+        const firstGlobalResponseInterceptor = sinon.spy(interceptor);
+        const secondGlobalResponseInterceptor = sinon.spy(interceptor);
+        const handlerMatcher = sinon.spy(matcher);
+        const handlerExecutor = sinon.spy(executor);
+
         const dispatcher = new DefaultRequestDispatcher({
             requestMappers : [
                 new DefaultRequestMapper({
                     requestHandlerChains : [
                         new DefaultRequestHandlerChain({
-                            requestHandler : new MockAlwaysTrueRequestHandler(),
+                            requestHandler : {
+                                canHandle : handlerMatcher,
+                                handle : handlerExecutor,
+                            },
                             requestInterceptors : [
-                                new MockSessionAttributesRequestInterceptor(),
-                                new MockPersistentAttributesRequestInterceptor(),
+                                {
+                                    process : firstLocalRequestInterceptor,
+                                },
+                                {
+                                    process : secondLocalRequestInterceptor,
+                                },
                             ],
-                        }),
-                    ],
-                }),
-            ],
-            handlerAdapters : [new DefaultHandlerAdapter()],
-        });
-
-        const requestEnvelope = JsonProvider.requestEnvelope();
-        requestEnvelope.context.System.user.userId = 'userId';
-        requestEnvelope.session.attributes = {};
-
-        const mockPersistenceAdapter = new MockPersistenceAdapter();
-
-        const handlerInput : HandlerInput = {
-            requestEnvelope,
-            attributesManager : AttributesManagerFactory.init({
-                requestEnvelope,
-                persistenceAdapter : mockPersistenceAdapter,
-            }),
-            responseBuilder : ResponseFactory.init(),
-        };
-
-        const response = await dispatcher.dispatch(handlerInput);
-
-        expect(handlerInput.attributesManager.getSessionAttributes()).deep.equal({
-            MockSessionAttributesRequestInterceptor : true,
-            key : 'value',
-        });
-        expect(await mockPersistenceAdapter.getAttributes(requestEnvelope))
-            .deep
-            .equal({
-                MockPersistentAttributesRequestInterceptor : true,
-                key : 'value',
-                key_1 : 'v1',
-                key_2 : 'v2',
-                state : 'mockState',
-            });
-        expect((<ui.SsmlOutputSpeech> response.outputSpeech).ssml)
-            .equal('<speak>Request received at MockAlwaysTrueRequestHandler.</speak>');
-    });
-
-    it('should be able to send HandlerInput and response to all ResponseInterceptor after RequestHandler returns', async() => {
-        const dispatcher = new DefaultRequestDispatcher({
-            requestMappers : [
-                new DefaultRequestMapper({
-                    requestHandlerChains : [
-                        new DefaultRequestHandlerChain({
-                            requestHandler : new MockAlwaysTrueRequestHandler(),
                             responseInterceptors : [
-                                new MockSessionAttributesResponseInterceptor(),
-                                new MockPersistentAttributesResponseInterceptor(),
+                                {
+                                    process : firstLocalResponseInterceptor,
+                                },
+                                {
+                                    process : secondLocalResponseInterceptor,
+                                },
                             ],
                         }),
                     ],
                 }),
             ],
             handlerAdapters : [new DefaultHandlerAdapter()],
+            requestInterceptors : [
+                {
+                    process : firstGlobalRequestInterceptor,
+                },
+                {
+                    process : secondGlobalRequestInterceptor,
+                },
+            ],
+            responseInterceptors : [
+                {
+                    process : firstGlobalResponseInterceptor,
+                },
+                {
+                    process : secondGlobalResponseInterceptor,
+                },
+            ],
         });
 
         const requestEnvelope = JsonProvider.requestEnvelope();
-        requestEnvelope.context.System.user.userId = 'userId';
-        requestEnvelope.session.attributes = {};
-
-        const mockPersistenceAdapter = new MockPersistenceAdapter();
 
         const handlerInput : HandlerInput = {
-            requestEnvelope,
-            attributesManager : AttributesManagerFactory.init({
-                requestEnvelope,
-                persistenceAdapter : mockPersistenceAdapter,
-            }),
+            requestEnvelope : JsonProvider.requestEnvelope(),
+            attributesManager : AttributesManagerFactory.init({ requestEnvelope}),
             responseBuilder : ResponseFactory.init(),
         };
 
-        const response = await dispatcher.dispatch(handlerInput);
+        await dispatcher.dispatch(handlerInput);
 
-        expect(handlerInput.attributesManager.getSessionAttributes()).deep.equal({
-            MockSessionAttributesResponseInterceptor : true,
-            key : 'value',
-        });
-        expect(await mockPersistenceAdapter.getAttributes(requestEnvelope))
-            .deep
-            .equal({
-                MockPersistentAttributesResponseInterceptor : true,
-                key : 'value',
-                key_1 : 'v1',
-                key_2 : 'v2',
-                state : 'mockState',
-            });
-        expect((<ui.SsmlOutputSpeech> response.outputSpeech).ssml)
-            .equal('<speak>Request received at MockAlwaysTrueRequestHandler.</speak>');
+        sinon.assert.callOrder(
+            firstGlobalRequestInterceptor,
+            secondGlobalRequestInterceptor,
+            handlerMatcher,
+            firstLocalRequestInterceptor,
+            secondLocalRequestInterceptor,
+            handlerExecutor,
+            firstLocalResponseInterceptor,
+            secondLocalResponseInterceptor,
+            firstGlobalResponseInterceptor,
+            secondGlobalResponseInterceptor,
+        );
     });
 
     it('should be able to send HandlerInput and error to correct ErrorHandler', async() => {
@@ -269,7 +260,7 @@ describe('DefaultRequestDispatcher', () => {
             await dispatcher.dispatch(handlerInput);
         } catch (err) {
             expect(err.name).equal('AskSdk.DefaultRequestDispatcher Error');
-            expect(err.message).equal('HandlerAdapter not found!');
+            expect(err.message).equal('Could not find the handler adapter that supports the request handler.');
 
             return;
         }
