@@ -52,6 +52,8 @@ export class Skill {
             requestMappers : skillConfiguration.requestMappers,
             handlerAdapters : skillConfiguration.handlerAdapters,
             errorMapper : skillConfiguration.errorMapper,
+            requestInterceptors : skillConfiguration.requestInterceptors,
+            responseInterceptors : skillConfiguration.responseInterceptors,
         });
     }
 
