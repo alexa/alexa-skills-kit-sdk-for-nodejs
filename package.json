@@ -30,7 +30,7 @@
     },
     {
       "name": "Tiantian Xie",
-      "email": "xtiantia@amazon.com"	
+      "email": "xtiantia@amazon.com"
     }
   ],
   "dependencies": {
@@ -49,7 +49,7 @@
     "nock": "^9.0.25"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp"
   },
   "repository": {
     "type": "git",
