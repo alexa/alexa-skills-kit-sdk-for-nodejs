@@ -5,14 +5,14 @@ Core SDK package contains basic components and default implementations of ASK SD
 The ASK SDK v2 for Node.js is an open-source Alexa Skill Development Kit. ASK SDK v2 for Node.js makes it easier for you to build highly engaging skills, by allowing you to spend more time on implementing features and less on writing boiler-plate code.
 
 ## Installing
-To use the Core SDK package, you need to install two modules: core SDK and model(peer dependency of core SDK) within your NPM project. Run the following commands in the terminal to install them:
+To use the Core SDK package (public beta), you need to install two modules: core SDK and model(peer dependency of core SDK) within your NPM project. Run the following commands in the terminal to install them:
 
 ```
-npm install --save ask-sdk-core
+npm install --save ask-sdk-core@beta
 ```
 
 ```
-npm install --save ask-sdk-model
+npm install --save ask-sdk-model@beta
 ```
 
 ## Usage and Getting Started

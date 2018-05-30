@@ -5,10 +5,10 @@ ASK SDK package is the standard distribution of ASK SDK v2 for Node.js.
 The ASK SDK v2 for Node.js is an open-source Alexa Skill Development Kit. ASK SDK v2 for Node.js makes it easier for you to build highly engaging skills, by allowing you to spend more time on implementing features and less on writing boiler-plate code.
 
 ## Installing
-To use the ASK SDK package, simply run the following command in terminal:
+To use the ASK SDK package (public beta), simply run the following command in terminal:
 
 ```
-npm install --save ask-sdk
+npm install --save ask-sdk@beta
 ```
 
 ## Usage and Getting Started

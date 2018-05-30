@@ -14,12 +14,14 @@
 'use strict';
 
 import {
+    canfulfill,
     Directive,
     Intent,
     interfaces,
     Response,
 } from 'ask-sdk-model';
 import AudioItemMetadata = interfaces.audioplayer.AudioItemMetadata;
+import CanFulfillIntent = canfulfill.CanFulfillIntent;
 
 /**
  * An interface which helps building a response.
@@ -161,6 +163,12 @@ export interface ResponseBuilder {
      * @returns {ResponseBuilder}
      */
     addVideoAppLaunchDirective(source : string, title? : string, subtitle? : string) : this;
+    /**
+     * Adds canFulfillIntent to response.
+     * @param {canfulfill.CanFulfillIntent} canFulfillIntent
+     * @return {ResponseBuilder}
+     */
+    withCanFulfillIntent(canFulfillIntent : CanFulfillIntent) : this;
     /**
      * Sets shouldEndSession value to null/false/true
      * @param {boolean} val
