@@ -13,12 +13,12 @@
 
 'use strict';
 
-import * as AWS_SDK from 'aws-sdk';
-import * as AWS from 'aws-sdk-mock';
+import * as AWS from 'aws-sdk';
+import * as AWS_MOCK from 'aws-sdk-mock';
 import { expect } from 'chai';
 import { DynamoDbPersistenceAdapter } from '../../../lib/attributes/persistence/DynamoDbPersistenceAdapter';
 import { PartitionKeyGenerators } from '../../../lib/attributes/persistence/PartitionKeyGenerators';
-import {JsonProvider} from '../../mocks/JsonProvider';
+import { JsonProvider } from '../../mocks/JsonProvider';
 
 describe('DynamoDbPersistenceAdapter', () => {
     const tableName = 'mockTableName';
@@ -50,13 +50,19 @@ describe('DynamoDbPersistenceAdapter', () => {
         writable: false,
     });
 
+    const resourceInUseError = new Error('Requested resource in use');
+    Object.defineProperty(resourceInUseError, 'code', {
+        value : 'ResourceInUseException',
+        writable: false,
+    });
+
     const requestEnvelope = JsonProvider.requestEnvelope();
     requestEnvelope.context.System.device.deviceId = 'deviceId';
     requestEnvelope.context.System.user.userId = 'userId';
 
     before( (done) => {
-        AWS.setSDKInstance(AWS_SDK);
-        AWS.mock('DynamoDB.DocumentClient', 'get',  (params, callback) => {
+        AWS_MOCK.setSDKInstance(AWS);
+        AWS_MOCK.mock('DynamoDB.DocumentClient', 'get',  (params, callback) => {
             if (params.TableName !== tableName) {
                 // table name not valid
                 callback(resourceNotFoundError, null);
@@ -71,7 +77,7 @@ describe('DynamoDbPersistenceAdapter', () => {
                 }
             }
         });
-        AWS.mock('DynamoDB.DocumentClient', 'put',  (params, callback) => {
+        AWS_MOCK.mock('DynamoDB.DocumentClient', 'put',  (params, callback) => {
             if (params.TableName !== tableName) {
                 // table name not valid
                 callback(resourceNotFoundError, null);
@@ -79,8 +85,11 @@ describe('DynamoDbPersistenceAdapter', () => {
                 callback(null, {});
             }
         });
-        AWS.mock('DynamoDB', 'createTable', (params, callback) => {
-            if (params.TableName !== 'CreateNewTable') {
+        AWS_MOCK.mock('DynamoDB', 'createTable', (params, callback) => {
+            if (params.TableName === tableName) {
+                callback(resourceInUseError, null);
+            }
+            if (params.TableName === 'CreateNewErrorTable') {
                 callback(new Error('Unable to create table'), null);
             } else {
                 callback(null, {});
@@ -90,7 +99,7 @@ describe('DynamoDbPersistenceAdapter', () => {
     });
 
     after((done) => {
-        AWS.restore();
+        AWS_MOCK.restore();
         done();
     });
 
@@ -102,7 +111,7 @@ describe('DynamoDbPersistenceAdapter', () => {
             tableName,
             partitionKeyName : customPartitionKeyName,
             attributesName : customAttributesName,
-            dynamoDBClient : new AWS_SDK.DynamoDB(),
+            dynamoDBClient : new AWS.DynamoDB(),
             partitionKeyGenerator : PartitionKeyGenerators.deviceId,
         });
 
@@ -154,31 +163,22 @@ describe('DynamoDbPersistenceAdapter', () => {
     });
 
     describe('with AutoCreateTable', () => {
-        it('should return an empty object when table successfully created during get', async() => {
-            const persistenceAdapter = new DynamoDbPersistenceAdapter({
-                tableName : 'CreateNewTable',
-                createTable : true,
-            });
-
-            const result = await persistenceAdapter.getAttributes(requestEnvelope);
-            expect(result).deep.equal({});
-        });
-
-        it('should throw an error when create table returns error during get', async() => {
-            const persistenceAdapter = new DynamoDbPersistenceAdapter({
-                tableName : 'NonExistentTable',
-                createTable : true,
-            });
-
+        it('should throw an error when create table returns error other than ResourceInUseException', () => {
             try {
-                await persistenceAdapter.getAttributes(requestEnvelope);
+                const persistenceAdapter = new DynamoDbPersistenceAdapter({
+                    tableName : 'CreateNewErrorTable',
+                    createTable : true,
+                });
             } catch (err) {
-                expect(err.name).equal('AskSdk.DynamoDbPersistenceAdapter Error');
-                expect(err.message).equal('Could not create table (NonExistentTable): Unable to create table');
-
-                return;
+                expect(err.name).eq('AskSdk.DynamoDbPersistenceAdapter Error');
+                expect(err.message).eq('Could not create table (CreateNewErrorTable): Unable to create table');
             }
-            throw new Error('should have thrown an error!');
+        });
+        it('should not throw any error if the table already exists', () => {
+            const persistenceAdapter = new DynamoDbPersistenceAdapter({
+                tableName,
+                createTable : true,
+            });
         });
     });
 

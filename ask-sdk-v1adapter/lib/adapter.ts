@@ -58,8 +58,7 @@ export class Adapter extends EventEmitter {
             response : {},
         };
         this.dynamoDBClient = new DynamoDB({
-            apiVersion: '2012-08-10',
-            region: 'us-east-1',
+            apiVersion: 'latest',
         });
         this.saveBeforeResponse = false;
         this.v2RequestHandlers = [];
@@ -150,17 +149,17 @@ function ValidateRequest() : void {
             }
         }
 
-        if (!dynamoDbPersistenceAdapter) {
-            dynamoDbPersistenceAdapter = new DynamoDbPersistenceAdapter({
-                createTable : true,
-                dynamoDBClient : this.dynamoDBClient,
-                partitionKeyName : 'userId',
-                attributesName : 'mapAttr',
-                tableName : this.dynamoDBTableName,
-            });
-        }
-
         if (this.dynamoDBTableName && (!this._event.session || this._event.session.new)) {
+            if (!dynamoDbPersistenceAdapter) {
+                dynamoDbPersistenceAdapter = new DynamoDbPersistenceAdapter({
+                    createTable : true,
+                    dynamoDBClient : this.dynamoDBClient,
+                    partitionKeyName : 'userId',
+                    attributesName : 'mapAttr',
+                    tableName : this.dynamoDBTableName,
+                });
+            }
+
             dynamoDbPersistenceAdapter.getAttributes(this._event)
                 .then((data) => {
                     Object.assign(this._event.session.attributes, data);
