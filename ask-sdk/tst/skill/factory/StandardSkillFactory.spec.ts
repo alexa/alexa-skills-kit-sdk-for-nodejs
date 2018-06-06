@@ -40,7 +40,7 @@ describe('StandardSkillFactory', () => {
     it('should be able to add DynamoDbPersistenceAdapter with customization', () => {
         const skillConfig = StandardSkillFactory.init()
             .withTableName('testTable')
-            .withAutoCreateTable(true)
+            .withAutoCreateTable(false)
             .withDynamoDbClient(new DynamoDB({apiVersion : 'latest'}))
             .withPartitionKeyGenerator(PartitionKeyGenerators.userId)
             .getSkillConfiguration();
