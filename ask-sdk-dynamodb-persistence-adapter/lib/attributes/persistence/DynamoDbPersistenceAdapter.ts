@@ -52,6 +52,33 @@ export class DynamoDbPersistenceAdapter implements PersistenceAdapter {
             convertEmptyValues : true,
             service : this.dynamoDBClient,
         });
+        // Create table when createTable is set to true and table does not exist
+        if (this.createTable) {
+            const createTableParams : DynamoDB.CreateTableInput = {
+                AttributeDefinitions: [{
+                    AttributeName: this.partitionKeyName,
+                    AttributeType: 'S',
+                }],
+                KeySchema: [{
+                    AttributeName: this.partitionKeyName,
+                    KeyType: 'HASH',
+                }],
+                ProvisionedThroughput: {
+                    ReadCapacityUnits: 5,
+                    WriteCapacityUnits: 5,
+                },
+                TableName : this.tableName,
+            };
+
+            this.dynamoDBClient.createTable(createTableParams, (createTableErr) => {
+                if (createTableErr && createTableErr.code !== 'ResourceInUseException') {
+                    throw createAskSdkError(
+                        this.constructor.name,
+                        `Could not create table (${this.tableName}): ${createTableErr.message}`,
+                    );
+                }
+            });
+        }
     }
 
     /**
@@ -73,34 +100,6 @@ export class DynamoDbPersistenceAdapter implements PersistenceAdapter {
         try {
             data = await this.dynamoDBDocumentClient.get(getParams).promise();
         } catch (err) {
-            if (err.code === 'ResourceNotFoundException' && this.createTable) {
-                const createTableParams : DynamoDB.CreateTableInput = {
-                    AttributeDefinitions: [{
-                        AttributeName: this.partitionKeyName,
-                        AttributeType: 'S',
-                    }],
-                    KeySchema: [{
-                        AttributeName: this.partitionKeyName,
-                        KeyType: 'HASH',
-                    }],
-                    ProvisionedThroughput: {
-                        ReadCapacityUnits: 5,
-                        WriteCapacityUnits: 5,
-                    },
-                    TableName : this.tableName,
-                };
-                try {
-                    await this.dynamoDBClient.createTable(createTableParams).promise();
-                } catch (createTableErr) {
-                    throw createAskSdkError(
-                        this.constructor.name,
-                        `Could not create table (${this.tableName}): ${createTableErr.message}`,
-                    );
-                }
-
-                return {};
-            }
-
             throw createAskSdkError(
                 this.constructor.name,
                 `Could not read item (${attributesId}) from table (${getParams.TableName}): ${err.message}`,
