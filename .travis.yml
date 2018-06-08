@@ -1,0 +1,9 @@
+language: node_js
+sudo: false
+node_js:
+  - 6
+install:
+  - npm install
+script:
+  - ./node_modules/gulp/bin/gulp.js lint
+  - ./node_modules/gulp/bin/gulp.js test
