@@ -3,13 +3,11 @@ var timeBetweenEachDebugStatement;
 
 var textToBeRead;
 
-modules.exports = this;
 function Debug() {
 	debuggingIsOn = true;
 	timeBetweenEachDebugStatement = 1.0;
 }
 
-modules.exports = this;
 function speak(var param) {
 	if(debuggingIsOn = false)
 		return;
@@ -29,7 +27,6 @@ function speak(var param) {
 		"are trying to read the state of your slots, use the speakState method");
 }
 
-modules.exports = this;
 function speakPrimitive(var primitiveValue) {
 	var textSnippet = String(primitiveValue); //Turn the primitive value into a string
 	textToBeRead += textSnippet;
@@ -37,7 +34,6 @@ function speakPrimitive(var primitiveValue) {
 	//Maybe add a new line after each one, so the text is easier to display
 }
 
-modules.exports = this;
 function speakObject(var object) {
 	if(object === 'null') {
 		//Don't try and look at a null object's fields. When you see a 'null' object
@@ -45,10 +41,29 @@ function speakObject(var object) {
 		speakPrimitive("null");
 	}
 	else {
-		for(each field f) {
-			var fieldAndValue = "The value of field " + f + " is " + String(f.val);
+		for(var fieldName in object) {
+			var val = object[fieldName]; //Get the value of that field
+			var fieldAndValue = "The value of field " + fieldName + " is " + String(val);
 			textToBeRead += fieldAndValue;
 		}
 		textToBeRead += timeDelay();
 	}
 }
+
+function timeDelay() {
+	//Adds a tag like the following <break time="3s"/> (see "SSML break tags")
+	var breakTag = '<break time=\"' + String(timeBetweenEachDebugStatement) + 's\"/>';
+	return breakTag;
+}
+
+function complete() {
+	console.log("This is what should be spoken: " + "\n");
+	console.log(textToBeRead);
+}
+
+
+//Module exports (what functions are public to use)
+modules.exports.Debug = Debug;
+modules.exports.speak = speak;
+modules.exports.complete = complete;
+
