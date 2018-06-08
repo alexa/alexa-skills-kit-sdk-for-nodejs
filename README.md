@@ -4,6 +4,11 @@ This guide describes how to use the ASK SDK v2 for Node.js (public beta) in your
 
 This repo contains public beta versions of the ASK SDK v2 for Node.js, which may contain one or more Alexa features that are currently available in public beta. These features may contain unexpected bugs or be subject to future breaking changes. Production skills should use non-beta versions of the ASK SDK.
 
+## Beta Features
+The following Alexa features are only available in the public beta SDK.
+
+* Support for `CanFulfillIntentRequest`, allowing [name-free interaction for custom skills](https://developer.amazon.com/docs/custom-skills/implement-canfulfillintentrequest-for-name-free-interaction.html). Includes ResponseBuilder helper.
+
 ## Prerequisites
 
 * An [NPM](https://www.npmjs.com/) project.
