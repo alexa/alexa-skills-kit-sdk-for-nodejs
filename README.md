@@ -74,5 +74,8 @@ Template for a basic decision tree skill. Alexa asks the user a series of questi
 ### [Device Address API](https://github.com/alexa/skill-sample-node-device-address-api)
 Sample skill that shows how to request and access the configured address in the user’s device settings.
 
+## Public Beta SDK
+The available [public beta version of the ASK SDK v2 for NodeJS](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.x_public-beta) may contain one or more Alexa features that are currently in public beta and not included in the production SDK version.
+
 ## Got Feedback?
 Request and vote for Alexa features [here](https://alexa.uservoice.com/forums/906892-alexa-skills-developer-voice-and-vote)!
