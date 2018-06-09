@@ -6,9 +6,10 @@ var textToBeRead;
 function Debug() {
 	debuggingIsOn = true;
 	timeBetweenEachDebugStatement = 1.0;
+	textToBeRead = "";
 }
 
-function speak(var param) {
+function speak(param) {
 	if(debuggingIsOn = false)
 		return;
 	
@@ -27,14 +28,14 @@ function speak(var param) {
 		"are trying to read the state of your slots, use the speakState method");
 }
 
-function speakPrimitive(var primitiveValue) {
+function speakPrimitive(primitiveValue) {
 	var textSnippet = String(primitiveValue); //Turn the primitive value into a string
 	textToBeRead += textSnippet;
 	textToBeRead += timeDelay();
 	//Maybe add a new line after each one, so the text is easier to display
 }
 
-function speakObject(var object) {
+function speakObject(object) {
 	if(object === 'null') {
 		//Don't try and look at a null object's fields. When you see a 'null' object
 		//just say the phrase "null" (treat it as a normal primitive string)
@@ -43,8 +44,9 @@ function speakObject(var object) {
 	else {
 		for(var fieldName in object) {
 			var val = object[fieldName]; //Get the value of that field
-			var fieldAndValue = "The value of field " + fieldName + " is " + String(val);
+			var fieldAndValue = "The value of field " + fieldName + " is " + String(val) + ". ";
 			textToBeRead += fieldAndValue;
+			//Can add a small break in between each field too
 		}
 		textToBeRead += timeDelay();
 	}
@@ -57,13 +59,13 @@ function timeDelay() {
 }
 
 function complete() {
-	console.log("This is what should be spoken: " + "\n");
+	console.log("This is what should be spoken: ");
 	console.log(textToBeRead);
 }
 
 
 //Module exports (what functions are public to use)
-modules.exports.Debug = Debug;
-modules.exports.speak = speak;
-modules.exports.complete = complete;
+module.exports.Debug = Debug;
+module.exports.speak = speak;
+module.exports.complete = complete;
 
