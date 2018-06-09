@@ -3,6 +3,8 @@ var timeBetweenEachDebugStatement;
 
 var textToBeRead;
 
+import { ResponseBuilder } from './../response/ResponseBuilder';
+
 function Debug() {
 	debuggingIsOn = true;
 	timeBetweenEachDebugStatement = 1.0;
@@ -59,8 +61,10 @@ function timeDelay() {
 }
 
 function complete() {
-	console.log("This is what should be spoken: ");
-	console.log(textToBeRead);
+	//console.log("This is what should be spoken: ");
+	//console.log(textToBeRead);
+	
+	return responseBuilder.speak(textToBeRead).getResponse();
 }
 
 

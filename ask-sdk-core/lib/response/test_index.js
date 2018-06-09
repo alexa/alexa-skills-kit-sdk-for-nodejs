@@ -7,4 +7,5 @@ debug.speak("Hello");
 
 var car = {type:"Fiat", model:"500", color:"white"};
 debug.speak(car);
-debug.complete();
+var returnedSSML = debug.complete();
+console.log(returnedSSML);
