@@ -1,6 +1,6 @@
 var debug = require('./Debug');
 
-debug.Debug();
+debug.DebugWithCustomDelay(0.5);
 debug.speak(true);
 debug.speak(3);
 debug.speak("Hello");

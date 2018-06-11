@@ -1,17 +1,18 @@
-var debuggingIsOn;
 var timeBetweenEachDebugStatement;
 
 var textToBeRead;
 
 function Debug() {
-	debuggingIsOn = true;
 	timeBetweenEachDebugStatement = 1.0;
 	textToBeRead = "";
 }
 
+function DebugWithCustomDelay(timeDelay) {
+	timeBetweenEachDebugStatement = timeDelay;
+	textToBeRead = "";
+}
+
 function speak(param) {
-	if(debuggingIsOn = false)
-		return;
 	
 	var paramType = typeof param; //Get the type of the parameter
 	var paramIsPrimitive = ( paramType === 'number' || paramType === 'boolean'
@@ -52,20 +53,34 @@ function speakObject(object) {
 	}
 }
 
+function forceSpeak(context, param) {
+	textToBeRead = "";
+	speak(param);
+	complete(context);
+}
+
 function timeDelay() {
 	//Adds a tag like the following <break time="3s"/> (see "SSML break tags")
 	var breakTag = '<break time=\"' + String(timeBetweenEachDebugStatement) + 's\"/>';
 	return breakTag;
 }
 
+function setTimeDelay(desiredBreakTime) {
+	timeBetweenEachDebugStatement = desiredBreakTime;
+}
+
 function complete(context) {
 	console.log("This is what should be spoken: ");
 	console.log(textToBeRead);
+	
 	return context.responseBuilder.speak(textToBeRead).getResponse();
 }
 
 
 //Module exports (what functions are public to use)
 module.exports.Debug = Debug;
+module.exports.DebugWithCustomDelay = DebugWithCustomDelay;
 module.exports.speak = speak;
+module.exports.forceSpeak = forceSpeak;
+module.exports.setTimeDelay = setTimeDelay;
 module.exports.complete = complete;
