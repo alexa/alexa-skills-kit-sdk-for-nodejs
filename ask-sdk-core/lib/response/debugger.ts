@@ -3,7 +3,9 @@ var timeBetweenEachDebugStatement;
 
 var textToBeRead;
 
-import { ResponseBuilder } from './../response/ResponseBuilder';
+//var responseBuilder = require('./ResponseBuilder.ts');
+//import { ResponseBuilder } from "./ResponseBuilder.ts";
+//let responseBuilder = new ResponseBuilder();
 
 function Debug() {
 	debuggingIsOn = true;
@@ -61,15 +63,17 @@ function timeDelay() {
 }
 
 function complete() {
-	//console.log("This is what should be spoken: ");
-	//console.log(textToBeRead);
+	console.log("This is what should be spoken: ");
+	console.log(textToBeRead);
 	
-	return responseBuilder.speak(textToBeRead).getResponse();
+	//return responseBuilder.speak(textToBeRead).getResponse();
 }
 
 
 //Module exports (what functions are public to use)
-module.exports.Debug = Debug;
-module.exports.speak = speak;
-module.exports.complete = complete;
+//module.exports.Debug = Debug;
+//module.exports.speak = speak;
+//module.exports.complete = complete;
+
+export { debugger };
 
