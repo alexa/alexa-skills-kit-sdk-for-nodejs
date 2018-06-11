@@ -58,9 +58,10 @@ function timeDelay() {
 	return breakTag;
 }
 
-function complete() {
+function complete(context) {
 	console.log("This is what should be spoken: ");
 	console.log(textToBeRead);
+	return context.responseBuilder.speak(textToBeRead).getResponse();
 }
 
 
