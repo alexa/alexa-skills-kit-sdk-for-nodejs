@@ -8,6 +8,7 @@ function Debug() {
 }
 
 function DebugWithCustomDelay(timeDelay) {
+	//Check to make sure that a double value is passed in
 	timeBetweenEachDebugStatement = timeDelay;
 	textToBeRead = "";
 }
@@ -53,10 +54,22 @@ function speakObject(object) {
 	}
 }
 
-function forceSpeak(context, param) {
+function speakSlots(handlerInput) {
+	//First we need to identify the intent which is contained in handlerInput
+	const currentIntent = handlerInput.requestEnvelope.request.intent;
+	
+	//The currentIntent contains all of our slots, and now we will speak each slot
+	for(var slot in handlerInput.requestEnvelope.request.intent.slots) {
+		var slotName = slot;
+		var slotHasBeenFilled = currentIntent.slots[slotName].confirmationStatus;
+		var slotValue = currentIntent.slots[slotName].value;
+	}
+}
+
+function forceSpeak(handlerInput, param) {
 	textToBeRead = "";
 	speak(param);
-	complete(context);
+	complete(handlerInput);
 }
 
 function timeDelay() {
@@ -66,14 +79,15 @@ function timeDelay() {
 }
 
 function setTimeDelay(desiredBreakTime) {
+	//Check to make sure that a double value is passed in
 	timeBetweenEachDebugStatement = desiredBreakTime;
 }
 
-function complete(context) {
+function complete(handlerInput) {
 	console.log("This is what should be spoken: ");
 	console.log(textToBeRead);
 	
-	return context.responseBuilder.speak(textToBeRead).getResponse();
+	return handlerInput.responseBuilder.speak(textToBeRead).getResponse();
 }
 
 
@@ -81,6 +95,7 @@ function complete(context) {
 module.exports.Debug = Debug;
 module.exports.DebugWithCustomDelay = DebugWithCustomDelay;
 module.exports.speak = speak;
+module.exports.speakSlots = speakSlots;
 module.exports.forceSpeak = forceSpeak;
 module.exports.setTimeDelay = setTimeDelay;
 module.exports.complete = complete;
