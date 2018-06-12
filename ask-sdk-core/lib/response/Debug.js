@@ -2,12 +2,12 @@ var timeBetweenEachDebugStatement;
 
 var textToBeRead;
 
-function Debug() {
+function start() {
 	timeBetweenEachDebugStatement = 1.0;
 	textToBeRead = "";
 }
 
-function DebugWithCustomDelay(timeDelay) {
+function startWithCustomDelay(timeDelay) {
 	//Check to make sure that a double value is passed in
 	timeBetweenEachDebugStatement = timeDelay;
 	textToBeRead = "";
@@ -87,13 +87,13 @@ function complete(handlerInput) {
 	console.log("This is what should be spoken: ");
 	console.log(textToBeRead);
 	
-	return handlerInput.responseBuilder.speak(textToBeRead).getResponse();
+	//return handlerInput.responseBuilder.speak(textToBeRead).getResponse();
 }
 
 
 //Module exports (what functions are public to use)
-module.exports.Debug = Debug;
-module.exports.DebugWithCustomDelay = DebugWithCustomDelay;
+module.exports.start = start;
+module.exports.startWithCustomDelay = startWithCustomDelay;
 module.exports.speak = speak;
 module.exports.speakSlots = speakSlots;
 module.exports.forceSpeak = forceSpeak;
