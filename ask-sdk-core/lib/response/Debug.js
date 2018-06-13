@@ -8,9 +8,15 @@ function start() {
 	textToBeRead = "";
 }
 
-function startWithCustomDelay(timeDelay) {
-	//Check to make sure that a double value is passed in
-	timeBetweenEachDebugStatement = timeDelay;
+function startWithCustomDelay(customTimeDelay) {
+	//Check to make sure that a numerical value is passed in for the time delay
+	if(typeof customTimeDelay !== 'number') {
+		throw new Error("You have called the function startWithCustomDelay with a parameter " +
+		"that is not a numerical value.");
+	}
+	
+	//Otherwise, initialize the variables normally
+	timeBetweenEachDebugStatement = customTimeDelay;
 	textToBeRead = "";
 }
 
@@ -26,9 +32,9 @@ function speak(param) {
 	else if(paramIsObject)
 		speakObject(param);
 	else
-		console.log("you have called the speak method. But the parameter is not" + 
-		"a primitive like a string or an integer, nor is it an object. If you" +
-		"are trying to read the state of your slots, use the speakState method");
+		throw new Error("you have called the speak method. But the parameter is not " + 
+		"a primitive like a string or an integer, nor is it an object. If you " +
+		"are trying to read the state of your slots, please use the speakState method");
 }
 
 function speakPrimitive(primitiveValue) {
@@ -58,10 +64,27 @@ function speakObject(object) {
 
 //Check if speakSlots is being called from an IntentHandler that doesn't have any slots to fill
 function speakSlots(handlerInput) {
-	//First we need to identify the intent which is contained in handlerInput
-	//Check if there is an intent, otherwise say "No intent has been specified.
-	//Perhaps you are trying to launch your skill, speak slots is not available
-	//when you are starting a new session."
+	
+	/* Handling common errors */
+	
+	//Error: HandlerInput does not have responseBuilder, most likely because speakSlots
+	//was called without a parameter or the wrong parameter. HandlerInput also doesn't exist in SDK v1.
+	var handlerInputIsNotObject = (typeof handlerInput !== 'object');
+	if(handlerInputIsNotObject || !handlerInput.hasOwnProperty('responseBuilder')) {
+		throw new Error("You have called speakSlots but have not passed in a " +
+		"handlerInput object as the parameter. Please verify that speakSlots is " +
+		"being called properly. If you are using the V1 of Alexa SDK, the debug " +
+		"feature may not work even with the V1 adapter.");
+	}
+	
+	//Error: User request is missing an intent
+	if(!handlerInput.requestEnvelope.request.hasOwnProperty('intent')) {
+			throw new Error("speakSlots was called, but the handlerInput passed into " +
+			"the function is missing an intent. If you are calling speakSlots " +
+			"from the Launch Request or Start Session this method might not work");
+	}
+	
+	/* Code will identify slots and read them out */
 	const currentIntent = handlerInput.requestEnvelope.request.intent;
 	speak("Now reading the slots for the intent " + currentIntent.name);
 	
@@ -78,9 +101,6 @@ function speakSlots(handlerInput) {
 			speak("The slot " + slotName + " has not yet been filled");
 	}
 	
-	//Format: Reading the slots of intent $(intent)
-	// 2 of the 3 slots have been filled (optional, addition feature for later)
-	// "The slot X has " and either "cat/dog/dragon" or "not yet been filled" if status !== confirmed
 }
 
 function forceSpeak(handlerInput, param) {
@@ -96,13 +116,28 @@ function timeDelay() {
 }
 
 function setTimeDelay(desiredBreakTime) {
-	//Check to make sure that a double value is passed in
-	timeBetweenEachDebugStatement = desiredBreakTime;
+	//Check to make sure that a numerical value is passed in for the time delay
+	if(typeof desiredBreakTime !== 'number') {
+		throw new Error("You have called the function setTimeDelay with a parameter " +
+		"that is not a numerical value.");
+	}
+	else
+		timeBetweenEachDebugStatement = desiredBreakTime;
 }
 
 function complete(handlerInput) {
+
 	console.log("This is what should be spoken: ");
 	console.log(textToBeRead);
+	
+	//Error: HandlerInput does not have responseBuilder, most likely because complete
+	//was called without a parameter or the wrong parameter. HandlerInput also doesn't exist in SDK v1.
+	if(!handlerInput.hasOwnProperty('responseBuilder')) {
+		throw new Error("You have called speakSlots but have not passed in a " +
+		"handlerInput object as the parameter. Please verify that speakSlots is " +
+		"being called properly. If you are using the V1 of Alexa SDK, the debug " +
+		"feature may not work even with the V1 adapter.");
+	}
 	
 	return handlerInput.responseBuilder.speak(textToBeRead).getResponse();
 }

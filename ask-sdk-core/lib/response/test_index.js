@@ -7,4 +7,4 @@ debug.speak("Hello");
 
 var car = {type:"Fiat", model:"500", color:"white"};
 debug.speak(car);
-debug.complete();
+return debug.complete(handlerInput);
