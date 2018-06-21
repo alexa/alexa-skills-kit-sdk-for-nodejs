@@ -16,66 +16,28 @@
 export class Debug {
     private timeBetweenEachDebugStatement : number;
     private textToBeRead : string;
-    
-    /**
-     * Speak helper function that handles numbers, strings, and booleans (primitives).
-     * Adds the value of the variable passed in along with a time delay (default or set by
-     * the user) to the list of statements that will eventually be read to the user.
-     * @param {(number|string|boolean)} A primitive value that you want to speak.
-     */
-    private speakPrimitive(primitiveValue : number | string | boolean) {
-        const textSnippet = String(primitiveValue); //Turn the primitive value into a string
-        this.textToBeRead += textSnippet;
-        this.textToBeRead += '. '; //Add punctuation
-        this.textToBeRead += this.timeDelay();
-    }
-
-    /**
-     * Speak helper function that handles objects. Recites the name of each field and corresponding 
-     * value along with a time delay (default or set by the user) to the list of statements that 
-     * will eventually be read to the user.
-     * @param {Object} object Any object that you want to know about.
-     */
-    private speakObject(object : object) {
-        for(const fieldName in object) {
-            let val = object[fieldName]; //Get the value of that field
-            let fieldAndValue = 'The value of field ' + fieldName + ' is ' + String(val) + '. ';
-            this.textToBeRead += fieldAndValue;
-        }
-        this.textToBeRead += this.timeDelay();
-    }
-    
-    /**
-     * Helper function that inserts an SSML break tag that instructs Alexa to pause for a specified number of seconds.
-     * (https://forums.developer.amazon.com/questions/96060/how-to-have-alexa-pause-when-reading-back-your-fac.html) 
-     */
-    private timeDelay() {
-        // Adds a tag like the following <break time='3s'/> (see 'SSML break tags')
-        const breakTag = '<break time=\'' + String(this.timeBetweenEachDebugStatement) + 's\'/> ';
-        return breakTag;
-    }
 
     /**
      * Begins a debugging session. Sets default time between each debug statement to 1 second.
      * Resets any existing text for Alexa's response.
 	 */
-    public start() {
+    public start() : void {
         this.timeBetweenEachDebugStatement = 1.0;
         this.textToBeRead = '';
-     }
+    }
 
     /**
      * Begins a debugging session. Sets time between each debug statement to the parameter that is passed in.
      * @param {number} customTimeDelay The length of the pause between each debug statement.
      */
-    public startWithCustomDelay(customTimeDelay : number) {
+    public startWithCustomDelay(customTimeDelay : number) : void {
         // Throw an error if something other than a number is passed in for the time delay
-        if(typeof customTimeDelay !== 'number') {
+        if (typeof customTimeDelay !== 'number') {
             throw new Error('You have called the function startWithCustomDelay with a parameter ' +
             'that is not a numerical value.');
         }
 
-        //Otherwise, initialize the variables normally
+        // Otherwise, initialize the variables normally
         this.timeBetweenEachDebugStatement = customTimeDelay;
         this.textToBeRead = '';
     }
@@ -85,20 +47,23 @@ export class Debug {
      * work to the appropriate helper function for that type (primitive or object).
      * @param {*} Whatever you want to speak, any valid Javascript type.
      */
-    public speak(param : any) {
-        const paramType = typeof param; //Get the type of the parameter
+    public speak(param : any) : void {
+        const paramType = typeof param; // Get the type of the parameter
         const paramIsPrimitive = ( paramType === 'number'
-         || paramType === 'boolean' || paramType === 'string' ); //want to speak a primitive
-        const paramIsObject = ( paramType === 'object' ); //want to speak an object and its fields
+         || paramType === 'boolean' || paramType === 'string' ); // want to speak a primitive
+        const paramIsObject = ( paramType === 'object' ); // want to speak an object and its fields
 
-        if(paramIsPrimitive)
+        if (paramIsPrimitive) {
             this.speakPrimitive(param);
-        else if(paramIsObject)
+        }
+        else if (paramIsObject) {
             this.speakObject(param);
-        else
-    		throw new Error('you have called the speak method. But the parameter is not ' + 
+        }
+        else {
+    	    throw new Error('you have called the speak method. But the parameter is not ' + 
             'a primitive like a string or an integer, nor is it an object. If you ' +
             'are trying to read the state of your slots, please use the speakState method');
+        }
     }
 
     /**
@@ -108,14 +73,14 @@ export class Debug {
      * @param {Object} handlerInput The handlerInput object which is passed as a parameter to the
      * handle function in your 'index.js' file if you are using the Alexa SDK V2.
      */
-    public speakSlots(handlerInput : any) {
+    public speakSlots(handlerInput : any) : void {
 
         /* Handling common errors */
 
         // Error: HandlerInput does not have responseBuilder, most likely because speakSlots
         // was called without a parameter or the wrong parameter. HandlerInput also doesn't exist in SDK v1.
         const handlerInputIsNotObject = (typeof handlerInput !== 'object');
-        if(handlerInputIsNotObject || !handlerInput.hasOwnProperty('responseBuilder')) {
+        if (handlerInputIsNotObject || !handlerInput.hasOwnProperty('responseBuilder')) {
             throw new Error('You have called speakSlots but have not passed in a ' +
             'handlerInput object as the parameter. Please verify that speakSlots is ' +
             'being called properly. If you are using the V1 of Alexa SDK, the debug ' +
@@ -123,7 +88,7 @@ export class Debug {
         }
 
         // Error: User request is missing an intent
-        if(!handlerInput.requestEnvelope.request.hasOwnProperty('intent')) {
+        if (!handlerInput.requestEnvelope.request.hasOwnProperty('intent')) {
             throw new Error('speakSlots was called, but the handlerInput passed into ' +
                 'the function is missing an intent. If you are calling speakSlots ' +
                 'from the Launch Request or Start Session this method might not work');
@@ -134,16 +99,18 @@ export class Debug {
         this.speak('Now reading the slots for the intent ' + currentIntent.name);
 
         // The currentIntent contains all of our slots, and now we will speak each slot
-        for(const slot in handlerInput.requestEnvelope.request.intent.slots) {
-            let slotName = slot;
-            let slotValue = currentIntent.slots[slotName].value;
-            let slotHasBeenFilled = slotValue;
+        for (const slot in handlerInput.requestEnvelope.request.intent.slots) {
+            const slotName = slot;
+            const slotValue = currentIntent.slots[slotName].value;
+            const slotHasBeenFilled = slotValue;
 
             // If the slot has been filled, speak the slot name and its value
-            if(slotHasBeenFilled)
+            if (slotHasBeenFilled) {
                 this.speak('The slot ' + slotName + ' contains the value ' + slotValue);
-            else
+            }
+            else {
                 this.speak('The slot ' + slotName + ' has not yet been filled');
+            }
         }
 
     }
@@ -162,7 +129,7 @@ export class Debug {
      * handle function in your 'index.js' file if you are using the Alexa SDK V2.
      * @param {*} Whatever you want to speak, any valid Javascript type.
      */
-    public forceSpeak(handlerInput : any, param : any) {
+    public forceSpeak(handlerInput : any, param : any) : void {
         this.textToBeRead = '';
         this.speak(param);
         this.complete(handlerInput);
@@ -172,7 +139,13 @@ export class Debug {
      * Changes the time delay used between each debug statement.
      * @param {number} desiredBreakTime The number of seconds that Alexa should pause between debug statements
      */
-    public setTimeDelay(desiredBreakTime : number) {
+    public setTimeDelay(desiredBreakTime : number) : void {
+        // Throw an error if something other than a number is passed in for the time delay
+        if (typeof desiredBreakTime !== 'number') {
+            throw new Error('You have called the function startWithCustomDelay with a parameter ' +
+            'that is not a numerical value.');
+        }
+
         this.timeBetweenEachDebugStatement = desiredBreakTime;
     }
 
@@ -183,9 +156,9 @@ export class Debug {
      * @param {Object} handlerInput The handlerInput object which is passed as a parameter to the
      * handle function in your 'index.js' file if you are using the Alexa SDK V2.
      */
-    public complete(handlerInput : any) {
+    public complete(handlerInput : any) : object {
         // Error: Complete was called without a parameter or the wrong parameter.
-        if(!handlerInput.hasOwnProperty('responseBuilder')) {
+        if (!handlerInput.hasOwnProperty('responseBuilder')) {
             throw new Error('You have called complete but have not passed in a ' +
             'handlerInput object as the parameter. Please verify that complete is ' +
             'being called properly. If you are using the V1 of Alexa SDK, the debug ' +
@@ -193,6 +166,49 @@ export class Debug {
         }
 
         return handlerInput.responseBuilder.speak(this.textToBeRead).getResponse();
+    }
+    
+    /**
+     * Speak helper function that handles numbers, strings, and booleans (primitives).
+     * Adds the value of the variable passed in along with a time delay (default or set by
+     * the user) to the list of statements that will eventually be read to the user.
+     * @param {(number|string|boolean)} A primitive value that you want to speak.
+     */
+    private speakPrimitive(primitiveValue : number | string | boolean) : void {
+        const textSnippet = String(primitiveValue); // Turn the primitive value into a string
+        this.textToBeRead += textSnippet;
+        this.textToBeRead += '. '; // Add punctuation
+        this.textToBeRead += this.timeDelay();
+    }
+
+    /**
+     * Speak helper function that handles objects. Recites the name of each field and corresponding 
+     * value along with a time delay (default or set by the user) to the list of statements that 
+     * will eventually be read to the user.
+     * @param {Object} object Any object that you want to know about.
+     */
+    private speakObject(objectToRead : object) : void {
+        for(const fieldName in objectToRead) {
+            if (objectToRead.hasOwnProperty(fieldName)) {
+                // Get the value of that field
+                const val = objectToRead[fieldName];
+                
+                const fieldAndValue = 'The value of field ' + fieldName + ' is ' + String(val) + '. ';
+                this.textToBeRead += fieldAndValue;
+            }
+        }
+        this.textToBeRead += this.timeDelay();
+    }
+
+    /**
+     * Helper function that inserts an SSML break tag that instructs Alexa to pause for a specified number of seconds.
+     * (https://forums.developer.amazon.com/questions/96060/how-to-have-alexa-pause-when-reading-back-your-fac.html)
+     */
+    private timeDelay() : string {
+        // Adds a tag like the following <break time='3s'/> (see 'SSML break tags')
+        const breakTag = '<break time=\'' + String(this.timeBetweenEachDebugStatement) + 's\'/> ';
+        
+        return breakTag;
     }
     
 }
