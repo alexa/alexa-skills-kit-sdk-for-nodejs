@@ -20,7 +20,7 @@ export class Debug {
     /**
      * Begins a debugging session. Sets default time between each debug statement to 1 second.
      * Resets any existing text for Alexa's response.
-	 */
+     */
     public start() : void {
         this.timeBetweenEachDebugStatement = 1.0;
         this.textToBeRead = '';
@@ -56,7 +56,7 @@ export class Debug {
         if (paramIsPrimitive) {
             this.speakPrimitive(param);
         }
-        
+
         if (paramIsObject) {
             this.speakObject(param);
         }
@@ -109,8 +109,7 @@ export class Debug {
                 // If the slot has been filled, speak the slot name and its value
                 if (slotHasBeenFilled) {
                     this.speak('The slot ' + slotName + ' contains the value ' + slotValue);
-                }
-                else {
+                } else {
                     this.speak('The slot ' + slotName + ' has not yet been filled');
                 }
             }
@@ -138,7 +137,7 @@ export class Debug {
         this.complete(handlerInput);
     }
 
-    /** 
+    /**
      * Changes the time delay used between each debug statement.
      * @param {number} desiredBreakTime The number of seconds that Alexa should pause between debug statements
      */
@@ -213,5 +212,5 @@ export class Debug {
 
         return breakTag;
     }
-    
+  
 }
