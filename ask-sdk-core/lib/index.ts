@@ -20,7 +20,6 @@ export { DefaultRequestDispatcher } from './dispatcher/DefaultRequestDispatcher'
 export { DefaultErrorMapper } from './dispatcher/error/DefaultErrorMapper';
 export { ErrorHandler } from './dispatcher/error/ErrorHandler';
 export { ErrorMapper } from './dispatcher/error/ErrorMapper';
-export { Debug } from './response/Debug';
 export { DefaultHandlerAdapter } from './dispatcher/request/handler/DefaultHandlerAdapter';
 export { DefaultRequestHandlerChain } from './dispatcher/request/handler/DefaultRequestHandlerChain';
 export { GenericRequestHandlerChain } from './dispatcher/request/handler/GenericRequestHandlerChain';
