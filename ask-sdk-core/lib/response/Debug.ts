@@ -212,5 +212,5 @@ export class Debug {
 
         return breakTag;
     }
-  
+
 }
