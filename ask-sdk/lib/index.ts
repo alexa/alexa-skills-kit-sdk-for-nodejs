@@ -24,6 +24,7 @@ export {
     BaseSkillFactory,
     CustomSkillBuilder,
     CustomSkillFactory,
+    Debug,
     DefaultApiClient,
     DefaultErrorMapper,
     DefaultHandlerAdapter,
