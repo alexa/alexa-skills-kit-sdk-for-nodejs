@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may not use this file except in compliance with the License.
@@ -56,11 +56,12 @@ export class Debug {
         if (paramIsPrimitive) {
             this.speakPrimitive(param);
         }
-        else if (paramIsObject) {
+        
+        if (paramIsObject) {
             this.speakObject(param);
         }
-        else {
-    	    throw new Error('you have called the speak method. But the parameter is not ' + 
+        if (!paramIsPrimitive && !paramIsObject) {
+            throw new Error('you have called the speak method. But the parameter is not ' +
             'a primitive like a string or an integer, nor is it an object. If you ' +
             'are trying to read the state of your slots, please use the speakState method');
         }
@@ -100,16 +101,18 @@ export class Debug {
 
         // The currentIntent contains all of our slots, and now we will speak each slot
         for (const slot in handlerInput.requestEnvelope.request.intent.slots) {
-            const slotName = slot;
-            const slotValue = currentIntent.slots[slotName].value;
-            const slotHasBeenFilled = slotValue;
+            if (slot) {
+                const slotName = slot;
+                const slotValue = currentIntent.slots[slotName].value;
+                const slotHasBeenFilled = slotValue;
 
-            // If the slot has been filled, speak the slot name and its value
-            if (slotHasBeenFilled) {
-                this.speak('The slot ' + slotName + ' contains the value ' + slotValue);
-            }
-            else {
-                this.speak('The slot ' + slotName + ' has not yet been filled');
+                // If the slot has been filled, speak the slot name and its value
+                if (slotHasBeenFilled) {
+                    this.speak('The slot ' + slotName + ' contains the value ' + slotValue);
+                }
+                else {
+                    this.speak('The slot ' + slotName + ' has not yet been filled');
+                }
             }
         }
 
@@ -121,10 +124,10 @@ export class Debug {
      * that line and tells Alexa to speak whatever you pass in as a param. This means as long
      * as your forceSpeak line is before the line of code which causes your crash, Alexa will
      * have a response to speak. This response should be information to help you understand
-     * why your program crashes (a faulty variable value or a problematic function call). 
+     * why your program crashes (a faulty variable value or a problematic function call).
      * ForceSpeak will erase all other text from debug statements in your code and only speak the
      * one thing you pass in as a parameter, be careful!
-     * 
+     *
      * @param {Object} handlerInput The handlerInput object which is passed as a parameter to every
      * handle function in your 'index.js' file if you are using the Alexa SDK V2.
      * @param {*} Whatever you want to speak, any valid Javascript type.
@@ -167,7 +170,7 @@ export class Debug {
 
         return handlerInput.responseBuilder.speak(this.textToBeRead).getResponse();
     }
-    
+
     /**
      * Speak helper function that handles numbers, strings, and booleans (primitives).
      * Adds the value of the variable passed in along with a time delay (default or set by
@@ -182,17 +185,17 @@ export class Debug {
     }
 
     /**
-     * Speak helper function that handles objects. Recites the name of each field and corresponding 
-     * value along with a time delay (default or set by the user) to the list of statements that 
+     * Speak helper function that handles objects. Recites the name of each field and corresponding
+     * value along with a time delay (default or set by the user) to the list of statements that
      * will eventually be read to the user.
      * @param {Object} object Any object that you want to know about.
      */
     private speakObject(objectToRead : object) : void {
-        for(const fieldName in objectToRead) {
+        for (const fieldName in objectToRead) {
             if (objectToRead.hasOwnProperty(fieldName)) {
                 // Get the value of that field
                 const val = objectToRead[fieldName];
-                
+
                 const fieldAndValue = 'The value of field ' + fieldName + ' is ' + String(val) + '. ';
                 this.textToBeRead += fieldAndValue;
             }
@@ -207,7 +210,7 @@ export class Debug {
     private timeDelay() : string {
         // Adds a tag like the following <break time='3s'/> (see 'SSML break tags')
         const breakTag = '<break time=\'' + String(this.timeBetweenEachDebugStatement) + 's\'/> ';
-        
+
         return breakTag;
     }
     
