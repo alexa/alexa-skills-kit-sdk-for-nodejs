@@ -6,11 +6,12 @@
     "rootDir": "lib",
     "outDir" : "dist",
     "sourceMap" : true,
-    "inlineSources" : false,
     "alwaysStrict" : true,
-    "removeComments" : false,
     "declaration" : true,
-    "lib": ["es2017", "dom"]
+    "lib": [
+      "es2017",
+      "dom"
+    ]
   },
   "include": ["lib"]
 }
