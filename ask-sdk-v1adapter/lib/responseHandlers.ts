@@ -15,7 +15,6 @@
 
 import { DynamoDbPersistenceAdapter } from 'ask-sdk';
 import { Intent } from 'ask-sdk-model';
-import { DynamoDB } from 'aws-sdk';
 import { V1Handler } from './v1Handler';
 
 let dynamoDbPersistenceAdapter : DynamoDbPersistenceAdapter;
@@ -198,10 +197,7 @@ export const ResponseHandlers : V1Handler = {
             if (!dynamoDbPersistenceAdapter) {
                 dynamoDbPersistenceAdapter = new DynamoDbPersistenceAdapter({
                     createTable : true,
-                    dynamoDBClient : this.handler.dynamoDBClient ? this.handler.dynamoDBClient : new DynamoDB({
-                        apiVersion: '2012-08-10',
-                        region: 'us-east-1',
-                    }),
+                    dynamoDBClient : this.handler.dynamoDBClient,
                     partitionKeyName : 'userId',
                     attributesName : 'mapAttr',
                     tableName : this.handler.dynamoDBTableName,

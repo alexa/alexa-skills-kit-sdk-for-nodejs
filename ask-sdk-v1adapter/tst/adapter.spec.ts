@@ -13,11 +13,11 @@
 
 'use strict';
 
-import { RequestEnvelope, ResponseEnvelope, ui } from 'ask-sdk-model';
+import { ResponseEnvelope } from 'ask-sdk-model';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { Adapter } from '../lib/adapter';
-import { LaunchRequest, RecipeIntentRequest } from './mock/mockSampleRequest';
+import { LaunchRequest, PlaybackControllerRequest } from './mock/mockSampleRequest';
 import { mockV2Requesthandler } from './mock/mockV2RequestHandler';
 
 const mockContext = {
@@ -30,11 +30,23 @@ const mockContext = {
 };
 /* tslint:disable */
 describe('Adapter', () => {
-    it('should pass lambda inputs to adapter by handler function', () => {
+    it('should pass lambda inputs /to adapter by handler function', () => {
         const adapter = new Adapter(LaunchRequest, mockContext);
 
         expect(adapter._event).to.deep.equal(LaunchRequest);
         expect(adapter._context).to.deep.equal(mockContext);
+    });
+
+    it('should add missing session object', () => {
+        const adapter = new Adapter(PlaybackControllerRequest, mockContext);
+
+        expect(adapter._event.session).to.deep.equal({
+            application: undefined,
+            attributes: {},
+            new: undefined,
+            sessionId: undefined,
+            user: undefined,
+        })
     });
 
     it('should be able to add V2 style request handlers', () => {
