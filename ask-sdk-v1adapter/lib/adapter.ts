@@ -19,7 +19,11 @@ import {
     RequestHandler,
     SkillBuilders,
 } from 'ask-sdk';
-import { RequestEnvelope, Response, ResponseEnvelope } from 'ask-sdk-model';
+import {
+    RequestEnvelope,
+    Response,
+    ResponseEnvelope,
+} from 'ask-sdk-model';
 import { DynamoDB } from 'aws-sdk';
 import { EventEmitter } from 'events';
 import * as i18n from 'i18next';
@@ -50,6 +54,18 @@ export class Adapter extends EventEmitter {
 
     constructor(event : RequestEnvelope, context : any, callback? : (err : Error, result? : any) => void) {
         super();
+        if (!event.session) {
+            event.session = {
+                new : undefined,
+                sessionId : undefined,
+                user : undefined,
+                application : undefined,
+                attributes : {},
+            };
+        } else if (!event.session.attributes) {
+            event.session.attributes = {};
+        }
+
         this._event = event;
         this._context = context;
         this._callback = callback;
@@ -149,7 +165,7 @@ function ValidateRequest() : void {
             }
         }
 
-        if (this.dynamoDBTableName && (!this._event.session || this._event.session.new)) {
+        if (this.dynamoDBTableName && (!this._event.session.sessionId || this._event.session.new)) {
             if (!dynamoDbPersistenceAdapter) {
                 dynamoDbPersistenceAdapter = new DynamoDbPersistenceAdapter({
                     createTable : true,
