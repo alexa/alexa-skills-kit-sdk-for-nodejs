@@ -4,8 +4,8 @@
 
 | Package       | NPM           |
 | ------------- | ------------- |
-|[ask-sdk](./ask-sdk)| [![npm](https://img.shields.io/npm/v/ask-sdk.svg)](https://www.npmjs.com/package/ask-sdk) [![npm](https://img.shields.io/npm/dt/ask-sdk.svg)](https://www.npmjs.com/package/ask-sdk)| 
-|[ask-sdk-core](./ask-sdk-core)| [![npm](https://img.shields.io/npm/v/ask-sdk-core.svg)](https://www.npmjs.com/package/ask-sdk-core) [![npm](https://img.shields.io/npm/dt/ask-sdk-core.svg)](https://www.npmjs.com/package/ask-sdk-core)| 
+|[ask-sdk](./ask-sdk)| [![npm](https://img.shields.io/npm/v/ask-sdk.svg)](https://www.npmjs.com/package/ask-sdk) [![npm](https://img.shields.io/npm/dt/ask-sdk.svg)](https://www.npmjs.com/package/ask-sdk)|
+|[ask-sdk-core](./ask-sdk-core)| [![npm](https://img.shields.io/npm/v/ask-sdk-core.svg)](https://www.npmjs.com/package/ask-sdk-core) [![npm](https://img.shields.io/npm/dt/ask-sdk-core.svg)](https://www.npmjs.com/package/ask-sdk-core)|
 |[ask-sdk-dynamodb-persistence-adapter](./ask-sdk-dynamodb-persistence-adapter)| [![npm](https://img.shields.io/npm/v/ask-sdk-dynamodb-persistence-adapter.svg)](https://www.npmjs.com/package/ask-sdk-dynamodb-persistence-adapter) [![npm](https://img.shields.io/npm/dt/ask-sdk-dynamodb-persistence-adapter.svg)](https://www.npmjs.com/package/ask-sdk-dynamodb-persistence-adapter)|
 |[ask-sdk-v1adapter](./ask-sdk-v1adapter)|[![npm](https://img.shields.io/npm/v/ask-sdk-v1adapter.svg)](https://www.npmjs.com/package/ask-sdk-v1adapter) [![npm](https://img.shields.io/npm/dt/ask-sdk-v1adapter.svg)](https://www.npmjs.com/package/ask-sdk-v1adapter)|
 
@@ -15,32 +15,10 @@ SDKを使って開発を始めるには、以下のリソースをご覧くだ�
 
 ## ガイド
 
-### [ASK SDKのセットアップ](../../wiki/[Japanese]-Setting-Up-The-ASK-SDK)
-NPMプロジェクトに依存関係としてSDKをインストールする方法を説明します。
-
-### [初めてのスキル開発](../../wiki/[Japanese]-Developing-Your-First-Skill)
-Hello Worldサンプルをビルドする手順を詳しく説明します。
-
-### [ASK SDK移行ガイド](../../wiki/[Japanese]-ASK-SDK-Migration-Guide)
-SDK v1からSDK v2にAlexaスキルを移行する手順を説明します。
-
-### [リクエスト処理](../../wiki/[Japanese]-Request-Processing)
-リクエストハンドラー、例外ハンドラー、リクエストと応答のインターセプターをビルドする方法を説明します。
-
-### [スキルのアトリビュート](../../wiki/[Japanese]-Skill-Attributes)
-スキルのアトリビュートを使ったスキルデータの保存と取得の方法を説明します。
-
-### [応答のビルド](../../wiki/[Japanese]-Response-Building)
-ResponseBuilderを使って、テキスト、カード、オーディオといった複数の要素を使用して1つの応答を構成する方法を説明します。
-
-### [Alexaサービスクライアント](../../wiki/[Japanese]-Alexa-Service-Clients)
-サービスクライアントを使ってスキルからAlexa APIにアクセスする方法を説明します。.
-
-### [スキルビルダー](../../wiki/[Japanese]-Skill-Builders)
-スキルインスタンスの構成と作成の方法を説明します。
-
-### [スキル内課金（英語）](../../wiki/Managing-In-Skill-Purchases)
-スキル内課金とスキル内での購入を管理する方法を説明します。
+| 言語 | 資料 |
+| -------- | ------------- |
+| [English](https://ask-sdk-for-nodejs.readthedocs.io/en/latest/) | [![Documentation Status](https://readthedocs.org/projects/ask-sdk-for-nodejs/badge/?version=latest)](https://ask-sdk-for-nodejs.readthedocs.io/en/latest/?badge=latest) |
+| [日本語](https://ask-sdk-for-nodejs.readthedocs.io/ja/latest/) | [![Documentation Status](https://readthedocs.org/projects/ask-sdk-for-nodejs-japanese/badge/?version=latest)](https://ask-sdk-for-nodejs.readthedocs.io/ja/latest/?badge=latest) |
 
 ## サンプル
 
