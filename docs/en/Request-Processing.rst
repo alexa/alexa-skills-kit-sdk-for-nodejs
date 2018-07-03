@@ -12,7 +12,7 @@ incoming requests. You can create request handlers by following the
 -  ``canHandle`` is called by the SDK to determine if the given handler
    is capable of processing the incoming request. This function accepts
    ``HandlerInput`` object and returns **true** if
-   the handler can handle the request, or **false** if not. You can
+   the handler can handle the request, or **false** otherwise. You can
    choose the conditions on which to base this determination, including
    the type or parameters of the incoming request, or skill attributes.
 -  ``handle`` is called by the SDK when invoking the request handler.
@@ -102,7 +102,7 @@ well as the optional ``Response`` produced by the ``RequestHandler``.
        process(handlerInput: HandlerInput, response?: Response): Promise<void> | void;
    }
 
-The following example shows a response intercetpor that handles saving
+The following example shows a response interceptor that handles saving
 persistent attributes to database before the response is sent to Alexa.
 
 .. code:: javascript
@@ -212,7 +212,7 @@ exposes various entities useful in request processing, including:
 -  **ServiceClientFactory**: Constructs service clients capable of
    calling Alexa APIs.
 -  **ResponseBuilder**: Contains helper function to build responses.
--  **Context**: Provides an optional, context object passed in by the
+-  **Context**: Provides an optional context object passed in by the
    host container. For example, for skills running on AWS Lambda, this
    is the `context
    object <https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-context.html>`__
