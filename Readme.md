@@ -976,7 +976,7 @@ exports.handler = function(event, context, callback) {
 };
 ```
 
-Once you are done defining and enabling language strings, you can access these strings using the this.t() function. Strings will be rendered in the language that matches the locale of the incoming request.
+Once you are done defining and enabling language strings, you can access these strings using the this.t() function. Strings will be rendered in the language that matches the locale of the incoming request. Alexa Node.js SDK uses `i18next` which support interpolation of translated string. For more information, please see [this](https://www.i18next.com/translation-function/interpolation).
 ```javascript
 const handlers = {
     'LaunchRequest': function () {
