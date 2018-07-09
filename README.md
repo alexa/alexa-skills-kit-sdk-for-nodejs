@@ -56,7 +56,7 @@ Sample skill that shows how to request and access the configured address in the 
 Project that demonstrates how to use the audio player for skills.
 
 ## Public Beta SDK
-The available [public beta version of the ASK SDK v2 for NodeJS](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.x_public-beta) may contain one or more Alexa features that are currently in public beta and not included in the production SDK version.
+The available [public beta version of the ASK SDK v2 for Node.js](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.x_public-beta) may contain one or more Alexa features that are currently in public beta and not included in the production SDK version.
 
 ## Got Feedback?
 Request and vote for Alexa features [here](https://alexa.uservoice.com/forums/906892-alexa-skills-developer-voice-and-vote)!
