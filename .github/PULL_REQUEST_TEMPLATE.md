@@ -29,7 +29,7 @@
 - [ ] I have read the **README** document
 - [ ] I have added tests to cover my changes
 - [ ] All new and existing tests passed
-- [ ] My commit message follows [AngularJS Git Commit Message Conventions](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#heading=h.uyo6cb12dt6w)
+- [ ] My commit message follows [Conventional Commit Guideline](https://conventionalcommits.org/)
 
 ## License
 <!--- The SDK is released under the [Apache 2.0 license][license], so any code you submit will be released under that license -->
