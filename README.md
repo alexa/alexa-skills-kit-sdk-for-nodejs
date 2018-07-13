@@ -15,32 +15,10 @@ To help you get started more quickly with the SDK, see the following resources.
 
 ## Technical Documentation
 
-### [Setting Up The ASK SDK](../../wiki/Setting-Up-The-ASK-SDK)
-Shows how to install the SDK as a dependency in your NPM project.
-
-### [Developing Your First Skill](../../wiki/Developing-Your-First-Skill)
-Walks through step-by-step instructions for building the Hello World sample.
-
-### [ASK SDK Migration Guide](../../wiki/ASK-SDK-Migration-Guide)
-Provides instructions for migrating an Alexa skill from the SDK v1 to the SDK v2.
-
-### [Request Processing](../../wiki/Request-Processing)
-Covers how to build request handlers, exception handlers, and request and response interceptors.
-
-### [Skill Attributes](../../wiki/Skill-Attributes)
-Covers how to use skill attributes to store and retrieve skill data
-
-### [Response Building](../../wiki/Response-Building)
-Covers how to use the ResponseBuilder to compose multiple elements like text, cards, and audio into a single response.
-
-### [Alexa Service Clients](../../wiki/Alexa-Service-Clients)
-Covers how to use service clients in your skill to access Alexa APIs.
-
-### [Skill Builders](../../wiki/Skill-Builders)
-Covers how to configure and construct a skill instance.
-
-### [Managing In-Skill Purchases](../../wiki/Managing-In-Skill-Purchases)
-Covers how to manage in-skill products and the purchase experience in your skills.
+| Language | Documentation |
+| -------- | ------------- |
+| [English](https://ask-sdk-for-nodejs.readthedocs.io/en/latest/) | [![Documentation Status](https://readthedocs.org/projects/ask-sdk-for-nodejs/badge/?version=latest)](https://ask-sdk-for-nodejs.readthedocs.io/en/latest/?badge=latest) |
+| [日本語](https://ask-sdk-for-nodejs.readthedocs.io/ja/latest/) | [![Documentation Status](https://readthedocs.org/projects/ask-sdk-for-nodejs-japanese/badge/?version=latest)](https://ask-sdk-for-nodejs.readthedocs.io/ja/latest/?badge=latest) |
 
 ## Samples
 
@@ -78,7 +56,7 @@ Sample skill that shows how to request and access the configured address in the 
 Project that demonstrates how to use the audio player for skills.
 
 ## Public Beta SDK
-The available [public beta version of the ASK SDK v2 for NodeJS](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.x_public-beta) may contain one or more Alexa features that are currently in public beta and not included in the production SDK version.
+The available [public beta version of the ASK SDK v2 for Node.js](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.x_public-beta) may contain one or more Alexa features that are currently in public beta and not included in the production SDK version.
 
 ## Got Feedback?
 Request and vote for Alexa features [here](https://alexa.uservoice.com/forums/906892-alexa-skills-developer-voice-and-vote)!
