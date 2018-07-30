@@ -29,20 +29,18 @@ import { ImageUtils } from './utils/imageUtils';
 import { TextUtils } from './utils/textUtils';
 import { V1Handler } from './v1Handler';
 
-export { Adapter } from './adapter';
+export {
+    Adapter,
+    StateString,
+    CreateStateHandler,
+} from './adapter';
 export { Handler } from './handler';
 export { V1Handler } from './v1Handler';
 export { ResponseBuilder } from './responseBuilderShim';
 
-export const services = {
-    DeviceAddressService,
-    DirectiveService,
-    ListManagementService,
-};
-
-export const directives = {
-    VoicePlayerSpeakDirective,
-};
+export function handler(event : RequestEnvelope, context : any, callback? : (err : Error, result? : any) => void) : Adapter {
+    return new Adapter(event, context, callback);
+}
 
 export const templateBuilders = {
     BodyTemplate1Builder,
@@ -55,42 +53,17 @@ export const templateBuilders = {
     ListTemplate2Builder,
 };
 
+export const services = {
+    DeviceAddressService,
+    DirectiveService,
+    ListManagementService,
+};
+
+export const directives = {
+    VoicePlayerSpeakDirective,
+};
+
 export const utils = {
     ImageUtils,
     TextUtils,
 };
-
-export function handler(event : RequestEnvelope, context : any, callback? : (err : Error, result? : any) => void) : Adapter {
-    if (!event.session) {
-        event.session = {
-            new : null,
-            user : null,
-            sessionId : null,
-            application : null,
-            attributes: {} };
-    } else if (!event.session.attributes) {
-        event.session.attributes = {};
-    }
-    const adapter = new Adapter(event, context, callback);
-    adapter.setMaxListeners(Infinity);
-
-    return adapter;
-}
-
-export function CreateStateHandler(state : string, requestHandler : V1Handler) : V1Handler {
-    if (!requestHandler) {
-        requestHandler = {};
-    }
-    for ( const eventName  of Object.keys(requestHandler)) {
-        if (typeof(requestHandler[eventName]) !== 'function') {
-            throw new Error(`Event handler for '${eventName}' was not a function`);
-        }
-        if (state) {
-            const newEventName = eventName + state;
-            Object.defineProperty(requestHandler, newEventName, Object.getOwnPropertyDescriptor(requestHandler, eventName));
-            delete requestHandler[eventName];
-        }
-    }
-
-    return requestHandler;
-}

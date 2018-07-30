@@ -54,6 +54,7 @@ export class Adapter extends EventEmitter {
 
     constructor(event : RequestEnvelope, context : any, callback? : (err : Error, result? : any) => void) {
         super();
+
         if (!event.session) {
             event.session = {
                 new : undefined,
@@ -65,6 +66,8 @@ export class Adapter extends EventEmitter {
         } else if (!event.session.attributes) {
             event.session.attributes = {};
         }
+
+        this.setMaxListeners(Infinity);
 
         this._event = event;
         this._context = context;
@@ -85,7 +88,7 @@ export class Adapter extends EventEmitter {
 
     public registerHandlers(...v1Handlers : V1Handler[]) : void {
         for ( const handler of v1Handlers) {
-            if (!isObject(handler)) {
+            if (!IsObject(handler)) {
                 throw createAskSdkError(this.constructor.name, `Argument #${handler.constructor.name} was not an Object`);
             }
             const eventNames = Object.keys(handler);
@@ -93,6 +96,13 @@ export class Adapter extends EventEmitter {
                 if (typeof(handler[eventName]) !== 'function') {
                     throw createAskSdkError(this.constructor.name, `Event handler for '${eventName}' was not a function`);
                 }
+
+                let targetEventName = eventName;
+
+                if (handler[StateString as any]) {
+                    targetEventName += handler[StateString as any];
+                }
+
                 const handlerContext = {
                     on: this.on.bind(this),
                     emit: this.emit.bind(this),
@@ -107,11 +117,11 @@ export class Adapter extends EventEmitter {
                     attributes : this._event.session.attributes,
                     context: this._context,
                     callback : this._callback,
-                    name: eventName,
-                    isOverridden:  IsOverridden.bind(this, eventName),
+                    name: targetEventName,
+                    isOverridden:  IsOverridden.bind(this, targetEventName),
                     response: new ResponseBuilder(this),
                 };
-                this.on(eventName, handler[eventName].bind(handlerContext));
+                this.on(targetEventName, handler[eventName].bind(handlerContext));
             }
         }
     }
@@ -138,6 +148,21 @@ export class Adapter extends EventEmitter {
             ValidateRequest.call(this);
         }
     }
+}
+
+export const StateString = Symbol('StateString');
+
+export function CreateStateHandler(state : string, requestHandler : V1Handler) : V1Handler {
+    if (!requestHandler) {
+        requestHandler = {};
+    }
+
+    Object.defineProperty(requestHandler, StateString, {
+        value : state || '',
+        enumerable : false,
+    });
+
+    return requestHandler;
 }
 
 let dynamoDbPersistenceAdapter : DynamoDbPersistenceAdapter;
@@ -252,7 +277,7 @@ function IsOverridden(name : string) : boolean {
     return this.listenerCount(name) > 1;
 }
 
-function isObject(obj : any) : boolean {
+function IsObject(obj : any) : boolean {
     return (!!obj) && (obj.constructor === Object);
 }
 
