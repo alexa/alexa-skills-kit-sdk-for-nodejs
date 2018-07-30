@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.8"></a>
+## [2.0.8](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.0.7...v2.0.8) (2018-07-30)
+
+
+### Bug Fixes
+
+* CreateStateHandler incorrectly update function key ([dcec7e6](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/dcec7e6)), closes [#438](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/438)
+
+
+
+
 <a name="2.0.7"></a>
 ## [2.0.7](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.0.6...v2.0.7) (2018-06-22)
 

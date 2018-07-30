@@ -1,6 +1,6 @@
 {
   "name": "ask-sdk-v1adapter",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "Adapter from v1 Alexa Node.js SDK to v2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
