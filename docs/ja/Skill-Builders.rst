@@ -39,7 +39,7 @@ Custom Skill Builder
 Standard Skill Builder
 ----------------------
 
-``StandardSkillBuilder``\ は\ ``ask-sdk``\ パッケージでのみ使用できます。SDKのすべての機能を制限なしで使えるようにするために、\ ``DynamoDbPersistentAdapter``\ と\ ``DefaultApiClient``\ を使用します。また、Dynamo
+``StandardSkillBuilder``\ は\ ``ask-sdk``\ パッケージでのみ使用できます。SDKのすべての機能を制限なしで使えるようにするために、\ ``DynamoDbPersistenceAdapter``\ と\ ``DefaultApiClient``\ を使用します。また、Dynamo
 DBテーブルオプションを設定するヘルパー関数も提供します。
 
 **インターフェース**
