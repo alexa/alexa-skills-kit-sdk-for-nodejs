@@ -20,5 +20,16 @@
   ],
   "exclude" : [
     "node_modules"
-  ]
+  ],
+  "typedocOptions": {
+    "name" : "ASK SDK for Node.js",
+    "readme" : "./README.md",
+    "mode": "file",
+    "out": "typedoc",
+    "theme": "default",
+    "excludeExternals" : true,
+    "hideGenerator" : true,
+    "target": "ES6",
+    "module": "commonjs"
+  }
 }

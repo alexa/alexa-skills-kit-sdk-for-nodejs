@@ -1,4 +1,6 @@
 dist/
 node_modules/
+_build/
+typedoc/
 package-lock.json
 lerna-debug.log
