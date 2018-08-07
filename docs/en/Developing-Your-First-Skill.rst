@@ -422,9 +422,9 @@ Configuring and Testing Your Skill
 Now that the skill code has been uploaded to AWS Lambda, you can configure the skill with Alexa. Create a new skill:
 
 1. Navigate to the `Alexa Skills Kit Developer Console <https://developer.amazon.com/alexa/console/ask>`_ and log in.
-3. Click the **Create Skill** button in the upper right.
-4. Enter “HelloWorld” as your skill name and click Next.
-5. For the model, select **Custom** and click **Create skill**.
+2. Click the **Create Skill** button in the upper right.
+3. Enter “HelloWorld” as your skill name and click Next.
+4. For the model, select **Custom** and click **Create skill**.
 
 Next, define the interaction model for the skill. Select the **Invocation** option from the sidebar and enter “greeter” for the **Skill Invocation Name**.
 
