@@ -18,7 +18,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'ASK SDK for Node.js-JA'
+project = 'ASK SDK for Node.js'
 copyright = '2018, ask sdk'
 author = 'ask sdk'
 
@@ -100,7 +100,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'ASKSDKforNodejs-JAdoc'
+htmlhelp_basename = 'ASKSDKforNodejs-doc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -127,7 +127,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'ASKSDKforNodejs-JA.tex', 'ASK SDK for Node.js-JA Documentation',
+    (master_doc, 'ASKSDKforNodejs.tex', 'ASK SDK for Node.js Documentation',
      'ask sdk', 'manual'),
 ]
 
@@ -137,7 +137,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'asksdkfornodejs-ja', 'ASK SDK for Node.js-JA Documentation',
+    (master_doc, 'asksdkfornodejs', 'ASK SDK for Node.js Documentation',
      [author], 1)
 ]
 
@@ -148,7 +148,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'ASKSDKforNodejs-JA', 'ASK SDK for Node.js-JA Documentation',
-     author, 'ASKSDKforNodejs-JA', 'One line description of project.',
+    (master_doc, 'ASKSDKforNodejs', 'ASK SDK for Node.js Documentation',
+     author, 'ASKSDKforNodejs', 'One line description of project.',
      'Miscellaneous'),
 ]

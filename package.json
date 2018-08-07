@@ -7,7 +7,6 @@
 		"tsc": "npm run gulp -- tsc",
 		"tslint": "npm run gulp -- tslint",
 		"test": "npm run gulp -- test",
-		"doc": "npm run gulp -- doc",
 		"clean-build": "npm run gulp -- clean",
 		"clean-node_modules": "npm run lerna -- clean",
 		"clean-all": "npm run clean-build && npm run clean-node_modules"

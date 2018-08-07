@@ -18,7 +18,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'ASK SDK for Node.js-EN'
+project = 'ASK SDK for Node.js'
 copyright = '2018, ask sdk'
 author = 'ask sdk'
 
@@ -37,8 +37,7 @@ release = ''
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = [
-]
+extensions = ['sphinx_tabs.tabs']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -100,7 +99,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'ASKSDKforNodejs-ENdoc'
+htmlhelp_basename = 'ASKSDKforNodejs-doc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -127,7 +126,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'ASKSDKforNodejs-EN.tex', 'ASK SDK for Node.js-EN Documentation',
+    (master_doc, 'ASKSDKforNodejs.tex', 'ASK SDK for Node.js Documentation',
      'ask sdk', 'manual'),
 ]
 
@@ -137,7 +136,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'asksdkfornodejs-en', 'ASK SDK for Node.js-EN Documentation',
+    (master_doc, 'asksdkfornodejs', 'ASK SDK for Node.js Documentation',
      [author], 1)
 ]
 
@@ -148,7 +147,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'ASKSDKforNodejs-EN', 'ASK SDK for Node.js-EN Documentation',
-     author, 'ASKSDKforNodejs-EN', 'One line description of project.',
+    (master_doc, 'ASKSDKforNodejs', 'ASK SDK for Node.js Documentation',
+     author, 'ASKSDKforNodejs', 'One line description of project.',
      'Miscellaneous'),
 ]

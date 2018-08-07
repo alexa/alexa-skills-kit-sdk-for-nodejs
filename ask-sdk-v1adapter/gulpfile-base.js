@@ -29,11 +29,4 @@ module.exports = {
     child_process.execSync(command, {stdio : 'inherit'});
     done();
   },
-  doc : (done) => {
-    const typedocPath = path.normalize('./node_modules/.bin/typedoc');
-    const command = `${typedocPath} --excludeExternals --mode file --out doc lib/`;
-
-    child_process.execSync(command, {stdio : 'inherit'});
-    done();
-  },
 };

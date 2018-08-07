@@ -41,7 +41,6 @@
     "sinon": "^4.5.0",
     "ts-node": "^6.0.1",
     "tslint": "^5.9.1",
-    "typedoc": "^0.11.1",
     "typescript": "^2.8.1"
   },
   "repository": "github:alexa/alexa-skills-kit-sdk-for-nodejs",

@@ -1,12 +1,10 @@
-==============
-Skill Builders
-==============
+=================
+スキルビルダー
+=================
 
-The SDK includes two ``SkillBuilder`` that construct the ``Skill``
-instance. They both extend from the ``BaseSkillBuilder`` that contains
-the following helper functions:
+SDKには、\ ``Skill``\ インスタンスを作成する2つの\ ``SkillBuilder``\ が含まれます。どちらも、以下のヘルパー関数を含む\ ``BaseSkillBuilder``\ から拡張されたものです。
 
-**Interface**
+**インターフェース**
 
 .. code:: typescript
 
@@ -27,12 +25,9 @@ the following helper functions:
 Custom Skill Builder
 --------------------
 
-``CustomSkillBuilder`` is avaliable in both ``ask-sdk-core`` and
-``ask-sdk`` package. In addtion to the common helper function above,
-``CustomSkillBuilder`` also provides functions that allows you to
-register custom ``PersistentAdapter`` and ``ApiClient``.
+``CustomSkillBuilder``\ は、\ ``ask-sdk-core``\ と\ ``ask-sdk``\ パッケージの両方で使用できます。上の共通のヘルパー関数に加えて、\ ``CustomSkillBuilder``\ にもカスタムの\ ``PersistentAdapter``\ と\ ``ApiClient``\ を登録できる関数があります。
 
-**Interface**
+**インターフェース**
 
 .. code:: typescript
 
@@ -44,12 +39,10 @@ register custom ``PersistentAdapter`` and ``ApiClient``.
 Standard Skill Builder
 ----------------------
 
-``StandardSkillBuilder`` is available only in the ``ask-sdk`` package.
-It uses ``DynamoDbPersistenceAdapter`` and ``DefaultApiClient`` to
-unlock full SDK features. It also provides helper functions for
-configuring the Dynamo DB table options.
+``StandardSkillBuilder``\ は\ ``ask-sdk``\ パッケージでのみ使用できます。SDKのすべての機能を制限なしで使えるようにするために、\ ``DynamoDbPersistentAdapter``\ と\ ``DefaultApiClient``\ を使用します。また、Dynamo
+DBテーブルオプションを設定するヘルパー関数も提供します。
 
-**Interface**
+**インターフェース**
 
 .. code:: typescript
 
@@ -60,8 +53,7 @@ configuring the Dynamo DB table options.
        withDynamoDbClient(customDynamoDBClient : DynamoDB) : this;
    }
 
-The following example shows how to create skill builders using
-``SkillBuilders`` provider.
+以下は、\ ``SkillBuilders``\ プロバイダーを使用してスキルビルダーを作成する方法のサンプルです。
 
 .. code:: javascript
 
