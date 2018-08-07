@@ -22,7 +22,7 @@ module.exports = {
     const tsNodePath = path.normalize('./node_modules/ts-node/register/index.js');
     const nycTmpPath = path.join('coverage', './nyc-output');
     const command = `${nycPath} -x tst -e .ts --temp-directory ${nycTmpPath} -r html -r text-summary -r cobertura ` +
-        `${mochaPath} --require ${tsNodePath} 'tst/**/*.spec.ts' --reporter spec`;
+        `${mochaPath} --require ${tsNodePath} 'tst/**/*.spec.ts' --reporter min`;
 
     exec(command, done);
   },
