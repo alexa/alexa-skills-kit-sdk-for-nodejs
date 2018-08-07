@@ -64,7 +64,7 @@ Constructor Details
 
     new DefaultApiClient() => object
 
-Constrcuts a ``DefaultApiClient`` object. This object is used by ``ServiceClient`` to make APT class to individual Alexa services.
+Constructs a ``DefaultApiClient`` object. This object is used by ``ServiceClient`` to make APT class to individual Alexa services.
 
 DeviceAddressServiceClient
 ==========================

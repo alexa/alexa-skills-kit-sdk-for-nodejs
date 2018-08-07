@@ -14,8 +14,8 @@ Request handlers, request and response interceptors, and error handlers are all 
 
 -  **RequestEnvelope**: Contains the entire `request body <https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#request-body-syntax>`_ sent to skill
 -  **ResponseBuilder**: Contains helper methods to build responses. See `Building Response <Building-Response.html>`_ section for more information.
--  **AttributesManager**: Provides access to request, session, and persistent attributes. See `Managing Attributes <Managing-Attributes.html>`_ section for more information
--  **ServiceClientFactory**: Constructs service clients capable of calling Alexa APIs. See `Calling Alexa Service APIs <Calling-Alexa-Service-APIs.html>`_ section for more information
+-  **AttributesManager**: Provides access to request, session, and persistent attributes. See `Managing Attributes <Managing-Attributes.html>`_ section for more information.
+-  **ServiceClientFactory**: Constructs service clients capable of calling Alexa APIs. See `Calling Alexa Service APIs <Calling-Alexa-Service-APIs.html>`_ section for more information.
 -  **Context**: Provides an optional context object passed in by the host container. For example, for skills running on AWS Lambda, this is the `context object <https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-context.html>`_ for the AWS Lambda method.
 
 Request Handlers
@@ -144,6 +144,11 @@ Interface
        process(handlerInput: HandlerInput, response?: Response): Promise<void> | void;
    }
 
+Request interceptors are invoked immediately before execution of the request handler for an incoming request. Request attributes provide a way for request interceptors to pass data and entities on to request handlers.
+
+Response interceptors are invoked immediately after execution of the request handler. Because response interceptors have access to the output generated from execution of the request handler, they are ideal for tasks such as response sanitization and validation.
+
+
 Code Sample
 -----------
 
@@ -179,10 +184,6 @@ The following example shows a response interceptor that handles saving persisten
         return handlerInput.attributesManager.savePersistentAttributes();
       },
     };
-
-Request interceptors are invoked immediately before execution of the request handler for an incoming request. Request attributes provide a way for request interceptors to pass data and entities on to request handlers.
-
-Response interceptors are invoked immediately after execution of the request handler. Because response interceptors have access to the output generated from execution of the request handler, they are ideal for tasks such as response sanitization and validation.
 
 The following example shows how to register interceptors with the SDK:
 

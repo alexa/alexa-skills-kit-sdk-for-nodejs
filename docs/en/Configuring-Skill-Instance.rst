@@ -5,7 +5,7 @@ Configuring Skill Instance
 Skill
 =====
 
-The ``Skill`` object is the integration of all your skill logic. It is responsible for initializing SDK utilties such as the ``AttributesManager`` and ``ServiceClientFactory`` and also kick off the request handlering process.
+The ``Skill`` object is the integration of all your skill logic. It is responsible for initializing SDK utilties such as the ``AttributesManager`` and ``ServiceClientFactory`` and also kick off the request handling process.
 
 Available Methods
 -----------------
@@ -17,7 +17,7 @@ Available Methods
 Skill Builders
 ==============
 
-The ``SkillBuilder`` provides helper functions for constructing the ``Skill``, setting custom user agent and create lambda integration handler. ASK SDK v2 for Node.js provides different implementation of ``SkillBuilder`` that offer different level of customization support, which is available through ``SkillBuilders`` object.
+The ``SkillBuilder`` provides helper functions for constructing the ``Skill``, setting custom user agent and create lambda integration handler. ASK SDK v2 for Node.js provides different implementations of ``SkillBuilder`` that offer different level of customization support, which is available through ``SkillBuilders`` object.
 
 The following example shows how to create skill builders using ``SkillBuilders`` provider.
 
@@ -41,7 +41,7 @@ The following example shows how to create skill builders using ``SkillBuilders``
 BaseSkillBuilder
 ----------------
 
-``BaseSkillBuilder`` includes the most essentially methods for configuring ``Skill``. It serves as the base for any future customization of the ``SkillBuilder``
+``BaseSkillBuilder`` includes the most essential methods for configuring ``Skill``. It serves as the base for any future customization of the ``SkillBuilder``
 
 Available Methods
 ^^^^^^^^^^^^^^^^^

@@ -149,7 +149,7 @@ Constructor Details
 
     new DynamoDbPersistenceAdapter(config = {}) => Object
 
-Constructs a ``DynamoDbPersistenceAdapter`` object. This object is used by ``AttributesManager`` to retrieve and save attributes object to a DynamoDB table. The table will have two columns: one for the parition key and one for attributes. if ``createTable`` config is set to ``true``, SDK will attempt to create a new DynamoDB table with the given ``tableName`` when instantiating the ``DynamoDbPersistenceAdapter``.
+Constructs a ``DynamoDbPersistenceAdapter`` object. This object is used by ``AttributesManager`` to retrieve and save attributes object to a DynamoDB table. The table will have two columns: one for the parition key and one for attributes. If ``createTable`` config is set to ``true``, SDK will attempt to create a new DynamoDB table with the given ``tableName`` when instantiating the ``DynamoDbPersistenceAdapter``.
 
 Examples
 """"""""
@@ -185,7 +185,7 @@ Method Details
 ``getAttributes(requestEnvelope : RequestEnvelope) : Promise<{[key : string] : any}>``
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-The ``getAttributes`` operation retrieves the attributes from the DynamoDB table. It takes in a ``RequestEnvelope`` object and pass it to the ``PartitionKeyGenerator`` to generate the partition key. Then it will retrieve the attributes returns from DynamoDB that has a associated key of ``attributesName``. When the corresponding partition key is not found, ``getAttributes`` will return an empty object.
+The ``getAttributes`` operation retrieves the attributes from the DynamoDB table. It takes in a ``RequestEnvelope`` object and pass it to the ``PartitionKeyGenerator`` to generate the partition key. Then it will retrieve the attributes returned from DynamoDB that has a associated key of ``attributesName``. When the corresponding partition key is not found, ``getAttributes`` will return an empty object.
 
 ``saveAttributes(requestEnvelope : RequestEnvelope, attributes : {[key : string] : any}) : Promise<void>``
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
