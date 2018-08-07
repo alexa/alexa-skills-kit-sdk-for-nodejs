@@ -8,15 +8,13 @@ module.exports = {
     const tscPath = path.normalize('./node_modules/.bin/tsc');
     const command = `${tscPath} -p tsconfig.json`;
 
-    child_process.execSync(command, {stdio : 'inherit'});
-    done()
+    exec(command, done);
   },
   tslint : (done) => {
     const tslintPath = path.normalize('./node_modules/.bin/tslint');
     const command = `${tslintPath} -p tsconfig.json -c tslint.json`;
 
-    child_process.execSync(command, {stdio : 'inherit'});
-    done();
+    exec(command, done);
   },
   test : (done) => {
     const nycPath = path.normalize('./node_modules/.bin/nyc');
@@ -24,9 +22,22 @@ module.exports = {
     const tsNodePath = path.normalize('./node_modules/ts-node/register/index.js');
     const nycTmpPath = path.join('coverage', './nyc-output');
     const command = `${nycPath} -x tst -e .ts --temp-directory ${nycTmpPath} -r html -r text-summary -r cobertura ` +
-      `${mochaPath} --require ${tsNodePath} 'tst/**/*.spec.ts' --reporter nyan`;
+        `${mochaPath} --require ${tsNodePath} 'tst/**/*.spec.ts' --reporter spec`;
 
-    child_process.execSync(command, {stdio : 'inherit'});
-    done();
+    exec(command, done);
   },
 };
+
+function exec(command, callback) {
+  child_process.exec(command, function(err, stdout, stderr) {
+    if (stdout) {
+      console.log(stdout);
+    }
+
+    if (stderr) {
+      console.log(stderr);
+    }
+
+    callback(err);
+  });
+}

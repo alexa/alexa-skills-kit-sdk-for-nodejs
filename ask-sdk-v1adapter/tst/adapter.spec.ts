@@ -81,9 +81,6 @@ describe('Adapter', () => {
             },
         });
 
-        // tslint:disable-next-line
-        console.log(mockStateHandler);
-
         const adapter = new Adapter(LaunchRequest, mockContext);
 
         adapter.registerHandlers(mockHandler, mockStateHandler);
@@ -125,6 +122,8 @@ describe('Adapter', () => {
             },
         };
         const adapter = new Adapter(LaunchRequest, mockContext);
+        adapter.appId = 'mock application id';
+
         adapter.resources = {
             en : {
                 translation  : {
