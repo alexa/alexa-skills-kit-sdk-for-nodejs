@@ -30,8 +30,8 @@ The ASK SDK v2 for Node.js makes it easier for you to build highly engaging skil
 
 To help you get started with the SDK, see the following resources.
 
-Guides
-======
+Guide
+=====
 
 `Setting Up The ASK SDK`_
 -------------------------
