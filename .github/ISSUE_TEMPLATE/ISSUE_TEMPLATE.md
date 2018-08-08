@@ -1,3 +1,9 @@
+---
+name: report
+about: Create a report to help us improve
+
+---
+
 <!--
 PLEASE HELP US PROCESS GITHUB ISSUES FASTER BY PROVIDING THE FOLLOWING INFORMATION.
 
@@ -28,17 +34,13 @@ ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 <!--- If suggesting a change/improvement, explain the difference from current behavior -->
 
 ## Possible Solution
-```
-// Not required, but suggest a fix/reason for the bug,
-// or ideas how to implement the addition or change
-```
+<!--- Not required, but suggest a fix/reason for the bug -->
+<!--- or ideas how to implement the addition or change -->
 
 ## Steps to Reproduce (for bugs)
-```
-// Provide a self-contained, concise snippet of code
-// For more complex issues provide a repo with the smallest sample that reproduces the bug
-// Including business logic or unrelated code makes diagnosis more difficult
-```
+<!--- Provide a self-contained, concise snippet of code -->
+<!--- For more complex issues provide a repo with the smallest sample that reproduces the bug -->
+<!--- Including business logic or unrelated code makes diagnosis more difficult -->
 
 ## Context
 <!--- How has this issue affected you? What are you trying to accomplish? -->
