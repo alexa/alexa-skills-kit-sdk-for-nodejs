@@ -148,6 +148,32 @@ SessionEndedRequestハンドラー
        }
    };
 
+Errorハンドラーを追加する
+---------------------
+
+ASK SDK v2 for Node.js ではエラーハンドリングが改善されており、スキルはスムーズなユーザ体験を提供できます.
+ハンドルされていないリクエスト, APIタイムアウトなどに対するあなたのエラー処理ロジックを追加するには、
+ErrorHandler は適した場所です。
+以下のサンプルでは、すべてのエラーをキャッチするハンドラーをスキルに追加することにより、いかなる種類のエラーに対してもスキルが意味のあるメッセージを返すことを保証しています。
+
+以下のコードを\ ``index.js``\ ファイルの、前述のハンドラーの後に貼り付けます。
+
+.. code:: javascript
+
+   const ErrorHandler = {
+       canHandle() {
+         return true;
+       },
+       handle(handlerInput, error) {
+         console.log(`Error handled: ${error.message}`);
+
+         return handlerInput.responseBuilder
+           .speak('Sorry, I can\'t understand the command. Please say again.')
+           .reprompt('Sorry, I can\'t understand the command. Please say again.')
+           .getResponse();
+       },
+   };
+
 Lambdaハンドラーを作成する
 ----------------------------
 
