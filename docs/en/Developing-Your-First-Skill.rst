@@ -75,12 +75,6 @@ The following code example shows how to configure a handler to be invoked when t
 
   .. code-tab:: typescript
 
-    import {
-      HandlerInput,
-      RequestHandler,
-    } from 'ask-sdk-core';
-    import { Response } from 'ask-sdk-model';
-
     const LaunchRequestHandler : RequestHandler = {
       canHandle(handlerInput : HandlerInput) : boolean {
         return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
