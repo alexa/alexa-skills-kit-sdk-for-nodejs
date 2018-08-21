@@ -18,7 +18,7 @@ The following section walks through writing the skill code handler by handler.
 
 .. note::
 
-  ASK SDK v2 for Node.js bundles TypeScript definition files for use in TypeScript Project. While this guide is written in context of creating an Alexa Skill using native JavaScript, the corresponding TypeScript code snippet is also provided for Reference.
+  ASK SDK v2 for Node.js bundles TypeScript definition files for use in TypeScript Project. While this guide is written in context of creating an Alexa Skill using native JavaScript, the corresponding TypeScript code snippets are also provided for Reference. Please see this `link <https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html>`_ for information on getting started with a TypeScript project.
 
 Importing Dependencies
 ----------------------
