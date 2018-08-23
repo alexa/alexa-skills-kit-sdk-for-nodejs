@@ -17,10 +17,17 @@
    Configuring-Skill-Instance
 
 .. toctree::
-   :caption: REFERENCE
+   :caption: TYPEDOC REFERENCE
    :hidden:
 
    TypeDoc <http://ask-sdk-node-typedoc.s3-website-us-east-1.amazonaws.com/>
+
+.. toctree::
+   :caption: OTHER LANGUAGE ASK SDKs
+   :hidden:
+
+   Java SDK <https://github.com/alexa/alexa-skills-kit-sdk-for-java>
+   Python SDK <https://github.com/alexa-labs/alexa-skills-kit-sdk-for-python>
 
 *******************
 ASK SDK for Node.js
