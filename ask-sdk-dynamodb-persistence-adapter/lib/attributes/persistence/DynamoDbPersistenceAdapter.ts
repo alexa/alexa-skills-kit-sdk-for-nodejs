@@ -94,6 +94,7 @@ export class DynamoDbPersistenceAdapter implements PersistenceAdapter {
                 [this.partitionKeyName] : attributesId,
             },
             TableName : this.tableName,
+            ConsistentRead : true,
         };
 
         let data : DynamoDB.DocumentClient.GetItemOutput;
