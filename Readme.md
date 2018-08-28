@@ -1,3 +1,5 @@
+<span style="color:red"> **This version of the Alexa Skills Kit SDK is no longer supported. Please use the v2 release found [here](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs)** </span>
+
 # Alexa Skills Kit SDK for Node.js
 <!-- TOC -->
 
@@ -42,7 +44,7 @@ Alexa SDK team is proud to present the new **Alexa Node.js SDK** -- the open-sou
 
 Creating an Alexa skill using the Alexa Skill Kit, Node.js and AWS Lambda has become one of the most popular ways we see skills created today. The event-driven, non-blocking I/O model of Node.js is well-suited for an Alexa skill and Node.js is one of the largest ecosystems of open source libraries in the world. Plus, AWS Lambda is free for the first one million calls per month, which is sufficient for most Alexa skill developers. Also, when using AWS Lambda you don't need to manage any SSL certificates since the Alexa Skills Kit is a trusted trigger.
 
-Setting up an Alexa skill using AWS Lambda, Node.js and the Alexa Skills Kit has been a simple process. However, the actual amount of code you have to write has not. Alexa SDK team has now built an Alexa Skills Kit SDK specifically for Node.js that will help you avoid common hang-ups and focus on your skill's logic instead of boilerplate code. 
+Setting up an Alexa skill using AWS Lambda, Node.js and the Alexa Skills Kit has been a simple process. However, the actual amount of code you have to write has not. Alexa SDK team has now built an Alexa Skills Kit SDK specifically for Node.js that will help you avoid common hang-ups and focus on your skill's logic instead of boilerplate code.
 
 With the new alexa-sdk, our goal is to help you build skills faster while allowing you to avoid unneeded complexity. Today, we are launching the SDK with the following capabilities:
 
@@ -65,7 +67,7 @@ npm install --save alexa-sdk
 ## Getting Started: Writing a Hello World Skill
 ### Basic Project Structure
 Your HelloWorld skill needs to have:
-- entry point to your skill where you'll import all packages needed for the skill, receive the events, set appId, set dynamoDB table, register handlers and so on; 
+- entry point to your skill where you'll import all packages needed for the skill, receive the events, set appId, set dynamoDB table, register handlers and so on;
 - handler functions which handle each request.
 
 ### Set Entry Point
@@ -79,7 +81,7 @@ exports.handler = function(event, context, callback) {
     alexa.execute();
 };
 ```
-This will import alexa-sdk and set up an Alexa object for us to work with. 
+This will import alexa-sdk and set up an Alexa object for us to work with.
 
 ### Implement Handler Functions
 Next, we need to handle the events and intents for our skill. Alexa-sdk makes it simple to have a function fire an intent. You can implement the handlers functions in index.js file just created or you can also write in separate files and import them later. For example, to create a handler for 'HelloWorldIntent', we can do it in two ways:
@@ -104,7 +106,7 @@ const handlers = {
 
 Alexa-sdk follows a tell/ask response methodology for generating the outputSpeech response objects corresponding to speak/listen in responseBuilder.
 ```javascript
-this.emit(':tell', 'Hello World!'); 
+this.emit(':tell', 'Hello World!');
 this.emit(':ask', 'What would you like to do?', 'Please say that again?');
 ```
 which is equivalent to:
@@ -151,12 +153,12 @@ Once you finish the above steps, your skill should work properly on the device.
 
 ## Response vs ResponseBuilder
 
-Currently, there are two ways to generate the [response objects](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#Response%20Format)  in Node.js SDK. The first way is using the syntax follows the format this.emit(`:${action}`, 'responseContent').  
+Currently, there are two ways to generate the [response objects](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#Response%20Format)  in Node.js SDK. The first way is using the syntax follows the format this.emit(`:${action}`, 'responseContent').
 Here are full list examples for common skill responses below:
 
 |Response Syntax | Description |
 |----------------|-----------|
-| this.emit(':tell',speechOutput);|Tell with [speechOutput](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#outputspeech-object)| 
+| this.emit(':tell',speechOutput);|Tell with [speechOutput](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#outputspeech-object)|
 |this.emit(':ask', speechOutput, repromptSpeech);|Ask with [speechOutput](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#outputspeech-object) and [repromptSpeech](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#reprompt-object)|
 |this.emit(':tellWithCard', speechOutput, cardTitle, cardContent, imageObj);| Tell with [speechOutput](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#outputspeech-object) and [standard card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object)|
 |this.emit(':askWithCard', speechOutput, repromptSpeech, cardTitle, cardContent, imageObj);| Ask with [speechOutput](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#outputspeech-object), [repromptSpeech](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#reprompt-object) and [standard card](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#card-object)|
@@ -176,7 +178,7 @@ Here are full list examples for common skill responses below:
 |this.emit(':saveStateError'); |Called if there is an error while saving state. Override to handle any errors yourself.|
 
 
-If you want to manually create your own responses, you can use `this.response` to help. `this.response` contains a series of functions, that you can use to set the different properties of the response. This allows you to take advantage of the Alexa Skills Kit's built-in audio and video player support. Once you've set up your response, you can just call `this.emit(':responseReady')` to send your response to Alexa. The functions within `this.response` are also chainable, so you can use as many as you want in a row. 
+If you want to manually create your own responses, you can use `this.response` to help. `this.response` contains a series of functions, that you can use to set the different properties of the response. This allows you to take advantage of the Alexa Skills Kit's built-in audio and video player support. Once you've set up your response, you can just call `this.emit(':responseReady')` to send your response to Alexa. The functions within `this.response` are also chainable, so you can use as many as you want in a row.
 Here is full list example of creating response using responseBuilder.
 
 |Response Syntax | Description |
@@ -244,7 +246,7 @@ this.emit(':responseReady');
 ```
 
 
-## Interfaces 
+## Interfaces
 
 ### AudioPlayer Interface
 Developers can include the following directives in their skill responses (respectively)
@@ -268,7 +270,7 @@ const handlers = {
     }
 };
 ```
-In the above example, Alexa will speak the `speechOutput` first and then try to play audio. 
+In the above example, Alexa will speak the `speechOutput` first and then try to play audio.
 
 When building skills that leverage the [AudioPlayer](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html) interfaces, the `playback` requests will be send to notify the skill about changes to the `playback` state.You can implement handler functions for their respective events.
 ```javascript
@@ -940,7 +942,7 @@ this.attributes['yourAttribute'] = 'value';
 
 You can [create the table manually](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SampleData.CreateTables.html) beforehand or simply give your Lambda function DynamoDB [create table permissions](http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_CreateTable.html) and it will happen automatically. Just remember it can take a minute or so for the table to be created on the first invocation. If you create the table manually, the Primary Key must be a string value called "userId".
 
-Note: If you host your skill on lambda and choose to persist skill attributes through DynamoDB, please make sure the execution role of lambda function includes access to DynamoDB. 
+Note: If you host your skill on lambda and choose to persist skill attributes through DynamoDB, please make sure the execution role of lambda function includes access to DynamoDB.
 
 ### Adding Multi-Language Support for Skill
 Let's take the Hello World example here. Define all user-facing language strings in the following format.
