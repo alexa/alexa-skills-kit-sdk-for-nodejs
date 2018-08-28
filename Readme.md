@@ -1,4 +1,4 @@
-<span style="color:red"> **This version of the Alexa Skills Kit SDK is no longer supported. Please use the V2 release found here: https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs** </span>
+<span style="color:red"> **This version of the Alexa Skills Kit SDK is no longer supported. Please use the V2 release found [here](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs)** </span>
 
 # Alexa Skills Kit SDK for Node.js
 <!-- TOC -->
