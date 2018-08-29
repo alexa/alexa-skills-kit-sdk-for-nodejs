@@ -30,7 +30,7 @@
     },
     {
       "name": "Tiantian Xie",
-      "email": "xtiantia@amazon.com"	
+      "email": "xtiantia@amazon.com"
     }
   ],
   "dependencies": {
@@ -40,13 +40,13 @@
   },
   "devDependencies": {
     "chai": "^4.1.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-jshint": "^2.0.4",
-    "gulp-mocha": "^4.3.1",
+    "gulp-mocha": "^6.0.0",
     "jshint": "^2.9.5",
-    "mocha": "^3.5.0",
-    "sinon": "^4.0.2",
-    "nock": "^9.0.25"
+    "mocha": "^5.2.0",
+    "nock": "^9.0.25",
+    "sinon": "^4.0.2"
   },
   "scripts": {
     "test": "./node_modules/.bin/gulp test",
