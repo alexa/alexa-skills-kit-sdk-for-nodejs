@@ -575,7 +575,7 @@ Skills should initiate the Cancel action when a customer asks to cancel an exist
 UpsServiceClient
 ================
 
-``UpsServiceClient`` can be used to query `Alexa Customer Profile API <https://developer.amazon.com/docs/custom-skills/request-customer-contact-information-for-use-in-your-skill.html>`_ for customer contact information.
+``UpsServiceClient`` can be used to query `Alexa Customer Profile API <https://developer.amazon.com/docs/custom-skills/request-customer-contact-information-for-use-in-your-skill.html>`_ for customer contact information and `Alexa Customer Settings API <https://developer.amazon.com/docs/smapi/alexa-settings-api-reference.html>`_ for customer preferences of time zone, distance measuring and temperature measurement unit.
 
 Type Definition
 ---------------
@@ -587,4 +587,7 @@ Type Definition
     getProfileGivenName(): Promise<string>;
     getProfileMobileNumber(): Promise<services.ups.PhoneNumber>;
     getProfileName(): Promise<string>;
+    getSystemDistanceUnits(deviceId: string): Promise<services.ups.DistanceUnits>;
+    getSystemTemperatureUnit(deviceId: string): Promise<services.ups.TemperatureUnit>;
+    getSystemTimeZone(deviceId: string): Promise<string>;
   }
