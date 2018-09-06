@@ -35,7 +35,7 @@
     "@types/node": "^9.6.1",
     "ask-sdk-core": "^2.0.7",
     "ask-sdk-model": "^1.0.0",
-    "aws-sdk-mock": "^1.7.0",
+    "aws-sdk-mock": "^4.1.0",
     "chai": "^4.1.2",
     "del": "^3.0.0",
     "gulp": "^4.0.0",
