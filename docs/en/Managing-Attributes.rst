@@ -191,3 +191,59 @@ The ``getAttributes`` operation retrieves the attributes from the DynamoDB table
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 The ``saveAttributes`` operation saves the attributes to the DynamoDB table using the partition key generated from the ``RequestEnvelope``. It uses a ``DynamoDBDocumentClient`` with ``convertEmptyValues`` set to true. So that any ``""``, ``null`` or ``undefined`` values in the attributes object will be converted.
+
+S3PersistenceAdapter
+--------------------
+
+``ask-sdk-s3-persistence-adapter`` package provides a ``S3PersistenceAdapter`` which is an implementation of ``PersistenceAdapter`` using `AWS S3 <https://aws.amazon.com/s3/>`_.
+
+Constructor Details
+^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: javascript
+
+    new S3PersistenceAdapter(config = {}) => Object
+
+Constructs a ``S3PersistenceAdapter`` object. This object is used by ``AttributesManager`` to retrieve and save attributes object to a S3 bucket. Attributes object will be represented in individual files with the object key used as file name.
+
+Examples
+""""""""
+
+.. tabs::
+
+  .. code-tab:: javascript
+
+    const { S3PersistenceAdapter } = require('ask-sdk-s3-persistence-adapter');
+
+    const S3PersistenceAdapter = new S3PersistenceAdapter({ bucketName : 'FooBucket' })
+
+  .. code-tab:: typescript
+
+    import { PersistenceAdapter } from 'ask-sdk-core';
+    import { S3PersistenceAdapter } from 'ask-sdk-dynamodb-persistence-adapter';
+
+    const S3PersistenceAdapter : PersistenceAdapter = new S3PersistenceAdapter({ bucketName : 'FooBucket' });
+
+Config Options
+""""""""""""""
+
+* **bucketName** (string) - The name of the S3 bucket used.
+* **objectKeyGenerator** (function) - Optional. The function used to generate object key using ``RequestEnvelope``. Default to generate the object key using the ``userId``.
+* **s3Client** (`AWS.S3 <https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html>`_ ) - Optional. The ``S3Client`` used to query AWS S3 bucket. You can inject your ``S3Client`` with custom configuration here. Default to use ``new AWS.S3({apiVersion : 'latest'})``.
+
+Method Details
+^^^^^^^^^^^^^^
+
+``getAttributes(requestEnvelope : RequestEnvelope) : Promise<{[key : string] : any}>``
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+The ``getAttributes`` operation retrieves the attributes from the S3 bucket. It takes in a ``RequestEnvelope`` object and pass it to the ``ObjectKeyGenerator`` to generate the object key. Then it will retrieve the attributes returned from S3 bucket. When the corresponding object key is not found or the object has no body data, ``getAttributes`` will return an empty object.
+
+``saveAttributes(requestEnvelope : RequestEnvelope, attributes : {[key : string] : any}) : Promise<void>``
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+The ``saveAttributes`` operation saves the attributes to the S3 bucket using the object key generated from the ``RequestEnvelope``.
+
+.. note::
+
+  Because Amazon S3 provides `eventual consistency <https://docs.aws.amazon.com/AmazonS3/latest/dev/Introduction.html>`_ for updates to existing objects, we recommend using `ask-sdk-dynamodb-persistence-adapter <https://github.com/tianrenz/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-dynamodb-persistence-adapter>`_ for persistent attributes if your skill requires read-after-write consistency.

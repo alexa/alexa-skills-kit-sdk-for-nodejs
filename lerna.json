@@ -4,6 +4,7 @@
     "ask-sdk",
     "ask-sdk-core",
     "ask-sdk-dynamodb-persistence-adapter",
+    "ask-sdk-s3-persistence-adapter",
     "ask-sdk-v1adapter"
   ],
   "version": "2.0.9"
