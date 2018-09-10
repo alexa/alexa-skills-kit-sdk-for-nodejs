@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.9"></a>
+## [2.0.9](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.0.8...v2.0.9) (2018-09-10)
+
+
+### Bug Fixes
+
+* enable consistent read on dynamodb get operation ([0c205f7](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/0c205f7))
+* update aws-sdk-mock dependency ([ae26da4](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/ae26da4))
+
+
+
+
 <a name="2.0.7"></a>
 ## [2.0.7](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.0.6...v2.0.7) (2018-06-22)
 
