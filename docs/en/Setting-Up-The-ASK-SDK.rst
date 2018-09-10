@@ -52,6 +52,12 @@ Add-on packages implement SDK functionality such as ``PersistenceAdapter``. You 
 
    npm install --save ask-sdk-dynamodb-persistence-adapter
 
+**Amazon S3 Persistence Adapter**
+
+::
+
+   npm install --save ask-sdk-s3-persistence-adapter
+
 Next Steps
 ==========
 
