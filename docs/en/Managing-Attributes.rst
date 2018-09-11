@@ -197,6 +197,10 @@ S3PersistenceAdapter
 
 ``ask-sdk-s3-persistence-adapter`` package provides a ``S3PersistenceAdapter`` which is an implementation of ``PersistenceAdapter`` using `AWS S3 <https://aws.amazon.com/s3/>`_.
 
+.. note::
+
+  Because Amazon S3 provides `eventual consistency <https://docs.aws.amazon.com/AmazonS3/latest/dev/Introduction.html>`_ for updates to existing objects, we recommend using `ask-sdk-dynamodb-persistence-adapter <https://github.com/tianrenz/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-dynamodb-persistence-adapter>`_ for persistent attributes if your skill requires read-after-write consistency.
+
 Constructor Details
 ^^^^^^^^^^^^^^^^^^^
 
@@ -243,7 +247,3 @@ The ``getAttributes`` operation retrieves the attributes from the S3 bucket. It 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 The ``saveAttributes`` operation saves the attributes to the S3 bucket using the object key generated from the ``RequestEnvelope``.
-
-.. note::
-
-  Because Amazon S3 provides `eventual consistency <https://docs.aws.amazon.com/AmazonS3/latest/dev/Introduction.html>`_ for updates to existing objects, we recommend using `ask-sdk-dynamodb-persistence-adapter <https://github.com/tianrenz/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-dynamodb-persistence-adapter>`_ for persistent attributes if your skill requires read-after-write consistency.
