@@ -16,6 +16,7 @@
     "ask-sdk/lib",
     "ask-sdk-core/lib",
     "ask-sdk-dynamodb-persistence-adapter/lib",
+    "ask-sdk-s3-persistence-adapter/lib",
     "ask-sdk-v1adapter/lib"
   ],
   "exclude" : [
