@@ -29,25 +29,25 @@ The ASK SDK S3 Persistence Adapter package for Node.js bundles TypeScript defini
 ### Pre-requisites
 Before you can begin using these TypeScript definitions with your project, you need to make sure your project meets a few of these requirements:
 - Use TypeScript v2.x
-- Includes the TypeScript definitions for node. You can use npm to install this by typing the following into a terminal window:
+- Include the TypeScript definitions for node. You can use npm to install this by typing the following into a terminal window:
 
 ```
 npm install --save-dev @types/node
 ```
 
 ### In Node.js
-To use the TypeScript definition files within a Node.js project, simply import ask-sdk-dynamodb-persistence-adapter as below:
+To use the TypeScript definition files within a Node.js project, simply import ask-sdk-s3-persistence-adapter as below:
 
 In a TypeScript file:
 
 ```typescript
-import * as Adapter from 'ask-sdk-dynamodb-persistence-adapter';
+import * as Adapter from 'ask-sdk-s3-persistence-adapter';
 ```
 
 In a JavaScript file:
 
 ```javascript
-const Adapter = require('ask-sdk-dynamodb-persistence-adapter');
+const Adapter = require('ask-sdk-s3-persistence-adapter');
 ```
 
 ## Opening Issues
