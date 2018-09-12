@@ -35,6 +35,11 @@ describe('S3PersistenceAdapter', () => {
     const nonJsonObjectKey = 'nonJsonObjectKey';
     const nonJsonObjectAttributes = 'This is a non json string';
 
+    const pathPrefixObjectKey = 'folder/userId';
+    const pathPrefixObjectAttributes = {
+        pathPrefixKey : 'pathPrefixValue',
+    };
+
     const bucketInvalidError = new Error('The specified bucket is not valid.');
     Object.defineProperty(bucketInvalidError, 'code', {
         value : 'InvalidBucketName',
@@ -61,6 +66,8 @@ describe('S3PersistenceAdapter', () => {
                     callback(null, {Body : Buffer.from(JSON.stringify(defaultAttributes))});
                 } else if (params.Key === customObjectKey) {
                     callback(null, {Body : Buffer.from(JSON.stringify(customAttributes))});
+                } else if (params.Key === pathPrefixObjectKey) {
+                    callback(null, {Body : Buffer.from(JSON.stringify(pathPrefixObjectAttributes))})
                 } else if (params.Key === nonJsonObjectKey) {
                     callback(null, {Body : Buffer.from(nonJsonObjectAttributes)});
                 } else if (params.Key === emptyBodyKey) {
@@ -94,12 +101,19 @@ describe('S3PersistenceAdapter', () => {
             s3Client : new AWS.S3(),
             objectKeyGenerator : ObjectKeyGenerators.deviceId,
         });
+        const pathPrefixPersistenceAdapter = new S3PersistenceAdapter({
+            bucketName,
+            pathPrefix : 'folder',
+        })
 
         const defaultResult = await defaultPersistenceAdapter.getAttributes(requestEnvelope);
         expect(defaultResult.defaultKey).eq('defaultValue');
 
         const customResult = await customPersistenceAdapter.getAttributes(requestEnvelope);
         expect(customResult.customKey).eq('customValue');
+
+        const pathPrefixResult = await pathPrefixPersistenceAdapter.getAttributes(requestEnvelope);
+        expect(pathPrefixResult.pathPrefixKey).eq('pathPrefixValue');
     });
 
     it('should be able to put an item to bucket', async() => {

@@ -234,6 +234,7 @@ Config Options
 * **bucketName** (string) - The name of the S3 bucket used.
 * **objectKeyGenerator** (function) - Optional. The function used to generate object key using ``RequestEnvelope``. Default to generate the object key using the ``userId``.
 * **s3Client** (`AWS.S3 <https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html>`_ ) - Optional. The ``S3Client`` used to query AWS S3 bucket. You can inject your ``S3Client`` with custom configuration here. Default to use ``new AWS.S3({apiVersion : 'latest'})``.
+* **pathPrefix** (string) - The prefix value added to the object key generated. This is used for s3 to mimic a file system structure. Default to empty string.
 
 Method Details
 ^^^^^^^^^^^^^^
