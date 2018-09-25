@@ -131,7 +131,8 @@ export class Adapter extends EventEmitter {
     }
 
     public execute() : void {
-        this.locale = this._event.request.locale;
+        // tslint:disable-next-line
+        this.locale = this._event.request['locale'] ? this._event.request['locale'] : 'en-US';
         if (this.resources) {
             this.i18n.use(sprintf).init({
                 lng : this.locale,

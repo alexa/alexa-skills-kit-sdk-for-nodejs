@@ -236,7 +236,6 @@ export const SkillEnabledRequest : RequestEnvelope = {
       }
     },
     request: {
-      locale : 'en-US',
       type: 'AlexaSkillEvent.SkillEnabled',
       timestamp: 'string',
       requestId: 'string'
@@ -265,7 +264,6 @@ export const HouseholdListEvent : RequestEnvelope = {
       }
     },
     request: {
-      locale : 'en-US',
       type: 'AlexaHouseholdListEvent.ItemsCreated',
       timestamp: 'string',
       requestId: 'string',
