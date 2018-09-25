@@ -26,8 +26,8 @@ following methods are provided:
    products and as ``PURCHASABLE`` or ``NOT_PURCHASABLE`` to filter the
    response on purchasability.
 -  ``productType`` can be provided as ``null`` to retrieve in-skill
-   products of all types or as ``ENTITLEMENT`` or ``SUBSCRIPTION`` to
-   filter by product type.
+   products of all types or as ``ENTITLEMENT``, ``CONSUMABLE`` or
+   ``SUBSCRIPTION`` to filter by product type.
 -  ``entitled`` can be provided as ``null`` to retrieve all in-skill
    products and as ``ENTITLED`` or ``NOT_ENTITLED`` to filter the
    response on entitlement status.
@@ -85,7 +85,9 @@ The API response contains an array of in-skill product records.
              "name": "<locale specific product name as defined by the developer>",
              "summary": "<locale specific product summary, as provided by the developer>",
              "entitled": "ENTITLED",              // Or NOT_ENTITLED
-             "purchasable": "PURCHASABLE"         // Or NOT_PURCHASABLE
+             "purchasable": "PURCHASABLE",        // Or NOT_PURCHASABLE
+             "purchaseMode": "TEST"               // Or LIVE
+             "activeEntitlementCount": 1
          }
      ],
      "isTruncated": true,
@@ -132,7 +134,9 @@ The API response contains a single in-skill product record.
        "name": "<locale specific product name as defined by the developer>",
        "summary": "<locale specific product summary, as provided by the developer>",
        "entitled": "ENTITLED",              // Or NOT_ENTITLED
-       "purchasable": "PURCHASABLE"         // Or NOT_PURCHASABLE
+       "purchasable": "PURCHASABLE",        // Or NOT_PURCHASABLE
+       "purchaseMode": "TEST"               // Or LIVE
+       "activeEntitlementCount": 1
    }
 
 More information on these APIs and their usage for skill implementation
