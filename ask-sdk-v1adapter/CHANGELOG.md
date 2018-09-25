@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.10"></a>
+## [2.0.10](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.0.9...v2.0.10) (2018-09-25)
+
+
+### Bug Fixes
+
+* handle locale not being present in v1 adapter ([03321ef](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/03321ef))
+
+
+
+
 <a name="2.0.9"></a>
 ## [2.0.9](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.0.8...v2.0.9) (2018-09-10)
 
