@@ -14,6 +14,7 @@
 import { PersistenceAdapter } from 'ask-sdk-core';
 import { RequestEnvelope } from 'ask-sdk-model';
 import { S3 } from 'aws-sdk';
+import * as path from 'path';
 import { createAskSdkError } from '../../utils/AskSdkUtils';
 import {
     ObjectKeyGenerator,
@@ -27,15 +28,18 @@ export class S3PersistenceAdapter implements PersistenceAdapter {
     protected bucketName : string;
     protected s3Client : S3;
     protected objectKeyGenerator : ObjectKeyGenerator;
+    protected pathPrefix : string;
 
     constructor(config : {
         bucketName : string,
         s3Client? : S3,
         objectKeyGenerator? : ObjectKeyGenerator,
+        pathPrefix? : string,
     }) {
         this.bucketName = config.bucketName;
         this.s3Client = config.s3Client ? config.s3Client : new S3({apiVersion : 'latest'});
         this.objectKeyGenerator = config.objectKeyGenerator ? config.objectKeyGenerator : ObjectKeyGenerators.userId;
+        this.pathPrefix = config.pathPrefix ? config.pathPrefix : '';
     }
 
     /**
@@ -44,7 +48,7 @@ export class S3PersistenceAdapter implements PersistenceAdapter {
      * @returns {Promise<Object.<string, any>>}
      */
     public async getAttributes(requestEnvelope : RequestEnvelope) : Promise<{[key : string] : string}> {
-        const objectId = this.objectKeyGenerator(requestEnvelope);
+        const objectId = path.join(this.pathPrefix, this.objectKeyGenerator(requestEnvelope));
 
         const getParams : S3.GetObjectRequest = {
             Bucket : this.bucketName,
@@ -86,7 +90,7 @@ export class S3PersistenceAdapter implements PersistenceAdapter {
      * @return {Promise<void>}
      */
     public async saveAttributes(requestEnvelope : RequestEnvelope, attributes : {[key : string] : string}) : Promise<void> {
-        const objectId = this.objectKeyGenerator(requestEnvelope);
+        const objectId = path.join(this.pathPrefix, this.objectKeyGenerator(requestEnvelope));
 
         const putParams : S3.PutObjectRequest = {
             Bucket : this.bucketName,
