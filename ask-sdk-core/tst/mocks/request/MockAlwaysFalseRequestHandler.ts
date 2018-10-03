@@ -15,14 +15,14 @@
 
 import { Response } from 'ask-sdk-model';
 import { HandlerInput } from '../../../lib/dispatcher/request/handler/HandlerInput';
-import { RequestHandler } from '../../../lib/dispatcher/request/handler/RequestHandler';
+import { CustomSkillRequestHandler } from '../../../lib/dispatcher/request/handler/CustomSkillRequestHandler';
 
-export class MockAlwaysFalseRequestHandler implements RequestHandler {
-    public canHandle(handlerInput : HandlerInput) : boolean {
+export class MockAlwaysFalseRequestHandler implements CustomSkillRequestHandler {
+    public canHandle(input : HandlerInput) : boolean {
         return false;
     }
 
-    public handle(handlerInput : HandlerInput) : Response {
+    public handle(input : HandlerInput) : Response {
         throw new Error(`${this.constructor.name} Error: this line should never be reached!`);
     }
 }

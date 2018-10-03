@@ -23,6 +23,9 @@
     "Alexa",
     "SDK"
   ],
+  "dependencies" : {
+    "ask-sdk-runtime": "^2.0.0"
+  },
   "peerDependencies": {
     "ask-sdk-model": "^1.0.0"
   },

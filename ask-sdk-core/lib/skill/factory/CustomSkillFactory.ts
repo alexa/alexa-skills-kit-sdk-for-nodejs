@@ -15,7 +15,7 @@
 
 import { services } from 'ask-sdk-model';
 import { PersistenceAdapter } from '../../attributes/persistence/PersistenceAdapter';
-import { SkillConfiguration } from '../SkillConfiguration';
+import { CustomSkillConfiguration } from '../CustomSkillConfiguration';
 import { BaseSkillFactory } from './BaseSkillFactory';
 import { CustomSkillBuilder } from './CustomSkillBuilder';
 import ApiClient = services.ApiClient;
@@ -32,7 +32,7 @@ export class CustomSkillFactory {
 
         return {
             ...<CustomSkillBuilder> baseSkillBuilder,
-            getSkillConfiguration() : SkillConfiguration {
+            getSkillConfiguration() : CustomSkillConfiguration {
                 const skillConfiguration = baseSkillBuilder.getSkillConfiguration();
 
                 return {

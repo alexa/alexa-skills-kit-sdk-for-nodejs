@@ -22,7 +22,7 @@ import { ResponseBuilder } from '../../../response/ResponseBuilder';
 import ServiceClientFactory = services.ServiceClientFactory;
 
 /**
- * An interface that represents components passed into {@link RequestHandler} and {@link ErrorHandler}.
+ * An interface that represents components passed into {@link CustomSkillRequestHandler} and {@link CustomSkillErrorHandler}.
  */
 export interface HandlerInput {
     requestEnvelope : RequestEnvelope;
