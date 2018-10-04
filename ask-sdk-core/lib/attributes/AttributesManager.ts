@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 /**
  * An interface handling three level attributes: request, session and persistence.
  */
@@ -32,7 +30,6 @@ export interface AttributesManager {
      * @returns {Promise<Object.<string, any>>}
      */
     getPersistentAttributes() : Promise<{[key : string] : any}>;
-
     /**
      * Overwrites the request attributes value.
      * @param {Object.<string, any>} requestAttributes

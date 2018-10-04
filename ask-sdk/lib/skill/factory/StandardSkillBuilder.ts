@@ -11,13 +11,12 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
 import { BaseSkillBuilder } from 'ask-sdk-core';
 import { PartitionKeyGenerator } from 'ask-sdk-dynamodb-persistence-adapter';
 import { DynamoDB } from 'aws-sdk';
 
 /**
- * An interface containing help functions to build a {@link Skill} with dynamoDB configuration options.
+ * An interface containing help functions to build a {@link CustomSkill} with dynamoDB configuration options.
  */
 export interface StandardSkillBuilder extends BaseSkillBuilder {
     withTableName(tableName : string) : this;

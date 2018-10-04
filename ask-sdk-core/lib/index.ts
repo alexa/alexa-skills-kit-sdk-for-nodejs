@@ -11,27 +11,14 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 export { AttributesManager } from './attributes/AttributesManager';
 export { AttributesManagerFactory } from './attributes/AttributesManagerFactory';
 export { PersistenceAdapter } from './attributes/persistence/PersistenceAdapter';
-export { DefaultRequestDispatcher } from './dispatcher/DefaultRequestDispatcher';
-export { DefaultErrorMapper } from './dispatcher/error/DefaultErrorMapper';
-export { ErrorHandler } from './dispatcher/error/ErrorHandler';
-export { ErrorMapper } from './dispatcher/error/ErrorMapper';
-export { DefaultHandlerAdapter } from './dispatcher/request/handler/DefaultHandlerAdapter';
-export { DefaultRequestHandlerChain } from './dispatcher/request/handler/DefaultRequestHandlerChain';
-export { GenericRequestHandlerChain } from './dispatcher/request/handler/GenericRequestHandlerChain';
-export { HandlerAdapter } from './dispatcher/request/handler/HandlerAdapter';
+export { CustomSkillErrorHandler as ErrorHandler } from './dispatcher/error/handler/CustomSkillErrorHandler';
+export { CustomSkillRequestHandler as RequestHandler } from './dispatcher/request/handler/CustomSkillRequestHandler';
 export { HandlerInput } from './dispatcher/request/handler/HandlerInput';
-export { RequestHandler } from './dispatcher/request/handler/RequestHandler';
-export { RequestHandlerChain } from './dispatcher/request/handler/RequestHandlerChain';
-export { RequestInterceptor } from './dispatcher/request/interceptor/RequestInterceptor';
-export { ResponseInterceptor } from './dispatcher/request/interceptor/ResponseInterceptor';
-export { DefaultRequestMapper } from './dispatcher/request/mapper/DefaultRequestMapper';
-export { RequestMapper } from './dispatcher/request/mapper/RequestMapper';
-export { RequestDispatcher } from './dispatcher/RequestDispatcher';
+export { CustomSkillRequestInterceptor as RequestInterceptor } from './dispatcher/request/interceptor/CustomSkillRequestInterceptor';
+export { CustomSkillResponseInterceptor as ResponseInterceptor } from './dispatcher/request/interceptor/CustomSkillResponseInterceptor';
 export { ImageHelper } from './response/ImageHelper';
 export { PlainTextContentHelper } from './response/PlainTextContentHelper';
 export { ResponseBuilder } from './response/ResponseBuilder';
@@ -39,10 +26,14 @@ export { ResponseFactory } from './response/ResponseFactory';
 export { RichTextContentHelper } from './response/RichTextContentHelper';
 export { TextContentHelper } from './response/TextContentHelper';
 export { DefaultApiClient } from './service/DefaultApiClient';
+export { CustomSkill as Skill} from './skill/CustomSkill';
 export { BaseSkillBuilder } from './skill/factory/BaseSkillBuilder';
 export { BaseSkillFactory } from './skill/factory/BaseSkillFactory';
 export { CustomSkillBuilder } from './skill/factory/CustomSkillBuilder';
 export { CustomSkillFactory } from './skill/factory/CustomSkillFactory';
-export { Skill } from './skill/Skill';
 export { SkillBuilders } from './skill/SkillBuilders';
-export { SkillConfiguration } from './skill/SkillConfiguration';
+export { CustomSkillConfiguration as SkillConfiguration } from './skill/CustomSkillConfiguration';
+export {
+    createAskSdkError,
+    createAskSdkUserAgent,
+} from 'ask-sdk-runtime';

@@ -11,10 +11,8 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
+import { createAskSdkError } from 'ask-sdk-core';
 import { RequestEnvelope } from 'ask-sdk-model';
-import { createAskSdkError } from '../../utils/AskSdkUtils';
 
 /**
  * Type definition of function used by {@link DynamoDbPersistenceAdapter} to extract attributes id from {@link RequestEnvelope}.

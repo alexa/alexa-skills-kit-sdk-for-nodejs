@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { services } from 'ask-sdk-model';
 
 export class VoicePlayerSpeakDirective implements services.directive.SendDirectiveRequest {

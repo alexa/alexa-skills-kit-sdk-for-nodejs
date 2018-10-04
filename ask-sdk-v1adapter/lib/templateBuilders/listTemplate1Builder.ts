@@ -11,10 +11,8 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { interfaces } from 'ask-sdk-model';
-import { TextUtils } from '../utils/textUtils';
+
 export class ListTemplate1Builder {
     protected template : interfaces.display.ListTemplate1;
 

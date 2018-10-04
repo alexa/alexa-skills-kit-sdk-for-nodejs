@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import {
     IntentRequest,
     ui,
@@ -76,12 +74,12 @@ describe('BaseSkillFactory', () => {
     it('should thrown an error if request handler matcher is invalid', () => {
         try {
             BaseSkillFactory.init()
-                .addRequestHandler(true as any, (handlerInput : HandlerInput) => {
-                    return handlerInput.responseBuilder.speak('Hello!').getResponse();
+                .addRequestHandler(true as any, (input : HandlerInput) => {
+                    return input.responseBuilder.speak('Hello!').getResponse();
                 })
                 .create();
         } catch (error) {
-            expect(error.message).equal('Matcher must be of type string or function, got: boolean!');
+            expect(error.message).equal('Incompatible matcher type: boolean');
 
             return;
         }
@@ -109,34 +107,34 @@ describe('BaseSkillFactory', () => {
         const skill = BaseSkillFactory.init()
             .addRequestHandler(
                 'LaunchRequest',
-                (handlerInput : HandlerInput) => {
-                    return handlerInput.responseBuilder.speak('Hello').getResponse();
+                (input : HandlerInput) => {
+                    return input.responseBuilder.speak('Hello').getResponse();
                 },
             )
             .addRequestInterceptors(
                 {
-                    process : (handlerInput) => {
-                        const attributes = handlerInput.attributesManager.getSessionAttributes();
+                    process : (input) => {
+                        const attributes = input.attributesManager.getSessionAttributes();
                         attributes.firstInterceptor = true;
-                        handlerInput.attributesManager.setSessionAttributes(attributes);
+                        input.attributesManager.setSessionAttributes(attributes);
                     },
                 },
                 {
-                    process : (handlerInput) => {
-                        const attributes = handlerInput.attributesManager.getSessionAttributes();
+                    process : (input) => {
+                        const attributes = input.attributesManager.getSessionAttributes();
                         attributes.secondInterceptor = true;
-                        handlerInput.attributesManager.setSessionAttributes(attributes);
+                        input.attributesManager.setSessionAttributes(attributes);
                     },
                 },
-                (handlerInput) => {
-                    const attributes = handlerInput.attributesManager.getSessionAttributes();
+                (input) => {
+                    const attributes = input.attributesManager.getSessionAttributes();
                     attributes.thirdInterceptor = true;
-                    handlerInput.attributesManager.setSessionAttributes(attributes);
+                    input.attributesManager.setSessionAttributes(attributes);
                 },
-                (handlerInput) => {
-                    const attributes = handlerInput.attributesManager.getSessionAttributes();
+                (input) => {
+                    const attributes = input.attributesManager.getSessionAttributes();
                     attributes.fourthInterceptor = true;
-                    handlerInput.attributesManager.setSessionAttributes(attributes);
+                    input.attributesManager.setSessionAttributes(attributes);
                 },
             )
             .create();
@@ -164,13 +162,13 @@ describe('BaseSkillFactory', () => {
     it('should thrown an error if request interceptor is invalid', () => {
         try {
             BaseSkillFactory.init()
-                .addRequestHandler('LaunchRequest', (handlerInput : HandlerInput) => {
-                    return handlerInput.responseBuilder.speak('Hello!').getResponse();
+                .addRequestHandler('LaunchRequest', (input : HandlerInput) => {
+                    return input.responseBuilder.speak('Hello!').getResponse();
                 })
                 .addRequestInterceptors(true as any)
                 .create();
         } catch (error) {
-            expect(error.message).equal('Executor must be of type Object(RequestInterceptor) or function, got: boolean');
+            expect(error.message).equal('Incompatible executor type: boolean');
 
             return;
         }
@@ -180,33 +178,33 @@ describe('BaseSkillFactory', () => {
 
     it('should be able to add multiple response interceptors with either object or function', async() => {
         const skill = BaseSkillFactory.init()
-            .addRequestHandler('LaunchRequest', (handlerInput : HandlerInput) => {
-                return handlerInput.responseBuilder.speak('Hello').getResponse();
+            .addRequestHandler('LaunchRequest', (input : HandlerInput) => {
+                return input.responseBuilder.speak('Hello').getResponse();
             })
             .addResponseInterceptors(
                 {
-                    process : (handlerInput) => {
-                        const attributes = handlerInput.attributesManager.getSessionAttributes();
+                    process : (input) => {
+                        const attributes = input.attributesManager.getSessionAttributes();
                         attributes.firstInterceptor = true;
-                        handlerInput.attributesManager.setSessionAttributes(attributes);
+                        input.attributesManager.setSessionAttributes(attributes);
                     },
                 },
                 {
-                    process : (handlerInput) => {
-                        const attributes = handlerInput.attributesManager.getSessionAttributes();
+                    process : (input) => {
+                        const attributes = input.attributesManager.getSessionAttributes();
                         attributes.secondInterceptor = true;
-                        handlerInput.attributesManager.setSessionAttributes(attributes);
+                        input.attributesManager.setSessionAttributes(attributes);
                     },
                 },
-                (handlerInput) => {
-                    const attributes = handlerInput.attributesManager.getSessionAttributes();
+                (input) => {
+                    const attributes = input.attributesManager.getSessionAttributes();
                     attributes.thirdInterceptor = true;
-                    handlerInput.attributesManager.setSessionAttributes(attributes);
+                    input.attributesManager.setSessionAttributes(attributes);
                 },
-                (handlerInput) => {
-                    const attributes = handlerInput.attributesManager.getSessionAttributes();
+                (input) => {
+                    const attributes = input.attributesManager.getSessionAttributes();
                     attributes.fourthInterceptor = true;
-                    handlerInput.attributesManager.setSessionAttributes(attributes);
+                    input.attributesManager.setSessionAttributes(attributes);
                 },
             )
             .create();
@@ -234,13 +232,13 @@ describe('BaseSkillFactory', () => {
     it('should thrown an error if response interceptor is invalid', () => {
         try {
             BaseSkillFactory.init()
-                .addRequestHandler('LaunchRequest', (handlerInput : HandlerInput) => {
-                    return handlerInput.responseBuilder.speak('Hello!').getResponse();
+                .addRequestHandler('LaunchRequest', (input : HandlerInput) => {
+                    return input.responseBuilder.speak('Hello!').getResponse();
                 })
                 .addResponseInterceptors(true as any)
                 .create();
         } catch (error) {
-            expect(error.message).equal('Executor must be of type Object(ResponseInterceptor) or function, got: boolean');
+            expect(error.message).equal('Incompatible executor type: boolean');
 
             return;
         }
@@ -251,11 +249,11 @@ describe('BaseSkillFactory', () => {
     it('should be able to add single error handle using matcher and executor', async() => {
         const skill = BaseSkillFactory.init()
             .addErrorHandler(
-                (handlerInput, error) => {
-                    return error.message === `Could not find handler that can handle the request: ${JSON.stringify(handlerInput.requestEnvelope.request, null, 2)}`;
+                (input, error) => {
+                    return error.message === `Unable to find a suitable request handler.`;
                 },
-                (handlerInput, error) => {
-                    return handlerInput.responseBuilder.speak('In ErrorHandler').getResponse();
+                (input, error) => {
+                    return input.responseBuilder.speak('In ErrorHandler').getResponse();
                 },
             )
             .create();
@@ -279,7 +277,7 @@ describe('BaseSkillFactory', () => {
         const responseEnvelope = await skill.invoke(requestEnvelope);
 
         expect((<ui.SsmlOutputSpeech> responseEnvelope.response.outputSpeech).ssml)
-            .equal('<speak>AskSdk.DefaultRequestDispatcher Error received at MockAlwaysTrueErrorHandler.</speak>');
+            .equal('<speak>AskSdk.GenericRequestDispatcher Error received at MockAlwaysTrueErrorHandler.</speak>');
     });
 
     it('should be able to add skill id and custom user agent', async() => {
@@ -325,7 +323,7 @@ describe('BaseSkillFactory', () => {
         };
 
         skillLambda(wrongRequestEnvelope, null, (error, responseEnvelope) => {
-            expect(error.message).equal(`Could not find handler that can handle the request: ${JSON.stringify(wrongRequestEnvelope.request, null, 2)}`);
+            expect(error.message).equal(`Unable to find a suitable request handler.`);
             done();
         });
     });

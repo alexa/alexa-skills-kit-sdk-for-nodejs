@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { CustomSkillBuilder } from './factory/CustomSkillBuilder';
 import { CustomSkillFactory } from './factory/CustomSkillFactory';
 

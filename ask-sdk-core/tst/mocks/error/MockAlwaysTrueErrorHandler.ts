@@ -11,20 +11,18 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { Response } from 'ask-sdk-model';
-import { ErrorHandler } from '../../../lib/dispatcher/error/ErrorHandler';
+import { CustomSkillErrorHandler } from '../../../lib/dispatcher/error/handler/CustomSkillErrorHandler';
 import { HandlerInput } from '../../../lib/dispatcher/request/handler/HandlerInput';
 import { ResponseFactory } from '../../../lib/response/ResponseFactory';
 
-export class MockAlwaysTrueErrorHandler implements ErrorHandler {
-    public canHandle(handlerInput : HandlerInput, error : Error) : boolean {
+export class MockAlwaysTrueErrorHandler implements CustomSkillErrorHandler {
+    public canHandle(input : HandlerInput, error : Error) : boolean {
         return true;
     }
 
-    public handle(handlerInput : HandlerInput, error : Error) : Response {
-        return handlerInput.responseBuilder
+    public handle(input : HandlerInput, error : Error) : Response {
+        return input.responseBuilder
             .speak(`${error.name} received at ${this.constructor.name}.`)
             .getResponse();
     }

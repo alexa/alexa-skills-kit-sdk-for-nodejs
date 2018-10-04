@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { expect } from 'chai';
 import * as nock from 'nock';
 import { V1ApiClient } from '../../lib/services/v1ApiClient';

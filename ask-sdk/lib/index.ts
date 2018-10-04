@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 export { StandardSkillBuilder } from './skill/factory/StandardSkillBuilder';
 export { StandardSkillFactory } from './skill/factory/StandardSkillFactory';
 export { SkillBuilders } from './skill/SkillBuilders';
@@ -24,25 +22,15 @@ export {
     BaseSkillFactory,
     CustomSkillBuilder,
     CustomSkillFactory,
+    createAskSdkError,
     DefaultApiClient,
-    DefaultErrorMapper,
-    DefaultHandlerAdapter,
-    DefaultRequestDispatcher,
-    DefaultRequestHandlerChain,
-    DefaultRequestMapper,
     ErrorHandler,
-    ErrorMapper,
-    GenericRequestHandlerChain,
-    HandlerAdapter,
     HandlerInput,
     ImageHelper,
     PersistenceAdapter,
     PlainTextContentHelper,
-    RequestDispatcher,
     RequestHandler,
-    RequestHandlerChain,
     RequestInterceptor,
-    RequestMapper,
     ResponseBuilder,
     ResponseFactory,
     ResponseInterceptor,

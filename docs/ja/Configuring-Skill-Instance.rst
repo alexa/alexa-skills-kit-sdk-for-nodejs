@@ -17,7 +17,7 @@ SDKには、\ ``Skill``\ インスタンスを作成する2つの\ ``SkillBuilde
        addErrorHandlers(...errorHandlers : ErrorHandler[]) : this;
        withCustomUserAgent(customUserAgent : string) : this;
        withSkillId(skillId : string) : this;
-       getSkillConfiguration() : SkillConfiguration;
+       getRuntimeConfiguration() : SkillConfiguration;
        create() : Skill;
        lambda() : LambdaHandler;
    }

@@ -11,18 +11,16 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { Response } from 'ask-sdk-model';
-import { ErrorHandler } from '../../../lib/dispatcher/error/ErrorHandler';
+import { CustomSkillErrorHandler } from '../../../lib/dispatcher/error/handler/CustomSkillErrorHandler';
 import { HandlerInput } from '../../../lib/dispatcher/request/handler/HandlerInput';
 
-export class MockAlwaysFalseErrorHandler implements ErrorHandler {
-    public canHandle(handlerInput : HandlerInput, error : Error) : boolean {
+export class MockAlwaysFalseErrorHandler implements CustomSkillErrorHandler {
+    public canHandle(input : HandlerInput, error : Error) : boolean {
         return false;
     }
 
-    public handle(handlerInput : HandlerInput, error : Error) : Response {
+    public handle(input : HandlerInput, error : Error) : Response {
         throw new Error(`${this.constructor.name} Error: this line should never be reached!`);
     }
 }

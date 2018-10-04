@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { services } from 'ask-sdk-model';
 import { PersistenceAdapter } from '../../attributes/persistence/PersistenceAdapter';
 import { BaseSkillBuilder } from './BaseSkillBuilder';

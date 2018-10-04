@@ -11,25 +11,19 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import {
     IntentRequest,
     RequestEnvelope,
     Response,
 } from 'ask-sdk-model';
-import { DefaultErrorMapper } from '../../dispatcher/error/DefaultErrorMapper';
-import { ErrorHandler } from '../../dispatcher/error/ErrorHandler';
-import { DefaultHandlerAdapter } from '../../dispatcher/request/handler/DefaultHandlerAdapter';
-import { DefaultRequestHandlerChain } from '../../dispatcher/request/handler/DefaultRequestHandlerChain';
+import { RuntimeConfigurationBuilder } from 'ask-sdk-runtime';
+import { CustomSkillErrorHandler } from '../../dispatcher/error/handler/CustomSkillErrorHandler';
+import { CustomSkillRequestHandler } from '../../dispatcher/request/handler/CustomSkillRequestHandler';
 import { HandlerInput } from '../../dispatcher/request/handler/HandlerInput';
-import { RequestHandler } from '../../dispatcher/request/handler/RequestHandler';
-import { RequestInterceptor } from '../../dispatcher/request/interceptor/RequestInterceptor';
-import { ResponseInterceptor } from '../../dispatcher/request/interceptor/ResponseInterceptor';
-import { DefaultRequestMapper } from '../../dispatcher/request/mapper/DefaultRequestMapper';
-import { createAskSdkError } from '../../util/AskSdkUtils';
-import { Skill } from '../Skill';
-import { SkillConfiguration } from '../SkillConfiguration';
+import { CustomSkillRequestInterceptor } from '../../dispatcher/request/interceptor/CustomSkillRequestInterceptor';
+import { CustomSkillResponseInterceptor } from '../../dispatcher/request/interceptor/CustomSkillResponseInterceptor';
+import { CustomSkill } from '../CustomSkill';
+import { CustomSkillConfiguration } from '../CustomSkillConfiguration';
 import { BaseSkillBuilder } from './BaseSkillBuilder';
 
 /**
@@ -43,119 +37,54 @@ export type LambdaHandler = (
 
 export class BaseSkillFactory {
     public static init() : BaseSkillBuilder {
-        const thisRequestHandlerChains : DefaultRequestHandlerChain[] = [];
-        const thisRequestInterceptors : RequestInterceptor[] = [];
-        const thisResponseInterceptors : ResponseInterceptor[] = [];
-        const thisErrorHandlers : ErrorHandler[] = [];
+        const runtimeConfigurationBuilder = new RuntimeConfigurationBuilder<HandlerInput, Response>();
         let thisCustomUserAgent : string;
         let thisSkillId : string;
 
         return {
             addRequestHandler(
-                matcher : ((handlerInput : HandlerInput) => Promise<boolean> | boolean) | string,
-                executor : (handlerInput : HandlerInput) => Promise<Response> | Response,
+                matcher : ((input : HandlerInput) => Promise<boolean> | boolean) | string,
+                executor : (input : HandlerInput) => Promise<Response> | Response,
                 ) : BaseSkillBuilder {
-                let canHandle : (handlerInput : HandlerInput) => Promise<boolean> | boolean;
 
-                switch (typeof matcher) {
-                    case 'string' : {
-                        canHandle = ({ requestEnvelope } : HandlerInput) => {
-                            return matcher === (
-                                   requestEnvelope.request.type === 'IntentRequest'
-                                       ? (<IntentRequest> requestEnvelope.request).intent.name
-                                       : requestEnvelope.request.type
-                            );
-                        };
-                        break;
+                const canHandle = typeof matcher === 'string'
+                    ? ({ requestEnvelope } : HandlerInput) => {
+                        return matcher === (requestEnvelope.request.type === 'IntentRequest'
+                                            ? (requestEnvelope.request as IntentRequest).intent.name
+                                            : requestEnvelope.request.type);
                     }
-                    case 'function' : {
-                        canHandle = <((handlerInput : HandlerInput) => Promise<boolean> | boolean)> matcher;
-                        break;
-                    }
-                    default : {
-                        throw createAskSdkError(
-                            'SkillBuilderError',
-                            `Matcher must be of type string or function, got: ${typeof matcher}!`);
-                    }
-                }
-                thisRequestHandlerChains.push(new DefaultRequestHandlerChain({
-                    requestHandler : {
-                        canHandle,
-                        handle : executor,
-                    },
-                }));
+                    : matcher;
+
+                runtimeConfigurationBuilder.addRequestHandler(canHandle, executor);
 
                 return this;
             },
-            addRequestHandlers(...requestHandlers : RequestHandler[]) : BaseSkillBuilder {
-                for ( const requestHandler of requestHandlers ) {
-                    thisRequestHandlerChains.push(new DefaultRequestHandlerChain({
-                        requestHandler,
-                    }));
-                }
+            addRequestHandlers(...requestHandlers : CustomSkillRequestHandler[]) : BaseSkillBuilder {
+                runtimeConfigurationBuilder.addRequestHandlers(...requestHandlers);
 
                 return this;
             },
-            addRequestInterceptors(...executors : Array<RequestInterceptor | ((handlerInput : HandlerInput) => Promise<void> | void)>) : BaseSkillBuilder {
-                for ( const executor of executors ) {
-                    switch (typeof executor) {
-                        case 'object' : {
-                            thisRequestInterceptors.push(<RequestInterceptor> executor);
-                            break;
-                        }
-                        case 'function' : {
-                            thisRequestInterceptors.push({
-                                process : <((handlerInput : HandlerInput) => Promise<void> | void)> executor,
-                            });
-                            break;
-                        }
-                        default : {
-                            throw createAskSdkError(
-                                'SkillBuilderError',
-                                `Executor must be of type Object(RequestInterceptor) or function, got: ${typeof executor}`);
-                        }
-                    }
-                }
+            addRequestInterceptors(...executors : Array<CustomSkillRequestInterceptor | ((input : HandlerInput) => Promise<void> | void)>) : BaseSkillBuilder {
+                runtimeConfigurationBuilder.addRequestInterceptors(...executors);
 
                 return this;
             },
-            addResponseInterceptors(...executors : Array<ResponseInterceptor | ((handlerInput : HandlerInput, response? : Response) => Promise<void> | void)>) : BaseSkillBuilder {
-                for ( const executor of executors ) {
-                    switch (typeof executor) {
-                        case 'object' : {
-                            thisResponseInterceptors.push(<ResponseInterceptor> executor);
-                            break;
-                        }
-                        case 'function' : {
-                            thisResponseInterceptors.push({
-                                process : <((handlerInput : HandlerInput, response? : Response) => Promise<void> | void)> executor,
-                            });
-                            break;
-                        }
-                        default : {
-                            throw createAskSdkError(
-                                'SkillBuilderError',
-                                `Executor must be of type Object(ResponseInterceptor) or function, got: ${typeof executor}`);
-                        }
-                    }
-                }
+            addResponseInterceptors(...executors : Array<CustomSkillResponseInterceptor | ((input : HandlerInput, response? : Response) => Promise<void> | void)>) : BaseSkillBuilder {
+                runtimeConfigurationBuilder.addResponseInterceptors(...executors);
 
                 return this;
             },
             addErrorHandler(
-                matcher : (handlerInput : HandlerInput, error : Error) => Promise<boolean> | boolean,
-                executor : (handlerInput : HandlerInput, error : Error) => Promise<Response> | Response,
+                matcher : (input : HandlerInput, error : Error) => Promise<boolean> | boolean,
+                executor : (input : HandlerInput, error : Error) => Promise<Response> | Response,
                 ) : BaseSkillBuilder {
 
-                thisErrorHandlers.push({
-                    canHandle : matcher,
-                    handle : executor,
-                });
+                runtimeConfigurationBuilder.addErrorHandler(matcher, executor);
 
                 return this;
             },
-            addErrorHandlers(...errorHandlers : ErrorHandler[]) : BaseSkillBuilder {
-                thisErrorHandlers.push(...errorHandlers);
+            addErrorHandlers(...errorHandlers : CustomSkillErrorHandler[]) : BaseSkillBuilder {
+                runtimeConfigurationBuilder.addErrorHandlers(...errorHandlers);
 
                 return this;
             },
@@ -169,32 +98,20 @@ export class BaseSkillFactory {
 
                 return this;
             },
-            getSkillConfiguration() : SkillConfiguration {
-                const requestMapper = new DefaultRequestMapper({
-                    requestHandlerChains : thisRequestHandlerChains,
-                });
-
-                const errorMapper = thisErrorHandlers.length
-                    ? new DefaultErrorMapper({
-                        errorHandlers : thisErrorHandlers,
-                    })
-                    : undefined;
+            getSkillConfiguration() : CustomSkillConfiguration {
+                const runtimeConfiguration = runtimeConfigurationBuilder.getRuntimeConfiguration();
 
                 return {
-                    requestMappers : [requestMapper],
-                    handlerAdapters : [new DefaultHandlerAdapter()],
-                    errorMapper,
-                    requestInterceptors : thisRequestInterceptors,
-                    responseInterceptors : thisResponseInterceptors,
+                    ...runtimeConfiguration,
                     customUserAgent : thisCustomUserAgent,
                     skillId : thisSkillId,
                 };
             },
-            create() : Skill {
-                return new Skill(this.getSkillConfiguration());
+            create() : CustomSkill {
+                return new CustomSkill(this.getSkillConfiguration());
             },
             lambda() : LambdaHandler {
-                const skill = new Skill(this.getSkillConfiguration());
+                const skill = new CustomSkill(this.getSkillConfiguration());
 
                 return (event : RequestEnvelope, context : any, callback : (err : Error, result? : any) => void) => {
                     skill.invoke(event, context)

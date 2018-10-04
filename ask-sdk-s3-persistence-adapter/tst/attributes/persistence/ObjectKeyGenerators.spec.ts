@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { expect } from 'chai';
 import { ObjectKeyGenerators } from '../../../lib/attributes/persistence/ObjectKeyGenerators';
 import { JsonProvider } from '../../mocks/JsonProvider';

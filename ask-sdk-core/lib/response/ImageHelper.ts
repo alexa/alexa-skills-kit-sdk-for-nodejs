@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { interfaces } from 'ask-sdk-model';
 import Image = interfaces.display.Image;
 import ImageInstance = interfaces.display.ImageInstance;

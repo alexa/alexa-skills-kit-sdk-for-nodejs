@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { AttributesManagerFactory, HandlerInput, ResponseFactory } from 'ask-sdk';
 import { ResponseEnvelope, ui } from 'ask-sdk-model';
 import { expect } from 'chai';

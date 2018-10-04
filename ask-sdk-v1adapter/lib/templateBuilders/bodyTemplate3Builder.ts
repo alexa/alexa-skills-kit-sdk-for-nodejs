@@ -11,10 +11,9 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { interfaces } from 'ask-sdk-model';
 import { TextUtils } from '../utils/textUtils';
+
 export class BodyTemplate3Builder {
     protected template : interfaces.display.BodyTemplate3;
 

@@ -11,37 +11,34 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { Response } from 'ask-sdk-model';
+import { CustomSkillRequestHandler } from '../../../lib/dispatcher/request/handler/CustomSkillRequestHandler';
 import { HandlerInput } from '../../../lib/dispatcher/request/handler/HandlerInput';
-import { RequestHandler } from '../../../lib/dispatcher/request/handler/RequestHandler';
-import { ResponseFactory } from '../../../lib/response/ResponseFactory';
 
-export class MockAlwaysTrueRequestHandler implements RequestHandler {
-    public canHandle(handlerInput : HandlerInput) : boolean {
+export class MockAlwaysTrueRequestHandler implements CustomSkillRequestHandler {
+    public canHandle(input : HandlerInput) : boolean {
         return true;
     }
 
-    public async handle(handlerInput : HandlerInput) : Promise<Response> {
+    public async handle(input : HandlerInput) : Promise<Response> {
         // tslint:disable
         try {
-            const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+            const sessionAttributes = input.attributesManager.getSessionAttributes();
             sessionAttributes.key = 'value';
-            handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
+            input.attributesManager.setSessionAttributes(sessionAttributes);
         } catch (err) {}
 
         try {
-            const persistentAttributes = await handlerInput.attributesManager.getPersistentAttributes();
+            const persistentAttributes = await input.attributesManager.getPersistentAttributes();
             persistentAttributes.key = 'value';
-            handlerInput.attributesManager.setPersistentAttributes(persistentAttributes);
+            input.attributesManager.setPersistentAttributes(persistentAttributes);
         } catch (err) {}
 
         try {
-            await handlerInput.attributesManager.savePersistentAttributes();
+            await input.attributesManager.savePersistentAttributes();
         } catch (err) {}
 
-        return handlerInput.responseBuilder
+        return input.responseBuilder
             .speak(`Request received at ${this.constructor.name}.`)
             .getResponse();
     }

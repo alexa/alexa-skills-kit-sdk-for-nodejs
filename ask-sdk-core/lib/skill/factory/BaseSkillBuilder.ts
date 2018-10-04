@@ -11,31 +11,29 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { Response } from 'ask-sdk-model';
-import { ErrorHandler } from '../../dispatcher/error/ErrorHandler';
+import { CustomSkillErrorHandler } from '../../dispatcher/error/handler/CustomSkillErrorHandler';
+import { CustomSkillRequestHandler } from '../../dispatcher/request/handler/CustomSkillRequestHandler';
 import { HandlerInput } from '../../dispatcher/request/handler/HandlerInput';
-import { RequestHandler } from '../../dispatcher/request/handler/RequestHandler';
-import { RequestInterceptor } from '../../dispatcher/request/interceptor/RequestInterceptor';
-import { ResponseInterceptor } from '../../dispatcher/request/interceptor/ResponseInterceptor';
-import { Skill } from '../Skill';
-import { SkillConfiguration } from '../SkillConfiguration';
+import { CustomSkillRequestInterceptor } from '../../dispatcher/request/interceptor/CustomSkillRequestInterceptor';
+import { CustomSkillResponseInterceptor } from '../../dispatcher/request/interceptor/CustomSkillResponseInterceptor';
+import { CustomSkill } from '../CustomSkill';
+import { CustomSkillConfiguration } from '../CustomSkillConfiguration';
 import { LambdaHandler } from './BaseSkillFactory';
 
 /**
- * An interface containing help functions to build a {@link Skill}.
+ * An interface containing help functions to build a {@link CustomSkill}.
  */
 export interface BaseSkillBuilder {
-    addRequestHandler(matcher : ((handlerInput : HandlerInput) => Promise<boolean> | boolean) | string, executor : (handlerInput : HandlerInput) => Promise<Response> | Response) : this;
-    addRequestHandlers(...requestHandlers : RequestHandler[]) : this;
-    addRequestInterceptors(...executors : Array<RequestInterceptor | ((handlerInput : HandlerInput) => Promise<void> | void)>) : this;
-    addResponseInterceptors(...executors : Array<ResponseInterceptor | ((handlerInput : HandlerInput, response? : Response) => Promise<void> | void)>) : this;
-    addErrorHandler(matcher : (handlerInput : HandlerInput, error : Error) => Promise<boolean> | boolean, executor : (handlerInput : HandlerInput, error : Error) => Promise<Response> | Response) : this;
-    addErrorHandlers(...errorHandlers : ErrorHandler[]) : this;
+    addRequestHandler(matcher : ((input : HandlerInput) => Promise<boolean> | boolean) | string, executor : (input : HandlerInput) => Promise<Response> | Response) : this;
+    addRequestHandlers(...requestHandlers : CustomSkillRequestHandler[]) : this;
+    addRequestInterceptors(...executors : Array<CustomSkillRequestInterceptor | ((input : HandlerInput) => Promise<void> | void)>) : this;
+    addResponseInterceptors(...executors : Array<CustomSkillResponseInterceptor | ((input : HandlerInput, response? : Response) => Promise<void> | void)>) : this;
+    addErrorHandler(matcher : (input : HandlerInput, error : Error) => Promise<boolean> | boolean, executor : (input : HandlerInput, error : Error) => Promise<Response> | Response) : this;
+    addErrorHandlers(...errorHandlers : CustomSkillErrorHandler[]) : this;
     withCustomUserAgent(customUserAgent : string) : this;
     withSkillId(skillId : string) : this;
-    getSkillConfiguration() : SkillConfiguration;
-    create() : Skill;
+    getSkillConfiguration() : CustomSkillConfiguration;
+    create() : CustomSkill;
     lambda() : LambdaHandler;
 }

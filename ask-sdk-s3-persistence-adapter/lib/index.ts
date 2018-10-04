@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 export { S3PersistenceAdapter } from './attributes/persistence/S3PersistenceAdapter';
 export {
     ObjectKeyGenerator,

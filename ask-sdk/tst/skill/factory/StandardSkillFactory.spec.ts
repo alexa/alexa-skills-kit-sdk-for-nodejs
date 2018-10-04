@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { DefaultApiClient } from 'ask-sdk-core';
 import {
     DynamoDbPersistenceAdapter,

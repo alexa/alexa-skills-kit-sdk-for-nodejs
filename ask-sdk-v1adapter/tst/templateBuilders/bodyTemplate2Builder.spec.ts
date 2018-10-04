@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { expect } from 'chai';
 import { BodyTemplate2Builder } from '../../lib/templateBuilders/bodyTemplate2Builder';
 import { ImageUtils } from '../../lib/utils/imageUtils';

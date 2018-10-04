@@ -11,10 +11,8 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { RequestEnvelope } from 'ask-sdk-model';
-import { createAskSdkError } from '../util/AskSdkUtils';
+import { createAskSdkError } from 'ask-sdk-runtime';
 import { AttributesManager } from './AttributesManager';
 import { PersistenceAdapter } from './persistence/PersistenceAdapter';
 

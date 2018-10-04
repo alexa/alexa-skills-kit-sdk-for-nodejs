@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 module.exports.mockV2Requesthandler = {
     canHandle(handlerInput) {
         return true;
