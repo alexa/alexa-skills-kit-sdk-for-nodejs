@@ -56,7 +56,7 @@ Available Methods
   addErrorHandlers(...errorHandlers : ErrorHandler[]) : this;
   withCustomUserAgent(customUserAgent : string) : this;
   withSkillId(skillId : string) : this;
-  getRuntimeConfiguration() : SkillConfiguration;
+  getSkillConfiguration() : SkillConfiguration;
   create() : Skill;
   lambda() : LambdaHandler;
 
