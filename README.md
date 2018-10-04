@@ -19,7 +19,29 @@ The ASK SDK v2 for Node.js makes it easier for you to build highly engaging skil
 |[ask-sdk-s3-persistence-adapter](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-s3-persistence-adapter)| [![npm](https://img.shields.io/npm/v/ask-sdk-s3-persistence-adapter.svg)](https://www.npmjs.com/package/ask-sdk-s3-persistence-adapter) [![npm](https://img.shields.io/npm/dt/ask-sdk-s3-persistence-adapter.svg)](https://www.npmjs.com/package/ask-sdk-s3-persistence-adapter)|
 |[ask-sdk-v1adapter](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-v1adapter)|[![npm](https://img.shields.io/npm/v/ask-sdk-v1adapter.svg)](https://www.npmjs.com/package/ask-sdk-v1adapter) [![npm](https://img.shields.io/npm/dt/ask-sdk-v1adapter.svg)](https://www.npmjs.com/package/ask-sdk-v1adapter)|
 
-To help you get started more quickly with the SDK, see the following resources.
+## Alexa Features Supported by SDK
+
+- [Amazon Pay](https://developer.amazon.com/docs/amazon-pay/integrate-skill-with-amazon-pay.html)
+- [Audio Player](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html)
+- [Display – Body templates for devices with a screen](https://developer.amazon.com/docs/custom-skills/create-skills-for-alexa-enabled-devices-with-a-screen.html)
+- [Gadgets Game Engine – Echo Buttons](https://developer.amazon.com/docs/custom-skills/game-engine-interface-reference.html)
+- [Directive Service (Progressive Response)](https://developer.amazon.com/docs/custom-skills/send-the-user-a-progressive-response.html)
+- [Messaging](https://developer.amazon.com/docs/smapi/send-a-message-request-to-a-skill.html)
+- [Monetization](https://developer.amazon.com/alexa-skills-kit/make-money)
+- [Video](https://developer.amazon.com/docs/custom-skills/videoapp-interface-reference.html)
+- [Device Address](https://developer.amazon.com/docs/custom-skills/device-address-api.html)
+- [Lists](https://developer.amazon.com/docs/custom-skills/access-the-alexa-shopping-and-to-do-lists.html#alexa-lists-access)
+- [Request for customer contact information](https://developer.amazon.com/docs/smapi/alexa-settings-api-reference.html)
+- [Obtain customer settings information](https://developer.amazon.com/docs/smapi/alexa-settings-api-reference.html)
+- [Account Linking](https://developer.amazon.com/docs/account-linking/understand-account-linking.html)
+- [Entity Resolution](https://developer.amazon.com/docs/custom-skills/define-synonyms-and-ids-for-slot-type-values-entity-resolution.html)
+- [Dialog Management](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html)
+
+### Preview Features
+
+The following featrures are released as public preview. The interfaces might change in future releases.
+
+- [Connections](https://developer.amazon.com/blogs/alexa/post/7b332b32-893e-4cad-be07-a5877efcbbb4/skill-connections-preview-now-skills-can-work-together-to-help-customers-get-more-done)
 
 ## Technical Documentation
 
