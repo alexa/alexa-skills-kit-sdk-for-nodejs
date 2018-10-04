@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 export interface V1Handler {
     [key : string] : (...args : any[]) => void;
 }

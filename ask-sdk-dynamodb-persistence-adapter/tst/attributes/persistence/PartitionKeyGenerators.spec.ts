@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { expect } from 'chai';
 import { PartitionKeyGenerators } from '../../../lib/attributes/persistence/PartitionKeyGenerators';
 import { JsonProvider } from '../../mocks/JsonProvider';

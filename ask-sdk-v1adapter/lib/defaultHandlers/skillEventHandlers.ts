@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { V1Handler } from '../v1Handler';
 
 export const SkillEventHandlers : V1Handler = {

@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import * as AWS from 'aws-sdk';
 import * as AWS_MOCK from 'aws-sdk-mock';
 import { expect } from 'chai';

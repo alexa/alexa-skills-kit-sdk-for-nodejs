@@ -11,9 +11,8 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import {
+    createAskSdkError,
     DefaultApiClient,
     DynamoDbPersistenceAdapter,
     RequestHandler,
@@ -33,7 +32,6 @@ import { SkillEventHandlers } from './defaultHandlers/skillEventHandlers';
 import { Handler } from './handler';
 import { ResponseBuilder } from './responseBuilderShim';
 import { ResponseHandlers } from './responseHandlers';
-import { createAskSdkError } from './utils/errorUtils';
 import { V1Handler } from './v1Handler';
 
 export class Adapter extends EventEmitter {
@@ -230,31 +228,30 @@ function ValidateRequest() : void {
 
 function EmitEvent() : void {
     const packageInfo = require('../package.json');
-    const skillBuilder = SkillBuilders.custom();
-
-    skillBuilder.addRequestHandlers(new Handler(this), ...this.v2RequestHandlers)
-                .addRequestInterceptors(new CopySessionAttributesInterceptor())
-                .withPersistenceAdapter(dynamoDbPersistenceAdapter)
-                .withApiClient(new DefaultApiClient())
-                .withCustomUserAgent(`${packageInfo.name}/${packageInfo.version}`)
-
     this.state = this._event.session.attributes.STATE || '';
 
-    skillBuilder.create().invoke(this._event, this._context)
-        .then((responseEnvelope) => {
-            if (typeof this._callback === 'undefined') {
-                this._context.succeed(responseEnvelope);
-            } else {
-                this._callback(null, responseEnvelope);
-            }
-        })
-        .catch((err) => {
-            if (typeof this._callback === 'undefined') {
-                this._context.fail(err);
-            } else {
-                this._callback(err);
-            }
-        });
+    SkillBuilders.custom()
+                 .addRequestHandlers(new Handler(this), ...this.v2RequestHandlers)
+                 .addRequestInterceptors(new CopySessionAttributesInterceptor())
+                 .withPersistenceAdapter(dynamoDbPersistenceAdapter)
+                 .withApiClient(new DefaultApiClient())
+                 .withCustomUserAgent(`${packageInfo.name}/${packageInfo.version}`)
+                 .create()
+                 .invoke(this._event, this._context)
+                 .then((responseEnvelope) => {
+                    if (typeof this._callback === 'undefined') {
+                        this._context.succeed(responseEnvelope);
+                    } else {
+                        this._callback(null, responseEnvelope);
+                    }
+                })
+                 .catch((err) => {
+                    if (typeof this._callback === 'undefined') {
+                        this._context.fail(err);
+                    } else {
+                        this._callback(err);
+                    }
+                });
 }
 
 function EmitWithState() : void {

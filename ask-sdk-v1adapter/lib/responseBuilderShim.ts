@@ -11,10 +11,16 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
-import { ResponseBuilder as ResponseHelper, ResponseFactory } from 'ask-sdk';
-import { dialog, Directive, Intent, interfaces, Response, ResponseEnvelope, ui } from 'ask-sdk-model';
+import {
+    ResponseBuilder as ResponseHelper,
+    ResponseFactory,
+} from 'ask-sdk';
+import {
+    Directive,
+    Intent,
+    interfaces,
+    ResponseEnvelope,
+} from 'ask-sdk-model';
 import { Adapter } from './adapter';
 
 export class ResponseBuilder {

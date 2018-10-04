@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { services } from 'ask-sdk-model';
 import { createAskSdkError } from 'ask-sdk-runtime';
 import { RequestOptions as HttpRequestOptions } from 'http';

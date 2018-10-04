@@ -11,9 +11,8 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { services } from 'ask-sdk-model';
+
 export interface ApiClient {
     post? : (uri : string, headers : Array<{key : string, value : string}>, body : string) => Promise<services.ApiClientResponse>;
     get? : (uri : string, headers : Array<{key : string, value : string}>) => Promise<services.ApiClientResponse>;

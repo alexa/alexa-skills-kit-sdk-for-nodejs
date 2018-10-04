@@ -11,11 +11,13 @@
  * permissions and limitations under the License.
  */
 
-import { PersistenceAdapter } from 'ask-sdk-core';
+import {
+    createAskSdkError,
+    PersistenceAdapter,
+} from 'ask-sdk-core';
 import { RequestEnvelope } from 'ask-sdk-model';
 import { S3 } from 'aws-sdk';
 import * as path from 'path';
-import { createAskSdkError } from '../../utils/AskSdkUtils';
 import {
     ObjectKeyGenerator,
     ObjectKeyGenerators,

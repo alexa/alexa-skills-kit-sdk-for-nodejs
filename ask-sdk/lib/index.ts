@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 export { StandardSkillBuilder } from './skill/factory/StandardSkillBuilder';
 export { StandardSkillFactory } from './skill/factory/StandardSkillFactory';
 export { SkillBuilders } from './skill/SkillBuilders';
@@ -24,6 +22,7 @@ export {
     BaseSkillFactory,
     CustomSkillBuilder,
     CustomSkillFactory,
+    createAskSdkError,
     DefaultApiClient,
     ErrorHandler,
     HandlerInput,

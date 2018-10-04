@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { PersistenceAdapter } from 'ask-sdk';
 import { RequestEnvelope } from 'ask-sdk-model';
 

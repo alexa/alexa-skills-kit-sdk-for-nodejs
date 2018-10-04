@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { expect } from 'chai';
 import { DefaultApiClient } from '../../../lib/service/DefaultApiClient';
 import { CustomSkillFactory } from '../../../lib/skill/factory/CustomSkillFactory';

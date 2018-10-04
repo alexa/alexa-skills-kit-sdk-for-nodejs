@@ -11,7 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
 import { BaseSkillBuilder } from 'ask-sdk-core';
 import { PartitionKeyGenerator } from 'ask-sdk-dynamodb-persistence-adapter';
 import { DynamoDB } from 'aws-sdk';

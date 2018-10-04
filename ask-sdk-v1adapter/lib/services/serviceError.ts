@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 export class ServiceError extends Error {
     public name : string;
     protected statusCode : number;

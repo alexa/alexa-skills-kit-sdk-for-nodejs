@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 export { DynamoDbPersistenceAdapter } from './attributes/persistence/DynamoDbPersistenceAdapter';
 export {
     PartitionKeyGenerator,

@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { ResponseEnvelope } from 'ask-sdk-model';
 import { expect } from 'chai';
 import { Adapter } from '../lib/adapter';

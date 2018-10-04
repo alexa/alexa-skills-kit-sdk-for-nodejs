@@ -11,12 +11,14 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { Response } from 'ask-sdk-model';
+import { CustomSkillRequestHandler } from '../../../lib/dispatcher/request/handler/CustomSkillRequestHandler';
 import { HandlerInput } from '../../../lib/dispatcher/request/handler/HandlerInput';
+<<<<<<< HEAD
 import { CustomSkillRequestHandler } from '../../../lib/dispatcher/request/handler/CustomSkillRequestHandler';
 import { ResponseFactory } from '../../../lib/response/ResponseFactory';
+=======
+>>>>>>> fix: remove 'use strict'
 
 export class MockAlwaysTrueRequestHandler implements CustomSkillRequestHandler {
     public canHandle(input : HandlerInput) : boolean {

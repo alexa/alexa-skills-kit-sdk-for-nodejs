@@ -11,12 +11,12 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
-import { PersistenceAdapter } from 'ask-sdk-core';
+import {
+    createAskSdkError,
+    PersistenceAdapter,
+} from 'ask-sdk-core';
 import { RequestEnvelope } from 'ask-sdk-model';
 import { DynamoDB } from 'aws-sdk';
-import { createAskSdkError } from '../../utils/AskSdkUtils';
 import {
     PartitionKeyGenerator,
     PartitionKeyGenerators,

@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { DynamoDbPersistenceAdapter } from 'ask-sdk';
 import { Intent } from 'ask-sdk-model';
 import { V1Handler } from './v1Handler';

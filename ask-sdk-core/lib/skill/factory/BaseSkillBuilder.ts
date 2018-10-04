@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { Response } from 'ask-sdk-model';
 import { CustomSkillErrorHandler } from '../../dispatcher/error/handler/CustomSkillErrorHandler';
 import { CustomSkillRequestHandler } from '../../dispatcher/request/handler/CustomSkillRequestHandler';

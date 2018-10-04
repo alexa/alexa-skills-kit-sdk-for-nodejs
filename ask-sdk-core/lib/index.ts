@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 export { AttributesManager } from './attributes/AttributesManager';
 export { AttributesManagerFactory } from './attributes/AttributesManagerFactory';
 export { PersistenceAdapter } from './attributes/persistence/PersistenceAdapter';

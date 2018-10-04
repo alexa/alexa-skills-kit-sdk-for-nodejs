@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { services } from 'ask-sdk-model';
 import { VoicePlayerSpeakDirective } from '../directives/voicePlayerSpeakDirective';
 import { ApiClient } from './apiClient';

@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { DefaultApiClient } from 'ask-sdk';
 import { services } from 'ask-sdk-model';
 import { ApiClient } from './apiClient';

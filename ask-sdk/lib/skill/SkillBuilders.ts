@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import {
     CustomSkillBuilder,
     SkillBuilders as BaseSkillBuilders,

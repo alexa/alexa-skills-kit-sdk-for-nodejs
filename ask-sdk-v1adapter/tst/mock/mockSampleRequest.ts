@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { RequestEnvelope } from 'ask-sdk-model';
 /* tslint:disable */
 export const LaunchRequest : RequestEnvelope = {

@@ -11,14 +11,14 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
-import { HandlerInput,
-         RequestHandler} from 'ask-sdk';
+import {
+    createAskSdkError,
+    HandlerInput,
+    RequestHandler,
+} from 'ask-sdk';
 import { Response } from 'ask-sdk-model';
 import { Adapter } from './adapter';
 import { EventParser } from './eventParser';
-import { createAskSdkError } from './utils/errorUtils';
 
 export class Handler implements RequestHandler {
     protected adapter : Adapter;

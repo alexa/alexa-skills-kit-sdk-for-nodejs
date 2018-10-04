@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-'use strict';
-
 import { interfaces } from 'ask-sdk-model';
 import { expect } from 'chai';
 import { ImageHelper } from '../../lib/response/ImageHelper';
