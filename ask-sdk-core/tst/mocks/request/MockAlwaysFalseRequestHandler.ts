@@ -14,10 +14,6 @@
 import { Response } from 'ask-sdk-model';
 import { CustomSkillRequestHandler } from '../../../lib/dispatcher/request/handler/CustomSkillRequestHandler';
 import { HandlerInput } from '../../../lib/dispatcher/request/handler/HandlerInput';
-<<<<<<< HEAD
-import { CustomSkillRequestHandler } from '../../../lib/dispatcher/request/handler/CustomSkillRequestHandler';
-=======
->>>>>>> fix: remove 'use strict'
 
 export class MockAlwaysFalseRequestHandler implements CustomSkillRequestHandler {
     public canHandle(input : HandlerInput) : boolean {
