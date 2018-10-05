@@ -387,7 +387,7 @@ Alternatively, ASK SDK v2 for Node.js also provides a ``lambda`` builder functio
 
   .. code-tab:: typescript
 
-    exports.handler = SkillBuilders.custom();
+    exports.handler = SkillBuilders.custom()
       .addRequestHandlers(
         LaunchRequestHandler,
         HelloWorldIntentHandler,
