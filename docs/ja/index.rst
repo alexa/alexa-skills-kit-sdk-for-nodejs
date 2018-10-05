@@ -87,7 +87,7 @@ APIにアクセスする方法を説明します。.
 フィードバック
 ================
 
-Alexaの機能に関するリクエストや投票は、\ `こちら <https://alexa.uservoice.com/forums/906892-alexa-skills-developer-voice-and-vote>`__\ をご覧ください。
+Alexaの機能に関するリクエストや投票は、\ `こちら <https://alexa.uservoice.com/forums/906892-alexa-skills-developer-voice-and-vote/filters/top?category_id=322783>`__\ をご覧ください。
 
 .. _ASK SDKのセットアップ: Setting-Up-The-ASK-SDK.html
 .. _初めてのスキル開発: Developing-Your-First-Skill.html

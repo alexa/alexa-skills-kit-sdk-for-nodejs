@@ -132,7 +132,7 @@ Covers how to configure and construct a skill instance.
 Got Feedback?
 =============
 
-Request and vote for Alexa features `here <https://alexa.uservoice.com/forums/906892-alexa-skills-developer-voice-and-vote>`__!
+Request and vote for Alexa features `here <https://alexa.uservoice.com/forums/906892-alexa-skills-developer-voice-and-vote/filters/top?category_id=322783>`__!
 
 .. _Setting Up The ASK SDK: Setting-Up-The-ASK-SDK.html
 .. _Developing Your First Skill: Developing-Your-First-Skill.html
