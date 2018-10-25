@@ -1,5 +1,5 @@
 {
-  "lerna": "2.10.2",
+  "version": "2.1.0",
   "packages": [
     "ask-sdk",
     "ask-sdk-core",
@@ -8,5 +8,4 @@
     "ask-sdk-s3-persistence-adapter",
     "ask-sdk-v1adapter"
   ],
-  "version": "2.1.0"
 }
