@@ -532,10 +532,6 @@ Skills should initiate the Cancel action when a customer asks to cancel an exist
 
 .. code-block:: javascript
 
-  // Skills would implement a custom intent (buyIntent below) that captures
-  // user's intent to buy an in-skill product and then trigger the Buy request for it.
-  // For e.g. 'Alexa, buy <product name>'
-
   const cancelIntentHandler = {
     canHandle(handlerInput) {
       return handlerInput.requestEnvelope.request.type === 'IntentRequest'

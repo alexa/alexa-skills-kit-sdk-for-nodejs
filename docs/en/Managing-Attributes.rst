@@ -190,7 +190,7 @@ The ``getAttributes`` operation retrieves the attributes from the DynamoDB table
 ``saveAttributes(requestEnvelope : RequestEnvelope, attributes : {[key : string] : any}) : Promise<void>``
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-The ``saveAttributes`` operation saves the attributes to the DynamoDB table using the partition key generated from the ``RequestEnvelope``. It uses a ``DynamoDBDocumentClient`` with ``convertEmptyValues`` set to true. So that any ``""``, ``null`` or ``undefined`` values in the attributes object will be converted.
+The ``saveAttributes`` operation saves the attributes to the DynamoDB table using the partition key generated from the ``RequestEnvelope``. It uses a ``DynamoDBDocumentClient`` with ``convertEmptyValues`` set to ``true``. So that any ``""``, ``null`` or ``undefined`` values in the attributes object will be converted.
 
 S3PersistenceAdapter
 --------------------
@@ -199,7 +199,7 @@ S3PersistenceAdapter
 
 .. note::
 
-  Because Amazon S3 provides `eventual consistency <https://docs.aws.amazon.com/AmazonS3/latest/dev/Introduction.html>`_ for updates to existing objects, we recommend using `ask-sdk-dynamodb-persistence-adapter <https://github.com/tianrenz/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-dynamodb-persistence-adapter>`_ for persistent attributes if your skill requires read-after-write consistency.
+  Because Amazon S3 provides `eventual consistency <https://docs.aws.amazon.com/AmazonS3/latest/dev/Introduction.html>`_ for updates to existing objects, we recommend using `DynamoDbPersistenceAdapter`_ for persistent attributes if your skill requires read-after-write consistency.
 
 Constructor Details
 ^^^^^^^^^^^^^^^^^^^
@@ -233,7 +233,7 @@ Config Options
 
 * **bucketName** (string) - The name of the S3 bucket used.
 * **objectKeyGenerator** (function) - Optional. The function used to generate object key using ``RequestEnvelope``. Default to generate the object key using the ``userId``.
-* **s3Client** (`AWS.S3 <https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html>`_ ) - Optional. The ``S3Client`` used to query AWS S3 bucket. You can inject your ``S3Client`` with custom configuration here. Default to use ``new AWS.S3({apiVersion : 'latest'})``.
+* **s3Client** (`AWS.S3 <https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html>`_) - Optional. The ``S3Client`` used to query AWS S3 bucket. You can inject your ``S3Client`` with custom configuration here. Default to use ``new AWS.S3({apiVersion : 'latest'})``.
 * **pathPrefix** (string) - The prefix value added to the object key generated. This is used for s3 to mimic a file system structure. Default to empty string.
 
 Method Details

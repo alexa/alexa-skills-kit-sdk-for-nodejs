@@ -15,7 +15,6 @@
    Managing-Attributes
    Calling-Alexa-Service-APIs
    Configuring-Skill-Instance
-   Managing-In-Skill-Purchases
 
 .. toctree::
    :caption: REFERENCE
@@ -23,12 +22,18 @@
 
    TypeDoc <http://ask-sdk-node-typedoc.s3-website-us-east-1.amazonaws.com/>
 
+.. toctree::
+   :caption: OTHER LANGUAGE ASK SDKs
+   :hidden:
+
+   Java SDK <https://github.com/alexa/alexa-skills-kit-sdk-for-java>
+   Python SDK <https://github.com/alexa-labs/alexa-skills-kit-sdk-for-python>
+
 *******************
 ASK SDK for Node.js
 *******************
 
-ASK SDK v2 for
-Node.jsを使うと、ボイラープレートコード（毎回書かなければならないお決まりのコード）を書く手間が不要になります。これにより空いた時間をさまざまな機能の実装に充てることができ、人気のスキルをより簡単に作成できるようになります。
+ASK SDK v2 for Node.jsを使うと、ボイラープレートコード（毎回書かなければならないお決まりのコード）を書く手間が不要になります。これにより空いた時間をさまざまな機能の実装に充てることができ、人気のスキルをより簡単に作成できるようになります。
 
 SDKを使って開発を始めるには、以下のリソースをご覧ください。
 
@@ -63,12 +68,12 @@ SDK v1からSDK v2にAlexaスキルを移行する手順を説明します。
 
 ResponseBuilderを使って、テキスト、カード、オーディオといった複数の要素を使用して1つの応答を構成する方法を説明します。
 
-`スキルのアトリビュート`_
+`アトリビュートの管理`_
 -------------------------
 
 スキルのアトリビュートを使ったスキルデータの保存と取得の方法を説明します。
 
-`Alexaサービスクライアント`_
+`AlexaサービスAPIの呼び出し`_
 -------------------------------
 
 サービスクライアントを使ってスキルからAlexa
@@ -78,11 +83,6 @@ APIにアクセスする方法を説明します。.
 -------------------------
 
 スキルインスタンスの構成と作成の方法を説明します。
-
-`スキル内課金（英語）`_
--------------------------
-
-スキル内課金とスキル内での購入を管理する方法を説明します。
 
 フィードバック
 ================
@@ -94,7 +94,6 @@ Alexaの機能に関するリクエストや投票は、\ `こちら <https://al
 .. _ASK SDK移行ガイド: ASK-SDK-Migration-Guide.html
 .. _リクエスト処理: Processing-Request.html
 .. _応答のビルド: Building-Response.html
-.. _スキルのアトリビュート: Managing-Attributes.html
-.. _Alexaサービスクライアント: Calling-Alexa-Service-APIs.html
+.. _アトリビュートの管理: Managing-Attributes.html
+.. _AlexaサービスAPIの呼び出し: Calling-Alexa-Service-APIs.html
 .. _スキルビルダー: Configuring-Skill-Instance.html
-.. _スキル内課金（英語）: Managing-In-Skill-Purchases.html
