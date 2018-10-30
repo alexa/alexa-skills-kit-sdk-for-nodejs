@@ -34,6 +34,18 @@ export { CustomSkillFactory } from './skill/factory/CustomSkillFactory';
 export { SkillBuilders } from './skill/SkillBuilders';
 export { CustomSkillConfiguration as SkillConfiguration } from './skill/CustomSkillConfiguration';
 export {
+    getViewportDpiGroup,
+    getViewportOrientation,
+    getViewportProfile,
+    getViewportSizeGroup,
+    ViewportDpiGroup,
+    ViewportDpiGroupOrder,
+    ViewportOrientation,
+    ViewportProfile,
+    ViewportSizeGroup,
+    ViewportSizeGroupOrder,
+} from './util/ViewportUtils';
+export {
     createAskSdkError,
     createAskSdkUserAgent,
 } from 'ask-sdk-runtime';

@@ -25,6 +25,10 @@ export {
     createAskSdkError,
     DefaultApiClient,
     ErrorHandler,
+    getViewportDpiGroup,
+    getViewportOrientation,
+    getViewportProfile,
+    getViewportSizeGroup,
     HandlerInput,
     ImageHelper,
     PersistenceAdapter,
@@ -38,6 +42,12 @@ export {
     Skill,
     SkillConfiguration,
     TextContentHelper,
+    ViewportDpiGroup,
+    ViewportDpiGroupOrder,
+    ViewportOrientation,
+    ViewportProfile,
+    ViewportSizeGroup,
+    ViewportSizeGroupOrder,
 } from 'ask-sdk-core';
 
 export {
