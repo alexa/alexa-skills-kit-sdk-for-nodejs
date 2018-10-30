@@ -43,6 +43,7 @@ The ASK SDK v2 for Node.js makes it easier for you to build highly engaging skil
 The following featrures are released as public preview. The interfaces might change in future releases.
 
 - [Connections](https://developer.amazon.com/blogs/alexa/post/7b332b32-893e-4cad-be07-a5877efcbbb4/skill-connections-preview-now-skills-can-work-together-to-help-customers-get-more-done)
+- [Alexa Presentation Language](https://developer.amazon.com/docs/alexa-presentation-language/apl-overview.html)
 
 ## Technical Documentation
 

@@ -8,7 +8,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* add support for Alexa Presentation Language (APL) ([bcdfec8](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/bcdfec8))
+* This release adds support for APL (Public Beta). The Alexa Presentation Language (APL) enables you to build interactive voice experiences that include graphics, images, slideshows, and to customize them for different device types. ([bcdfec8](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/bcdfec8))
 
 
 
