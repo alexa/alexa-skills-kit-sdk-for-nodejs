@@ -11,7 +11,10 @@
  * permissions and limitations under the License.
  */
 
-import { interfaces } from 'ask-sdk-model';
+import {
+     canfulfill,
+     interfaces,
+ } from 'ask-sdk-model';
 import { expect } from 'chai';
 import { ImageHelper } from '../../lib/response/ImageHelper';
 import { ResponseBuilder } from '../../lib/response/ResponseBuilder';
@@ -22,6 +25,7 @@ import PlayBehavior = interfaces.audioplayer.PlayBehavior;
 import ClearBehavior = interfaces.audioplayer.ClearBehavior;
 import Image = interfaces.display.Image;
 import BodyTemplate1 = interfaces.display.BodyTemplate1;
+import CanFulfillIntent = canfulfill.CanFulfillIntent;
 
 describe('ResponseFactory', () => {
 
@@ -645,6 +649,24 @@ describe('ResponseFactory', () => {
             .to.deep.equals(expectResponse2);
         expect(ResponseFactory.init().addVideoAppLaunchDirective(videoSource, mockTitle, mockSubtitle).reprompt(speechOutput).getResponse())
             .to.deep.equals(expectResponse2);
+    });
+
+    it('should build response with canFulfillIntent', () => {
+        const responseBuilder : ResponseBuilder = ResponseFactory.init();
+        const canFulfillIntent : CanFulfillIntent = {
+            canFulfill : 'YES',
+            slots : {
+                foo : {
+                    canUnderstand : 'MAYBE',
+                    canFulfill : 'YES',
+                },
+            },
+        };
+        const expectedResponse = {
+            canFulfillIntent,
+        };
+
+        expect(responseBuilder.withCanFulfillIntent(canFulfillIntent).getResponse()).to.deep.equals(expectedResponse);
     });
 
     it('should build response with shouldEndSession value', () => {

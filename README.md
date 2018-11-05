@@ -44,6 +44,7 @@ The following featrures are released as public preview. The interfaces might cha
 
 - [Connections](https://developer.amazon.com/blogs/alexa/post/7b332b32-893e-4cad-be07-a5877efcbbb4/skill-connections-preview-now-skills-can-work-together-to-help-customers-get-more-done)
 - [Alexa Presentation Language](https://developer.amazon.com/docs/alexa-presentation-language/apl-overview.html)
+- [Name-free Interactions](https://developer.amazon.com/docs/custom-skills/understand-name-free-interaction-for-custom-skills.html)
 
 ## Technical Documentation
 
@@ -89,9 +90,6 @@ Sample skill that shows how to request and access the configured address in the 
 
 ### [Audio Player](https://github.com/alexa/skill-sample-nodejs-audio-player)
 Project that demonstrates how to use the audio player for skills.
-
-## Public Beta SDK
-The available [public beta version of the ASK SDK v2 for Node.js](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.x_public-beta) may contain one or more Alexa features that are currently in public beta and not included in the production SDK version.
 
 ## Other Language Alexa Skills Kit SDKs
 <a href="https://github.com/amzn/alexa-skills-kit-java"><img src="https://github.com/konpa/devicon/raw/master/icons/java/java-original.svg?sanitize=true" width="25px" /> Alexa Skills Kit SDK for Java</a>
