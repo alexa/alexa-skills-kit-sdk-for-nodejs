@@ -39,8 +39,7 @@ Interface
 Code Sample
 -----------
 
-The following example shows a request handler that can handle the
-``HelloWorldIntent``.
+The following example shows a request handler that can handle the ``HelloWorldIntent``.
 
 .. tabs::
 
@@ -114,9 +113,8 @@ The following example shows how to register request handlers with the SDK:
 
 
 .. note::
-  The SDK calls the ``canHandle`` method on its request handlers in the order in which they were registered.
 
-  In the example above, the SDK calls request handlers in the following order:
+  The SDK calls the ``canHandle`` method on its request handlers in the order in which they were registered. In the example above, the SDK calls request handlers in the following order:
 
   1. FooHandler
   2. BarHandler
@@ -147,7 +145,6 @@ Interface
 Request interceptors are invoked immediately before execution of the request handler for an incoming request. Request attributes provide a way for request interceptors to pass data and entities on to request handlers.
 
 Response interceptors are invoked immediately after execution of the request handler. Because response interceptors have access to the output generated from execution of the request handler, they are ideal for tasks such as response sanitization and validation.
-
 
 Code Sample
 -----------
@@ -225,9 +222,7 @@ The following example shows how to register interceptors with the SDK:
 
 .. note::
 
-  The SDK executes the request and response interceptors in the order in which they were registered.
-
-  In the example above, SDK executes interceptors in the following order:
+  The SDK executes the request and response interceptors in the order in which they were registered. In the example above, SDK executes interceptors in the following order:
 
   1. FooRequestInterceptor
   2. BarRequestInterceptor
@@ -340,9 +335,7 @@ The following example shows how to register error handlers with the SDK:
 
 .. note::
 
-  Like request handlers, error handlers are executed in the order in which they were registered.
-
-  For the example above, the SDK calls error handlers in the following order:
+  Like request handlers, error handlers are executed in the order in which they were registered. For the example above, the SDK calls error handlers in the following order:
 
   1. FooErrorHandler
   2. BarErrorHandler

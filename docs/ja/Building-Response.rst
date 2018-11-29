@@ -31,6 +31,7 @@ ResponseBuilder
   withStandardCard(cardTitle: string, cardContent: string, smallImageUrl?: string, largeImageUrl?: string): this;
   withLinkAccountCard(): this;
   withAskForPermissionsConsentCard(permissionArray: string[]): this;
+  withCanFulfillIntent(canFulfillIntent : CanFulfillIntent) : this;
   addDelegateDirective(updatedIntent?: Intent): this;
   addElicitSlotDirective(slotToElicit: string, updatedIntent?: Intent): this;
   addConfirmSlotDirective(slotToConfirm: string, updatedIntent?: Intent): this;
@@ -44,13 +45,6 @@ ResponseBuilder
   withShouldEndSession(val: boolean): this;
   addDirective(directive: Directive): this;
   getResponse(): Response;
-
-
-次のResponseBuilderメソッドは、 `public beta SDK <https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.x_public-beta>`__ でのみ使用できます：
-
-.. code-block:: typescript
-
-   withCanFulfillIntent(canFulfillIntent : CanFulfillIntent) : this;
 
 以下の例は、 ``ResponseBuilder`` ヘルパーメソッドを使用して応答を作成する方法を示しています。
 

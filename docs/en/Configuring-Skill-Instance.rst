@@ -37,7 +37,6 @@ The following example shows how to create skill builders using ``SkillBuilders``
     const customSkillBuilder = SkillBuilders.custom();
     const standardSkillBuilder = SkillBuilders.standard()
 
-
 BaseSkillBuilder
 ----------------
 
@@ -73,13 +72,14 @@ Available Methods
   withPersistenceAdapter(persistenceAdapter : PersistenceAdapter) : this;
   withApiClient(apiClient : ApiClient) : this;
 
-Standard Skill Builder
-----------------------
+StandardSkillBuilder
+--------------------
 
 ``StandardSkillBuilder`` is available only in the ``ask-sdk`` package and includes all available methods from ``BaseSkillBuilder``. It uses ``DynamoDbPersistenceAdapter`` and ``DefaultApiClient`` by default and provides conveninent helper methods for configuring ``DynamoDbPersistenceAdapter``.
 
 Available Methods
 ^^^^^^^^^^^^^^^^^
+
 .. code-block:: typescript
 
   withTableName(tableName : string) : this;

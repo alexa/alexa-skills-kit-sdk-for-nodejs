@@ -20,17 +20,44 @@ ASK SDK v2 for Node.jsを使うと、ボイラープレートコード（毎回�
 |[ask-sdk-s3-persistence-adapter](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-s3-persistence-adapter)| [![npm](https://img.shields.io/npm/v/ask-sdk-s3-persistence-adapter.svg)](https://www.npmjs.com/package/ask-sdk-s3-persistence-adapter) [![npm](https://img.shields.io/npm/dt/ask-sdk-s3-persistence-adapter.svg)](https://www.npmjs.com/package/ask-sdk-s3-persistence-adapter)|
 |[ask-sdk-v1adapter](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-v1adapter)|[![npm](https://img.shields.io/npm/v/ask-sdk-v1adapter.svg)](https://www.npmjs.com/package/ask-sdk-v1adapter) [![npm](https://img.shields.io/npm/dt/ask-sdk-v1adapter.svg)](https://www.npmjs.com/package/ask-sdk-v1adapter)|
 
+## SDKでサポートされているAlexaの機能
 
-SDKを使って開発を始めるには、以下のリソースをご覧ください。
+- [Amazon Pay](https://developer.amazon.com/docs/amazon-pay/integrate-skill-with-amazon-pay.html)
+- [Audio Player](https://developer.amazon.com/docs/custom-skills/audioplayer-interface-reference.html)
+- [Display – 画面付きデバイス用のBodyテンプレート](https://developer.amazon.com/docs/custom-skills/create-skills-for-alexa-enabled-devices-with-a-screen.html)
+- [Gadgets Game Engine – Echo Buttons（日本未対応）](https://developer.amazon.com/docs/custom-skills/game-engine-interface-reference.html)
+- [Directiveサービス（プログレッシブ応答）](https://developer.amazon.com/docs/custom-skills/send-the-user-a-progressive-response.html)
+- [メッセージ](https://developer.amazon.com/docs/smapi/send-a-message-request-to-a-skill.html)
+- [収益化](https://developer.amazon.com/alexa-skills-kit/make-money)
+- [ビデオ](https://developer.amazon.com/docs/custom-skills/videoapp-interface-reference.html)
+- [デバイスのアドレス](https://developer.amazon.com/docs/custom-skills/device-address-api.html)
+- [リスト](https://developer.amazon.com/docs/custom-skills/access-the-alexa-shopping-and-to-do-lists.html#alexa-lists-access)
+- [ユーザー連絡先情報のリクエスト](https://developer.amazon.com/docs/smapi/alexa-settings-api-reference.html)
+- [ユーザー設定情報の取得](https://developer.amazon.com/docs/smapi/alexa-settings-api-reference.html)
+- [アカウントリンク](https://developer.amazon.com/docs/account-linking/understand-account-linking.html)
+- [スロットタイプ値の同義語とIDを定義する（エンティティ解決）](https://developer.amazon.com/docs/custom-skills/define-synonyms-and-ids-for-slot-type-values-entity-resolution.html)
+- [ダイアログ管理](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html)
 
-## ガイド
+### プレビュー機能
 
-| 言語 | 資料 |
+以下の機能は、公開プレビュー版としてリリースされます。インターフェースは今後のリリースで変更される可能性があります。
+
+- [Connections](https://developer.amazon.com/blogs/alexa/post/7b332b32-893e-4cad-be07-a5877efcbbb4/skill-connections-preview-now-skills-can-work-together-to-help-customers-get-more-done)
+- [Alexa Presentation Language](https://developer.amazon.com/docs/alexa-presentation-language/apl-overview.html)
+- [無指名対話](https://developer.amazon.com/docs/custom-skills/understand-name-free-interaction-for-custom-skills.html)
+
+## 技術資料
+
+| 言語 | ドキュメント |
 | -------- | ------------- |
 | [English](https://ask-sdk-for-nodejs.readthedocs.io/en/latest/) | [![Documentation Status](https://readthedocs.org/projects/ask-sdk-for-nodejs/badge/?version=latest)](https://ask-sdk-for-nodejs.readthedocs.io/en/latest/?badge=latest) |
 | [日本語](https://ask-sdk-for-nodejs.readthedocs.io/ja/latest/) | [![Documentation Status](https://readthedocs.org/projects/ask-sdk-for-nodejs-japanese/badge/?version=latest)](https://ask-sdk-for-nodejs.readthedocs.io/ja/latest/?badge=latest) |
 
 ## サンプル
+
+SDKは、ネイティブのAlexa JSONのリクエストと応答ではなく、モデルクラスで処理します。これらのモデルクラスはRequestおよびResponse JSONスキーマを使用して[developer docs](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html)から生成します。これらのモデルクラスのソースコードは[こちら](https://github.com/alexa/alexa-apis-for-nodejs)にあります。
+
+### サンプル
 
 ### [Hello World](https://github.com/alexa/skill-sample-nodejs-hello-world)
 Alexa Skills KitとAWS Lambdaの学習に役立つサンプルです。サンプルを起動すると、Alexaからの応答を聞くことができます。
@@ -64,3 +91,11 @@ Alexa Skills KitとAWS Lambdaの学習に役立つサンプルです。サンプ
 
 ## フィードバック
 Alexaの機能に関するリクエストや投票は、[こちら](https://alexa.uservoice.com/forums/906892-alexa-skills-developer-voice-and-vote)をご覧ください。
+
+## その他の言語のAlexa Skills Kit SDK
+<a href="https://github.com/amzn/alexa-skills-kit-java"><img src="https://github.com/konpa/devicon/raw/master/icons/java/java-original.svg?sanitize=true" width="25px" /> Alexa Skills Kit SDK for Java</a>
+
+<a href="https://github.com/alexa-labs/alexa-skills-kit-sdk-for-python"><img src="https://github.com/konpa/devicon/blob/master/icons/python/python-original.svg?sanitize=true" width="25px" /> Alexa Skills Kit SDK for Python</a>
+
+## Got Feedback?
+Alexaの機能に関するリクエストや投票は、[こちら](https://alexa.uservoice.com/forums/906892-alexa-skills-developer-voice-and-vote/filters/top?category_id=322783)をご覧ください。

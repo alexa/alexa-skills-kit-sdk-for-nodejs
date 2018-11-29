@@ -29,7 +29,7 @@ Installing Core SDK Module Only
 
 If you do not need everything in the ``ask-sdk`` module, you can install the core modules and expand with individual add-on packages later. From within your NPM project, run the following commands to install the core ASK SDK v2 for Node.js distribution:
 
-**Model (required as peer dependency of ``ask-sdk-core``)**
+**Model (required as peer dependency of ask-sdk-core)**
 
 ::
 

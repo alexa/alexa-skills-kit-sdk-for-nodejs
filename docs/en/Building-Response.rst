@@ -31,6 +31,7 @@ Available Methods
   withStandardCard(cardTitle: string, cardContent: string, smallImageUrl?: string, largeImageUrl?: string): this;
   withLinkAccountCard(): this;
   withAskForPermissionsConsentCard(permissionArray: string[]): this;
+  withCanFulfillIntent(canFulfillIntent : CanFulfillIntent) : this;
   addDelegateDirective(updatedIntent?: Intent): this;
   addElicitSlotDirective(slotToElicit: string, updatedIntent?: Intent): this;
   addConfirmSlotDirective(slotToConfirm: string, updatedIntent?: Intent): this;
@@ -44,13 +45,6 @@ Available Methods
   withShouldEndSession(val: boolean): this;
   addDirective(directive: Directive): this;
   getResponse(): Response;
-
-
-The following ResponseBuilder method is only available in the `public beta SDK <https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.x_public-beta>`__:
-
-.. code-block:: typescript
-
-   withCanFulfillIntent(canFulfillIntent : CanFulfillIntent) : this;
 
 The following example shows how to construct a response using
 ``ResponseBuilder`` helper methods.
