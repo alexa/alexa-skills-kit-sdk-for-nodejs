@@ -97,7 +97,7 @@ describe('DynamoDbPersistenceAdapter', () => {
     });
 
     after((done) => {
-        AWS_MOCK.restore();
+        AWS_MOCK.restore('DynamoDB.DocumentClient');
         done();
     });
 
