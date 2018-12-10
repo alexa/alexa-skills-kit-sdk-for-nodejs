@@ -88,7 +88,7 @@ describe('S3PersistenceAdapter', () => {
     });
 
     after((done) => {
-        AWS_MOCK.restore();
+        AWS_MOCK.restore('S3');
         done();
     });
 
