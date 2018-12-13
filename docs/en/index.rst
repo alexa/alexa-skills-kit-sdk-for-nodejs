@@ -60,7 +60,7 @@ This section provides all the Alexa features that are currently supported in the
 
 * `Lists <https://developer.amazon.com/docs/custom-skills/access-the-alexa-shopping-and-to-do-lists.html#alexa-lists-access>`__
 
-* `Request for customer contact information <https://developer.amazon.com/docs/smapi/alexa-settings-api-reference.html>`__
+* `Request for customer contact information <https://developer.amazon.com/docs/custom-skills/request-customer-contact-information-for-use-in-your-skill.html>`__
 
 * `Obtain customer settings information <https://developer.amazon.com/docs/smapi/alexa-settings-api-reference.html>`_
 
