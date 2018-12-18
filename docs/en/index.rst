@@ -70,6 +70,10 @@ This section provides all the Alexa features that are currently supported in the
 
 * `Dialog Management <https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html>`__
 
+* `Location Services <https://developer.amazon.com/docs/custom-skills/location-services-for-alexa-skills.html>`__
+
+* `Reminders <https://developer.amazon.com/docs/smapi/alexa-reminders-overview.html>`__
+
 Preview Features
 ----------------
 

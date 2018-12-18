@@ -37,6 +37,8 @@ The ASK SDK v2 for Node.js makes it easier for you to build highly engaging skil
 - [Account Linking](https://developer.amazon.com/docs/account-linking/understand-account-linking.html)
 - [Entity Resolution](https://developer.amazon.com/docs/custom-skills/define-synonyms-and-ids-for-slot-type-values-entity-resolution.html)
 - [Dialog Management](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html)
+- [Location Services](https://developer.amazon.com/docs/custom-skills/location-services-for-alexa-skills.html)
+- [Reminders](https://developer.amazon.com/docs/smapi/alexa-reminders-overview.html)
 
 ### Preview Features
 

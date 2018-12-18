@@ -37,6 +37,8 @@ ASK SDK v2 for Node.jsを使うと、ボイラープレートコード（毎回�
 - [アカウントリンク](https://developer.amazon.com/docs/account-linking/understand-account-linking.html)
 - [スロットタイプ値の同義語とIDを定義する（エンティティ解決）](https://developer.amazon.com/docs/custom-skills/define-synonyms-and-ids-for-slot-type-values-entity-resolution.html)
 - [ダイアログ管理](https://developer.amazon.com/docs/custom-skills/dialog-interface-reference.html)
+- [Location Services](https://developer.amazon.com/docs/custom-skills/location-services-for-alexa-skills.html)
+- [Reminders](https://developer.amazon.com/docs/smapi/alexa-reminders-overview.html)
 
 ### プレビュー機能
 
