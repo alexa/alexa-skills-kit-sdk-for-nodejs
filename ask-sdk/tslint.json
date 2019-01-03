@@ -1,4 +1,9 @@
 {
+  "linterOptions": {
+    "exclude": [
+      "node_modules/**/*"
+    ]
+  },
   "rules": {
     "adjacent-overload-signatures": true,
     "array-type": [
@@ -33,7 +38,7 @@
       true,
       "spaces"
     ],
-    "interface-over-type-literal": true,
+    "interface-over-type-literal": false,
     "jsdoc-format": true,
     "label-position": true,
     "max-classes-per-file": [
@@ -42,7 +47,7 @@
     ],
     "max-line-length": [
       true,
-      150
+      250
     ],
     "member-access": [
       true,
@@ -80,8 +85,7 @@
     "no-internal-module": true,
     "no-invalid-template-strings": true,
     "no-invalid-this": [
-      true,
-      "check-function-in-method"
+      true
     ],
     "no-irregular-whitespace": true,
     "no-object-literal-type-assertion": true,
