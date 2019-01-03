@@ -85,8 +85,7 @@
     "no-internal-module": true,
     "no-invalid-template-strings": true,
     "no-invalid-this": [
-      true,
-      "check-function-in-method"
+      true
     ],
     "no-irregular-whitespace": true,
     "no-object-literal-type-assertion": true,
