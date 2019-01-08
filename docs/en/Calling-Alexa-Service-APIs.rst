@@ -586,7 +586,7 @@ Type Definition
 ReminderManagementServiceClient
 ===============================
 
-``ReminderManagementServiceClient`` can be used to query `Alexa Reminders API <https://developer.amazon.com/docs/smapi/alexa-reminders-api-reference.html>`_ to create and manager reminders from your skill.
+``ReminderManagementServiceClient`` can be used to query `Alexa Reminders API <https://developer.amazon.com/docs/smapi/alexa-reminders-api-reference.html>`_ to create and manage reminders from your skill.
 
 Type Definition
 ---------------
