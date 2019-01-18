@@ -582,3 +582,22 @@ UpsServiceClient
     getSystemTemperatureUnit(deviceId: string): Promise<services.ups.TemperatureUnit>;
     getSystemTimeZone(deviceId: string): Promise<string>;
   }
+
+ReminderManagementServiceClient
+===============================
+
+``ReminderManagementServiceClient`` を使用して、スキルからリマインダーを作成、管理するために `Alexa Reminders API <https://developer.amazon.com/docs/smapi/alexa-reminders-api-reference.html>`_ をクエリーすることができます。
+
+タイプ定義
+---------------
+
+.. code-block:: typescript
+
+    class ReminderManagementServiceClient extends BaseServiceClient {
+      deleteReminder(alertToken: string): Promise<void>;
+      getReminder(alertToken: string): Promise<services.reminderManagement.GetReminderResponse>;
+      updateReminder(alertToken: string, reminderRequest: services.reminderManagement.ReminderRequest): Promise<services.reminderManagement.ReminderResponse>;
+      deleteReminders(): Promise<void>;
+      getReminders(): Promise<services.reminderManagement.GetRemindersResponse>;
+      createReminder(reminderRequest: services.reminderManagement.ReminderRequest): Promise<services.reminderManagement.ReminderResponse>;
+    }
