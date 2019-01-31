@@ -56,4 +56,10 @@ export interface AttributesManager {
      * @return {Promise<void>}
      */
     savePersistentAttributes() : Promise<void>;
+
+    /**
+     * Delete persistent attributes from the persistent layer if a persistence adapter is provided.
+     * @return {Promise<void>}
+     */
+    deletePersistentAttributes?() : Promise<void>;
 }

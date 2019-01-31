@@ -67,7 +67,7 @@ describe('S3PersistenceAdapter', () => {
                 } else if (params.Key === customObjectKey) {
                     callback(null, {Body : Buffer.from(JSON.stringify(customAttributes))});
                 } else if (params.Key === pathPrefixObjectKey) {
-                    callback(null, {Body : Buffer.from(JSON.stringify(pathPrefixObjectAttributes))})
+                    callback(null, {Body : Buffer.from(JSON.stringify(pathPrefixObjectAttributes))});
                 } else if (params.Key === nonJsonObjectKey) {
                     callback(null, {Body : Buffer.from(nonJsonObjectAttributes)});
                 } else if (params.Key === emptyBodyKey) {
@@ -78,6 +78,13 @@ describe('S3PersistenceAdapter', () => {
             }
         });
         AWS_MOCK.mock('S3', 'putObject', (params, callback) => {
+            if (params.Bucket !== bucketName) {
+                callback(bucketInvalidError, null);
+            } else {
+                callback(null, {});
+            }
+        });
+        AWS_MOCK.mock('S3', 'deleteObject', (params, callback) => {
             if (params.Bucket !== bucketName) {
                 callback(bucketInvalidError, null);
             } else {
@@ -104,7 +111,7 @@ describe('S3PersistenceAdapter', () => {
         const pathPrefixPersistenceAdapter = new S3PersistenceAdapter({
             bucketName,
             pathPrefix : 'folder',
-        })
+        });
 
         const defaultResult = await defaultPersistenceAdapter.getAttributes(requestEnvelope);
         expect(defaultResult.defaultKey).eq('defaultValue');
@@ -124,6 +131,14 @@ describe('S3PersistenceAdapter', () => {
         await persistenceAdapter.saveAttributes(requestEnvelope, {});
     });
 
+    it('should be able to delete an item from bucket', async() => {
+        const persistenceAdapter = new S3PersistenceAdapter({
+            bucketName,
+        });
+
+        await persistenceAdapter.deleteAttributes(requestEnvelope);
+    });
+
     it('should return an empty object when getting item that does not exist in bucket', async() => {
         const persistenceAdapter = new S3PersistenceAdapter({
             bucketName,
@@ -136,7 +151,7 @@ describe('S3PersistenceAdapter', () => {
         expect(result).deep.equal({});
     });
 
-    it('should return an emtpy object when getting item that has empty value', async() => {
+    it('should return an empty object when getting item that has empty value', async() => {
         const persistenceAdapter = new S3PersistenceAdapter({
             bucketName,
         });
@@ -175,6 +190,23 @@ describe('S3PersistenceAdapter', () => {
         } catch (err) {
             expect(err.name).equal('AskSdk.S3PersistenceAdapter Error');
             expect(err.message).equal('Could not save item (userId) to bucket (NonExistentBucket): ' +
+                                      'The specified bucket is not valid.');
+
+            return;
+        }
+        throw new Error('should have thrown an error!');
+    });
+
+    it('should throw an error when deleting and the bucket does not exist', async() => {
+        const persistenceAdapter = new S3PersistenceAdapter({
+            bucketName : 'NonExistentBucket',
+        });
+
+        try {
+            await persistenceAdapter.deleteAttributes(requestEnvelope);
+        } catch (err) {
+            expect(err.name).equal('AskSdk.S3PersistenceAdapter Error');
+            expect(err.message).equal('Could not delete item (userId) from bucket (NonExistentBucket): ' +
                                       'The specified bucket is not valid.');
 
             return;

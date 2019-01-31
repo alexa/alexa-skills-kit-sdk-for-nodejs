@@ -100,6 +100,18 @@ export class AttributesManagerFactory {
                     await options.persistenceAdapter.saveAttributes(options.requestEnvelope, thisPersistentAttributes);
                 }
             },
+            async deletePersistentAttributes() : Promise<void> {
+                if (!options.persistenceAdapter) {
+                    throw createAskSdkError(
+                        'AttributesManager',
+                        'Cannot delete PersistentAttributes without persistence adapter!');
+                }
+
+                await options.persistenceAdapter.deleteAttributes(options.requestEnvelope);
+
+                thisPersistentAttributes = undefined;
+                persistentAttributesSet = false;
+            },
         };
     }
 

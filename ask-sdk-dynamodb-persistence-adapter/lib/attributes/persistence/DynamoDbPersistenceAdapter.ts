@@ -140,4 +140,29 @@ export class DynamoDbPersistenceAdapter implements PersistenceAdapter {
             );
         }
     }
+
+    /**
+     * Delete persistence attributes from AWS DynamoDB.
+     * @param {RequestEnvelope} requestEnvelope Request envelope used to generate partition key.
+     * @return {Promise<void>}
+     */
+    public async deleteAttributes(requestEnvelope : RequestEnvelope) : Promise<void> {
+        const attributesId = this.partitionKeyGenerator(requestEnvelope);
+
+        const deleteParams : DynamoDB.DocumentClient.DeleteItemInput = {
+            Key : {
+                [this.partitionKeyName] : attributesId,
+            },
+            TableName : this.tableName,
+        };
+
+        try {
+            await this.dynamoDBDocumentClient.delete(deleteParams).promise();
+        } catch (err) {
+            throw createAskSdkError(
+                this.constructor.name,
+                `Could not delete item (${attributesId}) from table (${deleteParams.TableName}): ${err.message}`,
+            );
+        }
+    }
 }
