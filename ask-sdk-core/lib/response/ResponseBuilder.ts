@@ -17,6 +17,7 @@ import {
     Intent,
     interfaces,
     Response,
+    ui,
 } from 'ask-sdk-model';
 import AudioItemMetadata = interfaces.audioplayer.AudioItemMetadata;
 import CanFulfillIntent = canfulfill.CanFulfillIntent;
@@ -30,14 +31,14 @@ export interface ResponseBuilder {
      * @param {string} speechOutput
      * @returns {ResponseBuilder}
      */
-    speak(speechOutput : string) : this;
+    speak(speechOutput : string, playBehavior? : ui.PlayBehavior) : this;
     /**
      * Has alexa listen for speech from the user. If the user doesn't respond within 8 seconds
      * then has alexa reprompt with the provided reprompt speech
      * @param {string} repromptSpeechOutput
      * @returns {ResponseBuilder}
      */
-    reprompt(repromptSpeechOutput : string) : this;
+    reprompt(repromptSpeechOutput : string, playBehavior? : ui.PlayBehavior) : this;
     /**
      * Renders a simple card with the following title and content
      * @param {string} cardTitle

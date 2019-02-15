@@ -75,25 +75,35 @@ export class ResponseFactory {
         }
 
         return {
-            speak(speechOutput : string) : ResponseBuilder {
+            speak(speechOutput : string, playBehavior? : ui.PlayBehavior) : ResponseBuilder {
                 response.outputSpeech = {
                     type : 'SSML',
                     ssml : '<speak>'
                            + trimOutputSpeech(speechOutput)
                            + '</speak>',
+                    playBehavior,
                 };
+
+                if (!playBehavior) {
+                    delete response.outputSpeech.playBehavior;
+                }
 
                 return this;
             },
-            reprompt(repromptSpeechOutput : string) : ResponseBuilder {
+            reprompt(repromptSpeechOutput : string, playBehavior? : ui.PlayBehavior) : ResponseBuilder {
                 response.reprompt = {
                     outputSpeech : {
                         type : 'SSML',
                         ssml : '<speak>'
                                + trimOutputSpeech(repromptSpeechOutput)
                                + '</speak>',
+                        playBehavior,
                     },
                 };
+
+                if (!playBehavior) {
+                    delete response.reprompt.outputSpeech.playBehavior;
+                }
 
                 if (!isVideoAppLaunchDirectivePresent()) {
                     response.shouldEndSession = false;

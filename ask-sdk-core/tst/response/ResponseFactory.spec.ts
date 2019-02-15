@@ -42,6 +42,20 @@ describe('ResponseFactory', () => {
         expect(responseBuilder.speak(speechOutput).getResponse()).to.deep.equal(expectResponse);
     });
 
+    it('should build response with Ssml outputSpeech and play behavior', () => {
+        const responseBuilder : ResponseBuilder = ResponseFactory.init();
+        const speechOutput = 'HelloWorld!';
+        const expectResponse = {
+                    outputSpeech: {
+                        ssml: '<speak>' + speechOutput + '</speak>',
+                        type: 'SSML',
+                        playBehavior : 'ENQUEUE',
+                    },
+            };
+
+        expect(responseBuilder.speak(speechOutput, 'ENQUEUE').getResponse()).to.deep.equal(expectResponse);
+    });
+
     it('should trim the outputSpeech if it already has the SSML flag', () => {
         const responseBuilder : ResponseBuilder = ResponseFactory.init();
         const speechOutput = '<speak>   HelloWorld!  </speak>';
@@ -85,6 +99,23 @@ describe('ResponseFactory', () => {
             };
 
         expect(responseBuilder.reprompt(speechOutput).getResponse()).to.deep.equal(expectResponse);
+    });
+
+    it('should build response with Ssml reprompt with play behavior', () => {
+        const responseBuilder : ResponseBuilder = ResponseFactory.init();
+        const speechOutput = 'HelloWorld!';
+        const expectResponse = {
+                reprompt : {
+                    outputSpeech: {
+                        ssml: '<speak>' + speechOutput + '</speak>',
+                        type: 'SSML',
+                        playBehavior : 'ENQUEUE',
+                    },
+                },
+                shouldEndSession : false,
+            };
+
+        expect(responseBuilder.reprompt(speechOutput, 'ENQUEUE').getResponse()).to.deep.equal(expectResponse);
     });
 
     it('should build response with simple card', () => {
