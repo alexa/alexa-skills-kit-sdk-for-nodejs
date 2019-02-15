@@ -83,6 +83,14 @@ describe('DynamoDbPersistenceAdapter', () => {
                 callback(null, {});
             }
         });
+        AWS_MOCK.mock('DynamoDB.DocumentClient', 'delete',  (params, callback) => {
+            if (params.TableName !== tableName) {
+                // table name not valid
+                callback(resourceNotFoundError, null);
+            } else {
+                callback(null, {});
+            }
+        });
         AWS_MOCK.mock('DynamoDB', 'createTable', (params, callback) => {
             if (params.TableName === tableName) {
                 callback(resourceInUseError, null);
@@ -131,6 +139,14 @@ describe('DynamoDbPersistenceAdapter', () => {
         await persistenceAdapter.saveAttributes(requestEnvelope, {});
     });
 
+    it('should be able to delete an item from table', async() => {
+        const persistenceAdapter = new DynamoDbPersistenceAdapter({
+            tableName,
+        });
+
+        await persistenceAdapter.saveAttributes(requestEnvelope, {});
+    });
+
     it('should return an empty object when getting item that does not exist in table', async() => {
         const persistenceAdapter = new DynamoDbPersistenceAdapter({
             tableName,
@@ -153,6 +169,23 @@ describe('DynamoDbPersistenceAdapter', () => {
         } catch (err) {
             expect(err.name).equal('AskSdk.DynamoDbPersistenceAdapter Error');
             expect(err.message).equal('Could not save item (userId) to table (NonExistentTable): '
+                                      + 'Requested resource not found');
+
+            return;
+        }
+        throw new Error('should have thrown an error!');
+    });
+
+    it('should throw an error when deleting and the table does not exist', async() => {
+        const persistenceAdapter = new DynamoDbPersistenceAdapter({
+            tableName : 'NonExistentTable',
+        });
+
+        try {
+            await persistenceAdapter.deleteAttributes(requestEnvelope);
+        } catch (err) {
+            expect(err.name).equal('AskSdk.DynamoDbPersistenceAdapter Error');
+            expect(err.message).equal('Could not delete item (userId) from table (NonExistentTable): '
                                       + 'Requested resource not found');
 
             return;

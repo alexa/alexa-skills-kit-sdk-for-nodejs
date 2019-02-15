@@ -109,4 +109,22 @@ export class S3PersistenceAdapter implements PersistenceAdapter {
             );
         }
     }
+
+    public async deleteAttributes(requestEnvelope : RequestEnvelope) : Promise<void> {
+        const objectId = path.join(this.pathPrefix, this.objectKeyGenerator(requestEnvelope));
+
+        const deleteParams : S3.DeleteObjectRequest = {
+            Bucket : this.bucketName,
+            Key : objectId,
+        };
+
+        try {
+            await this.s3Client.deleteObject(deleteParams).promise();
+        } catch (err) {
+            throw createAskSdkError(
+                this.constructor.name,
+                `Could not delete item (${objectId}) from bucket (${deleteParams.Bucket}): ${err.message}`,
+            );
+        }
+    }
 }

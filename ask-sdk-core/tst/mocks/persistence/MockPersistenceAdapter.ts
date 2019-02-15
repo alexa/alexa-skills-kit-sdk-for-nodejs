@@ -25,34 +25,38 @@ export class MockPersistenceAdapter implements PersistenceAdapter {
         state : 'mockState',
     };
 
-    public getAttributes(requestEnvelope : RequestEnvelope) : Promise<{[key : string] : any}> {
+    public async getAttributes(requestEnvelope : RequestEnvelope) : Promise<{[key : string] : any}> {
         this.getCounter++;
 
         const id = requestEnvelope.context.System.user.userId;
 
-        return new Promise<{[key : string] : any}>((resolve, reject) => {
-            if (id === this.partitionKey) {
-                resolve(this.savedAttributes);
-            } else {
-                reject(new Error('Resource Not Found'));
-            }
-        });
+        if (id === this.partitionKey) {
+            return this.savedAttributes;
+        }
+
+        throw new Error('Resource Not Found');
     }
 
-    public saveAttributes(requestEnvelope : RequestEnvelope, attributes : {[key : string] : any}) : Promise<void> {
+    public async saveAttributes(requestEnvelope : RequestEnvelope, attributes : {[key : string] : any}) : Promise<void> {
         this.saveCounter ++;
 
         const id = requestEnvelope.context.System.user.userId;
 
-        return new Promise<void>((resolve, reject) => {
-            // Enforce the mock DB to only have one entry capacity
-            if (id === this.partitionKey) {
-                this.savedAttributes = attributes;
-                resolve();
-            } else {
-                reject(new Error('Maximum Capacity Reached'));
-            }
-        });
+        if (id === this.partitionKey) {
+            this.savedAttributes = attributes;
+
+            return;
+        }
+
+        throw new Error('Maximum Capacity Reached');
+    }
+
+    public async deleteAttributes(requestEnvelope : RequestEnvelope) : Promise<void> {
+        const id = requestEnvelope.context.System.user.userId;
+
+        if (id === this.partitionKey) {
+            this.savedAttributes = {};
+        }
     }
 
     public resetCounter() : void {
