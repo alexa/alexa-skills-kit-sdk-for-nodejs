@@ -50,6 +50,7 @@ Available Methods
   setSessionAttributes(sessionAttributes : {[key : string] : any}) : void;
   setPersistentAttributes(persistentAttributes : {[key : string] : any}) : void;
   savePersistentAttributes() : Promise<void>;
+  deletePersistentAttributes?() : Promise<void>;
 
 The following example shows how you can retrieve and save persistent attributes.
 
@@ -120,7 +121,7 @@ The following example shows how you can retrieve and save persistent attributes.
 
 .. note::
 
-  To improve skill performance, ``AttributesManager`` caches the persistent attributes locally. ``setPersistentAttributes()`` will only update the locally cached persistent attributes. You need to call ``savePersistentAttributes()`` to save persistent attributes to the persistence layer.
+  To improve skill performance, ``AttributesManager`` caches the persistent attributes locally. ``setPersistentAttributes()`` will only update the locally cached persistent attributes. You need to call ``savePersistentAttributes()`` to save persistent attributes to the persistence layer. Calling ``deletePersistentAttributes()`` will also delete the locally cached persistent attributes.
 
 PersistenceAdapter
 ==================
@@ -135,6 +136,7 @@ Interface
   interface PersistenceAdapter {
     getAttributes(requestEnvelope : RequestEnvelope) : Promise<{[key : string] : any}>;
     saveAttributes(requestEnvelope : RequestEnvelope, attributes : {[key : string] : any}) : Promise<void>;
+    deleteAttributes?(requestEnvelope : RequestEnvelope) : Promise<void>;
   }
 
 DynamoDbPersistenceAdapter
@@ -149,7 +151,7 @@ Constructor Details
 
     new DynamoDbPersistenceAdapter(config = {}) => Object
 
-Constructs a ``DynamoDbPersistenceAdapter`` object. This object is used by ``AttributesManager`` to retrieve and save attributes object to a DynamoDB table. The table will have two columns: one for the parition key and one for attributes. If ``createTable`` config is set to ``true``, SDK will attempt to create a new DynamoDB table with the given ``tableName`` when instantiating the ``DynamoDbPersistenceAdapter``.
+Constructs a ``DynamoDbPersistenceAdapter`` object. This object is used by ``AttributesManager`` to retrieve, save and delete attributes object to/from a DynamoDB table. The table will have two columns: one for the parition key and one for attributes. If ``createTable`` config is set to ``true``, SDK will attempt to create a new DynamoDB table with the given ``tableName`` when instantiating the ``DynamoDbPersistenceAdapter``.
 
 Examples
 """"""""
@@ -191,6 +193,11 @@ The ``getAttributes`` operation retrieves the attributes from the DynamoDB table
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 The ``saveAttributes`` operation saves the attributes to the DynamoDB table using the partition key generated from the ``RequestEnvelope``. It uses a ``DynamoDBDocumentClient`` with ``convertEmptyValues`` set to ``true``. So that any ``""``, ``null`` or ``undefined`` values in the attributes object will be converted.
+
+``deleteAttributes(requestEnvelope : RequestEnvelope) : Promise<void>``
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+The ``deleteAttributes`` operation deletes the attributes from the DynamoDb table suing the partition key generated from the ``RequestEnvelope``. This operation will also clear the locally cached persistent attributes to ensure consistency. If the attributes with the partition key does not exist in the table, ``deleteAttributes`` will do nothing.
 
 S3PersistenceAdapter
 --------------------
@@ -248,3 +255,8 @@ The ``getAttributes`` operation retrieves the attributes from the S3 bucket. It 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 The ``saveAttributes`` operation saves the attributes to the S3 bucket using the object key generated from the ``RequestEnvelope``.
+
+``deleteAttributes(requestEnvelope : RequestEnvelope) : Promise<void>``
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+The ``deleteAttributes`` operation deletes the attributes from the S3 bucket using the object key generated from the ``RequestEnvelope``.

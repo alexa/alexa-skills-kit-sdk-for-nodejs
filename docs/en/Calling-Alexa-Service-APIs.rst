@@ -18,11 +18,12 @@ Available Methods
   getDirectiveServiceClient() : directive.DirectiveServiceClient;
   getListManagementServiceClient() : listManagement.ListManagementServiceClient;
   getMonetizationServiceClient() : monetization.MonetizationServiceClient;
+  getReminderManagementServiceClient(): reminderManagement.ReminderManagementServiceClient;
   getUpsServiceClient() : ups.UpsServiceClient;
 
 .. note::
 
-	``ServiceClientFactory`` are only available when you `configure the skill instance <Configuring-Skill-Instance.html>`_ with an ``ApiClient``.
+	``ServiceClientFactory`` is only available when you `configure the skill instance <Configuring-Skill-Instance.html>`_ with an ``ApiClient``.
 
 ApiClient
 =========
@@ -55,7 +56,7 @@ Interface
 DefaultApiClient
 ----------------
 
-``ask-sdk-core`` package provides a ``DefaultApiClient`` which is an implemenntation of ``ApiClient`` using the Node.js native ``https`` client.
+``ask-sdk-core`` package provides a ``DefaultApiClient`` which is an implementation of ``ApiClient`` using the Node.js native ``https`` client.
 
 Constructor Details
 ^^^^^^^^^^^^^^^^^^^

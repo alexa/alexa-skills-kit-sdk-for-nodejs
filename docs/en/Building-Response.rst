@@ -25,8 +25,8 @@ Available Methods
 
 .. code-block:: typescript
 
-  speak(speechOutput: string): this;
-  reprompt(repromptSpeechOutput: string): this;
+  speak(speechOutput: string, playBehavior? : ui.PlayBehavior): this;
+  reprompt(repromptSpeechOutput: string, playBehavior? : ui.PlayBehavior): this;
   withSimpleCard(cardTitle: string, cardContent: string): this;
   withStandardCard(cardTitle: string, cardContent: string, smallImageUrl?: string, largeImageUrl?: string): this;
   withLinkAccountCard(): this;
