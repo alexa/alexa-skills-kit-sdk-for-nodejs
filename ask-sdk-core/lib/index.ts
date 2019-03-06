@@ -46,6 +46,9 @@ export {
     ViewportSizeGroupOrder,
 } from './util/ViewportUtils';
 export {
+    escapeXmlCharacters,
+} from './util/SsmlUtils';
+export {
     createAskSdkError,
     createAskSdkUserAgent,
 } from 'ask-sdk-runtime';

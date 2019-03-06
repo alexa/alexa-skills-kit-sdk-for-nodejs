@@ -118,6 +118,26 @@ describe('ResponseFactory', () => {
         expect(responseBuilder.reprompt(speechOutput, 'ENQUEUE').getResponse()).to.deep.equal(expectResponse);
     });
 
+    it('should auto-escape invalid ssml character', () => {
+        const responseBuilder : ResponseBuilder = ResponseFactory.init();
+        const speechOutput = 'Hello World & Happy New Year!';
+        const expectResponse = {
+            outputSpeech: {
+                ssml: '<speak>' + `Hello World &amp; Happy New Year!` + '</speak>',
+                type: 'SSML',
+            },
+            reprompt : {
+                outputSpeech : {
+                    ssml: '<speak>' + `Hello World &amp; Happy New Year!` + '</speak>',
+                    type: 'SSML',
+                },
+            },
+            shouldEndSession : false,
+        };
+
+        expect(responseBuilder.speak(speechOutput).reprompt(speechOutput).getResponse()).to.deep.equal(expectResponse);
+    });
+
     it('should build response with simple card', () => {
         const responseBuilder : ResponseBuilder = ResponseFactory.init();
         const cardTitle = 'Card Title';

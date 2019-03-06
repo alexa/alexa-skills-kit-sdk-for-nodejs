@@ -69,7 +69,12 @@ The following example shows how to construct a response using
 
 .. note::
 
-  The contents of the speak and reprompt values get wrapped in SSML tags. This means that any special XML characters within the value need to be escape coded. For example, ``handlerInput.responseBuilder.speak("I like M&M's")`` will cause a failure because the ``&`` character needs to be encoded as ``&amp``;. Other characters that need to be encoded include: ``<`` ``->`` ``&lt;``, and ``>`` ``->`` ``&gt;``.
+  The contents of the speak and reprompt values get wrapped in SSML tags. This means that any special XML characters within the value need to be escape coded. ASK SDK auto-escapes the following characters for you:
+    - ``&`` -> ``&amp;``
+    - ``>`` -> ``&gt;``
+    - ``<`` -> ``&lt;``
+    - ``'`` -> ``&apos;``
+    - ``"`` -> ``&quot;``
 
 Image and Text Helpers
 ======================
