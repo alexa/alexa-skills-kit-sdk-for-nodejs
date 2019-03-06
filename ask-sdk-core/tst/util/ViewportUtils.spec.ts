@@ -11,7 +11,6 @@
  * permissions and limitations under the License.
  */
 
-import { interfaces } from 'ask-sdk-model';
 import { expect } from 'chai';
 import {
     getViewportDpiGroup,
@@ -20,9 +19,8 @@ import {
     getViewportSizeGroup,
 } from '../../lib/util/ViewportUtils';
 import { JsonProvider } from '../mocks/JsonProvider';
-import ViewportState = interfaces.viewport.ViewportState;
 
-describe('ViewportUtils.ts', () => {
+describe('ViewportUtils', () => {
     it('should be able to resolve viewport orientation', () => {
         expect(getViewportOrientation(0, 1)).eq('PORTRAIT');
         expect(getViewportOrientation(1, 1)).eq('EQUAL');
