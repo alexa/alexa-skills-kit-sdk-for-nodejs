@@ -24,13 +24,14 @@ export function escapeXmlCharacters(input : string) : string {
         "'" : '&apos;',
     };
 
-    const invalidXmlCharactersMappingReverse = {
-        '&amp;' : '&',
-        '&lt;' : '<',
-        '&gt;': '>',
-        '&quot;' : '"',
-        '&apos;' : "'",
-    };
+    const invalidXmlCharactersMappingReverse = Object.keys(invalidXmlCharactersMapping).reduce(
+        (obj : object, key : string) => {
+            obj[invalidXmlCharactersMapping[key]] = key;
+
+            return obj;
+        },
+        {},
+    );
 
     // sanitize any already escaped character to ensure they are not escaped more than once
     const sanitizedInput = input.replace(/&amp;|&lt;|&gt;|&quot;|&apos;]/g, (c) => invalidXmlCharactersMappingReverse[c]);
