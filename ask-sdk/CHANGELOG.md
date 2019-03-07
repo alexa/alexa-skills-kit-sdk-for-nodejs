@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.4.0...v2.5.0) (2019-03-07)
+
+
+### Bug Fixes
+
+* update peer dependency of ask-sdk-model ([#526](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/526)) ([9167297](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/9167297))
+
+
+### Features
+
+* add RequestEnvelopeUtils functions ([#525](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/525)) ([14be7a8](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/14be7a8))
+* auto escape invalid SSML characters ([#522](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/522)) ([7a4f215](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/7a4f215)), closes [#472](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/472)
+
+
+
+
+
 # [2.4.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.3.0...v2.4.0) (2019-02-21)
 
 **Note:** Version bump only for package ask-sdk
