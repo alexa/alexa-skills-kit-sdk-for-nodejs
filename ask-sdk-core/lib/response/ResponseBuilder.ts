@@ -29,6 +29,7 @@ export interface ResponseBuilder {
     /**
      * Has Alexa say the provided speech to the user
      * @param {string} speechOutput
+     * @param {ui.PlayBehavior} playBehavior
      * @returns {ResponseBuilder}
      */
     speak(speechOutput : string, playBehavior? : ui.PlayBehavior) : this;
@@ -36,6 +37,7 @@ export interface ResponseBuilder {
      * Has alexa listen for speech from the user. If the user doesn't respond within 8 seconds
      * then has alexa reprompt with the provided reprompt speech
      * @param {string} repromptSpeechOutput
+     * @param {ui.PlayBehavior} playBehavior
      * @returns {ResponseBuilder}
      */
     reprompt(repromptSpeechOutput : string, playBehavior? : ui.PlayBehavior) : this;

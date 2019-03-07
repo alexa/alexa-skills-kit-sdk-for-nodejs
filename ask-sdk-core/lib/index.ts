@@ -49,6 +49,20 @@ export {
     escapeXmlCharacters,
 } from './util/SsmlUtils';
 export {
+    getAccountLinkingAccessToken,
+    getApiAccessToken,
+    getDeviceId,
+    getDialogState,
+    getIntentName,
+    getLocale,
+    getRequestType,
+    getSlot,
+    getSlotValue,
+    getSupportedInterfaces,
+    isNewSession,
+} from './util/RequestEnvelopeUtils';
+
+export {
     createAskSdkError,
     createAskSdkUserAgent,
 } from 'ask-sdk-runtime';
