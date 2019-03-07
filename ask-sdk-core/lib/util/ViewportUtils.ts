@@ -87,7 +87,7 @@ export function getViewportSizeGroup(size : number) : ViewportSizeGroup {
         return 'XLARGE';
     }
 
-    throw createAskSdkError('ViewportUtils.ts', `unknown size group value ${size}`);
+    throw createAskSdkError('ViewportUtils', `unknown size group value ${size}`);
 }
 
 /**
@@ -110,7 +110,7 @@ export function getViewportDpiGroup(dpi : number) : ViewportDpiGroup {
         return 'XXHIGH';
     }
 
-    throw createAskSdkError('ViewportUtils.ts', `unknown dpi group value ${dpi}`);
+    throw createAskSdkError('ViewportUtils', `unknown dpi group value ${dpi}`);
 }
 
 /**
