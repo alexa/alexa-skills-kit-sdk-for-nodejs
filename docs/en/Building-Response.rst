@@ -69,7 +69,7 @@ The following example shows how to construct a response using
 
 .. note::
 
-  The contents of the speak and reprompt values get wrapped in SSML tags. This means that any special XML characters within the value need to be escape coded. ASK SDK auto-escapes the following characters for you:
+  The contents of the speak and reprompt values get wrapped in SSML tags. This means that any special XML characters within the value need to be escape coded. ASK SDK provides ``SsmlUtils`` to help you escape the following invalid XML characters:
     - ``&`` -> ``&amp;``
     - ``>`` -> ``&gt;``
     - ``<`` -> ``&lt;``
