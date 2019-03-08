@@ -1,6 +1,6 @@
 {
   "name": "ask-sdk-v1adapter",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "Adapter from v1 Alexa Node.js SDK to v2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,7 +36,7 @@
     "@types/mocha": "^5.0.0",
     "@types/node": "^9.6.1",
     "@types/sinon": "^4.3.0",
-    "ask-sdk": "^2.5.0",
+    "ask-sdk": "^2.5.1",
     "chai": "^4.1.2",
     "del": "^3.0.0",
     "gulp": "^4.0.0",

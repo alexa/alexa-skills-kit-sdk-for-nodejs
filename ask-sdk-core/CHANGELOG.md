@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.1](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.5.0...v2.5.1) (2019-03-08)
+
+
+### Bug Fixes
+
+* remove response factory auto escape xml character behavior. ([31ce953](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/31ce953))
+
+
+
+
+
 # [2.5.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.4.0...v2.5.0) (2019-03-07)
 
 
