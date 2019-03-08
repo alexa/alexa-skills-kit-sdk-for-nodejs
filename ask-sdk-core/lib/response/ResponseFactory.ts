@@ -20,7 +20,6 @@ import {
     Response,
     ui,
 } from 'ask-sdk-model';
-import { escapeXmlCharacters } from '../util/SsmlUtils';
 import { ResponseBuilder } from './ResponseBuilder';
 import Stream = interfaces.audioplayer.Stream;
 import AudioItem = interfaces.audioplayer.AudioItem;
@@ -80,7 +79,7 @@ export class ResponseFactory {
                 response.outputSpeech = {
                     type : 'SSML',
                     ssml : '<speak>'
-                           + escapeXmlCharacters(trimOutputSpeech(speechOutput))
+                           + trimOutputSpeech(speechOutput)
                            + '</speak>',
                     playBehavior,
                 };
@@ -96,7 +95,7 @@ export class ResponseFactory {
                     outputSpeech : {
                         type : 'SSML',
                         ssml : '<speak>'
-                               + escapeXmlCharacters(trimOutputSpeech(repromptSpeechOutput))
+                               + trimOutputSpeech(repromptSpeechOutput)
                                + '</speak>',
                         playBehavior,
                     },
