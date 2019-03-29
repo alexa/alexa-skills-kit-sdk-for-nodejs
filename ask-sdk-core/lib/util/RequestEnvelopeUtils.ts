@@ -108,7 +108,7 @@ export function getApiAccessToken(requestEnvelope : RequestEnvelope) : string {
  * @return {string}
  */
 export function getDeviceId(requestEnvelope : RequestEnvelope) : string {
-    return requestEnvelope.context.System.device.deviceId;
+    return requestEnvelope.context.System.device ? requestEnvelope.context.System.device.deviceId : null;
 }
 
 /**
