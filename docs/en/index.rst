@@ -50,6 +50,8 @@ This section provides all the Alexa features that are currently supported in the
 
 * `Directive Service (Progressive Response) <https://developer.amazon.com/docs/custom-skills/send-the-user-a-progressive-response.html>`__
 
+* `Dynamic Entity <https://developer.amazon.com/docs/custom-skills/use-dynamic-entities-for-customized-interactions.html#exampleupdate-a-dynamic-entity-with-replace>`__
+
 * `Messaging <https://developer.amazon.com/docs/smapi/send-a-message-request-to-a-skill.html>`__
 
 * `Monetization <https://developer.amazon.com/alexa-skills-kit/make-money>`__
