@@ -29,7 +29,7 @@ Available Methods
 SsmlUtils
 =========
 
-The ``SsmlUtils`` provides function for escaping invalid SSML characters in a speech string.
+The ``SsmlUtils`` provides a function for escaping invalid SSML characters in a speech string.
 
 Available Methods
 -----------------
