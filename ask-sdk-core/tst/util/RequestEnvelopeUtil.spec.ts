@@ -64,6 +64,9 @@ describe('RequestEnvelopeUtils', () => {
     const outOfSessionRequest : RequestEnvelope = JsonProvider.requestEnvelope();
     delete outOfSessionRequest.session;
 
+    const requestEnvelopeWithNoDevice : RequestEnvelope = JsonProvider.requestEnvelope();
+    delete requestEnvelopeWithNoDevice.context.System.device;
+
     it('should be able to get locale', () => {
         expect(getLocale(requestEnvelope)).eq('en-US');
     });
@@ -92,6 +95,10 @@ describe('RequestEnvelopeUtils', () => {
 
     it('should be able to get device id', () => {
         expect(getDeviceId(requestEnvelope)).eq('mockDeviceId');
+    });
+
+    it('should return null if there is no device info', () => {
+        expect(getDeviceId(requestEnvelopeWithNoDevice)).eq(null);
     });
 
     it('should be able to get dialog state', () => {

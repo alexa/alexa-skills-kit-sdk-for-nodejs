@@ -15,6 +15,7 @@
    Managing-Attributes
    Calling-Alexa-Service-APIs
    Configuring-Skill-Instance
+   ASK-SDK-Utilities
 
 .. toctree::
    :caption: TYPEDOC REFERENCE
@@ -135,6 +136,11 @@ Covers how to use service clients in your skill to access Alexa APIs.
 
 Covers how to configure and construct a skill instance.
 
+`ASK SDK Utilities`_
+--------------------
+
+Covers how to use utility function provided by ASK SDK
+
 
 Got Feedback?
 =============
@@ -149,3 +155,4 @@ Request and vote for Alexa features `here <https://alexa.uservoice.com/forums/90
 .. _Managing Attributes: Managing-Attributes.html
 .. _Calling Alexa Service APIs: Calling-Alexa-Service-APIs.html
 .. _Configuring Skill Instance: Configuring-Skill-Instance.html
+.. _ASK SDK Utilities: ASK-SDK-Utilities.html
