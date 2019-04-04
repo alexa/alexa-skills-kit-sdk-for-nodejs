@@ -133,7 +133,7 @@ export class DynamoDbPersistenceAdapter implements PersistenceAdapter {
             Item: {
                 [this.partitionKeyName] : attributesId,
                 [this.attributesName] : attributes,
-                ...(this.ttlAttributeName.length > 0 ? {[this.ttlAttributeName] : (Math.floor((new Date()).getTime() / 1000) + this.ttlAttributeValue)} : {}),
+                ...(this.ttlAttributeName.length > 0 ? {[this.ttlAttributeName] : (Math.floor(Date.now() / 1000) + this.ttlAttributeValue)} : {}),
             },
             TableName : this.tableName,
         };
