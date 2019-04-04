@@ -177,6 +177,8 @@ Config Options
 * **tableName** (string) - The name of the DynamoDB table used.
 * **partitionKeyName** (string) - Optional. The name of the partition key column. Default to ``"id"`` if not provided.
 * **attributesName** (string) - Optional. The name of the attributes column. Default to ``"attributes"`` if not provided.
+* **ttlAttributeName** (string) - Optional. The name of the TTL column. Ignored if not provided.
+* **ttlAttributeValue** (number) - Optional. The number of seconds the row should exist inside DynamoDB. Ignored if not provided or if the provided value is not greater than 0.
 * **createTable** (boolean) - Optional. Set to ``true`` to have ``DynamoDbPersistenceAdapter`` automatically create the table if it does not exist. Default to ``false`` if not provided.
 * **partitionKeyGenerator** (function) - Optional. The function used to generate partition key using ``RequestEnvelope``. Default to generate the partition key using the ``userId``.
 * **dynamoDBClient** (`AWS.DynamoDB <https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB.html>`_ ) - Optional. The ``DynamoDBClient`` used to query AWS DynamoDB table. You can inject your ``DynamoDBClient`` with custom configuration here. Default to use ``new AWS.DynamoDB({apiVersion : 'latest'})``.
