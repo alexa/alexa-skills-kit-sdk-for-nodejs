@@ -29,6 +29,8 @@ export class DynamoDbPersistenceAdapter implements PersistenceAdapter {
     protected tableName : string;
     protected partitionKeyName : string;
     protected attributesName : string;
+    protected ttlAttributeName : string;
+    protected ttlAttributeValue : number;
     protected createTable : boolean;
     protected dynamoDBClient : DynamoDB;
     protected partitionKeyGenerator : PartitionKeyGenerator;
@@ -38,6 +40,8 @@ export class DynamoDbPersistenceAdapter implements PersistenceAdapter {
         tableName : string,
         partitionKeyName? : string,
         attributesName? : string,
+        ttlAttributeName? : string,
+        ttlAttributeValue? : number,
         createTable? : boolean,
         dynamoDBClient? : DynamoDB,
         partitionKeyGenerator? : PartitionKeyGenerator;
@@ -45,6 +49,8 @@ export class DynamoDbPersistenceAdapter implements PersistenceAdapter {
         this.tableName = config.tableName;
         this.partitionKeyName = config.partitionKeyName ? config.partitionKeyName : 'id';
         this.attributesName = config.attributesName ? config.attributesName : 'attributes';
+        this.ttlAttributeName = (config.ttlAttributeName && config.ttlAttributeValue && config.ttlAttributeValue > 0) ? config.ttlAttributeName : '';
+        this.ttlAttributeValue = config.ttlAttributeValue ? config.ttlAttributeValue : 0;
         this.createTable = config.createTable === true;
         this.dynamoDBClient = config.dynamoDBClient ? config.dynamoDBClient : new DynamoDB({apiVersion : 'latest'});
         this.partitionKeyGenerator = config.partitionKeyGenerator ? config.partitionKeyGenerator : PartitionKeyGenerators.userId;
@@ -127,6 +133,7 @@ export class DynamoDbPersistenceAdapter implements PersistenceAdapter {
             Item: {
                 [this.partitionKeyName] : attributesId,
                 [this.attributesName] : attributes,
+                ...(this.ttlAttributeName.length > 0 ? {[this.ttlAttributeName] : (Math.floor((new Date()).getTime() / 1000) + this.ttlAttributeValue)} : {}),
             },
             TableName : this.tableName,
         };

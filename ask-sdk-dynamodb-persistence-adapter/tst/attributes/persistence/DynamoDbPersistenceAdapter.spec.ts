@@ -139,6 +139,16 @@ describe('DynamoDbPersistenceAdapter', () => {
         await persistenceAdapter.saveAttributes(requestEnvelope, {});
     });
 
+    it('should be able to put an item with TTL to table', async() => {
+        const persistenceAdapter = new DynamoDbPersistenceAdapter({
+            tableName,
+            ttlAttributeName : 'ttl_test',
+            ttlAttributeValue : 1000,
+        });
+
+        await persistenceAdapter.saveAttributes(requestEnvelope, {});
+    });
+
     it('should be able to delete an item from table', async() => {
         const persistenceAdapter = new DynamoDbPersistenceAdapter({
             tableName,
