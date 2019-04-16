@@ -654,11 +654,11 @@ The following example shows a request handler that creates an instance of the ``
 			.speak(speechText)
 			.getResponse();
 
-		    } catch (error) {
+		} catch (error) {
 		    console.error(error);
 		    return responseBuilder
 			.speak('Uh Oh. Looks like something went wrong.')
 			.getResponse();
-		    }
+		}
 	    }
 	};
