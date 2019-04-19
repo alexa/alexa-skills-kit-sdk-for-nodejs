@@ -602,3 +602,63 @@ Type Definition
       getReminders(): Promise<services.reminderManagement.GetRemindersResponse>;
       createReminder(reminderRequest: services.reminderManagement.ReminderRequest): Promise<services.reminderManagement.ReminderResponse>;
     }
+
+Code Sample
+-----------
+
+The following example shows a request handler that creates an instance of the ``ReminderManagementServiceClient`` and creates a new reminder.
+
+.. code-block:: javascript
+
+	const CreateReminderIntent = {
+	    canHandle(handlerInput) {
+		const { request } = handlerInput.requestEnvelope;
+		return request.type === 'IntentRequest' && request.intent.name === 'CreateReminderIntent';
+	    },
+	    async handle(handlerInput) {
+		const { requestEnvelope, serviceClientFactory, responseBuilder } = handlerInput;
+		const consentToken = requestEnvelope.context.System.user.permissions
+		    && requestEnvelope.context.System.user.permissions.consentToken;
+		if (!consentToken) {
+		    return responseBuilder
+			.speak('Please enable Reminder permissions in the Amazon Alexa app.')
+			.withAskForPermissionsConsentCard(['alexa::alerts:reminders:skill:readwrite'])
+			.getResponse();
+		}
+
+		try {
+		    const speechText = "Great! I've scheduled a reminder for you.";
+
+		    const ReminderManagementServiceClient = serviceClientFactory.getReminderManagementServiceClient();
+		    const reminderPayload = {
+			"trigger": {
+			    "type": "SCHEDULED_RELATIVE",
+			    "offsetInSeconds": "30",
+			    "timeZoneId": "America/Los_Angeles"
+			},
+			"alertInfo": {
+			    "spokenInfo": {
+				"content": [{
+				    "locale": "en-US",
+				    "text": "walk the dog"
+				}]
+			    }
+			},
+			"pushNotification": {
+			    "status": "ENABLED"
+			}
+		    };
+
+		    await ReminderManagementServiceClient.createReminder(reminderPayload);
+		    return responseBuilder
+			.speak(speechText)
+			.getResponse();
+
+		} catch (error) {
+		    console.error(error);
+		    return responseBuilder
+			.speak('Uh Oh. Looks like something went wrong.')
+			.getResponse();
+		}
+	    }
+	};
