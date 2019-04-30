@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.2](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.5.1...v2.5.2) (2019-04-24)
+
+
+### Bug Fixes
+
+* update getDeviceId to check for optional device field ([#535](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/535)) ([884a904](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/884a904)), closes [#532](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/532)
+
+
+
+
+
 ## [2.5.1](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.5.0...v2.5.1) (2019-03-08)
 
 
