@@ -598,7 +598,6 @@ Type Definition
       deleteReminder(alertToken: string): Promise<void>;
       getReminder(alertToken: string): Promise<services.reminderManagement.GetReminderResponse>;
       updateReminder(alertToken: string, reminderRequest: services.reminderManagement.ReminderRequest): Promise<services.reminderManagement.ReminderResponse>;
-      deleteReminders(): Promise<void>;
       getReminders(): Promise<services.reminderManagement.GetRemindersResponse>;
       createReminder(reminderRequest: services.reminderManagement.ReminderRequest): Promise<services.reminderManagement.ReminderResponse>;
     }
