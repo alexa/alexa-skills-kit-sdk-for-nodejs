@@ -20,6 +20,7 @@ Available Methods
     getAccountLinkingAccessToken(requestEnvelope: RequestEnvelope): string;
     getApiAccessToken(requestEnvelope: RequestEnvelope): string;
     getDeviceId(requestEnvelope: RequestEnvelope): string;
+    getUserId(requestEnvelope: RequestEnvelope): string;
     getDialogState(requestEnvelope: RequestEnvelope): string;
     getSlot(requestEnvelope: RequestEnvelope, slotName: string): Slot;
     getSlotValue(requestEnvelope: RequestEnvelope, slotName: string): string;

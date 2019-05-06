@@ -110,6 +110,19 @@ export function getApiAccessToken(requestEnvelope : RequestEnvelope) : string {
 export function getDeviceId(requestEnvelope : RequestEnvelope) : string {
     return requestEnvelope.context.System.device ? requestEnvelope.context.System.device.deviceId : null;
 }
+/**
+ * Retrieves the user ID from the request.
+ *
+ * The method retrieves the userId property from the input request. This value uniquely identifies the user
+ * and is generally used as input for some Alexa-specific API calls. More information about this can be found here:
+ * https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#system-object
+ *
+ * @param {RequestEnvelope} requestEnvelope
+ * @return {string}
+ */
+export function getUserId(requestEnvelope : RequestEnvelope) : string {
+    return requestEnvelope.context.System.user ? requestEnvelope.context.System.user.userId : null;
+}
 
 /**
  * Retrieves the dialog state from the request.

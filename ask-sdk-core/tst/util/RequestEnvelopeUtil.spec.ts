@@ -21,6 +21,7 @@ import {
     getAccountLinkingAccessToken,
     getApiAccessToken,
     getDeviceId,
+    getUserId,
     getDialogState,
     getIntentName,
     getLocale,
@@ -44,6 +45,7 @@ describe('RequestEnvelopeUtils', () => {
             markupVersion : '1.0',
         },
     };
+    requestEnvelope.context.System.user.userId = 'mockUserId'
 
     const intentRequestEnvelope : RequestEnvelope = JsonProvider.requestEnvelope();
     intentRequestEnvelope.request.type = 'IntentRequest';
@@ -99,6 +101,16 @@ describe('RequestEnvelopeUtils', () => {
 
     it('should return null if there is no device info', () => {
         expect(getDeviceId(requestEnvelopeWithNoDevice)).eq(null);
+    });
+
+    it('should be able to get user id', () => {
+        expect(getUserId(requestEnvelope)).eq('mockUserId');
+    });
+
+    it('should return null if there is no user info', () => {
+        const requestEnvelopeWithNoUser = Object.assign({}, requestEnvelope)
+        delete requestEnvelopeWithNoUser.context.System.user
+        expect(getUserId(requestEnvelopeWithNoUser)).eq(null);
     });
 
     it('should be able to get dialog state', () => {
