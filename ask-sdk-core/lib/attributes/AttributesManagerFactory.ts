@@ -53,7 +53,7 @@ export class AttributesManagerFactory {
 
                 return thisSessionAttributes;
             },
-            async getPersistentAttributes(useSessionCache = true) : Promise<{[key : string] : any}> {
+            async getPersistentAttributes(useSessionCache : boolean = true) : Promise<{[key : string] : any}> {
                 if (!options.persistenceAdapter) {
                     throw createAskSdkError(
                         'AttributesManager',
