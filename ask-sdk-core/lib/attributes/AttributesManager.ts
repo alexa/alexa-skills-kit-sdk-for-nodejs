@@ -24,7 +24,7 @@ export interface AttributesManager {
      * Provides session attributes extracted from request envelope.
      * @returns {Object.<string, any>}
      */
-    getSessionAttributes() : {[key : string] : any};
+    getSessionAttributes<T = {[key : string] : any}>() : T;
     /**
      * Provides persistent attributes retrieved and cached from persistence adapter.
      * @returns {Promise<Object.<string, any>>}
