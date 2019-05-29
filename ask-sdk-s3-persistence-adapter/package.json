@@ -1,6 +1,6 @@
 {
   "name": "ask-sdk-s3-persistence-adapter",
-  "version": "2.5.2",
+  "version": "2.6.0",
   "description": "S3 based implementation package of PersistenceAdapter interface in ASK SDK v2 for Node.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -29,7 +29,7 @@
     "@types/chai": "^4.1.2",
     "@types/mocha": "^5.0.0",
     "@types/node": "^9.6.1",
-    "ask-sdk-core": "^2.5.2",
+    "ask-sdk-core": "^2.6.0",
     "ask-sdk-model": "^1.9.0",
     "aws-sdk-mock": "^4.1.0",
     "chai": "^4.1.2",

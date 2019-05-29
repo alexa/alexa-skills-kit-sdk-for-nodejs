@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.5.2...v2.6.0) (2019-05-29)
+
+
+### Features
+
+* add getUserId util function ([f898423](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/f898423))
+* Add support for the HUB_LANDSCAPE_SMALL (Echo Show 5) viewport ([#557](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/557)) ([707b0b2](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/707b0b2))
+
+
+
+
+
 ## [2.5.2](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.5.1...v2.5.2) (2019-04-24)
 
 
