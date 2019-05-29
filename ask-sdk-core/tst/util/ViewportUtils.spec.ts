@@ -76,6 +76,12 @@ describe('ViewportUtils', () => {
         expect(getViewportProfile(requestEnvelope)).eq('HUB-ROUND-SMALL');
 
         requestEnvelope.context.Viewport.shape = 'RECTANGLE';
+        requestEnvelope.context.Viewport.currentPixelHeight = 300;
+        requestEnvelope.context.Viewport.currentPixelWidth = 960;
+        requestEnvelope.context.Viewport.dpi = 160;
+        expect(getViewportProfile(requestEnvelope)).eq('HUB-LANDSCAPE-SMALL');
+
+        requestEnvelope.context.Viewport.shape = 'RECTANGLE';
         requestEnvelope.context.Viewport.currentPixelHeight = 600;
         requestEnvelope.context.Viewport.currentPixelWidth = 960;
         requestEnvelope.context.Viewport.dpi = 160;
