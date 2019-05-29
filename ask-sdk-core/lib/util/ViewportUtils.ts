@@ -20,6 +20,7 @@ import Shape = interfaces.viewport.Shape;
 
 export type ViewportProfile =
     'HUB-ROUND-SMALL' |
+    'HUB-LANDSCAPE-SMALL' |
     'HUB-LANDSCAPE-MEDIUM' |
     'HUB-LANDSCAPE-LARGE' |
     'MOBILE-LANDSCAPE-SMALL' |
@@ -150,6 +151,15 @@ export function getViewportProfile(requestEnvelope : RequestEnvelope) : Viewport
             && pixelHeightSizeGroup === 'XSMALL'
         ) {
             return 'HUB-ROUND-SMALL';
+        }
+
+        if (shape === 'RECTANGLE'
+            && viewportOrientation === 'LANDSCAPE'
+            && viewportDpiGroup === 'LOW'
+            && ViewportSizeGroupOrder.indexOf(pixelWidthSizeGroup) <= ViewportSizeGroupOrder.indexOf('MEDIUM')
+            && ViewportSizeGroupOrder.indexOf(pixelHeightSizeGroup) <= ViewportSizeGroupOrder.indexOf('XSMALL')
+        ) {
+            return 'HUB-LANDSCAPE-SMALL';
         }
 
         if (shape === 'RECTANGLE'
