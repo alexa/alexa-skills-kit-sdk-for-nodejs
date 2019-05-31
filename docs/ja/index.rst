@@ -15,6 +15,7 @@
    Managing-Attributes
    Calling-Alexa-Service-APIs
    Configuring-Skill-Instance
+   ASK-SDK-Utilities
 
 .. toctree::
    :caption: REFERENCE
@@ -134,6 +135,13 @@ APIにアクセスする方法を説明します。.
 
 スキルインスタンスの構成と作成の方法を説明します。
 
+
+`ユーティリティ`_
+--------------------
+
+ユーティリティ関数の使い方を説明します。
+
+
 フィードバック
 ================
 
@@ -147,3 +155,4 @@ Alexaの機能に関するリクエストや投票は、\ `こちら <https://al
 .. _アトリビュートの管理: Managing-Attributes.html
 .. _AlexaサービスAPIの呼び出し: Calling-Alexa-Service-APIs.html
 .. _スキルビルダー: Configuring-Skill-Instance.html
+.. _ASK SDK Utilities: ASK-SDK-Utilities.html
