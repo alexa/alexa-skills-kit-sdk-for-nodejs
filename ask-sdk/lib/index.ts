@@ -29,6 +29,7 @@ export {
     getAccountLinkingAccessToken,
     getApiAccessToken,
     getDeviceId,
+    getUserId,
     getDialogState,
     getIntentName,
     getLocale,

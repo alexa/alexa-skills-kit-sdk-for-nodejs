@@ -1,6 +1,6 @@
 {
   "name": "ask-sdk-core",
-  "version": "2.5.2",
+  "version": "2.6.0",
   "description": "Core package for Alexa Skills Kit SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

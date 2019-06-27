@@ -1,6 +1,6 @@
 {
   "name": "ask-sdk",
-  "version": "2.5.2",
+  "version": "2.6.0",
   "description": "Standard distribution package for Alexa Skills Kit SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,8 +24,8 @@
     "SDK"
   ],
   "dependencies": {
-    "ask-sdk-core": "^2.5.2",
-    "ask-sdk-dynamodb-persistence-adapter": "^2.5.2",
+    "ask-sdk-core": "^2.6.0",
+    "ask-sdk-dynamodb-persistence-adapter": "^2.6.0",
     "ask-sdk-model": "^1.9.0"
   },
   "devDependencies": {
