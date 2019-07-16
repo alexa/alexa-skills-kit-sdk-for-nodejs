@@ -44,14 +44,14 @@ export class AttributesManagerFactory {
             getRequestAttributes() : {[key : string] : any} {
                 return thisRequestAttributes;
             },
-            getSessionAttributes() : {[key : string] : any} {
+            getSessionAttributes<T = {[key : string] : any}>() : T {
                 if (!options.requestEnvelope.session) {
                     throw createAskSdkError(
                         'AttributesManager',
                         'Cannot get SessionAttributes from out of session request!');
                 }
 
-                return thisSessionAttributes;
+                return thisSessionAttributes as T;
             },
             async getPersistentAttributes() : Promise<{[key : string] : any}> {
                 if (!options.persistenceAdapter) {

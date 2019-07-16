@@ -5,7 +5,7 @@ Configuring Skill Instance
 Skill
 =====
 
-The ``Skill`` object is the integration of all your skill logic. It is responsible for initializing SDK utilties such as the ``AttributesManager`` and ``ServiceClientFactory`` and also kick off the request handling process.
+The ``Skill`` object is the integration of all your skill logic. It is responsible for initializing SDK utilities such as the ``AttributesManager`` and ``ServiceClientFactory`` and also kick off the request handling process.
 
 Available Methods
 -----------------
