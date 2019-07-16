@@ -175,7 +175,7 @@ export function getSlot(requestEnvelope : RequestEnvelope, slotName : string) : 
  * Returns the value from the given {@link Slot} in the request.
  *
  * This method attempts to retrieve the requested {@link Slot}'s value from the incoming request. If the slot does not
- * exist in the request, an Error will be raised.
+ * exist in the request, a null will be returned.
  *
  * @param {RequestEnvelope} requestEnvelope
  * @param {string} slotName
@@ -188,10 +188,7 @@ export function getSlotValue(requestEnvelope : RequestEnvelope, slotName : strin
             return slot.value;
         }
 
-        throw createAskSdkError(
-            'RequestEnvelopeUtils',
-            `Cannot find slot with name ${slotName}.`,
-        );
+        return null;
     }
 
     throw createAskSdkError(

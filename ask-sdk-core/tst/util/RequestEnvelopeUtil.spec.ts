@@ -151,9 +151,7 @@ describe('RequestEnvelopeUtils', () => {
     });
 
     it('should throw an error if trying to get slot value of non existent slot', () => {
-        expect(() => {
-            getSlotValue(intentRequestEnvelope, 'non-existentSlot');
-        }).to.throw(`Cannot find slot with name non-existentSlot.`);
+        expect(getSlotValue(intentRequestEnvelope, 'non-existentSlot')).eq(null);
     });
 
     it('should throw an error if trying to get slot value of non-intent request', () => {
