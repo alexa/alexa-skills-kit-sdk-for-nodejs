@@ -179,4 +179,21 @@ describe('CustomSkill', () => {
         expect(skill.supports(requestEnvelope)).eq(true);
         expect(skill.supports({} as any)).eq(false);
     });
+
+    it('should be able to append additional user agent', async() => {
+        const additionUserAnger : string = 'TEST_Agent';
+        const packageInfo = require('../../package.json');
+        const skill = SkillBuilders.custom()
+            .addRequestHandlers(
+                new MockAlwaysTrueRequestHandler(),
+                new MockAlwaysFalseRequestHandler(),
+            )
+            .create();
+
+        const requestEnvelope = JsonProvider.requestEnvelope();
+        skill.appendAdditionalUserAgent(additionUserAnger);
+        const responseEnvelope = await skill.invoke(requestEnvelope);
+
+        expect(responseEnvelope.userAgent).equal(`ask-node/${packageInfo.version} Node/${process.version} ${additionUserAnger}`);
+    });
 });

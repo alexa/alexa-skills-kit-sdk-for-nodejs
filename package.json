@@ -12,6 +12,7 @@
 		"clean-all": "npm run clean-build && npm run clean-node_modules"
 	},
 	"devDependencies": {
-		"lerna": "^3.4.3"
-	}
+		"lerna": "^3.16.4"
+	},
+	"name": "alexa-skills-kit-sdk-for-nodejs"
 }
