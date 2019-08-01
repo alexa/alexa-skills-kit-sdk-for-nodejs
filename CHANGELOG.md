@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.6.0...v2.7.0) (2019-08-01)
+
+
+### Bug Fixes
+
+* change the getSlotValue util function to return null when slot is not present ([#573](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/573)) ([1321407](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/1321407))
+* export getUserId() at index.ts of both ask-sdk-core and ask-sdk([#561](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/561)) ([b4b0980](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/b4b0980))
+* fixing the comment for getSlotValue util function ([#567](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/567)) ([89173bc](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/89173bc))
+
+
+### Features
+
+*  Add TypeScript Generics on the getSessionAttributes Method ([#554](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/554)) ([0824495](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/0824495))
+* add appendAdditionalUserAgent function to customSkill in ask-sdk-core ([#575](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/575)) ([7bbd7a6](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/7bbd7a6))
+
+
+
+
+
 # [2.6.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.5.2...v2.6.0) (2019-05-29)
 
 

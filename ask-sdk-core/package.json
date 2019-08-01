@@ -1,6 +1,6 @@
 {
   "name": "ask-sdk-core",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "description": "Core package for Alexa Skills Kit SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,7 +24,7 @@
     "SDK"
   ],
   "dependencies": {
-    "ask-sdk-runtime": "^2.4.0"
+    "ask-sdk-runtime": "^2.7.0"
   },
   "peerDependencies": {
     "ask-sdk-model": "^1.9.0"
