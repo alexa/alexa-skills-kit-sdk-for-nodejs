@@ -107,4 +107,12 @@ export class CustomSkill implements Skill<RequestEnvelope, ResponseEnvelope> {
     public supports(input : any, context? : any) : boolean {
         return !!input.request;
     }
+
+    /**
+     * Append additional user agent info
+     * @param userAgent
+     */
+    public appendAdditionalUserAgent(userAgent : string) : void {
+        this.customUserAgent = this.customUserAgent ? (`${this.customUserAgent} ${userAgent}`) : userAgent;
+    }
 }
