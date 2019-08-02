@@ -16,6 +16,7 @@
    Calling-Alexa-Service-APIs
    Configuring-Skill-Instance
    ASK-SDK-Utilities
+   Host-Skill-As-Webservice
 
 .. toctree::
    :caption: TYPEDOC REFERENCE
