@@ -21,7 +21,7 @@ package. This package provides the verification components by exporting
 the `SkillRequestSignatureVerifier class <https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/blob/2.0.x/ask-sdk-express-adapter/lib/verifier/index.ts#L56/>`__
 and `TimestampVerifier class <https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/blob/2.0.x/ask-sdk-express-adapter/lib/verifier/index.ts#L292/>`__.
 Also this package provides `ExpressAdapter class <https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/blob/2.0.x/ask-sdk-express-adapter/lib/adapter/ExpressAdapter.ts#L24/>`__ 
-which assembles the verification ability and skill invokation ability,
+which assembles the verification ability and skill invocation ability,
 make it easier to register requestHandlers on your `express application <http://expressjs.com/en/5x/api.html#app/>`__.
 
 Installation
@@ -78,7 +78,7 @@ Usage
     app.listen(3000);
 
 
-For web application without express framework
+For web application without Express framework
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you don't use Express framework, 
@@ -98,15 +98,14 @@ Usage
     const skillBuilder = Alexa.SkillBuilders.custom();
     const skill = skillBuilder.create();
 
-    // In your http server, suppose you already get request body in Json format
-    // and htpp request headers
+    // This code snippet assumes you have already consumed the request body as text and headers
     try {
-        await new SkillRequestSignatureVerifier().verify(jsonBody, requestHeaders);
-        await new TimestampVerifier().verify(jsonBody);
+        await new SkillRequestSignatureVerifier().verify(textBody, requestHeaders);
+        await new TimestampVerifier().verify(textBody);
     } catch (err) {
         // server return err message
     }
-    const response = skill.invoke(jsonBody);
+    const response = skill.invoke(JSON.parse(textBody));
     // server send response in Json format
 
   .. code-tab:: typescript
@@ -116,13 +115,12 @@ Usage
     const skillBuilder = Alexa.SkillBuilders.custom();
     const skill = skillBuilder.create();
 
-    // In your http server, suppose you already get request body in Json format
-    // and htpp request headers
+    // This code snippet assumes you have already consumed the request body as text and headers
     try {
-        await new SkillRequestSignatureVerifier().verify(jsonBody, requestHeaders);
-        await new TimestampVerifier().verify(jsonBody);
+        await new SkillRequestSignatureVerifier().verify(textBody, requestHeaders);
+        await new TimestampVerifier().verify(textBody);
     } catch (err) {
         // server return err message
     }
-    const response = skill.invoke(jsonBody);
+    const response = skill.invoke(JSON.parse(textBody));
     // server send response in Json format
