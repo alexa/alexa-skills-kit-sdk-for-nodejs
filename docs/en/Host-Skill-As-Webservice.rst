@@ -36,8 +36,8 @@ For web application with express framework
 The `ExpressAdapter <https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/blob/2.0.x/ask-sdk-express-adapter/lib/adapter/ExpressAdapter.ts#L24/>`__
 class registers the skill instance from
 the ``SkillBuilder`` object, and provides a ``getRequestHandlers``
-method that return arrys of request handlers which can be registed
-to your express application.
+method that return an array of request handlers which can be registed
+to your Express application.
 
 You can enable or disable request or timestamp
 verification for testing purposes by setting the boolean parameters
