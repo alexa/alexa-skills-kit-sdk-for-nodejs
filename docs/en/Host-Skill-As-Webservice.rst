@@ -22,12 +22,12 @@ the `SkillRequestSignatureVerifier class <https://github.com/alexa/alexa-skills-
 and `TimestampVerifier class <https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/blob/2.0.x/ask-sdk-express-adapter/lib/verifier/index.ts#L292/>`__.
 Also this package provides `ExpressAdapter class <https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/blob/2.0.x/ask-sdk-express-adapter/lib/adapter/ExpressAdapter.ts#L24/>`__ 
 which assembles the verification ability and skill invocation ability,
-make it easier to register requestHandlers on your `express application <http://expressjs.com/en/5x/api.html#app/>`__.
+making it easier to register requestHandlers on your `express application <http://expressjs.com/en/5x/api.html#app/>`__.
 
 Installation
 ~~~~~~~~~~~~
 
-You can install the ``ask-sdk-express-adapter`` package through NPM:
+You can add the ``ask-sdk-express-adapter`` package to your skill project through NPM:
 ``npm install --save ask-sdk-express-adapter``.
 
 
@@ -38,7 +38,7 @@ The `ExpressAdapter <https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/bl
 class registers the skill instance from
 the ``SkillBuilder`` object, and provides a ``getRequestHandlers``
 method that return arrys of request handlers which can be registed
-to your express application
+to your express application.
 
 You can enable or disable request or timestamp
 verification for testing purposes by setting the boolean parameters
