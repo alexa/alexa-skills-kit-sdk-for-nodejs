@@ -11,14 +11,6 @@ see
 `Host a Custom Skill as a Web Service <https://developer.amazon.com/docs/custom-skills/host-a-custom-skill-as-a-web-service.html>`__
 in the Alexa Skills Kit technical documentation.
 
-.. warning::
-
-    These features are currently in beta. You can view the source
-    code in the
-    `Ask Node Sdk <https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs>`__
-    repo on GitHub. The interface might change when the features are released as
-    stable.
-
 ASK SDK Express Adapter
 ---------------------------
 
@@ -35,8 +27,8 @@ make it easier to register requestHandlers on your `express application <http://
 Installation
 ~~~~~~~~~~~~
 
-You can install the ``ask-sdk-express-adapter`` package through `npm`:
-npm install --save ask-sdk-express-adapter
+You can install the ``ask-sdk-express-adapter`` package through ``npm:
+npm install --save ask-sdk-express-adapter``.
 
 
 For web application with express framework
