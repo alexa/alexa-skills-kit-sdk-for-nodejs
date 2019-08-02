@@ -27,8 +27,8 @@ make it easier to register requestHandlers on your `express application <http://
 Installation
 ~~~~~~~~~~~~
 
-You can install the ``ask-sdk-express-adapter`` package through ``npm:
-npm install --save ask-sdk-express-adapter``.
+You can install the ``ask-sdk-express-adapter`` package through NPM:
+``npm install --save ask-sdk-express-adapter``.
 
 
 For web application with express framework
