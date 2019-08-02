@@ -8,8 +8,7 @@ accepts requests from and sends responses to the Alexa service in the cloud.
 The web service must meet certain requirements to handle requests sent by Alexa
 and adhere to the Alexa Skills Kit interface standards. For more information,
 see
-`Host a Custom Skill as a Web Service <https://developer.amazon.com/docs/custom-skills/host-a-custom-skill-as-a-web-service.html>`__
-in the Alexa Skills Kit technical documentation.
+`Alexa Skills Kit technical documentation <https://developer.amazon.com/docs/custom-skills/host-a-custom-skill-as-a-web-service.html>`__.
 
 ASK SDK Express Adapter
 ---------------------------
