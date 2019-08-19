@@ -1,5 +1,5 @@
 ASK SDK Express Adapter package is an extension package, that will let skill developers
-use [ASK SDK](https://ask-sdk-for-nodejs.readthedocs.io/en/latest/)
+use [ASK SDK](https://developer.amazon.com/docs/alexa-skills-kit-sdk-for-nodejs/overview.html)
 package in their express application. It provides an easy way to register and
 use [skills as custom webservices](https://developer.amazon.com/docs/custom-skills/host-a-custom-skill-as-a-web-service.html).
 

@@ -51,10 +51,8 @@ The following features are released as public preview. The interfaces might chan
 
 ## Technical Documentation
 
-| Language | Documentation |
-| -------- | ------------- |
-| [English](https://ask-sdk-for-nodejs.readthedocs.io/en/latest/) | [![Documentation Status](https://readthedocs.org/projects/ask-sdk-for-nodejs/badge/?version=latest)](https://ask-sdk-for-nodejs.readthedocs.io/en/latest/?badge=latest) |
-| [日本語](https://ask-sdk-for-nodejs.readthedocs.io/ja/latest/) | [![Documentation Status](https://readthedocs.org/projects/ask-sdk-for-nodejs-japanese/badge/?version=latest)](https://ask-sdk-for-nodejs.readthedocs.io/ja/latest/?badge=latest) |
+- [English](https://developer.amazon.com/docs/alexa-skills-kit-sdk-for-nodejs/overview.html)
+- [日本語](https://ask-sdk-for-nodejs.readthedocs.io/ja/latest/)
 
 ## Models
 
