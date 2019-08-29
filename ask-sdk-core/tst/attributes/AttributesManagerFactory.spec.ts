@@ -266,7 +266,7 @@ describe('AttributesManagerFactory', () => {
         expect(mockPersistenceAdapter.saveCounter).equal(0);
     });
 
-    it('should make only 1 getAttributes call during multiple getPersistentAttributes', async() => {
+    it('should make only 1 getAttributes call during multiple getPersistentAttributes by default', async() => {
         const mockPersistenceAdapter = new MockPersistenceAdapter();
 
         const requestEnvelope = JsonProvider.requestEnvelope();
@@ -281,6 +281,24 @@ describe('AttributesManagerFactory', () => {
         await defaultAttributesManager.getPersistentAttributes();
         await defaultAttributesManager.getPersistentAttributes();
         expect(mockPersistenceAdapter.getCounter).equal(1);
+        expect(mockPersistenceAdapter.saveCounter).equal(0);
+    });
+
+    it('should make as many getAttributes calls as getPersistentAttributes calls when useSessionCache is false', async() => {
+        const mockPersistenceAdapter = new MockPersistenceAdapter();
+
+        const requestEnvelope = JsonProvider.requestEnvelope();
+        requestEnvelope.context.System.user.userId = 'userId';
+        const defaultAttributesManager = AttributesManagerFactory.init({
+            persistenceAdapter : mockPersistenceAdapter,
+            requestEnvelope,
+        });
+
+        await defaultAttributesManager.getPersistentAttributes(false);
+        await defaultAttributesManager.getPersistentAttributes(false);
+        await defaultAttributesManager.getPersistentAttributes(false);
+        await defaultAttributesManager.getPersistentAttributes(false);
+        expect(mockPersistenceAdapter.getCounter).equal(4);
         expect(mockPersistenceAdapter.saveCounter).equal(0);
     });
 

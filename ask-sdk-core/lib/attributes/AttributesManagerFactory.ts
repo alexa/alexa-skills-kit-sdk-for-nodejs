@@ -53,14 +53,14 @@ export class AttributesManagerFactory {
 
                 return thisSessionAttributes as T;
             },
-            async getPersistentAttributes() : Promise<{[key : string] : any}> {
+            async getPersistentAttributes(useSessionCache : boolean = true) : Promise<{[key : string] : any}> {
                 if (!options.persistenceAdapter) {
                     throw createAskSdkError(
                         'AttributesManager',
                         'Cannot get PersistentAttributes without PersistenceManager');
                 }
 
-                if (!persistentAttributesSet) {
+                if (!persistentAttributesSet || !useSessionCache) {
                     thisPersistentAttributes = await options.persistenceAdapter.getAttributes(options.requestEnvelope);
                     persistentAttributesSet = true;
                 }

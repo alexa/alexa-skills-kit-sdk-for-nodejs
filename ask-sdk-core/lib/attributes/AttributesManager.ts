@@ -26,10 +26,11 @@ export interface AttributesManager {
      */
     getSessionAttributes<T = {[key : string] : any}>() : T;
     /**
-     * Provides persistent attributes retrieved and cached from persistence adapter.
+     * Provides persistent attributes retrieved and cached from persistence adapter, provide false to useSessionCache to ignore values cached from previous invocations.
+     * @param {boolean} [useSessionCache=true]
      * @returns {Promise<Object.<string, any>>}
      */
-    getPersistentAttributes() : Promise<{[key : string] : any}>;
+    getPersistentAttributes(useSessionCache? : boolean) : Promise<{[key : string] : any}>;
     /**
      * Overwrites the request attributes value.
      * @param {Object.<string, any>} requestAttributes
