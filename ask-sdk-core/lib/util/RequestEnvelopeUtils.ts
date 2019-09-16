@@ -13,6 +13,7 @@
 
 import {
     IntentRequest,
+    Request,
     RequestEnvelope,
     Session,
     Slot,
@@ -63,6 +64,22 @@ export function getIntentName(requestEnvelope : RequestEnvelope) : string {
     throw createAskSdkError(
         'RequestEnvelopeUtils',
         `Expecting request type of IntentRequest but got ${getRequestType(requestEnvelope)}.`);
+}
+
+/**
+ * Get request object.
+ *
+ * We can set a specific type to the response by using the generics
+ * @param {RequestEnvelope} requestEnvelope
+ * @return {Request}
+ * @example
+ * ```
+ * const intentRequest = getRequest<IntentRequest>(requestEnvelope)
+ * console.log(intentRequest.intent.name)
+ * ```
+ */
+export function getRequest <T extends Request> (requestEnvelope : RequestEnvelope) : T {
+    return requestEnvelope.request as T;
 }
 
 /**
