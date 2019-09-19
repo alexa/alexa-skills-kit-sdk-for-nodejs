@@ -18,7 +18,8 @@
     "ask-sdk-dynamodb-persistence-adapter/lib",
     "ask-sdk-runtime/lib",
     "ask-sdk-s3-persistence-adapter/lib",
-    "ask-sdk-v1adapter/lib"
+    "ask-sdk-v1adapter/lib",
+    "ask-sdk-express-adapter/lib"
   ],
   "exclude" : [
     "node_modules"
