@@ -17,7 +17,7 @@ npm install --save ask-sdk-v1adapter
 
 ## Usage and Getting Started
 
-You can find a getting started guide [here](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/wiki).
+You can find a getting started guide [here](https://developer.amazon.com/docs/alexa-skills-kit-sdk-for-nodejs/migration-guide.html#migration-steps).
 
 ## Usage with TypeScript
 The ASK SDK v1 Adapter package for Node.js bundles TypeScript definition files for use in TypeScript projects and to support tools that can read .d.ts files. Our goal is to keep these TypeScript definition files updated with each release for any public api.
