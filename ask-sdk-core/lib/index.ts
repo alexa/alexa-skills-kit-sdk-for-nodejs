@@ -56,6 +56,7 @@ export {
     getDialogState,
     getIntentName,
     getLocale,
+    getRequest,
     getRequestType,
     getSlot,
     getSlotValue,
