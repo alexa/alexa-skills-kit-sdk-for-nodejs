@@ -3,3 +3,4 @@ node_modules/
 typedoc/
 package-lock.json
 lerna-debug.log
+.DS_Store
