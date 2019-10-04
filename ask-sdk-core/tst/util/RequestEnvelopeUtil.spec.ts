@@ -24,6 +24,7 @@ import {
     getUserId,
     getDialogState,
     getIntentName,
+    getRequest,
     getLocale,
     getRequestType,
     getSlot,
@@ -85,6 +86,29 @@ describe('RequestEnvelopeUtils', () => {
         expect(() => {
             getIntentName(requestEnvelope);
         }).to.throw(`Expecting request type of IntentRequest but got LaunchRequest.`);
+    });
+
+    it('should return the intent request object', () => {
+        const request = getRequest<IntentRequest>(intentRequestEnvelope)
+        expect(request).deep.eq({
+            type: 'IntentRequest',
+            requestId: null,
+            timestamp: null,
+            locale: null,
+            intent: {
+                confirmationStatus: null,
+                name: 'MockIntent',
+                slots: {
+                    mockSlot: {
+                        confirmationStatus: null,
+                        name: 'mockSlot',
+                        value: 'mockSlotValue',
+                        resolutions: null,
+                    },
+                },
+            },
+            dialogState: 'STARTED',
+        });
     });
 
     it('should be able to get account linking access token', () => {
