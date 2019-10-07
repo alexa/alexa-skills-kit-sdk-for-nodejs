@@ -13,8 +13,10 @@ module.exports = {
   tslint : (done) => {
     const tslintPath = path.normalize('./node_modules/.bin/tslint');
     const command = `${tslintPath} -p tsconfig.json -c tslint.json`;
-
     exec(command, done);
+
+    const commandForTests = `${tslintPath} ./tst/**/*.ts -c tslint.json`;
+    exec(commandForTests, done);
   },
   test : (done) => {
     const nycPath = path.normalize('./node_modules/.bin/nyc');
