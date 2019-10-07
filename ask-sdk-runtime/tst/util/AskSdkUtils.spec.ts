@@ -29,7 +29,7 @@ describe('AskSdkUtils', () => {
     });
 
     it('should be able to create user agent string', () => {
-        const userAgent = createAskSdkUserAgent('2.0.0',undefined);
+        const userAgent = createAskSdkUserAgent('2.0.0', undefined);
 
         expect(userAgent).equal(`ask-node/2.0.0 Node/${process.version}`);
     });
