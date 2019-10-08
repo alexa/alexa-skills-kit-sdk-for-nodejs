@@ -132,7 +132,7 @@ describe('RequestEnvelopeUtils', () => {
     });
 
     it('should return null if there is no user info', () => {
-        const requestEnvelopeWithNoUser = requestEnvelope;
+        const requestEnvelopeWithNoUser = { ...requestEnvelope };
         delete requestEnvelopeWithNoUser.context.System.user;
         expect(getUserId(requestEnvelopeWithNoUser)).eq(null);
     });
