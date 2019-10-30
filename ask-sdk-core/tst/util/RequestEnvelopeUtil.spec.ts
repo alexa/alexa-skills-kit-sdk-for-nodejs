@@ -21,15 +21,15 @@ import {
     getAccountLinkingAccessToken,
     getApiAccessToken,
     getDeviceId,
-    getUserId,
     getDialogState,
     getIntentName,
-    getRequest,
     getLocale,
+    getRequest,
     getRequestType,
     getSlot,
     getSlotValue,
     getSupportedInterfaces,
+    getUserId,
     isNewSession,
 } from '../../lib/util/RequestEnvelopeUtils';
 import { JsonProvider } from '../mocks/JsonProvider';
@@ -46,7 +46,7 @@ describe('RequestEnvelopeUtils', () => {
             markupVersion : '1.0',
         },
     };
-    requestEnvelope.context.System.user.userId = 'mockUserId'
+    requestEnvelope.context.System.user.userId = 'mockUserId';
 
     const intentRequestEnvelope : RequestEnvelope = JsonProvider.requestEnvelope();
     intentRequestEnvelope.request.type = 'IntentRequest';
@@ -89,7 +89,7 @@ describe('RequestEnvelopeUtils', () => {
     });
 
     it('should return the intent request object', () => {
-        const request = getRequest<IntentRequest>(intentRequestEnvelope)
+        const request = getRequest<IntentRequest>(intentRequestEnvelope);
         expect(request).deep.eq({
             type: 'IntentRequest',
             requestId: null,
@@ -132,8 +132,8 @@ describe('RequestEnvelopeUtils', () => {
     });
 
     it('should return null if there is no user info', () => {
-        const requestEnvelopeWithNoUser = Object.assign({}, requestEnvelope)
-        delete requestEnvelopeWithNoUser.context.System.user
+        const requestEnvelopeWithNoUser = { ...requestEnvelope };
+        delete requestEnvelopeWithNoUser.context.System.user;
         expect(getUserId(requestEnvelopeWithNoUser)).eq(null);
     });
 
