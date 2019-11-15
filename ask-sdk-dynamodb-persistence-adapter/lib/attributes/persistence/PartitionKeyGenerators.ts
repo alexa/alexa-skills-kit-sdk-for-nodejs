@@ -62,4 +62,22 @@ export const PartitionKeyGenerators = {
 
         return requestEnvelope.context.System.device.deviceId;
     },
+
+    /**
+     * Gets attributes id using person id.
+     * Fallback to fetching attributes id using user id, if personId is not present.
+     * @param {RequestEnvelope} requestEnvelope
+     * @returns {string}
+     */
+    personId(requestEnvelope : RequestEnvelope) : string {
+        if (requestEnvelope
+              && requestEnvelope.context
+              && requestEnvelope.context.System
+              && requestEnvelope.context.System.person
+              && requestEnvelope.context.System.person.personId) {
+            return requestEnvelope.context.System.person.personId;
+        }
+
+        return PartitionKeyGenerators.userId(requestEnvelope);
+    },
 };

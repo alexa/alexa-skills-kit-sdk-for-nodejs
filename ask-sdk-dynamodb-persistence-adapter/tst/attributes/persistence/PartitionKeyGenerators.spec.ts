@@ -61,4 +61,33 @@ describe('PartitionKeyGenerators', () => {
 
         throw new Error('should have thrown an error!');
     });
+
+    it('should be able to generate the persistenceId from requestEnvelope using person id', () => {
+        const requestEnvelope = JsonProvider.requestEnvelope();
+        requestEnvelope.context.System.person.personId = 'personId';
+
+        expect(PartitionKeyGenerators.personId(requestEnvelope)).equal('personId');
+    });
+
+    it('should be able to generate the persistenceId from requestEnvelope using user id if personId is missing', () => {
+        const requestEnvelope = JsonProvider.requestEnvelope();
+        requestEnvelope.context.System.user.userId = 'userId';
+
+        expect(PartitionKeyGenerators.personId(requestEnvelope)).equal('userId');
+    });
+
+    it('should throw a new error if neither person id nor user id exist', () => {
+        const requestEnvelope = JsonProvider.requestEnvelope();
+
+        try {
+            PartitionKeyGenerators.personId(requestEnvelope);
+        } catch (err) {
+            expect(err.name).equal('AskSdk.PartitionKeyGenerators Error');
+            expect(err.message).equal('Cannot retrieve user id from request envelope!');
+
+            return;
+        }
+
+        throw new Error('should have thrown an error!');
+    });
 });
