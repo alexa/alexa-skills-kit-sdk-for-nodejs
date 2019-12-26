@@ -43,13 +43,31 @@ Using the `Client ID`, `Client Secret` and `Refresh Token` retrieved in the prev
 #### For Node.js
 ```js
 const Alexa = require('ask-smapi-sdk');
-const smapiClient = new Alexa.StandardSmapiClientBuilder(clientId, clientSecret, refreshToken).client();
+
+// specify the refreshTokenConfig with clientId, clientSecrect and refreshToken generated in the previous step
+const refreshTokenConfig = {
+    clientId,
+    clientSecrect, 
+    refreshToken
+}
+const smapiClient = new Alexa.StandardSmapiClientBuilder()
+    .withRefreshTokenConfig(refreshTokenConfig)
+    .client();
 ```
 
 #### For typescript
 ```ts
 import * as Alexa from 'ask-smapi-sdk';
-const smapiClient = new Alexa.StandardSmapiClientBuilder(clientId, clientSecret, refreshToken).client();
+
+// specify the refreshTokenConfig with clientId, clientSecrect and refreshToken generated in the previous step
+const refreshTokenConfig : Alexa.RefreshTokenConfig = {
+    clientId,
+    clientSecrect, 
+    refreshToken
+}
+const smapiClient = new Alexa.StandardSmapiClientBuilder()
+    .withRefreshTokenConfig(refreshTokenConfig)
+    .client();
 ```
 
 ### List Skills

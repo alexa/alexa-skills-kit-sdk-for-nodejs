@@ -11,22 +11,90 @@
  * permissions and limitations under the License.
  */
 
-import { services } from 'ask-smapi-model';
+import { runtime, services } from 'ask-smapi-model';
+import ApiConfiguration = runtime.ApiConfiguration;
+import ApiClient = runtime.ApiClient;
+import AuthenticationConfiguration = runtime.AuthenticationConfiguration;
+import DefaultApiClient = runtime.DefaultApiClient;
+
+import { SmapiClientBuilder } from './AbstractSmapiClientBuilder';
+
+const DEFAULT_API_ENDPOINT = 'https://api.amazonalexa.com';
 
 /**
- * Abstract Builder class which should be implemented.
- * @export
- * @class SmapiClientBuilder
+ * StandardSmapiClientBuilder class use default ApiClient and default ApiEndpoint
  */
-export class SmapiClientBuilder {
+export class StandardSmapiClientBuilder extends SmapiClientBuilder {
 
-    protected apiEndpoint : string;
+    /**
+     * Funtion used to generate SkillManagementService instance.
+     */
+    public client() : services.skillManagement.SkillManagementServiceClient {
 
-    public setApiEndpoint(value : string) : void {
-        this.apiEndpoint = value;
+        if (this.refreshTokenConfig) {
+            const apiConfiguration : ApiConfiguration = {
+                apiClient: new DefaultApiClient(),
+                apiEndpoint: DEFAULT_API_ENDPOINT,
+                authorizationValue: null,
+            };
+            const authenticationConfiguration : AuthenticationConfiguration = {
+                clientId: this.refreshTokenConfig.clientId,
+                clientSecret: this.refreshTokenConfig.clientSecret,
+                refreshToken: this.refreshTokenConfig.refreshToken,
+            };
+
+            return new services.skillManagement.SkillManagementServiceClient(apiConfiguration, authenticationConfiguration, this.customUserAgent);
+        }
+
+        throw new Error('Please provide refreshToken Config to build smapi client');
+    }
+}
+
+/**
+ * CustomSmapiClientBuilder give user ability to configure Apiclient and ApiEndpoint
+ */
+export class CustomSmapiClientBuilder extends StandardSmapiClientBuilder {
+    private apiClient : ApiClient;
+    private apiEndpoint : string;
+
+    public withApiEndpoint(apiEndpoint : string) : SmapiClientBuilder {
+        this.apiEndpoint = apiEndpoint;
+
+        return this;
     }
 
+    public withApiClient(apiClient : ApiClient) : SmapiClientBuilder {
+        this.apiClient = apiClient;
+
+        return this;
+    }
+
+    /**
+     * Funtion used to generate SkillManagementService instance.
+     */
     public client() : services.skillManagement.SkillManagementServiceClient {
-        throw new Error('client funtion is not implemented');
+        if (!this.apiEndpoint) {
+            this.apiEndpoint = DEFAULT_API_ENDPOINT;
+        }
+        if (!this.apiClient) {
+            this.apiClient = new DefaultApiClient();
+        }
+
+        if (this.refreshTokenConfig) {
+            const apiConfiguration : ApiConfiguration = {
+                apiClient: this.apiClient,
+                apiEndpoint: this.apiEndpoint,
+                authorizationValue: null,
+            };
+            const authenticationConfiguration : AuthenticationConfiguration = {
+                clientId: this.refreshTokenConfig.clientId,
+                clientSecret: this.refreshTokenConfig.clientSecret,
+                refreshToken: this.refreshTokenConfig.refreshToken,
+            };
+
+            return new services.skillManagement.SkillManagementServiceClient(apiConfiguration, authenticationConfiguration, this.customUserAgent);
+        }
+
+        throw new Error('Please provide refreshToken Config to build smapi client');
     }
 }
