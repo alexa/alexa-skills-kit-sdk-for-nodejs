@@ -36,6 +36,9 @@ export const JsonProvider = {
                     user : {
                         userId : null,
                     },
+                    person : {
+                        personId : null,
+                    },
                 },
             },
             request: null,
