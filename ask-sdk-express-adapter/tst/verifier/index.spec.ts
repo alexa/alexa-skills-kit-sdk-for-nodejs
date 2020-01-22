@@ -164,6 +164,22 @@ describe('SkillRequestSignatureVerifier', () => {
                 expect.fail('should not throw error');
             }
         });
+
+        it('should not throw error when header keys are in camel case', async() => {
+            const validRequestBody : string = fs.readFileSync(__dirname + '/../mocks/requestEnvelope.json').toString();
+            const requestHeader : IncomingHttpHeaders = DataProvider.requestHeader();
+            const signatureKeyInCamel = 'Signature';
+            const urlKeyInCamel = 'SignatureCertChainUrl';
+            requestHeader[signatureKeyInCamel] = validSignature;
+            requestHeader[urlKeyInCamel] = testUrl;
+            nock('https://s3.amazonaws.com').get(certUrl.path).reply(200, validPem);
+            sinon.stub(verifier, <any> '_validateRequestBody');
+            try {
+                await verifier.verify(validRequestBody, requestHeader);
+            } catch (err) {
+                expect.fail('should not throw error');
+            }
+        });
     });
 
     describe('async function _validateUrlAndRetriveCertChain', () => {
