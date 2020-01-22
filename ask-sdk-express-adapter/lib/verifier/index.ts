@@ -73,9 +73,10 @@ export class SkillRequestSignatureVerifier implements Verifier {
         let signatureCertChainUrl : string;
         let signature : string;
         for (const keys of Object.keys(headers)) {
-            if (keys.toLocaleLowerCase() === SIGNATURE_CERT_CHAIN_URL_HEADER.toLowerCase()) {
+            const keysInLowerCase = keys.toLocaleLowerCase();
+            if (keysInLowerCase === SIGNATURE_CERT_CHAIN_URL_HEADER.toLowerCase()) {
                 signatureCertChainUrl = headers[keys] as string;
-            } else if (keys.toLocaleLowerCase() === SIGNATURE_HEADER.toLowerCase()) {
+            } else if (keysInLowerCase === SIGNATURE_HEADER.toLowerCase()) {
                 signature = headers[keys] as string;
             }
         }
