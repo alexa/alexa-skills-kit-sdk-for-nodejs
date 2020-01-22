@@ -70,8 +70,16 @@ export class SkillRequestSignatureVerifier implements Verifier {
      */
     public async verify (requestEnvelope : string, headers : IncomingHttpHeaders) : Promise<void> {
         // throw error if signature or signatureCertChainUrl are not present
-        const signatureCertChainUrl : string = headers[SIGNATURE_CERT_CHAIN_URL_HEADER.toLowerCase()] as string;
-        const signature : string = headers[SIGNATURE_HEADER.toLowerCase()] as string;
+        let signatureCertChainUrl : string;
+        let signature : string;
+        for (const keys of Object.keys(headers)) {
+            if (keys.toLocaleLowerCase() === SIGNATURE_CERT_CHAIN_URL_HEADER.toLowerCase()) {
+                signatureCertChainUrl = headers[keys] as string;
+            } else if (keys.toLocaleLowerCase() === SIGNATURE_HEADER.toLowerCase()) {
+                signature = headers[keys] as string;
+            }
+        }
+
         if (!signatureCertChainUrl) {
             throw createAskSdkError(
                 this.constructor.name,
