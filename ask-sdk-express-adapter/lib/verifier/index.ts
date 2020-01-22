@@ -72,12 +72,12 @@ export class SkillRequestSignatureVerifier implements Verifier {
         // throw error if signature or signatureCertChainUrl are not present
         let signatureCertChainUrl : string;
         let signature : string;
-        for (const keys of Object.keys(headers)) {
-            const keysInLowerCase = keys.toLocaleLowerCase();
-            if (keysInLowerCase === SIGNATURE_CERT_CHAIN_URL_HEADER.toLowerCase()) {
-                signatureCertChainUrl = headers[keys] as string;
-            } else if (keysInLowerCase === SIGNATURE_HEADER.toLowerCase()) {
-                signature = headers[keys] as string;
+        for (const key of Object.keys(headers)) {
+            const keyInLowerCase = key.toLocaleLowerCase();
+            if (keyInLowerCase === SIGNATURE_CERT_CHAIN_URL_HEADER.toLowerCase()) {
+                signatureCertChainUrl = headers[key] as string;
+            } else if (keyInLowerCase === SIGNATURE_HEADER.toLowerCase()) {
+                signature = headers[key] as string;
             }
         }
 
