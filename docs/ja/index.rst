@@ -61,7 +61,7 @@ SDKでサポートされているAlexaの機能
 
 * `リスト <https://developer.amazon.com/docs/custom-skills/access-the-alexa-shopping-and-to-do-lists.html#alexa-lists-access>`__
 
-* `ユーザー連絡先情報のリクエスト <https://developer.amazon.com/docs/smapi/alexa-settings-api-reference.html>`__
+* `ユーザー連絡先情報のリクエスト <https://developer.amazon.com/docs/alexa/custom-skills/request-customer-contact-information-for-use-in-your-skill.html>`__
 
 * `ユーザー設定情報の取得 <https://developer.amazon.com/docs/smapi/alexa-settings-api-reference.html>`_
 
