@@ -33,7 +33,7 @@ The ASK SDK v2 for Node.js makes it easier for you to build highly engaging skil
 - [Video](https://developer.amazon.com/docs/custom-skills/videoapp-interface-reference.html)
 - [Device Address](https://developer.amazon.com/docs/custom-skills/device-address-api.html)
 - [Lists](https://developer.amazon.com/docs/custom-skills/access-the-alexa-shopping-and-to-do-lists.html#alexa-lists-access)
-- [Request for customer contact information](https://developer.amazon.com/docs/smapi/alexa-settings-api-reference.html)
+- [Request for customer contact information](https://developer.amazon.com/docs/alexa/custom-skills/request-customer-contact-information-for-use-in-your-skill.html)
 - [Obtain customer settings information](https://developer.amazon.com/docs/smapi/alexa-settings-api-reference.html)
 - [Account Linking](https://developer.amazon.com/docs/account-linking/understand-account-linking.html)
 - [Entity Resolution](https://developer.amazon.com/docs/custom-skills/define-synonyms-and-ids-for-slot-type-values-entity-resolution.html)

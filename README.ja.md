@@ -33,7 +33,7 @@ ASK SDK v2 for Node.jsを使うと、ボイラープレートコード（毎回�
 - [ビデオ](https://developer.amazon.com/docs/custom-skills/videoapp-interface-reference.html)
 - [デバイスのアドレス](https://developer.amazon.com/docs/custom-skills/device-address-api.html)
 - [リスト](https://developer.amazon.com/docs/custom-skills/access-the-alexa-shopping-and-to-do-lists.html#alexa-lists-access)
-- [ユーザー連絡先情報のリクエスト](https://developer.amazon.com/docs/smapi/alexa-settings-api-reference.html)
+- [ユーザー連絡先情報のリクエスト](https://developer.amazon.com/docs/alexa/custom-skills/request-customer-contact-information-for-use-in-your-skill.html)
 - [ユーザー設定情報の取得](https://developer.amazon.com/docs/smapi/alexa-settings-api-reference.html)
 - [アカウントリンク](https://developer.amazon.com/docs/account-linking/understand-account-linking.html)
 - [スロットタイプ値の同義語とIDを定義する（エンティティ解決）](https://developer.amazon.com/docs/custom-skills/define-synonyms-and-ids-for-slot-type-values-entity-resolution.html)
