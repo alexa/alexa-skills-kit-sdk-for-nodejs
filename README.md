@@ -9,6 +9,10 @@
 
 The ASK SDK v2 for Node.js makes it easier for you to build highly engaging skills by allowing you to spend more time on implementing features and less on writing boilerplate code.
 
+The ASK SMAPI SDK for Node.js provides developers a library for easily interacting
+with all Skill Management APIs (SMAPI), including interaction model, intent request
+history, and in-skill purchasing APIs.
+
 ## Package Versions
 
 | Package       | NPM           |
@@ -20,6 +24,7 @@ The ASK SDK v2 for Node.js makes it easier for you to build highly engaging skil
 |[ask-sdk-s3-persistence-adapter](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-s3-persistence-adapter)| [![npm](https://img.shields.io/npm/v/ask-sdk-s3-persistence-adapter.svg)](https://www.npmjs.com/package/ask-sdk-s3-persistence-adapter) [![npm](https://img.shields.io/npm/dt/ask-sdk-s3-persistence-adapter.svg)](https://www.npmjs.com/package/ask-sdk-s3-persistence-adapter)|
 |[ask-sdk-v1adapter](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-v1adapter)|[![npm](https://img.shields.io/npm/v/ask-sdk-v1adapter.svg)](https://www.npmjs.com/package/ask-sdk-v1adapter) [![npm](https://img.shields.io/npm/dt/ask-sdk-v1adapter.svg)](https://www.npmjs.com/package/ask-sdk-v1adapter)|
 |[ask-sdk-express-adapter](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-express-adapter)|[![npm](https://img.shields.io/npm/v/ask-sdk-express-adapter.svg)](https://www.npmjs.com/package/ask-sdk-express-adapter) [![npm](https://img.shields.io/npm/dt/ask-sdk-express-adapter.svg)](https://www.npmjs.com/package/ask-sdk-express-adapter)|
+|[ask-smapi-sdk](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-smapi-sdk)| [![npm](https://img.shields.io/npm/v/ask-smapi-sdk.svg)](https://www.npmjs.com/package/ask-smapi-sdk) [![npm](https://img.shields.io/npm/dt/ask-sampi-sdk.svg)](https://www.npmjs.com/package/ask-smapi-sdk)|
 
 ## Alexa Features Supported by SDK
 
