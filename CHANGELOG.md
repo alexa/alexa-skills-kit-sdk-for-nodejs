@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.7.0...v2.8.0) (2020-04-01)
+
+
+### Bug Fixes
+
+* Export LambdaHandler type definition ([#615](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/615)) ([e4c2eaa](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/e4c2eaa857537c82ac909c3be09bc52d9a74a035))
+* extend tslint test to cover all test files ([#588](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/588)) ([b142590](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/b142590b2d07ff141e599ee63129d81c71aa0f1c))
+* fixed one type definition and some doc issues  ([#583](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/583)) ([5cc2576](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/5cc257648a8aa6cbbaca65daac8a27d02ebbc89d))
+* Retrieve case-insensitive header values ([#605](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/605)) ([15fe574](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/15fe5744522c216adb3f740a64c60d3fe8adb594))
+* update lerna.json ([4ebcf92](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/4ebcf9295ecf0fdc5ca937bba4aaf330365c92dc))
+
+
+### Features
+
+* add express adapter package ([#576](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/576)) ([5822660](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/5822660bf6914a9aac60cde55e18542b3080de93))
+* add new util function (getRequest) ([#582](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/582)) ([a618ba9](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/a618ba92c30d1ffb0590d21d8ee6cf7e1e11ac15))
+* Add Person ID partition key generator ([#593](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/593)) ([59002f4](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/59002f423a13fe3d59e7882d013bde40501d3f79))
+* Adding ask-smapi-sdk ([#596](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/596)) ([e1ec8cd](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/e1ec8cdb3cee763768667c7468ce4ce68862c0ee))
+* Implement model introspector ([#612](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/612)) ([cb57328](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/cb57328855b6095cfae5ed28cfc1f06a097e60be))
+* optionally allow passing a boolean to getPersistentAttributes to cont… ([#547](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/547)) ([e62421c](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/e62421c404a5b881a613c39c8766e7d152053a34))
+
+
+
+
+
 # [2.7.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.6.0...v2.7.0) (2019-08-01)
 
 

@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.7.0...v2.8.0) (2020-04-01)
+
+
+### Bug Fixes
+
+* Export LambdaHandler type definition ([#615](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/615)) ([e4c2eaa](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/e4c2eaa857537c82ac909c3be09bc52d9a74a035))
+* extend tslint test to cover all test files ([#588](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/588)) ([b142590](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/b142590b2d07ff141e599ee63129d81c71aa0f1c))
+* fixed one type definition and some doc issues  ([#583](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/583)) ([5cc2576](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/5cc257648a8aa6cbbaca65daac8a27d02ebbc89d))
+
+
+### Features
+
+* add new util function (getRequest) ([#582](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/582)) ([a618ba9](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/a618ba92c30d1ffb0590d21d8ee6cf7e1e11ac15))
+
+
+
+
+
 # [2.7.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.6.0...v2.7.0) (2019-08-01)
 
 
