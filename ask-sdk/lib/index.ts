@@ -20,6 +20,7 @@ export {
     AttributesManagerFactory,
     BaseSkillBuilder,
     BaseSkillFactory,
+    LambdaHandler,
     createAskSdkError,
     CustomSkillBuilder,
     CustomSkillFactory,

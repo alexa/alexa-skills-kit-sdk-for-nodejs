@@ -28,7 +28,7 @@ export { TextContentHelper } from './response/TextContentHelper';
 export { DefaultApiClient } from './service/DefaultApiClient';
 export { CustomSkill as Skill} from './skill/CustomSkill';
 export { BaseSkillBuilder } from './skill/factory/BaseSkillBuilder';
-export { BaseSkillFactory } from './skill/factory/BaseSkillFactory';
+export { BaseSkillFactory, LambdaHandler } from './skill/factory/BaseSkillFactory';
 export { CustomSkillBuilder } from './skill/factory/CustomSkillBuilder';
 export { CustomSkillFactory } from './skill/factory/CustomSkillFactory';
 export { SkillBuilders } from './skill/SkillBuilders';
