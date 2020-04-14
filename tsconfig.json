@@ -26,7 +26,7 @@
   ],
   "typedocOptions": {
     "name" : "ASK SDK for Node.js",
-    "readme" : "./README.md",
+    "readme" : "none",
     "mode": "file",
     "out": "typedoc",
     "theme": "default",
