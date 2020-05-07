@@ -7,6 +7,7 @@ import { pki } from 'node-forge';
 import * as sinon from 'sinon';
 import * as url from 'url';
 import { SkillRequestSignatureVerifier, TimestampVerifier, Verifier } from '../../lib/verifier';
+import * as helper from '../../lib/verifier/helper';
 import { createInvalidCert, DataProvider } from '../mocks/DataProvider';
 
 describe('TimestampVerifier', () => {
@@ -86,6 +87,8 @@ describe('SkillRequestSignatureVerifier', () => {
     const testUrl : string = 'https://s3.amazonaws.com/echo.api/echo-api-cert-4.pem';
     const certUrl = url.parse(testUrl);
     const validPem : string = fs.readFileSync(__dirname + '/../mocks/echo-api-cert-7.pem').toString();
+    const leafPem : string = validPem.slice(validPem.indexOf('-----BEGIN CERTIFICATE-----'), validPem.indexOf('-----END CERTIFICATE-----') + 25);
+    const lastPem : string = validPem.slice(validPem.lastIndexOf('-----BEGIN CERTIFICATE-----'), validPem.lastIndexOf('-----END CERTIFICATE-----') + 25);
     const validSignature = 'jsHzkhi2zPaFXV4gnHN4foePDtv4SqmreEDqKqJc8kUX7skhOlZ03uKYeqLOHAot98tVJc9pMdi'
         + '1TRMnkQ8sr/GoReO++yGi3iAYjO8/XXL1oscx1vMUzmOLmvCO/EfF3/iEpNOb3BIJEiNhT2ZIwp7EisQi3eYLDmDaklSmP'
         + 'WWGVQRtcSq1EoHarMW9GrUaApu2cJdAjnF1aF3yFoLiHheN4DSW0qQ14N+ndba4C+YQBn4Ds2SXCFUyEC+q/H4A7SFioAE'
@@ -158,6 +161,7 @@ describe('SkillRequestSignatureVerifier', () => {
             requestHeader[urlKey] = testUrl;
             nock('https://s3.amazonaws.com').get(certUrl.path).reply(200, validPem);
             sinon.stub(verifier, <any> '_validateRequestBody');
+            sinon.stub(helper, 'generateCAStore').returns(pki.createCaStore([lastPem]));
             try {
                 await verifier.verify(validRequestBody, requestHeader);
             } catch (err) {
@@ -388,6 +392,7 @@ describe('SkillRequestSignatureVerifier', () => {
 
     describe('function _validateCertChain', () => {
         const functionKey : string = '_validateCertChain';
+        const rootCA = require('ssl-root-cas/latest');
 
         it('should throw error when cert expired', () => {
             sinon.useFakeTimers(new Date(2022, 2, 15));
@@ -432,6 +437,37 @@ describe('SkillRequestSignatureVerifier', () => {
             } catch (err) {
                 expect(err.name).equal('AskSdk.SkillRequestSignatureVerifier Error');
                 expect(err.message).equal('echo-api.amazon.com domain missing in Signature Certificate Chain.');
+
+                return;
+            }
+            throw new Error('should have thrown an error!');
+        });
+
+        it('should throw error when cert chain is not valid', () => {
+            sinon.useFakeTimers(new Date(2019, 9, 1));
+            try {
+
+                verifier[functionKey](leafPem + lastPem);
+            } catch (err) {
+
+                expect(err.name).equal('AskSdk.SkillRequestSignatureVerifier Error');
+                expect(err.message).equal('Certificate signature is invalid.');
+
+                return;
+            }
+            throw new Error('should have thrown an error!');
+        });
+
+        it('should throw error when certificate chain is not trused against CA store', () => {
+            sinon.useFakeTimers(new Date(2019, 9, 1));
+            sinon.stub(helper, 'generateCAStore').returns(pki.createCaStore([leafPem]));
+            try {
+
+                verifier[functionKey](validPem);
+            } catch (err) {
+
+                expect(err.name).equal('AskSdk.SkillRequestSignatureVerifier Error');
+                expect(err.message).equal('Certificate is not trusted.');
 
                 return;
             }

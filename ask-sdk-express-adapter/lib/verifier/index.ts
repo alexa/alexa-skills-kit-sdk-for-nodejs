@@ -19,6 +19,8 @@ import * as client from 'https';
 import { pki } from 'node-forge';
 import * as url from 'url';
 
+import { generateCAStore, generateCertificatesArray } from './helper';
+
 /**
  * Provide constant value
  * For more info, check `link <https://developer.amazon.com/docs/custom-skills/host-a-custom-skill-as-a-web-service.html#checking-the-signature-of-the-request>
@@ -272,6 +274,20 @@ export class SkillRequestSignatureVerifier implements Verifier {
                 `${CERT_CHAIN_DOMAIN} domain missing in Signature Certificate Chain.`,
             );
         }
+        // Use the pki.verifyCertificateChain function from Node-forge to
+        // validate that all certificates in the chain combine to create a chain of trust to a trusted root CA certificate
+        // TODO: Implement certificate revocation check which is misssed in pki.verifyCertificateChain function
+        const certChain : pki.Certificate[] = generateCertificatesArray(pemCert);
+        const caStore : pki.CAStore = generateCAStore(require('ssl-root-cas/latest').create());
+        try {
+            pki.verifyCertificateChain(caStore, certChain);
+        } catch (e) {
+            throw createAskSdkError(
+                this.constructor.name,
+                e.message,
+            );
+        }
+
     }
 
     /**
