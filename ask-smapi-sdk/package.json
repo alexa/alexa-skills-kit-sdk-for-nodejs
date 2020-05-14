@@ -16,8 +16,7 @@
     "SDK"
   ],
   "dependencies": {
-    "ask-smapi-model": "^1.4.0",
-    "jsonpath": "^1.0.2"
+    "ask-smapi-model": "^1.4.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.2",
