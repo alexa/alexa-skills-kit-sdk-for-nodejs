@@ -1,6 +1,6 @@
 {
   "name": "ask-smapi-sdk",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Core package for SMAPI Skills Kit SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
