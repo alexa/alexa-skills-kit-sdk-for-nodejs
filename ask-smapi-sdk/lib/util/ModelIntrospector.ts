@@ -11,8 +11,6 @@
  * permissions and limitations under the License.
  */
 
-import { nodes, PathComponent } from 'jsonpath';
-
 /**
  * Introspects on the Skill Managament API (SMAPI) model.
  */
@@ -49,15 +47,18 @@ export class ModelIntrospector {
     }
 
     private processModel() : void {
-        const modelDefinitions : Array<{ path : PathComponent[]; value : any; }> = nodes(this.modelJson, '$["definitions"][*]');
-        this.definitions = new Map();
-        for (const definition of modelDefinitions) {
-            this.definitions.set(definition.path[definition.path.length - 1].toString(), definition.value);
-        }
-        const operationDefinitions : Array<{ path : PathComponent[]; value : any; }> = nodes(this.modelJson, '$["paths"][*][*]');
+        const modelDefinitions = this.modelJson.definitions;
+        this.definitions = new Map(Object.keys(modelDefinitions).map((key) => [key, modelDefinitions[key]]));
+
+        const operationDefinitions : any[] = [];
+        Object.keys(this.modelJson.paths).forEach((pathKey) => {
+            Object.keys(this.modelJson.paths[pathKey]).forEach((operationKey) => {
+                operationDefinitions.push(this.modelJson.paths[pathKey][operationKey]);
+            });
+        });
+
         this.operations = new Map();
-        for (const operation of operationDefinitions) {
-            const operationDefinition = operation.value;
+        for (const operationDefinition of operationDefinitions) {
             const apiOperationName = operationDefinition['x-operation-name'];
             if (apiOperationName) {
                 const apiVersion = parseInt(apiOperationName.substring(apiOperationName.length - 1), 10);
