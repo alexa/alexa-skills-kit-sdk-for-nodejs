@@ -64,6 +64,21 @@ describe('AttributesManagerFactory', () => {
         throw new Error('should have thrown an error!');
     });
 
+    it('should get default attributes when db has no attributes', async() => {
+        const requestEnvelope = JsonProvider.requestEnvelope();
+        requestEnvelope.context.System.user.userId = 'userId';
+        const defaultAttributesManager = AttributesManagerFactory.init({
+            persistenceAdapter : new MockPersistenceAdapter(),
+            requestEnvelope,
+        });
+        await defaultAttributesManager.deletePersistentAttributes();
+        expect(await defaultAttributesManager.getPersistentAttributes(true, {
+            key_1: 'v1',
+        })).deep.equal({
+            key_1 : 'v1',
+        });
+    });
+
     it('should be able to get persistent attributes', async() => {
         const requestEnvelope = JsonProvider.requestEnvelope();
         requestEnvelope.context.System.user.userId = 'userId';
