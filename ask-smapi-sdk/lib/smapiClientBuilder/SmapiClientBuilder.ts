@@ -58,19 +58,19 @@ export class CustomSmapiClientBuilder extends StandardSmapiClientBuilder {
     private apiEndpoint : string;
     private authEndpoint? : string;
 
-    public withApiEndpoint(apiEndpoint : string) : SmapiClientBuilder {
+    public withApiEndpoint(apiEndpoint : string) : CustomSmapiClientBuilder {
         this.apiEndpoint = apiEndpoint;
 
         return this;
     }
 
-    public withAuthEndpoint(authEndpoint : string) : SmapiClientBuilder {
+    public withAuthEndpoint(authEndpoint : string) : CustomSmapiClientBuilder {
         this.authEndpoint = authEndpoint;
 
         return this;
     }
 
-    public withApiClient(apiClient : ApiClient) : SmapiClientBuilder {
+    public withApiClient(apiClient : ApiClient) : CustomSmapiClientBuilder {
         this.apiClient = apiClient;
 
         return this;
