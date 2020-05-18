@@ -30,7 +30,7 @@ export interface AttributesManager {
      * @param {boolean} [useSessionCache=true]
      * @returns {Promise<Object.<string, any>>}
      */
-    getPersistentAttributes(useSessionCache? : boolean) : Promise<{[key : string] : any}>;
+    getPersistentAttributes(useSessionCache? : boolean, defaultAttribuets?: {[key: string]: any}) : Promise<{[key : string] : any}>;
     /**
      * Overwrites the request attributes value.
      * @param {Object.<string, any>} requestAttributes
