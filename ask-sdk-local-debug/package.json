@@ -1,0 +1,51 @@
+{
+  "name": "ask-sdk-local-debug",
+  "version": "1.0.0",
+  "description": "Local debug package for Alexa Skills Kit SDK",
+  "main": "dist/client/WebSocketClient.js",
+  "types": "dist/client/WebSocketClient.d.ts",
+  "scripts": {
+    "lint": "eslint . --ext .ts",
+    "lint-and-fix": "eslint . --ext .ts --fix",
+    "compile": "tsc",
+    "mkdir": "mkdir -p build/lib/commonjs/ask-sdk-local-debug",
+    "copy-pkg": "cp package.json build/lib/commonjs/ask-sdk-local-debug/",
+    "copy-dist": "cp -r dist build/lib/commonjs/ask-sdk-local-debug/",
+    "copy-src": "cp -r lib build/lib/commonjs/ask-sdk-local-debug/",
+    "copy-tst": "cp -r tst build/lib/commonjs/ask-sdk-local-debug/",
+    "copy": "npm run mkdir && npm run copy-pkg && npm run copy-src && npm run copy-dist",
+    "cleanup": "rm -rf dist",
+    "start": "npm run lint && npm run cleanup && npm run compile && npm run copy",
+    "release": "npm run start",
+    "pack": "npm run release && npm pack"
+  },
+  "author": "Amazon.com",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/node": "^14.0.10",
+    "@types/ws": "^7.2.4",
+    "@types/yargs": "^15.0.5",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
+    "ask-sdk-model": "^1.28.1",
+    "ask-sdk-core": "^2.8.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-json": "^2.1.1",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "prettier": "^2.0.5",
+    "eslint": "^6.8.0",
+    "ts-node": "^8.10.2",
+    "tsc-watch": "^4.2.3",
+    "typescript": "^3.9.5"
+  },
+  "dependencies": {
+    "ws": "^7.3.0",
+    "yargs": "^15.3.1"
+  }
+}

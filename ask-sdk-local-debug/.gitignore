@@ -1,0 +1,11 @@
+coverage/
+dist/
+doc/
+node_modules/
+package-lock.json
+.DS_Store
+.idea/
+.vscode/
+build
+package/
+*.tgz
