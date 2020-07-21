@@ -9,7 +9,7 @@ ASK SDK Local Debug is a package which enables you to test your skill code local
 
 ## Installation
 
-In your skill code folder, install the following dependencies along with rest of the dependencies in your package.json
+In your skill code folder (e.g. `lambda`), install the following dependencies along with rest of the dependencies in your package.json
 ```
 `npm install --save ask-sdk-model@^1.28.1
 ``npm install --save-dev ask-sdk-local-debug
