@@ -1,0 +1,10 @@
+coverage/
+doc/
+src/
+node_modules/
+test/
+package-lock.json
+tsconfig.json
+ide/
+.nyc_output
+.eslintrc.json

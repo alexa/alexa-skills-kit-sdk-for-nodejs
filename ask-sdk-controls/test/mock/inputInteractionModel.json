@@ -1,0 +1,24 @@
+{
+    "interactionModel": {
+      "languageModel": {
+        "invocationName": "mock skill",
+        "intents": [
+          {
+            "name": "AMAZON.CancelIntent",
+            "samples": []
+          },
+          {
+            "name": "HelloWorldIntent",
+            "slots": [],
+            "samples": [
+              "sample one",
+              "sample two"
+            ]
+          }
+        ],
+        "types": []
+      },
+      "prompts": []
+    }
+  }
+  
