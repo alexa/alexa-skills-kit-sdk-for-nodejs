@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.8.0...v2.9.0) (2020-07-22)
+
+
+### Bug Fixes
+
+* add chai as runtime dependency and add changelog ([dffba0f](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/dffba0f2ef2b0928ce90339586609507aea14209))
+* change return type to CustomSmapiClientBuilder to fix casting issue ([#625](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/625)) ([3243768](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/324376875a908dbc205e28abddabcbc7a945e168))
+* general fix on some typo and lint issues ([#633](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/633)) ([11ce407](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/11ce407b7c52f4365d9d92b4358c50c9885a8a73))
+* remove readme from api doc ([655f94f](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/655f94f35b6260703d9161bb5098f1f736166d07))
+* removing jsonpath dependency for ask-smapi-sdk([#624](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/624)) ([19c3cc1](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/19c3cc11a51b66ba5fcfa0c90be4c8b2b396d9b0))
+* typo in readme for configure client code in ask-smapi-sdk ([#631](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/631)) ([10cf6d6](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/10cf6d615c5046825ee3bdc2edf524290212a597))
+
+
+### Features
+
+* add a defaultAttributes parameter in getPersistentAttributes ([#626](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/626)) ([5372544](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/5372544892079994978ff317dc580b2d9c4d220c))
+* add ask-sdk-controls package ([fb7387c](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/fb7387cda25578102e3aee85c8a66655a7442f97))
+* add ask-sdk-local-debug package ([a7c22a9](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/a7c22a965362b3173ce123d8e67d0f8b424c3b15))
+* add support for custom lwa endpoint ([#617](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/617)) ([839f4ae](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/839f4ae3904bb538c5dbedd2fddbfdde5d6a2f66))
+
+
+
+
+
 # [2.8.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.7.0...v2.8.0) (2020-04-01)
 
 

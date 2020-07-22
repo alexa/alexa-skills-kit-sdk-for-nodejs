@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.8.0...v2.9.0) (2020-07-22)
+
+
+### Bug Fixes
+
+* general fix on some typo and lint issues ([#633](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/633)) ([11ce407](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/11ce407b7c52f4365d9d92b4358c50c9885a8a73))
+
+
+### Features
+
+* add a defaultAttributes parameter in getPersistentAttributes ([#626](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/626)) ([5372544](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/5372544892079994978ff317dc580b2d9c4d220c))
+
+
+
+
+
 # [2.8.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.7.0...v2.8.0) (2020-04-01)
 
 
