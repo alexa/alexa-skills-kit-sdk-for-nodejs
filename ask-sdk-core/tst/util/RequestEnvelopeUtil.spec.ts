@@ -13,7 +13,9 @@
 
 import {
     IntentRequest,
+    ListSlotValue,
     RequestEnvelope,
+    SimpleSlotValue,
     Slot,
 } from 'ask-sdk-model';
 import { expect } from 'chai';
@@ -26,8 +28,10 @@ import {
     getLocale,
     getRequest,
     getRequestType,
+    getSimpleSlotValues,
     getSlot,
     getSlotValue,
+    getSlotValueV2,
     getSupportedInterfaces,
     getUserId,
     isNewSession,
@@ -69,6 +73,27 @@ describe('RequestEnvelopeUtils', () => {
 
     const requestEnvelopeWithNoDevice : RequestEnvelope = JsonProvider.requestEnvelope();
     delete requestEnvelopeWithNoDevice.context.System.device;
+
+    const nestedSimpleSlotValue : SimpleSlotValue = {
+        type: 'Simple',
+        value: 'nested simple slot',
+    };
+    const nestedListSlotValue : ListSlotValue = { type: 'List', values: [nestedSimpleSlotValue] };
+    const simpleSlot : Slot = JsonProvider.slot();
+    simpleSlot.value = 'mockSlotValue';
+    simpleSlot.name = 'mockSlot';
+    simpleSlot.slotValue = {
+        type: 'Simple',
+        value: 'test',
+    };
+
+    const listSlot : Slot = JsonProvider.slot();
+    listSlot.value = 'mockSlotValue';
+    listSlot.name = 'mockSlot';
+    listSlot.slotValue = {
+        type: 'List',
+        values: [simpleSlot.slotValue, nestedListSlotValue],
+    };
 
     it('should be able to get locale', () => {
         expect(getLocale(requestEnvelope)).eq('en-US');
@@ -172,6 +197,53 @@ describe('RequestEnvelopeUtils', () => {
 
     it('should be able to get slot value', () => {
         expect(getSlotValue(intentRequestEnvelope, 'mockSlot')).eq('mockSlotValue');
+    });
+
+    it('getSimpleSlotValues should be able to get single SimpleSlotValues', () => {
+
+        const slotValues = getSimpleSlotValues(simpleSlot.slotValue);
+        expect(slotValues).deep.eq([simpleSlot.slotValue]);
+    });
+
+    it('getSimpleSlotValues should return empty array when slotValue.values is null', () => {
+
+        const emptyListSlotValue : ListSlotValue = { type: 'List', values: null };
+        const slotValues = getSimpleSlotValues(emptyListSlotValue);
+        expect(slotValues).deep.eq([]);
+    });
+
+    it('getSimpleSlotValues should return empty array when slotValue.type is invalid', () => {
+
+        const emptyListSlotValue = { type: 'Invalid', values: [simpleSlot.slotValue] };
+        const slotValues = getSimpleSlotValues(emptyListSlotValue as ListSlotValue);
+        expect(slotValues).deep.eq([]);
+    });
+
+    it('getSimpleSlotValues should be able to get all nested SimpleSlotValues', () => {
+        const requestWithSimpleSlotValue = { ...intentRequestEnvelope };
+        (requestWithSimpleSlotValue.request as IntentRequest).intent.slots = {
+            mockSlot: listSlot,
+        };
+        const slotValues = getSimpleSlotValues(listSlot.slotValue);
+        expect(slotValues).deep.eq([simpleSlot.slotValue, nestedSimpleSlotValue]);
+    });
+
+    it('getSlotValueV2 should return null when slotName is not match', () => {
+        const requestWithSimpleSlotValue = { ...intentRequestEnvelope };
+        (requestWithSimpleSlotValue.request as IntentRequest).intent.slots = {
+            mockSlot: listSlot,
+        };
+        const slotValue = getSlotValueV2(intentRequestEnvelope, 'invalidSlotName');
+        expect(slotValue).deep.eq(null);
+    });
+
+    it('getSlotValueV2 should be able to get SlotValue object', () => {
+        const requestWithSimpleSlotValue = { ...intentRequestEnvelope };
+        (requestWithSimpleSlotValue.request as IntentRequest).intent.slots = {
+            mockSlot: listSlot,
+        };
+        const slotValue = getSlotValueV2(intentRequestEnvelope, 'mockSlot');
+        expect(slotValue).deep.eq(listSlot.slotValue);
     });
 
     it('should throw an error if trying to get slot value of non existent slot', () => {
