@@ -14,7 +14,7 @@ npm install --save-dev ask-sdk-local-debug
 
 ## Configuration
 
-### Using with Alexa SKills Toolkit for VS Code
+### Using with Alexa Skills Toolkit for VS Code
 
 The [Alexa Skills Toolkit for Visual Studio](https://developer.amazon.com/en-US/docs/alexa/ask-toolkit/get-started-with-the-ask-toolkit-for-visual-studio-code.html) offers integrated support for local debugging. To get started, please review our technical documentation on how to [Test your local Alexa skill](https://developer.amazon.com/en-US/docs/alexa/ask-toolkit/vs-code-ask-skills.html#test) using VS Code.
 
