@@ -7,11 +7,11 @@
 
 *[English](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/blob/2.0.x/README.md) | [日本語](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/blob/2.0.x/README.ja.md)*
 
-The ASK SDK v2 for Node.js makes it easier for you to build highly engaging skills by allowing you to spend more time on implementing features and less on writing boilerplate code.
+The **ASK SDK v2 for Node.js** makes it easier for you to build highly engaging skills by allowing you to spend more time on implementing features and less on writing boilerplate code.
 
-The ASK SMAPI SDK for Node.js provides developers a library for easily interacting
-with all Skill Management APIs (SMAPI), including interaction model, intent request
-history, and in-skill purchasing APIs.
+The [**ASK SDK Controls Framework (Beta)**](./ask-sdk-controls) builds on the ASK SDK v2 for Node.js, providing a scalable solution for creating large, multi-turn skills in code with reusable components called *controls*.
+
+The **ASK SMAPI SDK for Node.js** provides developers a library for easily interacting with all Skill Management APIs (SMAPI), including interaction model, intent request history, and in-skill purchasing APIs.
 
 ## Package Versions
 
@@ -24,7 +24,9 @@ history, and in-skill purchasing APIs.
 |[ask-sdk-s3-persistence-adapter](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-s3-persistence-adapter)| [![npm](https://img.shields.io/npm/v/ask-sdk-s3-persistence-adapter.svg)](https://www.npmjs.com/package/ask-sdk-s3-persistence-adapter) [![npm](https://img.shields.io/npm/dt/ask-sdk-s3-persistence-adapter.svg)](https://www.npmjs.com/package/ask-sdk-s3-persistence-adapter)|
 |[ask-sdk-v1adapter](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-v1adapter)|[![npm](https://img.shields.io/npm/v/ask-sdk-v1adapter.svg)](https://www.npmjs.com/package/ask-sdk-v1adapter) [![npm](https://img.shields.io/npm/dt/ask-sdk-v1adapter.svg)](https://www.npmjs.com/package/ask-sdk-v1adapter)|
 |[ask-sdk-express-adapter](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-express-adapter)|[![npm](https://img.shields.io/npm/v/ask-sdk-express-adapter.svg)](https://www.npmjs.com/package/ask-sdk-express-adapter) [![npm](https://img.shields.io/npm/dt/ask-sdk-express-adapter.svg)](https://www.npmjs.com/package/ask-sdk-express-adapter)|
-|[ask-smapi-sdk](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-smapi-sdk)| [![npm](https://img.shields.io/npm/v/ask-smapi-sdk.svg)](https://www.npmjs.com/package/ask-smapi-sdk) [![npm](https://img.shields.io/npm/dt/ask-sampi-sdk.svg)](https://www.npmjs.com/package/ask-smapi-sdk)|
+|[ask-smapi-sdk](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-smapi-sdk)| [![npm](https://img.shields.io/npm/v/ask-smapi-sdk.svg)](https://www.npmjs.com/package/ask-smapi-sdk) [![npm](https://img.shields.io/npm/dt/ask-smapi-sdk.svg)](https://www.npmjs.com/package/ask-smapi-sdk)|
+|[ask-sdk-controls](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-controls)| [![npm](https://img.shields.io/npm/v/ask-sdk-controls.svg)](https://www.npmjs.com/package/ask-sdk-controls) [![npm](https://img.shields.io/npm/dt/ask-sdk-controls.svg)](https://www.npmjs.com/package/ask-sdk-controls)|
+|[ask-sdk-local-debug](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-local-debug)| [![npm](https://img.shields.io/npm/v/ask-sdk-local-debug.svg)](https://www.npmjs.com/package/ask-sdk-local-debug) [![npm](https://img.shields.io/npm/dt/ask-sdk-local-debug.svg)](https://www.npmjs.com/package/ask-sdk-local-debug)|
 
 ## Alexa Features Supported by SDK
 
@@ -68,6 +70,9 @@ The SDK works on model classes rather than native Alexa JSON requests and respon
 ### [Hello World](https://github.com/alexa/skill-sample-nodejs-hello-world)
 Sample that familiarizes you with the Alexa Skills Kit and AWS Lambda by allowing you to hear a response from Alexa when you trigger the sample.
 
+### [Hello World (Controls framework)](https://github.com/alexa/skill-sample-controls-hello-world)
+Sample that familiarizes you with the Controls framework, allowing you to hear a response from Alexa when you trigger the skill.
+
 ### [Fact](https://github.com/alexa/skill-sample-nodejs-fact)
 Template for a basic fact skill. You’ll provide a list of interesting facts about a topic, Alexa will select a fact at random and tell it to the user when the skill is invoked.
 
@@ -91,6 +96,9 @@ Template for a basic high-low game skill. When the user guesses a number, Alexa 
 
 ### [Decision Tree](https://github.com/alexa/skill-sample-nodejs-decision-tree)
 Template for a basic decision tree skill. Alexa asks the user a series of questions to get to a career suggestion.
+
+### [Fruit Shop (Controls framework)](https://github.com/alexa/skill-sample-controls-fruit-shop)
+Build a multi-modal grocery shopping skill using custom and library controls for item lists, shopping cart management, and checkout.
 
 ### [Device Address API](https://github.com/alexa/skill-sample-node-device-address-api)
 Sample skill that shows how to request and access the configured address in the user’s device settings.
