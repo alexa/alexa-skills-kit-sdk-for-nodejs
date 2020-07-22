@@ -183,6 +183,12 @@ export interface ResponseBuilder {
      */
     addDirective(directive : Directive) : this;
     /**
+     * Helper method for adding Api response in the response
+     * @param {any} apiResponse
+     * @returns {ResponseBuilder}
+     */
+    withApiResponse(apiResponse : any) : this;
+    /**
      * Returns the response object
      * @returns {Response}
      */

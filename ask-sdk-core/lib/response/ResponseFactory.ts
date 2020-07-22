@@ -338,6 +338,11 @@ export class ResponseFactory {
 
                 return this;
             },
+            withApiResponse(apiResponse : any) : ResponseBuilder {
+                response.apiResponse = apiResponse;
+
+                return this;
+            },
             getResponse() : Response {
                 return response;
             },

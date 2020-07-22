@@ -494,7 +494,7 @@ describe('ResponseFactory', () => {
         const textContent = new RichTextContentHelper()
             .withPrimaryText('primary text')
             .withSecondaryText('secondary text')
-            .withTertiaryText('teritiary text')
+            .withTertiaryText('tertiary text')
             .getTextContent();
 
         const displayTemplate : BodyTemplate1 = {
@@ -531,7 +531,7 @@ describe('ResponseFactory', () => {
                                 type : 'RichText',
                             },
                             tertiaryText : {
-                                text : 'teritiary text',
+                                text : 'tertiary text',
                                 type : 'RichText',
                             },
                         },
@@ -742,7 +742,7 @@ describe('ResponseFactory', () => {
         const textContent = new RichTextContentHelper()
             .withPrimaryText('primary text')
             .withSecondaryText('secondary text')
-            .withTertiaryText('teritiary text')
+            .withTertiaryText('tertiary text')
             .getTextContent();
 
         const displayTemplate : BodyTemplate1 = {
@@ -790,7 +790,7 @@ describe('ResponseFactory', () => {
                                 type : 'RichText',
                             },
                             tertiaryText : {
-                                text : 'teritiary text',
+                                text : 'tertiary text',
                                 type : 'RichText',
                             },
                         },
@@ -830,6 +830,21 @@ describe('ResponseFactory', () => {
             })
             .speak(speechOutput)
             .reprompt(speechOutput)
+            .getResponse()).to.deep.equals(expectResponse);
+    });
+
+    it('should build response with apiResponse', () => {
+        const responseBuilder : ResponseBuilder = ResponseFactory.init();
+        const apiResponse = {
+            test: {
+                title: 'this is a test apiResponse',
+            },
+        };
+        const expectResponse = {
+            apiResponse,
+        };
+        expect(responseBuilder
+            .withApiResponse(apiResponse)
             .getResponse()).to.deep.equals(expectResponse);
     });
 });

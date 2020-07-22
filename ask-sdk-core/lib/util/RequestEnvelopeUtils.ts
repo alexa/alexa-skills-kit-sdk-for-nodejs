@@ -13,10 +13,13 @@
 
 import {
     IntentRequest,
+    ListSlotValue,
     Request,
     RequestEnvelope,
     Session,
+    SimpleSlotValue,
     Slot,
+    SlotValue,
     SupportedInterfaces,
 } from 'ask-sdk-model';
 import { createAskSdkError } from 'ask-sdk-runtime';
@@ -211,6 +214,49 @@ export function getSlotValue(requestEnvelope : RequestEnvelope, slotName : strin
     throw createAskSdkError(
         'RequestEnvelopeUtils',
         `Expecting request type of IntentRequest but got ${getRequestType(requestEnvelope)}.`);
+}
+
+/**
+ * Returns the SlotValue from the given {@link Slot} in the request.
+ *
+ * SlotValue will exist for slots using multiple slot value feature. And this method attempts to retrieve the requested {@link Slot}'s SlotValue from the incoming request.
+ * If the slot or slot.slotValue does not exist in the request, null will be returned.
+ *
+ * @param {RequestEnvelope} requestEnvelope
+ * @param {string} slotName
+ * @return {SlotValue}
+ */
+export function getSlotValueV2(requestEnvelope : RequestEnvelope, slotName : string) : SlotValue {
+    const slot = getSlot(requestEnvelope, slotName);
+    if (slot && slot.slotValue) {
+        return slot.slotValue;
+    }
+
+    return null;
+}
+
+/**
+ * Returns all the SimpleSlotValues from the given {@link SlotValue}.
+ * @param {SlotValue} slotValue
+ * @return {SimpleSlotValue[]}
+ */
+export function getSimpleSlotValues(slotValue : SlotValue) : SimpleSlotValue[] {
+
+    // If the given slotValue type is SimpleSlotValue, directly return slotValue in an array
+    if (slotValue.type === 'Simple') {
+        return [slotValue as SimpleSlotValue];
+    }
+
+    // If the given slotValue type is ListSlotValue
+    // Loop all the SlotValues and retrieve simpleSlotValues recursively
+    if (slotValue.type === 'List' && slotValue.values) {
+        return slotValue.values.reduce(
+            (simpleSlotValues, value) => simpleSlotValues.concat(getSimpleSlotValues(value)),
+            [],
+        );
+    }
+
+    return [];
 }
 
 /**
