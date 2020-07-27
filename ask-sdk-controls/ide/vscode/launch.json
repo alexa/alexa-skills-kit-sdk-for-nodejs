@@ -15,7 +15,7 @@
                 "--colors",
                 "-r",
                 "ts-node/register",
-                "${workspaceFolder}/test/**/*.spec.ts"
+                "${workspaceFolder}/test/**/*.spec.ts" // (macOS) wrapping the content with \" may be necessary.
             ],
             "env": {
                 //"DEBUG": "error:*, warn:*, info:*"  // uncomment for logs
