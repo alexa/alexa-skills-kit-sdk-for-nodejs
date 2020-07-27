@@ -212,6 +212,10 @@ export class ControlResponseBuilder implements ResponseBuilder {
         this.coreBuilder.addVideoAppLaunchDirective(source, title, subtitle);
         return this;
     }
+    withApiResponse(apiResponse: any): this {
+        this.coreBuilder.withApiResponse(apiResponse);
+        return this;
+    }
     withCanFulfillIntent(canFulfillIntent: canfulfill.CanFulfillIntent): this {
         this.coreBuilder.withCanFulfillIntent(canFulfillIntent);
         return this;
