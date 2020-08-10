@@ -14,7 +14,7 @@ Learn more about SMAPI by reviewing the SMAPI [documentation](https://developer.
 
 1. Create a new security profile for your Amazon Developer account by following the instructions provided [here](https://developer.amazon.com/docs/smapi/ask-cli-command-reference.html#generate-lwa-tokens).
 This will generate `Client ID` and `Client Secret` keys.
-2. Using the ASK CLI, run: `ask util generate-lwa-tokens`. You will be asked to provide the `Client ID` and `Client Secret` keys from the previous step. 
+2. Using the ASK CLI, run: `ask util generate-lwa-tokens --client-id <Client ID> --client-confirmation <Client Secrect>`. Replace the `<Client ID>` and` <Client Secrect>` with the `Client ID` and `Client Secret` keys from the previous step. 
 This will return the following JSON with a `Refresh Token`:
 
 
