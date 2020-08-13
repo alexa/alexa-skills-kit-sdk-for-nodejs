@@ -7,21 +7,19 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Run tests (LOG=info)",
-            //"preLaunchTask": // use $npm run watch for continuous compilation
+            "name": "Run tests (INFO)",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "args": [
-                "--require",
-                "source-map-support/register",
                 "--timeout",
                 "999999",
                 "--colors",
-                "\"${workspaceFolder}/dist/test/**/*.spec.js\""
+                "-r",
+                "ts-node/register",
+                "${workspaceFolder}/test/**/*.spec.ts" // (macOS) wrapping the content with \" may be necessary.
             ],
             "env": {
-                "DEBUG": "error:*, warn:*, info:*" // debug:*
+                //"DEBUG": "error:*, warn:*, info:*"  // uncomment for logs
             },
-            "showAsyncStacks": true,
             "smartStep": true,
             "skipFiles": [
                 "node_modules/**",
