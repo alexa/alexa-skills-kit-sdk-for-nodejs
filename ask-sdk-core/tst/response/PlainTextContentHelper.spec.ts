@@ -44,7 +44,7 @@ describe('PlainTextContentHelper', () => {
             .withSecondaryText(secondary)
             .withTertiaryText(tertiary)
             .getTextContent())
-        .to.deep.equals(expectTextContent);
+            .to.deep.equals(expectTextContent);
     });
 
     it('should build richText content with primary text', () => {
@@ -57,7 +57,7 @@ describe('PlainTextContentHelper', () => {
         };
 
         expect(plainTextContentHelper.withPrimaryText(primary).getTextContent())
-        .to.deep.equals(expectTextContent);
+            .to.deep.equals(expectTextContent);
     });
 
     it('should build richText content with optional text', () => {
@@ -78,6 +78,6 @@ describe('PlainTextContentHelper', () => {
             .withSecondaryText(secondary)
             .withTertiaryText(tertiary)
             .getTextContent())
-        .to.deep.equals(expectTextContent);
+            .to.deep.equals(expectTextContent);
     });
 });

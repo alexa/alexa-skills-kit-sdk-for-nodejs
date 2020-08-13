@@ -12,9 +12,9 @@
  */
 
 import {
-     canfulfill,
-     interfaces,
- } from 'ask-sdk-model';
+    canfulfill,
+    interfaces
+} from 'ask-sdk-model';
 import { expect } from 'chai';
 import { ImageHelper } from '../../lib/response/ImageHelper';
 import { ResponseBuilder } from '../../lib/response/ResponseBuilder';
@@ -33,11 +33,11 @@ describe('ResponseFactory', () => {
         const responseBuilder : ResponseBuilder = ResponseFactory.init();
         const speechOutput = 'HelloWorld!';
         const expectResponse = {
-                    outputSpeech: {
-                        ssml: '<speak>' + speechOutput + '</speak>',
-                        type: 'SSML',
-                    },
-            };
+            outputSpeech: {
+                ssml: `<speak>${ speechOutput }</speak>`,
+                type: 'SSML',
+            },
+        };
 
         expect(responseBuilder.speak(speechOutput).getResponse()).to.deep.equal(expectResponse);
     });
@@ -46,12 +46,12 @@ describe('ResponseFactory', () => {
         const responseBuilder : ResponseBuilder = ResponseFactory.init();
         const speechOutput = 'HelloWorld!';
         const expectResponse = {
-                    outputSpeech: {
-                        ssml: '<speak>' + speechOutput + '</speak>',
-                        type: 'SSML',
-                        playBehavior : 'ENQUEUE',
-                    },
-            };
+            outputSpeech: {
+                ssml: `<speak>${ speechOutput }</speak>`,
+                type: 'SSML',
+                playBehavior : 'ENQUEUE',
+            },
+        };
 
         expect(responseBuilder.speak(speechOutput, 'ENQUEUE').getResponse()).to.deep.equal(expectResponse);
     });
@@ -89,14 +89,14 @@ describe('ResponseFactory', () => {
         const responseBuilder : ResponseBuilder = ResponseFactory.init();
         const speechOutput = 'HelloWorld!';
         const expectResponse = {
-                reprompt : {
-                    outputSpeech: {
-                        ssml: '<speak>' + speechOutput + '</speak>',
-                        type: 'SSML',
-                    },
+            reprompt : {
+                outputSpeech: {
+                    ssml: `<speak>${ speechOutput }</speak>`,
+                    type: 'SSML',
                 },
-                shouldEndSession : false,
-            };
+            },
+            shouldEndSession : false,
+        };
 
         expect(responseBuilder.reprompt(speechOutput).getResponse()).to.deep.equal(expectResponse);
     });
@@ -105,15 +105,15 @@ describe('ResponseFactory', () => {
         const responseBuilder : ResponseBuilder = ResponseFactory.init();
         const speechOutput = 'HelloWorld!';
         const expectResponse = {
-                reprompt : {
-                    outputSpeech: {
-                        ssml: '<speak>' + speechOutput + '</speak>',
-                        type: 'SSML',
-                        playBehavior : 'ENQUEUE',
-                    },
+            reprompt : {
+                outputSpeech: {
+                    ssml: `<speak>${ speechOutput }</speak>`,
+                    type: 'SSML',
+                    playBehavior : 'ENQUEUE',
                 },
-                shouldEndSession : false,
-            };
+            },
+            shouldEndSession : false,
+        };
 
         expect(responseBuilder.reprompt(speechOutput, 'ENQUEUE').getResponse()).to.deep.equal(expectResponse);
     });
@@ -123,12 +123,12 @@ describe('ResponseFactory', () => {
         const cardTitle = 'Card Title';
         const cardContent = 'Card Content';
         const expectResponse = {
-                card : {
-                    content : cardContent,
-                    title : cardTitle,
-                    type : 'Simple',
-                },
-            };
+            card : {
+                content : cardContent,
+                title : cardTitle,
+                type : 'Simple',
+            },
+        };
         expect(responseBuilder.withSimpleCard(cardTitle, cardContent).getResponse()).to.deep.equal(expectResponse);
     });
 
@@ -140,16 +140,16 @@ describe('ResponseFactory', () => {
         const smallImageUrl = 'https://url-to-small-card-image...';
 
         const expectResponse = {
-                card : {
-                    image: {
-                        largeImageUrl: 'https://url-to-large-card-image...',
-                        smallImageUrl: 'https://url-to-small-card-image...',
-                    },
-                    text: cardContent,
-                    title : cardTitle,
-                    type : 'Standard',
+            card : {
+                image: {
+                    largeImageUrl: 'https://url-to-large-card-image...',
+                    smallImageUrl: 'https://url-to-small-card-image...',
                 },
-            };
+                text: cardContent,
+                title : cardTitle,
+                type : 'Standard',
+            },
+        };
         const expectResponse2 = {
             card : {
                 image: {
@@ -388,31 +388,29 @@ describe('ResponseFactory', () => {
 
         const expectResponse1 = {
             directives : [
-                {   audioItem : {
-                        stream : {
-                            expectedPreviousToken : previousToken,
-                            offsetInMilliseconds : offset,
-                            token : audioToken,
-                            url : audioSource,
-                        },
+                { audioItem : {
+                    stream : {
+                        expectedPreviousToken : previousToken,
+                        offsetInMilliseconds : offset,
+                        token : audioToken,
+                        url : audioSource,
                     },
-                    playBehavior : behavior,
-                    type : 'AudioPlayer.Play',
                 },
+                  playBehavior : behavior,
+                  type : 'AudioPlayer.Play'},
             ],
         };
         const expectResponse2 = {
             directives : [
-                {   audioItem : {
-                        stream : {
-                            offsetInMilliseconds : offset,
-                            token : audioToken,
-                            url : audioSource,
-                        },
+                { audioItem : {
+                    stream : {
+                        offsetInMilliseconds : offset,
+                        token : audioToken,
+                        url : audioSource,
                     },
-                    playBehavior : behavior,
-                    type : 'AudioPlayer.Play',
                 },
+                  playBehavior : behavior,
+                  type : 'AudioPlayer.Play'},
             ],
         };
 
@@ -462,8 +460,7 @@ describe('ResponseFactory', () => {
         const responseBuilder : ResponseBuilder = ResponseFactory.init();
         const expectResponse = {
             directives : [
-                {   type : 'AudioPlayer.Stop',
-                },
+                { type : 'AudioPlayer.Stop'},
             ],
         };
         expect(responseBuilder.addAudioPlayerStopDirective().getResponse()).to.deep.equals(expectResponse);
@@ -474,22 +471,21 @@ describe('ResponseFactory', () => {
         const behavior : ClearBehavior = 'CLEAR_ALL';
         const expectResponse = {
             directives : [
-                {   clearBehavior : behavior,
-                    type : 'AudioPlayer.ClearQueue',
-                },
+                { clearBehavior : behavior,
+                  type : 'AudioPlayer.ClearQueue'},
             ],
         };
         expect(responseBuilder.addAudioPlayerClearQueueDirective(behavior).getResponse())
-        .to.deep.equals(expectResponse);
+            .to.deep.equals(expectResponse);
     });
 
     it('should build response with rendering bodyTemplate1 directive', () => {
         const responseBuilder : ResponseBuilder = ResponseFactory.init();
 
         const backgroundImage : Image = new ImageHelper()
-                .withDescription('description')
-                .addImageInstance('https://url/to/imagesource', 'MEDIUM', 100, 100)
-                .getImage();
+            .withDescription('description')
+            .addImageInstance('https://url/to/imagesource', 'MEDIUM', 100, 100)
+            .getImage();
 
         const textContent = new RichTextContentHelper()
             .withPrimaryText('primary text')
@@ -508,44 +504,43 @@ describe('ResponseFactory', () => {
 
         const expectResponse = {
             directives : [
-                {   template : {
-                        backButton : 'VISIBLE',
-                        backgroundImage : {
-                            contentDescription : 'description',
-                            sources : [
-                                {
-                                    heightPixels : 100,
-                                    size : 'MEDIUM',
-                                    url : 'https://url/to/imagesource',
-                                    widthPixels : 100,
-                                },
-                            ],
+                { template : {
+                    backButton : 'VISIBLE',
+                    backgroundImage : {
+                        contentDescription : 'description',
+                        sources : [
+                            {
+                                heightPixels : 100,
+                                size : 'MEDIUM',
+                                url : 'https://url/to/imagesource',
+                                widthPixels : 100,
+                            },
+                        ],
+                    },
+                    textContent : {
+                        primaryText : {
+                            text : 'primary text',
+                            type : 'RichText',
                         },
-                        textContent : {
-                            primaryText : {
-                                text : 'primary text',
-                                type : 'RichText',
-                            },
-                            secondaryText : {
-                                text : 'secondary text',
-                                type : 'RichText',
-                            },
-                            tertiaryText : {
-                                text : 'tertiary text',
-                                type : 'RichText',
-                            },
+                        secondaryText : {
+                            text : 'secondary text',
+                            type : 'RichText',
                         },
-                        title : 'title',
-                        token : 'token',
-                        type : 'BodyTemplate1',
+                        tertiaryText : {
+                            text : 'tertiary text',
+                            type : 'RichText',
+                        },
+                    },
+                    title : 'title',
+                    token : 'token',
+                    type : 'BodyTemplate1',
                 },
-                    type : 'Display.RenderTemplate',
-                },
+                  type : 'Display.RenderTemplate'},
             ],
         };
 
         expect(responseBuilder.addRenderTemplateDirective(displayTemplate).getResponse())
-        .to.deep.equals(expectResponse);
+            .to.deep.equals(expectResponse);
     });
 
     it('should build response with plainText hint directive', () => {
@@ -575,9 +570,9 @@ describe('ResponseFactory', () => {
                     type : 'VideoApp.Launch',
                     videoItem : {
                         metadata : {
-                                        subtitle : mockSubtitle,
-                                        title : mockTitle,
-                                    },
+                            subtitle : mockSubtitle,
+                            title : mockTitle,
+                        },
                         source : videoSource,
                     },
                 },
@@ -590,8 +585,8 @@ describe('ResponseFactory', () => {
                     type : 'VideoApp.Launch',
                     videoItem : {
                         metadata : {
-                                        subtitle : mockSubtitle,
-                                    },
+                            subtitle : mockSubtitle,
+                        },
                         source : videoSource,
                     },
                 },
@@ -604,8 +599,8 @@ describe('ResponseFactory', () => {
                     type : 'VideoApp.Launch',
                     videoItem : {
                         metadata : {
-                                        title : mockTitle,
-                                    },
+                            title : mockTitle,
+                        },
                         source : videoSource,
                     },
                 },
@@ -623,13 +618,13 @@ describe('ResponseFactory', () => {
             ],
         };
         expect(ResponseFactory.init().addVideoAppLaunchDirective(videoSource, mockTitle, mockSubtitle).getResponse())
-        .to.deep.equals(expectResponse);
+            .to.deep.equals(expectResponse);
         expect(ResponseFactory.init().addVideoAppLaunchDirective(videoSource, undefined, mockSubtitle).getResponse())
-        .to.deep.equals(expectResponse2);
+            .to.deep.equals(expectResponse2);
         expect(ResponseFactory.init().addVideoAppLaunchDirective(videoSource, mockTitle).getResponse())
-        .to.deep.equals(expectResponse3);
+            .to.deep.equals(expectResponse3);
         expect(ResponseFactory.init().addVideoAppLaunchDirective(videoSource).getResponse())
-        .to.deep.equals(expectResponse4);
+            .to.deep.equals(expectResponse4);
     });
 
     it('should omit shouldEndSession flag if VideoApp.LaunchDirective is added', () => {
@@ -659,7 +654,7 @@ describe('ResponseFactory', () => {
         const expectResponse2 = {
             reprompt : {
                 outputSpeech: {
-                    ssml: '<speak>' + speechOutput + '</speak>',
+                    ssml: `<speak>${ speechOutput }</speak>`,
                     type: 'SSML',
                 },
             },
@@ -714,17 +709,17 @@ describe('ResponseFactory', () => {
         const cardTitle = 'Card Title';
         const cardContent = 'Card Content';
         const expectResponse = {
-                card : {
-                    content : cardContent,
-                    title : cardTitle,
-                    type : 'Simple',
-                },
-                outputSpeech: {
-                    ssml: '<speak>' + speechOutput + '</speak>',
-                    type: 'SSML',
-                },
-                shouldEndSession : false,
-            };
+            card : {
+                content : cardContent,
+                title : cardTitle,
+                type : 'Simple',
+            },
+            outputSpeech: {
+                ssml: `<speak>${ speechOutput }</speak>`,
+                type: 'SSML',
+            },
+            shouldEndSession : false,
+        };
         expect(responseBuilder
             .speak(speechOutput)
             .withSimpleCard(cardTitle, cardContent)
@@ -735,9 +730,9 @@ describe('ResponseFactory', () => {
     it('should build response with template directive and hint directive', () => {
         const speechOutput = 'HelloWorld!';
         const backgroundImage : Image = new ImageHelper()
-                .withDescription('description')
-                .addImageInstance('https://url/to/imagesource', 'MEDIUM', 100, 100)
-                .getImage()
+            .withDescription('description')
+            .addImageInstance('https://url/to/imagesource', 'MEDIUM', 100, 100)
+            .getImage()
                                                                     ;
         const textContent = new RichTextContentHelper()
             .withPrimaryText('primary text')
@@ -757,49 +752,48 @@ describe('ResponseFactory', () => {
         const hintText = 'This is plainText hint';
         const expectResponse = {
             outputSpeech: {
-                ssml: '<speak>' + speechOutput + '</speak>',
+                ssml: `<speak>${ speechOutput }</speak>`,
                 type: 'SSML',
             },
             reprompt : {
                 outputSpeech: {
-                    ssml: '<speak>' + speechOutput + '</speak>',
+                    ssml: `<speak>${ speechOutput }</speak>`,
                     type: 'SSML',
                 },
             },
             directives : [
-                {   template : {
-                        backButton : 'VISIBLE',
-                        backgroundImage : {
-                            contentDescription : 'description',
-                            sources : [
-                                {
-                                    heightPixels : 100,
-                                    size : 'MEDIUM',
-                                    url : 'https://url/to/imagesource',
-                                    widthPixels : 100,
-                                },
-                            ],
+                { template : {
+                    backButton : 'VISIBLE',
+                    backgroundImage : {
+                        contentDescription : 'description',
+                        sources : [
+                            {
+                                heightPixels : 100,
+                                size : 'MEDIUM',
+                                url : 'https://url/to/imagesource',
+                                widthPixels : 100,
+                            },
+                        ],
+                    },
+                    textContent : {
+                        primaryText : {
+                            text : 'primary text',
+                            type : 'RichText',
                         },
-                        textContent : {
-                            primaryText : {
-                                text : 'primary text',
-                                type : 'RichText',
-                            },
-                            secondaryText : {
-                                text : 'secondary text',
-                                type : 'RichText',
-                            },
-                            tertiaryText : {
-                                text : 'tertiary text',
-                                type : 'RichText',
-                            },
+                        secondaryText : {
+                            text : 'secondary text',
+                            type : 'RichText',
                         },
-                        title : 'title',
-                        token : 'token',
-                        type : 'BodyTemplate1',
+                        tertiaryText : {
+                            text : 'tertiary text',
+                            type : 'RichText',
+                        },
+                    },
+                    title : 'title',
+                    token : 'token',
+                    type : 'BodyTemplate1',
                 },
-                    type : 'Display.RenderTemplate',
-                },
+                  type : 'Display.RenderTemplate'},
                 {
                     hint : {
                         text : hintText,

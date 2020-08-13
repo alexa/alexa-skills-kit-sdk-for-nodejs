@@ -13,7 +13,7 @@
 
 import {
     Response,
-    services,
+    services
 } from 'ask-sdk-model';
 import { RuntimeConfiguration } from 'ask-sdk-runtime';
 import { PersistenceAdapter } from '../attributes/persistence/PersistenceAdapter';

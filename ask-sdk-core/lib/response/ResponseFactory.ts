@@ -18,7 +18,7 @@ import {
     Intent,
     interfaces,
     Response,
-    ui,
+    ui
 } from 'ask-sdk-model';
 import { ResponseBuilder } from './ResponseBuilder';
 import Stream = interfaces.audioplayer.Stream;
@@ -78,9 +78,9 @@ export class ResponseFactory {
             speak(speechOutput : string, playBehavior? : ui.PlayBehavior) : ResponseBuilder {
                 response.outputSpeech = {
                     type : 'SSML',
-                    ssml : '<speak>'
-                           + trimOutputSpeech(speechOutput)
-                           + '</speak>',
+                    ssml : `<speak>${
+                        trimOutputSpeech(speechOutput)
+                    }</speak>`,
                     playBehavior,
                 };
 
@@ -94,9 +94,9 @@ export class ResponseFactory {
                 response.reprompt = {
                     outputSpeech : {
                         type : 'SSML',
-                        ssml : '<speak>'
-                               + trimOutputSpeech(repromptSpeechOutput)
-                               + '</speak>',
+                        ssml : `<speak>${
+                            trimOutputSpeech(repromptSpeechOutput)
+                        }</speak>`,
                         playBehavior,
                     },
                 };
@@ -319,9 +319,9 @@ export class ResponseFactory {
                 return this;
             },
             withCanFulfillIntent(canFulfillIntent : CanFulfillIntent) : ResponseBuilder {
-                 response.canFulfillIntent = canFulfillIntent;
+                response.canFulfillIntent = canFulfillIntent;
 
-                 return this;
+                return this;
             },
             withShouldEndSession(val : boolean) : ResponseBuilder {
                 if (!isVideoAppLaunchDirectivePresent()) {

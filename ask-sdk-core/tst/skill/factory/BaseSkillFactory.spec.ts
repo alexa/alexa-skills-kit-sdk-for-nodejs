@@ -13,7 +13,7 @@
 
 import {
     IntentRequest,
-    ui,
+    ui
 } from 'ask-sdk-model';
 import { expect } from 'chai';
 import { HandlerInput } from '../../../lib/dispatcher/request/handler/HandlerInput';
@@ -25,20 +25,14 @@ import { MockAlwaysFalseRequestHandler } from '../../mocks/request/MockAlwaysFal
 import { MockAlwaysTrueRequestHandler } from '../../mocks/request/MockAlwaysTrueRequestHandler';
 
 describe('BaseSkillFactory', () => {
-    it('should be able to add single request handler using matcher and executor', async() => {
+    it('should be able to add single request handler using matcher and executor', async () => {
         const skill = BaseSkillFactory.init()
             .addRequestHandler(
                 'LaunchRequest',
-                ({responseBuilder} : HandlerInput) => {
-                return responseBuilder.speak('In LaunchRequest').getResponse();
-            })
+                ({responseBuilder} : HandlerInput) => responseBuilder.speak('In LaunchRequest').getResponse())
             .addRequestHandler(
-                ({requestEnvelope} : HandlerInput) => {
-                    return (<IntentRequest> requestEnvelope.request).intent.name === 'HelloWorldIntent';
-                },
-                ({responseBuilder} : HandlerInput) => {
-                    return responseBuilder.speak('In HelloWorldIntent').getResponse();
-                })
+                ({requestEnvelope} : HandlerInput) => (<IntentRequest> requestEnvelope.request).intent.name === 'HelloWorldIntent',
+                ({responseBuilder} : HandlerInput) => responseBuilder.speak('In HelloWorldIntent').getResponse())
             .create();
 
         const LaunchRequestEnvelope = JsonProvider.requestEnvelope();
@@ -74,9 +68,7 @@ describe('BaseSkillFactory', () => {
     it('should thrown an error if request handler matcher is invalid', () => {
         try {
             BaseSkillFactory.init()
-                .addRequestHandler(true as any, (input : HandlerInput) => {
-                    return input.responseBuilder.speak('Hello!').getResponse();
-                })
+                .addRequestHandler(true as any, (input : HandlerInput) => input.responseBuilder.speak('Hello!').getResponse())
                 .create();
         } catch (error) {
             expect(error.message).equal('Incompatible matcher type: boolean');
@@ -87,7 +79,7 @@ describe('BaseSkillFactory', () => {
         throw new Error('should have thrown an error!');
     });
 
-    it('should be able to add multiple request handlers', async() => {
+    it('should be able to add multiple request handlers', async () => {
         const skill = BaseSkillFactory.init()
             .addRequestHandlers(
                 new MockAlwaysFalseRequestHandler(),
@@ -103,13 +95,11 @@ describe('BaseSkillFactory', () => {
             .equal('<speak>Request received at MockAlwaysTrueRequestHandler.</speak>');
     });
 
-    it('should be able to add multiple request interceptors with either object or function', async() => {
+    it('should be able to add multiple request interceptors with either object or function', async () => {
         const skill = BaseSkillFactory.init()
             .addRequestHandler(
                 'LaunchRequest',
-                (input : HandlerInput) => {
-                    return input.responseBuilder.speak('Hello').getResponse();
-                },
+                (input : HandlerInput) => input.responseBuilder.speak('Hello').getResponse(),
             )
             .addRequestInterceptors(
                 {
@@ -162,9 +152,7 @@ describe('BaseSkillFactory', () => {
     it('should thrown an error if request interceptor is invalid', () => {
         try {
             BaseSkillFactory.init()
-                .addRequestHandler('LaunchRequest', (input : HandlerInput) => {
-                    return input.responseBuilder.speak('Hello!').getResponse();
-                })
+                .addRequestHandler('LaunchRequest', (input : HandlerInput) => input.responseBuilder.speak('Hello!').getResponse())
                 .addRequestInterceptors(true as any)
                 .create();
         } catch (error) {
@@ -176,11 +164,9 @@ describe('BaseSkillFactory', () => {
         throw new Error('should have thrown an error!');
     });
 
-    it('should be able to add multiple response interceptors with either object or function', async() => {
+    it('should be able to add multiple response interceptors with either object or function', async () => {
         const skill = BaseSkillFactory.init()
-            .addRequestHandler('LaunchRequest', (input : HandlerInput) => {
-                return input.responseBuilder.speak('Hello').getResponse();
-            })
+            .addRequestHandler('LaunchRequest', (input : HandlerInput) => input.responseBuilder.speak('Hello').getResponse())
             .addResponseInterceptors(
                 {
                     process : (input) => {
@@ -232,9 +218,7 @@ describe('BaseSkillFactory', () => {
     it('should thrown an error if response interceptor is invalid', () => {
         try {
             BaseSkillFactory.init()
-                .addRequestHandler('LaunchRequest', (input : HandlerInput) => {
-                    return input.responseBuilder.speak('Hello!').getResponse();
-                })
+                .addRequestHandler('LaunchRequest', (input : HandlerInput) => input.responseBuilder.speak('Hello!').getResponse())
                 .addResponseInterceptors(true as any)
                 .create();
         } catch (error) {
@@ -246,15 +230,11 @@ describe('BaseSkillFactory', () => {
         throw new Error('should have thrown an error!');
     });
 
-    it('should be able to add single error handle using matcher and executor', async() => {
+    it('should be able to add single error handle using matcher and executor', async () => {
         const skill = BaseSkillFactory.init()
             .addErrorHandler(
-                (input, error) => {
-                    return error.message === `Unable to find a suitable request handler.`;
-                },
-                (input, error) => {
-                    return input.responseBuilder.speak('In ErrorHandler').getResponse();
-                },
+                (input, error) => error.message === `Unable to find a suitable request handler.`,
+                (input, error) => input.responseBuilder.speak('In ErrorHandler').getResponse(),
             )
             .create();
 
@@ -264,7 +244,7 @@ describe('BaseSkillFactory', () => {
             .equal('<speak>In ErrorHandler</speak>');
     });
 
-    it('should be able to add multiple error handlers', async() => {
+    it('should be able to add multiple error handlers', async () => {
         const skill = BaseSkillFactory.init()
             .addErrorHandlers(
                 new MockAlwaysFalseErrorHandler(),
@@ -280,7 +260,7 @@ describe('BaseSkillFactory', () => {
             .equal('<speak>AskSdk.GenericRequestDispatcher Error received at MockAlwaysTrueErrorHandler.</speak>');
     });
 
-    it('should be able to add skill id and custom user agent', async() => {
+    it('should be able to add skill id and custom user agent', async () => {
         const config = BaseSkillFactory.init()
             .withCustomUserAgent('CustomUserAgent')
             .withSkillId('testSkillId')
@@ -294,9 +274,7 @@ describe('BaseSkillFactory', () => {
         const skillLambda = BaseSkillFactory.init()
             .addRequestHandler(
                 'LaunchRequest',
-                ({responseBuilder} : HandlerInput) => {
-                    return responseBuilder.speak('In LaunchRequest').getResponse();
-                },
+                ({responseBuilder} : HandlerInput) => responseBuilder.speak('In LaunchRequest').getResponse(),
             )
             .lambda();
 

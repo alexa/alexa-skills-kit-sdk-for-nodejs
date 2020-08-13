@@ -16,7 +16,7 @@ import {
     getViewportDpiGroup,
     getViewportOrientation,
     getViewportProfile,
-    getViewportSizeGroup,
+    getViewportSizeGroup
 } from '../../lib/util/ViewportUtils';
 import { JsonProvider } from '../mocks/JsonProvider';
 

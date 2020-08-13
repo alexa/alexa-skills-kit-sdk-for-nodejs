@@ -33,10 +33,10 @@ export class AttributesManagerFactory {
 
         let thisRequestAttributes : {[key : string] : any} = {};
         let thisSessionAttributes : {[key : string] : any} = options.requestEnvelope.session
-                                                           ? options.requestEnvelope.session.attributes
-                                                             ? JSON.parse(JSON.stringify(options.requestEnvelope.session.attributes))
-                                                             : {}
-                                                           : undefined;
+            ? options.requestEnvelope.session.attributes
+                ? JSON.parse(JSON.stringify(options.requestEnvelope.session.attributes))
+                : {}
+            : undefined;
         let thisPersistentAttributes : {[key : string] : any};
         let persistentAttributesSet = false;
 

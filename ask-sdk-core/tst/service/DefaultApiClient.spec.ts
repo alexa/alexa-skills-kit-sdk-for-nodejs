@@ -17,15 +17,15 @@ import * as nock from 'nock';
 import { DefaultApiClient } from '../../lib/service/DefaultApiClient';
 
 describe('DefaultApiClient', () => {
-    const testHttpUrl : string  = 'http://dummy.com';
-    const testHttpsUrl : string  = 'https://dummy.com';
+    const testHttpUrl : string = 'http://dummy.com';
+    const testHttpsUrl : string = 'https://dummy.com';
     let apiClient : services.ApiClient;
 
     before(() => {
         apiClient = new DefaultApiClient();
     });
 
-    it('should be able to send POST request', async() => {
+    it('should be able to send POST request', async () => {
         const request : services.ApiClientRequest = {
             body : 'Test POST Message',
             headers : [
@@ -52,7 +52,7 @@ describe('DefaultApiClient', () => {
         expect(response.headers[1]).deep.equal({key : 'v1', value : 'k_2'});
     });
 
-    it('should be able to send GET request', async() => {
+    it('should be able to send GET request', async () => {
         const request : services.ApiClientRequest = {
             headers : [
                 {key : 'k1', value : 'v1'},
@@ -78,7 +78,7 @@ describe('DefaultApiClient', () => {
         expect(response.headers[1]).deep.equal({key : 'v1', value : 'k_2'});
     });
 
-    it('should be able to send DELETE request', async() => {
+    it('should be able to send DELETE request', async () => {
         const request : services.ApiClientRequest = {
             headers : [
                 {key : 'k1', value : 'v1'},
@@ -104,7 +104,7 @@ describe('DefaultApiClient', () => {
         expect(response.headers[1]).deep.equal({key : 'v1', value : 'k_2'});
     });
 
-    it('should be able to send PUT request', async() => {
+    it('should be able to send PUT request', async () => {
         const request : services.ApiClientRequest = {
             body : 'Test PUT Message',
             headers : [
@@ -130,7 +130,7 @@ describe('DefaultApiClient', () => {
         expect(response.headers[0]).deep.equal({key : 'v1', value : 'k_1'});
     });
 
-    it('should throw an error if API has returned an error', async() => {
+    it('should throw an error if API has returned an error', async () => {
         const request : services.ApiClientRequest = {
             body : 'Test PUT Message',
             headers : [

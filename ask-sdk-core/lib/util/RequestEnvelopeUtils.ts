@@ -20,7 +20,7 @@ import {
     SimpleSlotValue,
     Slot,
     SlotValue,
-    SupportedInterfaces,
+    SupportedInterfaces
 } from 'ask-sdk-model';
 import { createAskSdkError } from 'ask-sdk-runtime';
 
@@ -81,7 +81,7 @@ export function getIntentName(requestEnvelope : RequestEnvelope) : string {
  * console.log(intentRequest.intent.name)
  * ```
  */
-export function getRequest <T extends Request> (requestEnvelope : RequestEnvelope) : T {
+export function getRequest <T extends Request>(requestEnvelope : RequestEnvelope) : T {
     return requestEnvelope.request as T;
 }
 

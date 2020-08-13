@@ -88,7 +88,7 @@ describe('ImageHelper', () => {
         };
 
         expect(imageHelper.addImageInstance(imageSource1, imageSize1, width1, height1).addImageInstance(imageSource2, imageSize2, width2, height2).getImage())
-        .to.deep.equals(expectImage);
+            .to.deep.equals(expectImage);
     });
 
     it('should build an image object with optional parameters', () => {

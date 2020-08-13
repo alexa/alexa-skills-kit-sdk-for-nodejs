@@ -14,7 +14,7 @@
 import {
     IntentRequest,
     RequestEnvelope,
-    Response,
+    Response
 } from 'ask-sdk-model';
 import { RuntimeConfigurationBuilder } from 'ask-sdk-runtime';
 import { CustomSkillErrorHandler } from '../../dispatcher/error/handler/CustomSkillErrorHandler';
@@ -45,14 +45,12 @@ export class BaseSkillFactory {
             addRequestHandler(
                 matcher : ((input : HandlerInput) => Promise<boolean> | boolean) | string,
                 executor : (input : HandlerInput) => Promise<Response> | Response,
-                ) : BaseSkillBuilder {
+            ) : BaseSkillBuilder {
 
                 const canHandle = typeof matcher === 'string'
-                    ? ({ requestEnvelope } : HandlerInput) => {
-                        return matcher === (requestEnvelope.request.type === 'IntentRequest'
-                                            ? (requestEnvelope.request as IntentRequest).intent.name
-                                            : requestEnvelope.request.type);
-                    }
+                    ? ({ requestEnvelope } : HandlerInput) => matcher === (requestEnvelope.request.type === 'IntentRequest'
+                        ? (requestEnvelope.request as IntentRequest).intent.name
+                        : requestEnvelope.request.type)
                     : matcher;
 
                 runtimeConfigurationBuilder.addRequestHandler(canHandle, executor);
@@ -77,7 +75,7 @@ export class BaseSkillFactory {
             addErrorHandler(
                 matcher : (input : HandlerInput, error : Error) => Promise<boolean> | boolean,
                 executor : (input : HandlerInput, error : Error) => Promise<Response> | Response,
-                ) : BaseSkillBuilder {
+            ) : BaseSkillBuilder {
 
                 runtimeConfigurationBuilder.addErrorHandler(matcher, executor);
 

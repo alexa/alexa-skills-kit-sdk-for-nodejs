@@ -25,6 +25,7 @@ export function escapeXmlCharacters(input : string) : string {
     };
 
     const invalidXmlCharactersMappingReverse = Object.keys(invalidXmlCharactersMapping).reduce(
+        /* eslint-disable-next-line */
         (obj : object, key : string) => {
             obj[invalidXmlCharactersMapping[key]] = key;
 

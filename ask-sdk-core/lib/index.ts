@@ -43,10 +43,10 @@ export {
     ViewportOrientation,
     ViewportProfile,
     ViewportSizeGroup,
-    ViewportSizeGroupOrder,
+    ViewportSizeGroupOrder
 } from './util/ViewportUtils';
 export {
-    escapeXmlCharacters,
+    escapeXmlCharacters
 } from './util/SsmlUtils';
 export {
     getAccountLinkingAccessToken,
@@ -63,10 +63,10 @@ export {
     getSlot,
     getSlotValue,
     getSupportedInterfaces,
-    isNewSession,
+    isNewSession
 } from './util/RequestEnvelopeUtils';
 
 export {
     createAskSdkError,
-    createAskSdkUserAgent,
+    createAskSdkUserAgent
 } from 'ask-sdk-runtime';

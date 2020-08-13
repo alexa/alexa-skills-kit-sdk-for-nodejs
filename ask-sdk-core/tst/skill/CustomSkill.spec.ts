@@ -21,7 +21,7 @@ import { MockAlwaysFalseRequestHandler } from '../mocks/request/MockAlwaysFalseR
 import { MockAlwaysTrueRequestHandler } from '../mocks/request/MockAlwaysTrueRequestHandler';
 
 describe('CustomSkill', () => {
-    it('should be able to send RequestEnvelope and context to RequestDispatcher', async() => {
+    it('should be able to send RequestEnvelope and context to RequestDispatcher', async () => {
         const skill = SkillBuilders.custom()
             .addRequestHandlers(
                 new MockAlwaysTrueRequestHandler(),
@@ -41,7 +41,7 @@ describe('CustomSkill', () => {
         expect(responseEnvelope.userAgent).equal(`ask-node/${packageInfo.version} Node/${process.version}`);
     });
 
-    it('should be able to return a responseEnvelope with custom user agent', async() => {
+    it('should be able to return a responseEnvelope with custom user agent', async () => {
         const skill = SkillBuilders.custom()
             .addRequestHandlers(
                 new MockAlwaysTrueRequestHandler(),
@@ -62,7 +62,7 @@ describe('CustomSkill', () => {
             .equal('<speak>Request received at MockAlwaysTrueRequestHandler.</speak>');
     });
 
-    it('should ignore session attributes during out of session request', async() => {
+    it('should ignore session attributes during out of session request', async () => {
         const skill = SkillBuilders.custom()
             .addRequestHandlers(
                 new MockAlwaysTrueRequestHandler(),
@@ -124,7 +124,7 @@ describe('CustomSkill', () => {
             });
     });
 
-    it('should valid skill id against RequestEnvelope if skill id is set', async() => {
+    it('should valid skill id against RequestEnvelope if skill id is set', async () => {
         const skill = SkillBuilders.custom()
             .addRequestHandlers(
                 new MockAlwaysTrueRequestHandler(),
@@ -142,7 +142,7 @@ describe('CustomSkill', () => {
             .equal('<speak>Request received at MockAlwaysTrueRequestHandler.</speak>');
     });
 
-    it('should throw an error if skill id verification failed', async() => {
+    it('should throw an error if skill id verification failed', async () => {
         const skill = SkillBuilders.custom()
             .addRequestHandlers(
                 new MockAlwaysTrueRequestHandler(),
@@ -166,7 +166,7 @@ describe('CustomSkill', () => {
         throw new Error('Should have thrown an error!');
     });
 
-    it('should be able to determine if request envelope is supported type', async() => {
+    it('should be able to determine if request envelope is supported type', async () => {
         const skill = SkillBuilders.custom()
             .addRequestHandlers(
                 new MockAlwaysTrueRequestHandler(),
@@ -180,7 +180,7 @@ describe('CustomSkill', () => {
         expect(skill.supports({} as any)).eq(false);
     });
 
-    it('should be able to append additional user agent', async() => {
+    it('should be able to append additional user agent', async () => {
         const additionUserAnger : string = 'TEST_Agent';
         const packageInfo = require('../../package.json');
         const skill = SkillBuilders.custom()
@@ -198,7 +198,7 @@ describe('CustomSkill', () => {
         expect(responseEnvelope.userAgent).equal(`ask-node/${packageInfo.version} Node/${process.version} custom ${additionUserAnger}`);
     });
 
-    it('should be able to append additional user agent', async() => {
+    it('should be able to append additional user agent', async () => {
         const additionUserAnger : string = 'TEST_Agent';
         const packageInfo = require('../../package.json');
         const skill = SkillBuilders.custom()

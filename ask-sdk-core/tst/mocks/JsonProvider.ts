@@ -14,7 +14,7 @@
 import {
     Intent,
     RequestEnvelope,
-    Slot,
+    Slot
 } from 'ask-sdk-model';
 
 export const JsonProvider = {

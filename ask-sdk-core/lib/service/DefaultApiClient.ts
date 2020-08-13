@@ -88,7 +88,7 @@ export class DefaultApiClient implements ApiClient {
  */
 function arrayToObjectHeader(header : Array<{key : string, value : string}>) : {[key : string] : string[]} {
     const reducer = (obj : {[key : string] : string[]}, item : {key : string, value : string})
-        : {[key : string] : string[]} => {
+    : {[key : string] : string[]} => {
         if (obj[item.key]) {
             obj[item.key].push(item.value);
         } else {

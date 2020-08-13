@@ -21,22 +21,21 @@ export class MockAlwaysTrueRequestHandler implements CustomSkillRequestHandler {
     }
 
     public async handle(input : HandlerInput) : Promise<Response> {
-        // tslint:disable
         try {
             const sessionAttributes = input.attributesManager.getSessionAttributes();
             sessionAttributes.key = 'value';
             input.attributesManager.setSessionAttributes(sessionAttributes);
-        } catch (err) {}
+        } catch (err) {}  /* eslint-disable-line  no-empty */
 
         try {
             const persistentAttributes = await input.attributesManager.getPersistentAttributes();
             persistentAttributes.key = 'value';
             input.attributesManager.setPersistentAttributes(persistentAttributes);
-        } catch (err) {}
+        } catch (err) {}  /* eslint-disable-line  no-empty */
 
         try {
             await input.attributesManager.savePersistentAttributes();
-        } catch (err) {}
+        } catch (err) {}  /* eslint-disable-line  no-empty */
 
         return input.responseBuilder
             .speak(`Request received at ${this.constructor.name}.`)
