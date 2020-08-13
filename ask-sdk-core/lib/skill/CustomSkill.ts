@@ -15,14 +15,14 @@ import {
     RequestEnvelope,
     Response,
     ResponseEnvelope,
-    services,
+    services
 } from 'ask-sdk-model';
 import {
     createAskSdkError,
     createAskSdkUserAgent,
     GenericRequestDispatcher,
     RequestDispatcher,
-    Skill,
+    Skill
 } from 'ask-sdk-runtime';
 import { AttributesManagerFactory } from '../attributes/AttributesManagerFactory';
 import { PersistenceAdapter } from '../attributes/persistence/PersistenceAdapter';

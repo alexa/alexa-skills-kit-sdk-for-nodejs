@@ -15,7 +15,7 @@
 
 import {
     RequestEnvelope,
-    services,
+    services
 } from 'ask-sdk-model';
 import { AttributesManager } from '../../../attributes/AttributesManager';
 import { ResponseBuilder } from '../../../response/ResponseBuilder';

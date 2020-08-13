@@ -1,0 +1,35 @@
+name: Unit Test
+
+on:
+  push:
+    branches:
+    - 2.0.x
+  pull_request:
+    branches:
+    - 2.0.x
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [10, 12]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
+
+    - run: |
+        npm install
+        npm run lint
+        npm run test
+      working-directory: ask-sdk-core
+
+    - run: |
+        npm install
+        npm run lint
+        npm run test
+      working-directory: ask-sdk-controls

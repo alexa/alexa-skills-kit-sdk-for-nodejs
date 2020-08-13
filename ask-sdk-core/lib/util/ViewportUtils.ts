@@ -13,7 +13,7 @@
 
 import {
     interfaces,
-    RequestEnvelope,
+    RequestEnvelope
 } from 'ask-sdk-model';
 import { createAskSdkError } from 'ask-sdk-runtime';
 import Shape = interfaces.viewport.Shape;
@@ -64,10 +64,10 @@ export const ViewportDpiGroupOrder : ViewportDpiGroup[] = [ 'XLOW', 'LOW', 'MEDI
  */
 export function getViewportOrientation(width : number, height : number) : ViewportOrientation {
     return width > height
-           ? 'LANDSCAPE'
-           : width < height
-             ? 'PORTRAIT'
-             : 'EQUAL';
+        ? 'LANDSCAPE'
+        : width < height
+            ? 'PORTRAIT'
+            : 'EQUAL';
 }
 
 /**

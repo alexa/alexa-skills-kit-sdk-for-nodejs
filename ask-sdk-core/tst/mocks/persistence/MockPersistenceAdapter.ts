@@ -20,8 +20,8 @@ export class MockPersistenceAdapter implements PersistenceAdapter {
 
     private partitionKey : string = 'userId';
     private savedAttributes : {[key : string] : any} = {
-        key_1 : 'v1',
-        key_2 : 'v2',
+        key_1 : 'v1',  /* eslint-disable-line camelcase */
+        key_2 : 'v2',  /* eslint-disable-line camelcase */
         state : 'mockState',
     };
 

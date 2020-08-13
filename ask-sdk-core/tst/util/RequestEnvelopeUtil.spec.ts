@@ -16,7 +16,7 @@ import {
     ListSlotValue,
     RequestEnvelope,
     SimpleSlotValue,
-    Slot,
+    Slot
 } from 'ask-sdk-model';
 import { expect } from 'chai';
 import {
@@ -34,7 +34,7 @@ import {
     getSlotValueV2,
     getSupportedInterfaces,
     getUserId,
-    isNewSession,
+    isNewSession
 } from '../../lib/util/RequestEnvelopeUtils';
 import { JsonProvider } from '../mocks/JsonProvider';
 
