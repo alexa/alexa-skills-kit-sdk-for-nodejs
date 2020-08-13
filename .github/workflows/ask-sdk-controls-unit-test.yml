@@ -1,12 +1,20 @@
-name: Unit Test
+name: Unit Tests on ask-sdk-controls
 
 on:
   push:
     branches:
-    - 2.0.x
+      - 2.0.x
+    paths:
+      - 'ask-sdk-controls/**'
   pull_request:
     branches:
-    - 2.0.x
+      - 2.0.x
+    paths:
+      - 'ask-sdk-controls/**'
+
+defaults:
+  run:
+    working-directory: ask-sdk-controls
 
 jobs:
   build:
@@ -21,15 +29,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node }}
-
-    - run: |
-        npm install
-        npm run lint
-        npm run test
-      working-directory: ask-sdk-core
-
-    - run: |
-        npm install
-        npm run lint
-        npm run test
-      working-directory: ask-sdk-controls
+    - run: npm install
+    - run: npm run lint
+    - run: npm run test
