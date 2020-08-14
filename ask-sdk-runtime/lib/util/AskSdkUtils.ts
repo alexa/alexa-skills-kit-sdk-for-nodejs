@@ -19,7 +19,7 @@
  * @param {string} errorMessage
  * @returns {Error}
  */
-export function createAskSdkError(errorScope : string, errorMessage : string) : Error {
+export function createAskSdkError(errorScope: string, errorMessage: string): Error {
     const error = new Error(errorMessage);
     error.name = `AskSdk.${errorScope} Error`;
 
@@ -31,8 +31,8 @@ export function createAskSdkError(errorScope : string, errorMessage : string) : 
  * @param packageVersion
  * @param customUserAgent
  */
-export function createAskSdkUserAgent(packageVersion : string, customUserAgent : string) : string {
-    const customUserAgentString = customUserAgent ? (' ' + customUserAgent) : '';
+export function createAskSdkUserAgent(packageVersion: string, customUserAgent: string): string {
+    const customUserAgentString = customUserAgent ? (` ${ customUserAgent}`) : '';
 
-    return `ask-node/${packageVersion} Node/${process.version}` + customUserAgentString;
+    return `ask-node/${packageVersion} Node/${process.version}${ customUserAgentString}`;
 }

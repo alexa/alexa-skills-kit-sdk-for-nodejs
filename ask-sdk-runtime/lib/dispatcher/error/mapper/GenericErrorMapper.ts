@@ -18,13 +18,13 @@ import { ErrorMapper } from './ErrorMapper';
  * Generic implementation of @{link ErrorMapper}
  */
 export class GenericErrorMapper<Input, Output> implements ErrorMapper<Input, Output> {
-    protected errorHandlers : Array<ErrorHandler<Input, Output>>;
+    protected errorHandlers: Array<ErrorHandler<Input, Output>>;
 
-    constructor(options : {errorHandlers : Array<ErrorHandler<Input, Output>>}) {
+    constructor(options: {errorHandlers: Array<ErrorHandler<Input, Output>>}) {
         this.errorHandlers = options.errorHandlers;
     }
 
-    public async getErrorHandler(handlerInput : Input, error : Error) : Promise<ErrorHandler<Input, Output>> {
+    public async getErrorHandler(handlerInput: Input, error: Error): Promise<ErrorHandler<Input, Output>> {
         for (const errorHandler of this.errorHandlers) {
             if (await errorHandler.canHandle(handlerInput, error)) {
                 return errorHandler;

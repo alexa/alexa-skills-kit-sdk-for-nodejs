@@ -14,11 +14,11 @@
 import { RequestHandler } from '../../../lib/dispatcher/request/handler/RequestHandler';
 
 export class MockAlwaysFalseRequestHandler implements RequestHandler<string, string> {
-    public canHandle(input : string) : boolean {
+    public canHandle(input: string): boolean {
         return false;
     }
 
-    public handle(input : string) : string {
+    public handle(input: string): string {
         throw new Error('This line should never be reached!');
     }
 }

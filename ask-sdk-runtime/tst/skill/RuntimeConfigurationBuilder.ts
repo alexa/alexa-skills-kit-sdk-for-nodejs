@@ -19,15 +19,11 @@ import { MockAlwaysFalseRequestHandler } from '../mocks/request/MockAlwaysFalseR
 import { MockAlwaysTrueRequestHandler } from '../mocks/request/MockAlwaysTrueRequestHandler';
 
 describe('RuntimeConfigurationBuilder', () => {
-    it('should be able to add single request handler using matcher and executor', async() => {
+    it('should be able to add single request handler using matcher and executor', async () => {
         const runtimeConfiguration = new RuntimeConfigurationBuilder<string, string>()
             .addRequestHandler(
-                (input : string) => {
-                    return input === 'Test Request';
-                },
-                (input : string) => {
-                    return 'Event received';
-                },
+                (input: string) => input === 'Test Request',
+                (input: string) => 'Event received',
             )
             .getRuntimeConfiguration();
 
@@ -55,7 +51,7 @@ describe('RuntimeConfigurationBuilder', () => {
         throw new Error('should have thrown an error!');
     });
 
-    it('should be able to add multiple request handlers', async() => {
+    it('should be able to add multiple request handlers', async () => {
         const runtimeConfiguration = new RuntimeConfigurationBuilder<string, string>()
             .addRequestHandlers(
                 new MockAlwaysTrueRequestHandler(),
@@ -70,7 +66,7 @@ describe('RuntimeConfigurationBuilder', () => {
         expect(requestHandler.handle('Test request')).eq('Input(Test request) received at MockAlwaysTrueRequestHandler');
     });
 
-    it('should be able to add multiple global request interceptors with either object or function', async() => {
+    it('should be able to add multiple global request interceptors with either object or function', async () => {
         const runtimeConfiguration = new RuntimeConfigurationBuilder<string, string>()
             .addRequestHandlers(
                 new MockAlwaysTrueRequestHandler(),
@@ -78,11 +74,11 @@ describe('RuntimeConfigurationBuilder', () => {
             )
             .addRequestInterceptors(
                 {
-                    process(input : string) : void {
+                    process(input: string): void {
                         expect(input).eq('Test Request?');
                     },
                 },
-                (input : string) : void => {
+                (input: string): void => {
                     expect(input).eq('Test Request');
                 },
             )
@@ -115,7 +111,7 @@ describe('RuntimeConfigurationBuilder', () => {
         throw new Error('should have thrown an error!');
     });
 
-    it('should be able to add multiple global response interceptors with either object or function', async() => {
+    it('should be able to add multiple global response interceptors with either object or function', async () => {
         const runtimeConfiguration = new RuntimeConfigurationBuilder<string, string>()
             .addRequestHandlers(
                 new MockAlwaysTrueRequestHandler(),
@@ -123,11 +119,11 @@ describe('RuntimeConfigurationBuilder', () => {
             )
             .addResponseInterceptors(
                 {
-                    process(input : string, output : string) : void {
+                    process(input: string, output: string): void {
                         expect(input).eq('Test Request?');
                     },
                 },
-                (input : string, output : string) : void => {
+                (input: string, output: string): void => {
                     expect(input).eq('Test Request');
                 },
             )
@@ -160,15 +156,11 @@ describe('RuntimeConfigurationBuilder', () => {
         throw new Error('should have thrown an error!');
     });
 
-    it('should be able to add single error handler using matcher and executor', async() => {
+    it('should be able to add single error handler using matcher and executor', async () => {
         const runtimeConfiguration = new RuntimeConfigurationBuilder<string, string>()
             .addErrorHandler(
-                (input : string, error : Error) => {
-                    return input === 'Test Request' && error.message === 'Test Error';
-                },
-                (input : string, error : Error) => {
-                    return 'Error received';
-                },
+                (input: string, error: Error) => input === 'Test Request' && error.message === 'Test Error',
+                (input: string, error: Error) => 'Error received',
             )
             .getRuntimeConfiguration();
 
@@ -177,7 +169,7 @@ describe('RuntimeConfigurationBuilder', () => {
         expect(errorHandler.handle(null, null)).eq('Error received');
     });
 
-    it('should be able to add multiple error handlers', async() => {
+    it('should be able to add multiple error handlers', async () => {
         const runtimeConfiguration = new RuntimeConfigurationBuilder<string, string>()
             .addErrorHandlers(
                 new MockAlwaysTrueErrorHandler(),

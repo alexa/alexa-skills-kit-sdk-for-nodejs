@@ -32,7 +32,7 @@ describe('GenericRequestDispatcher', () => {
         requestHandler : new MockAlwaysFalseRequestHandler(),
     });
 
-    it('should be able to send input to correct request handler', async() => {
+    it('should be able to send input to correct request handler', async () => {
         const dispatcher = new GenericRequestDispatcher<string, string>({
             requestMappers : [
                 new GenericRequestMapper<string, string>({
@@ -50,16 +50,16 @@ describe('GenericRequestDispatcher', () => {
         expect(response).eq('Input(Test Request) received at MockAlwaysTrueRequestHandler');
     });
 
-    it('should be able to send input to interceptors and handler in correct order', async() => {
-        function interceptor(input : string) : Promise<void> {
+    it('should be able to send input to interceptors and handler in correct order', async () => {
+        function interceptor(input: string): Promise<void> {
             return;
         }
 
-        function matcher(input : string) : boolean {
+        function matcher(input: string): boolean {
             return true;
         }
 
-        function executor(input : string) : string {
+        function executor(input: string): string {
             return '';
         }
 
@@ -161,7 +161,7 @@ describe('GenericRequestDispatcher', () => {
         expect(response).eq('AskSdk.GenericRequestDispatcher Error received at MockAlwaysTrueErrorHandler');
     });
 
-    it('should throw an error if no request handler chain is found to handle the input', async() => {
+    it('should throw an error if no request handler chain is found to handle the input', async () => {
         const dispatcher = new GenericRequestDispatcher<string, string>({
             requestMappers : [
                 new GenericRequestMapper<string, string>({
@@ -196,10 +196,10 @@ describe('GenericRequestDispatcher', () => {
                 }),
             ],
             handlerAdapters : [{
-                supports(input : string) : boolean {
+                supports(input: string): boolean {
                     return false;
                 },
-                execute(input : string, handler : RequestHandler<string, string>) : string {
+                execute(input: string, handler: RequestHandler<string, string>): string {
                     return '';
                 },
             }],
@@ -217,7 +217,7 @@ describe('GenericRequestDispatcher', () => {
         throw new Error('should have thrown an error!');
     });
 
-    it('should re-throw the error if no error handler is found to handle the error', async() => {
+    it('should re-throw the error if no error handler is found to handle the error', async () => {
         const dispatcher = new GenericRequestDispatcher<string, string>({
             requestMappers : [
                 new GenericRequestMapper<string, string>({

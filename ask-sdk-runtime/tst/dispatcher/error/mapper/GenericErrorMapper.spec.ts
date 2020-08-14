@@ -17,7 +17,7 @@ import { MockAlwaysFalseErrorHandler } from '../../../mocks/error/MockAlwaysFals
 import { MockAlwaysTrueErrorHandler } from '../../../mocks/error/MockAlwaysTrueErrorHandler';
 
 describe('GenericErrorMapper', () => {
-    it('should be able to get the error handler that can handle the error', async() => {
+    it('should be able to get the error handler that can handle the error', async () => {
         const mapper = new GenericErrorMapper<string, string>({
             errorHandlers : [
                 new MockAlwaysTrueErrorHandler(),
@@ -30,7 +30,7 @@ describe('GenericErrorMapper', () => {
         expect(handler).instanceof(MockAlwaysTrueErrorHandler);
     });
 
-    it('should return null if no error handle can handle the error', async() => {
+    it('should return null if no error handle can handle the error', async () => {
         const mapper = new GenericErrorMapper<string, string>({
             errorHandlers : [
                 new MockAlwaysFalseErrorHandler(),

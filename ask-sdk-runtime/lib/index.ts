@@ -32,5 +32,5 @@ export { Skill } from './skill/Skill';
 
 export {
     createAskSdkError,
-    createAskSdkUserAgent,
+    createAskSdkUserAgent
 } from './util/AskSdkUtils';

@@ -14,11 +14,11 @@
 import { RequestHandler } from '../../../lib/dispatcher/request/handler/RequestHandler';
 
 export class MockAlwaysTrueRequestHandler implements RequestHandler<string, string> {
-    public canHandle(input : string) : boolean {
+    public canHandle(input: string): boolean {
         return true;
     }
 
-    public handle(input : string) : string {
+    public handle(input: string): string {
         return `Input(${input}) received at ${this.constructor.name}`;
     }
 }

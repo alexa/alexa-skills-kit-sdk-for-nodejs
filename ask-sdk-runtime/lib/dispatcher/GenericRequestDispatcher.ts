@@ -28,13 +28,13 @@ import { RequestDispatcher } from './RequestDispatcher';
  * @param Output generic type for the handler return value.
  */
 export class GenericRequestDispatcher<Input, Output> implements RequestDispatcher<Input, Output> {
-    protected requestMappers : Array<RequestMapper<Input, Output>>;
-    protected errorMapper : ErrorMapper<Input, Output>;
-    protected handlerAdapters : Array<HandlerAdapter<Input, Output>>;
-    protected requestInterceptors : Array<RequestInterceptor<Input>>;
-    protected responseInterceptors : Array<ResponseInterceptor<Input, Output>>;
+    protected requestMappers: Array<RequestMapper<Input, Output>>;
+    protected errorMapper: ErrorMapper<Input, Output>;
+    protected handlerAdapters: Array<HandlerAdapter<Input, Output>>;
+    protected requestInterceptors: Array<RequestInterceptor<Input>>;
+    protected responseInterceptors: Array<ResponseInterceptor<Input, Output>>;
 
-    constructor(options : RuntimeConfiguration<Input, Output>) {
+    constructor(options: RuntimeConfiguration<Input, Output>) {
         this.requestMappers = options.requestMappers;
         this.handlerAdapters = options.handlerAdapters;
         this.errorMapper = options.errorMapper;
@@ -47,8 +47,8 @@ export class GenericRequestDispatcher<Input, Output> implements RequestDispatche
      * Dispatches handlerInput to requestHandlers and error, if any, to errorHandlers
      * @param input
      */
-    public async dispatch(input : Input) : Promise<Output> {
-        let output : Output;
+    public async dispatch(input: Input): Promise<Output> {
+        let output: Output;
 
         try {
             // Execute global request interceptors
@@ -78,9 +78,9 @@ export class GenericRequestDispatcher<Input, Output> implements RequestDispatche
      * Main logic for request dispatching.
      * @param input
      */
-    protected async dispatchRequest(input : Input) : Promise<Output> {
+    protected async dispatchRequest(input: Input): Promise<Output> {
         // Get the request handler chain that can handle the request
-        let handlerChain : RequestHandlerChain<Input, Output>;
+        let handlerChain: RequestHandlerChain<Input, Output>;
         for (const requestMapper of this.requestMappers) {
             handlerChain = await requestMapper.getRequestHandlerChain(input);
 
@@ -100,7 +100,7 @@ export class GenericRequestDispatcher<Input, Output> implements RequestDispatche
         const requestInterceptors = handlerChain.getRequestInterceptors();
         const responseInterceptors = handlerChain.getResponseInterceptors();
 
-        let adapter : HandlerAdapter<Input, Output>;
+        let adapter: HandlerAdapter<Input, Output>;
         for (const handlerAdapter of this.handlerAdapters) {
             if (handlerAdapter.supports(handler)) {
                 adapter = handlerAdapter;
@@ -138,10 +138,10 @@ export class GenericRequestDispatcher<Input, Output> implements RequestDispatche
      * @param input
      * @param error
      */
-    protected async dispatchError(input : Input,
-                                  error : Error) : Promise<Output> {
+    protected async dispatchError(input: Input,
+                                  error: Error): Promise<Output> {
         if (this.errorMapper) {
-            const handler : ErrorHandler<Input, Output> = await this.errorMapper.getErrorHandler(input, error);
+            const handler: ErrorHandler<Input, Output> = await this.errorMapper.getErrorHandler(input, error);
             if (handler) {
                 return handler.handle(input, error);
             }

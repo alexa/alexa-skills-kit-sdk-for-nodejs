@@ -14,7 +14,7 @@
 import { expect } from 'chai';
 import {
     createAskSdkError,
-    createAskSdkUserAgent,
+    createAskSdkUserAgent
 } from '../../lib/util/AskSdkUtils';
 
 describe('AskSdkUtils', () => {

@@ -18,12 +18,12 @@ import { RequestHandler } from './RequestHandler';
  * Generic implementation of {@link HandlerAdapter that supports the {@link RequestHandler}}}
  */
 export class GenericHandlerAdapter<Input, Output> implements HandlerAdapter<Input, Output> {
-    public supports(handler : any) : boolean {
+    public supports(handler: any): boolean {
         return typeof handler.canHandle === 'function'
                && typeof handler.handle === 'function';
     }
 
-    public async execute(input : Input, handler : any) : Promise<Output> {
+    public async execute(input: Input, handler: any): Promise<Output> {
         return (handler as RequestHandler<Input, Output>).handle(input);
     }
 }
