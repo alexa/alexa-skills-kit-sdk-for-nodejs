@@ -13,29 +13,29 @@
 
 import {
     createAskSdkError,
-    PersistenceAdapter,
+    PersistenceAdapter
 } from 'ask-sdk-core';
 import { RequestEnvelope } from 'ask-sdk-model';
 import { DynamoDB } from 'aws-sdk';
 import {
     PartitionKeyGenerator,
-    PartitionKeyGenerators,
+    PartitionKeyGenerators
 } from './PartitionKeyGenerators';
 
 /**
  * Implementation of {@link PersistenceAdapter} using AWS DynamoDB.
  */
 export class DynamoDbPersistenceAdapter implements PersistenceAdapter {
-    protected tableName : string;
-    protected partitionKeyName : string;
-    protected attributesName : string;
-    protected createTable : boolean;
-    protected dynamoDBClient : DynamoDB;
-    protected partitionKeyGenerator : PartitionKeyGenerator;
-    protected dynamoDBDocumentClient : DynamoDB.DocumentClient;
+    protected tableName: string;
+    protected partitionKeyName: string;
+    protected attributesName: string;
+    protected createTable: boolean;
+    protected dynamoDBClient: DynamoDB;
+    protected partitionKeyGenerator: PartitionKeyGenerator;
+    protected dynamoDBDocumentClient: DynamoDB.DocumentClient;
 
-    constructor(config : {
-        tableName : string,
+    constructor(config: {
+        tableName: string,
         partitionKeyName? : string,
         attributesName? : string,
         createTable? : boolean,
@@ -54,7 +54,7 @@ export class DynamoDbPersistenceAdapter implements PersistenceAdapter {
         });
         // Create table when createTable is set to true and table does not exist
         if (this.createTable) {
-            const createTableParams : DynamoDB.CreateTableInput = {
+            const createTableParams: DynamoDB.CreateTableInput = {
                 AttributeDefinitions: [{
                     AttributeName: this.partitionKeyName,
                     AttributeType: 'S',
@@ -86,10 +86,10 @@ export class DynamoDbPersistenceAdapter implements PersistenceAdapter {
      * @param {RequestEnvelope} requestEnvelope Request envelope used to generate partition key.
      * @returns {Promise<Object.<string, any>>}
      */
-    public async getAttributes(requestEnvelope : RequestEnvelope) : Promise<{[key : string] : any}> {
+    public async getAttributes(requestEnvelope: RequestEnvelope): Promise<{[key: string]: any}> {
         const attributesId = this.partitionKeyGenerator(requestEnvelope);
 
-        const getParams : DynamoDB.DocumentClient.GetItemInput = {
+        const getParams: DynamoDB.DocumentClient.GetItemInput = {
             Key : {
                 [this.partitionKeyName] : attributesId,
             },
@@ -97,7 +97,7 @@ export class DynamoDbPersistenceAdapter implements PersistenceAdapter {
             ConsistentRead : true,
         };
 
-        let data : DynamoDB.DocumentClient.GetItemOutput;
+        let data: DynamoDB.DocumentClient.GetItemOutput;
         try {
             data = await this.dynamoDBDocumentClient.get(getParams).promise();
         } catch (err) {
@@ -120,10 +120,10 @@ export class DynamoDbPersistenceAdapter implements PersistenceAdapter {
      * @param {Object.<string, any>} attributes Attributes to be saved to DynamoDB.
      * @return {Promise<void>}
      */
-    public async saveAttributes(requestEnvelope : RequestEnvelope, attributes : {[key : string] : any}) : Promise<void> {
+    public async saveAttributes(requestEnvelope: RequestEnvelope, attributes: {[key: string]: any}): Promise<void> {
         const attributesId = this.partitionKeyGenerator(requestEnvelope);
 
-        const putParams : DynamoDB.DocumentClient.PutItemInput = {
+        const putParams: DynamoDB.DocumentClient.PutItemInput = {
             Item: {
                 [this.partitionKeyName] : attributesId,
                 [this.attributesName] : attributes,
@@ -146,10 +146,10 @@ export class DynamoDbPersistenceAdapter implements PersistenceAdapter {
      * @param {RequestEnvelope} requestEnvelope Request envelope used to generate partition key.
      * @return {Promise<void>}
      */
-    public async deleteAttributes(requestEnvelope : RequestEnvelope) : Promise<void> {
+    public async deleteAttributes(requestEnvelope: RequestEnvelope): Promise<void> {
         const attributesId = this.partitionKeyGenerator(requestEnvelope);
 
-        const deleteParams : DynamoDB.DocumentClient.DeleteItemInput = {
+        const deleteParams: DynamoDB.DocumentClient.DeleteItemInput = {
             Key : {
                 [this.partitionKeyName] : attributesId,
             },

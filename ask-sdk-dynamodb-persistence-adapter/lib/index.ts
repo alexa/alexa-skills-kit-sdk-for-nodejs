@@ -14,5 +14,5 @@
 export { DynamoDbPersistenceAdapter } from './attributes/persistence/DynamoDbPersistenceAdapter';
 export {
     PartitionKeyGenerator,
-    PartitionKeyGenerators,
+    PartitionKeyGenerators
 } from './attributes/persistence/PartitionKeyGenerators';

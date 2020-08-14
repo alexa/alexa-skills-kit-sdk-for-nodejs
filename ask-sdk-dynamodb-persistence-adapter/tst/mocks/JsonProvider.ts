@@ -14,11 +14,11 @@
 import {
     Intent,
     RequestEnvelope,
-    Slot,
+    Slot
 } from 'ask-sdk-model';
 
 export const JsonProvider = {
-    requestEnvelope() : RequestEnvelope {
+    requestEnvelope(): RequestEnvelope {
         return {
             context : {
                 AudioPlayer : null,
@@ -60,14 +60,14 @@ export const JsonProvider = {
             version: '1.0',
         };
     },
-    intent() : Intent {
+    intent(): Intent {
         return {
             confirmationStatus : null,
             name : null,
             slots : null,
         };
     },
-    slot() : Slot {
+    slot(): Slot {
         return {
             confirmationStatus : null,
             name : null,

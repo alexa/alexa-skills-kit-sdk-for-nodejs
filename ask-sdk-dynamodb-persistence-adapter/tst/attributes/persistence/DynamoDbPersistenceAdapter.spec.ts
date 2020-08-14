@@ -58,9 +58,9 @@ describe('DynamoDbPersistenceAdapter', () => {
     requestEnvelope.context.System.device.deviceId = 'deviceId';
     requestEnvelope.context.System.user.userId = 'userId';
 
-    before( (done) => {
+    before((done) => {
         AWS_MOCK.setSDKInstance(AWS);
-        AWS_MOCK.mock('DynamoDB.DocumentClient', 'get',  (params, callback) => {
+        AWS_MOCK.mock('DynamoDB.DocumentClient', 'get', (params, callback) => {
             if (params.TableName !== tableName) {
                 // table name not valid
                 callback(resourceNotFoundError, null);
@@ -75,7 +75,7 @@ describe('DynamoDbPersistenceAdapter', () => {
                 }
             }
         });
-        AWS_MOCK.mock('DynamoDB.DocumentClient', 'put',  (params, callback) => {
+        AWS_MOCK.mock('DynamoDB.DocumentClient', 'put', (params, callback) => {
             if (params.TableName !== tableName) {
                 // table name not valid
                 callback(resourceNotFoundError, null);
@@ -83,7 +83,7 @@ describe('DynamoDbPersistenceAdapter', () => {
                 callback(null, {});
             }
         });
-        AWS_MOCK.mock('DynamoDB.DocumentClient', 'delete',  (params, callback) => {
+        AWS_MOCK.mock('DynamoDB.DocumentClient', 'delete', (params, callback) => {
             if (params.TableName !== tableName) {
                 // table name not valid
                 callback(resourceNotFoundError, null);
@@ -109,7 +109,7 @@ describe('DynamoDbPersistenceAdapter', () => {
         done();
     });
 
-    it('should be able to get an item from table', async() => {
+    it('should be able to get an item from table', async () => {
         const defaultPersistenceAdapter = new DynamoDbPersistenceAdapter({
             tableName,
         });
@@ -131,7 +131,7 @@ describe('DynamoDbPersistenceAdapter', () => {
 
     });
 
-    it('should be able to put an item to table', async() => {
+    it('should be able to put an item to table', async () => {
         const persistenceAdapter = new DynamoDbPersistenceAdapter({
             tableName,
         });
@@ -139,7 +139,7 @@ describe('DynamoDbPersistenceAdapter', () => {
         await persistenceAdapter.saveAttributes(requestEnvelope, {});
     });
 
-    it('should be able to delete an item from table', async() => {
+    it('should be able to delete an item from table', async () => {
         const persistenceAdapter = new DynamoDbPersistenceAdapter({
             tableName,
         });
@@ -147,7 +147,7 @@ describe('DynamoDbPersistenceAdapter', () => {
         await persistenceAdapter.saveAttributes(requestEnvelope, {});
     });
 
-    it('should return an empty object when getting item that does not exist in table', async() => {
+    it('should return an empty object when getting item that does not exist in table', async () => {
         const persistenceAdapter = new DynamoDbPersistenceAdapter({
             tableName,
         });
@@ -159,7 +159,7 @@ describe('DynamoDbPersistenceAdapter', () => {
         expect(result).deep.equal({});
     });
 
-    it('should throw an error when saving and the table does not exist', async() => {
+    it('should throw an error when saving and the table does not exist', async () => {
         const persistenceAdapter = new DynamoDbPersistenceAdapter({
             tableName : 'NonExistentTable',
         });
@@ -176,7 +176,7 @@ describe('DynamoDbPersistenceAdapter', () => {
         throw new Error('should have thrown an error!');
     });
 
-    it('should throw an error when deleting and the table does not exist', async() => {
+    it('should throw an error when deleting and the table does not exist', async () => {
         const persistenceAdapter = new DynamoDbPersistenceAdapter({
             tableName : 'NonExistentTable',
         });
@@ -214,7 +214,7 @@ describe('DynamoDbPersistenceAdapter', () => {
     });
 
     describe('without AutoCreateTable', () => {
-        it('should throw an error when reading and the table does not exist', async() => {
+        it('should throw an error when reading and the table does not exist', async () => {
             const persistenceAdapter = new DynamoDbPersistenceAdapter({
                 tableName : 'NonExistentTable',
                 createTable : false,
