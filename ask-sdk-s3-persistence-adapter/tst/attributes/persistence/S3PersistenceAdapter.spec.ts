@@ -14,6 +14,7 @@
 import * as AWS from 'aws-sdk';
 import * as AWS_MOCK from 'aws-sdk-mock';
 import { expect } from 'chai';
+import path = require ('path');
 import { ObjectKeyGenerators } from '../../../lib/attributes/persistence/ObjectKeyGenerators';
 import { S3PersistenceAdapter } from '../../../lib/attributes/persistence/S3PersistenceAdapter';
 import { JsonProvider } from '../../mocks/JsonProvider';
@@ -35,7 +36,7 @@ describe('S3PersistenceAdapter', () => {
     const nonJsonObjectKey = 'nonJsonObjectKey';
     const nonJsonObjectAttributes = 'This is a non json string';
 
-    const pathPrefixObjectKey = 'folder/userId';
+    const pathPrefixObjectKey = path.join('folder', 'userId');
     const pathPrefixObjectAttributes = {
         pathPrefixKey : 'pathPrefixValue',
     };
