@@ -13,7 +13,7 @@
 
 import {
     CustomSkillBuilder,
-    SkillBuilders as BaseSkillBuilders,
+    SkillBuilders as BaseSkillBuilders
 } from 'ask-sdk-core';
 import { StandardSkillBuilder } from './factory/StandardSkillBuilder';
 import { StandardSkillFactory } from './factory/StandardSkillFactory';
@@ -23,7 +23,7 @@ import { StandardSkillFactory } from './factory/StandardSkillFactory';
  */
 export const SkillBuilders = {
     ...BaseSkillBuilders,
-    standard() : StandardSkillBuilder {
+    standard(): StandardSkillBuilder {
         return StandardSkillFactory.init();
     },
 };

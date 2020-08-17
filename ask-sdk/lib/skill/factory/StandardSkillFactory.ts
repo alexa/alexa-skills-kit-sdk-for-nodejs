@@ -14,11 +14,11 @@
 import {
     BaseSkillFactory,
     DefaultApiClient,
-    SkillConfiguration,
+    SkillConfiguration
 } from 'ask-sdk-core';
 import {
     DynamoDbPersistenceAdapter,
-    PartitionKeyGenerator,
+    PartitionKeyGenerator
 } from 'ask-sdk-dynamodb-persistence-adapter';
 import { DynamoDB } from 'aws-sdk';
 import { StandardSkillBuilder } from './StandardSkillBuilder';
@@ -27,17 +27,17 @@ import { StandardSkillBuilder } from './StandardSkillBuilder';
  * Provider for {@link StandardSkillBuilder}.
  */
 export class StandardSkillFactory {
-    public static init() : StandardSkillBuilder {
-        let thisTableName : string;
-        let thisAutoCreateTable : boolean;
-        let thisPartitionKeyGenerator : PartitionKeyGenerator;
-        let thisDynamoDbClient : DynamoDB;
+    public static init(): StandardSkillBuilder {
+        let thisTableName: string;
+        let thisAutoCreateTable: boolean;
+        let thisPartitionKeyGenerator: PartitionKeyGenerator;
+        let thisDynamoDbClient: DynamoDB;
 
         const baseSkillBuilder = BaseSkillFactory.init();
 
         return {
-            ...<StandardSkillBuilder> baseSkillBuilder,
-            getSkillConfiguration() : SkillConfiguration {
+            ...baseSkillBuilder as StandardSkillBuilder,
+            getSkillConfiguration(): SkillConfiguration {
                 const skillConfiguration = baseSkillBuilder.getSkillConfiguration();
 
                 return {
@@ -53,22 +53,22 @@ export class StandardSkillFactory {
                     apiClient : new DefaultApiClient(),
                 };
             },
-            withTableName(tableName : string) : StandardSkillBuilder {
+            withTableName(tableName: string): StandardSkillBuilder {
                 thisTableName = tableName;
 
                 return this;
             },
-            withAutoCreateTable(autoCreateTable : boolean) : StandardSkillBuilder {
+            withAutoCreateTable(autoCreateTable: boolean): StandardSkillBuilder {
                 thisAutoCreateTable = autoCreateTable;
 
                 return this;
             },
-            withPartitionKeyGenerator(partitionKeyGenerator : PartitionKeyGenerator) : StandardSkillBuilder {
+            withPartitionKeyGenerator(partitionKeyGenerator: PartitionKeyGenerator): StandardSkillBuilder {
                 thisPartitionKeyGenerator = partitionKeyGenerator;
 
                 return this;
             },
-            withDynamoDbClient(dynamoDbClient : DynamoDB) : StandardSkillBuilder {
+            withDynamoDbClient(dynamoDbClient: DynamoDB): StandardSkillBuilder {
                 thisDynamoDbClient = dynamoDbClient;
 
                 return this;
