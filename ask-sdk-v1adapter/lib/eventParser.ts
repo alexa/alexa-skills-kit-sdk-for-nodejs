@@ -13,18 +13,18 @@
 
 import {
     IntentRequest,
-    RequestEnvelope,
+    RequestEnvelope
 } from 'ask-sdk-model';
 
-export const EventParser = (event : RequestEnvelope) : string => {
-        const requestType = event.request.type;
-        if (requestType === 'IntentRequest') {
-            return (<IntentRequest> event.request).intent.name;
-        } else if (requestType.startsWith('Display.') ||
+export const EventParser = (event: RequestEnvelope): string => {
+    const requestType = event.request.type;
+    if (requestType === 'IntentRequest') {
+        return (<IntentRequest> event.request).intent.name;
+    } else if (requestType.startsWith('Display.') ||
                   requestType.startsWith('AudioPlayer.') ||
                   requestType.startsWith('PlaybackController.')) {
-            return requestType.split('.')[1];
-        } else {
-            return requestType;
-        }
-    };
+        return requestType.split('.')[1];
+    } else {
+        return requestType;
+    }
+};

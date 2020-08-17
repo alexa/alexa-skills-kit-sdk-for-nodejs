@@ -62,11 +62,11 @@ export {
     ViewportOrientation,
     ViewportProfile,
     ViewportSizeGroup,
-    ViewportSizeGroupOrder,
+    ViewportSizeGroupOrder
 } from 'ask-sdk-core';
 
 export {
     DynamoDbPersistenceAdapter,
     PartitionKeyGenerator,
-    PartitionKeyGenerators,
+    PartitionKeyGenerators
 } from 'ask-sdk-dynamodb-persistence-adapter';

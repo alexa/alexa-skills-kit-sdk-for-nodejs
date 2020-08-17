@@ -29,15 +29,15 @@ export class StandardSmapiClientBuilder extends SmapiClientBuilder {
     /**
      * Funtion used to generate SkillManagementService instance.
      */
-    public client() : services.skillManagement.SkillManagementServiceClient {
+    public client(): services.skillManagement.SkillManagementServiceClient {
 
         if (this.refreshTokenConfig) {
-            const apiConfiguration : ApiConfiguration = {
+            const apiConfiguration: ApiConfiguration = {
                 apiClient: new DefaultApiClient(),
                 apiEndpoint: DEFAULT_API_ENDPOINT,
                 authorizationValue: null,
             };
-            const authenticationConfiguration : AuthenticationConfiguration = {
+            const authenticationConfiguration: AuthenticationConfiguration = {
                 clientId: this.refreshTokenConfig.clientId,
                 clientSecret: this.refreshTokenConfig.clientSecret,
                 refreshToken: this.refreshTokenConfig.refreshToken,
@@ -51,35 +51,35 @@ export class StandardSmapiClientBuilder extends SmapiClientBuilder {
 }
 
 /**
- * CustomSmapiClientBuilder give user ability to configure Apiclient and ApiEndpoint
+ * CustomSmapiClientBuilder give user ability to configure ApiClient and ApiEndpoint
  */
 export class CustomSmapiClientBuilder extends StandardSmapiClientBuilder {
-    private apiClient : ApiClient;
-    private apiEndpoint : string;
+    private apiClient: ApiClient;
+    private apiEndpoint: string;
     private authEndpoint? : string;
 
-    public withApiEndpoint(apiEndpoint : string) : CustomSmapiClientBuilder {
+    public withApiEndpoint(apiEndpoint: string): CustomSmapiClientBuilder {
         this.apiEndpoint = apiEndpoint;
 
         return this;
     }
 
-    public withAuthEndpoint(authEndpoint : string) : CustomSmapiClientBuilder {
+    public withAuthEndpoint(authEndpoint: string): CustomSmapiClientBuilder {
         this.authEndpoint = authEndpoint;
 
         return this;
     }
 
-    public withApiClient(apiClient : ApiClient) : CustomSmapiClientBuilder {
+    public withApiClient(apiClient: ApiClient): CustomSmapiClientBuilder {
         this.apiClient = apiClient;
 
         return this;
     }
 
     /**
-     * Funtion used to generate SkillManagementService instance.
+     * Function used to generate SkillManagementService instance.
      */
-    public client() : services.skillManagement.SkillManagementServiceClient {
+    public client(): services.skillManagement.SkillManagementServiceClient {
         if (!this.apiEndpoint) {
             this.apiEndpoint = DEFAULT_API_ENDPOINT;
         }
@@ -88,12 +88,12 @@ export class CustomSmapiClientBuilder extends StandardSmapiClientBuilder {
         }
 
         if (this.refreshTokenConfig) {
-            const apiConfiguration : ApiConfiguration = {
+            const apiConfiguration: ApiConfiguration = {
                 apiClient: this.apiClient,
                 apiEndpoint: this.apiEndpoint,
                 authorizationValue: null,
             };
-            const authenticationConfiguration : AuthenticationConfiguration = {
+            const authenticationConfiguration: AuthenticationConfiguration = {
                 clientId: this.refreshTokenConfig.clientId,
                 clientSecret: this.refreshTokenConfig.clientSecret,
                 refreshToken: this.refreshTokenConfig.refreshToken,

@@ -14,7 +14,7 @@
 import { DefaultApiClient } from 'ask-sdk-core';
 import {
     DynamoDbPersistenceAdapter,
-    PartitionKeyGenerators,
+    PartitionKeyGenerators
 } from 'ask-sdk-dynamodb-persistence-adapter';
 import { DynamoDB } from 'aws-sdk';
 import { expect } from 'chai';

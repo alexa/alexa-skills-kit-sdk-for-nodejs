@@ -15,7 +15,7 @@ import { interfaces } from 'ask-sdk-model';
 import { TextUtils } from '../utils/textUtils';
 
 export class BodyTemplate6Builder {
-    protected template : interfaces.display.BodyTemplate6;
+    protected template: interfaces.display.BodyTemplate6;
 
     constructor() {
         this.template = { type : 'BodyTemplate6' };
@@ -23,37 +23,37 @@ export class BodyTemplate6Builder {
 
     public setTextContent(primaryText? : interfaces.display.TextField,
                           secondaryText? : interfaces.display.TextField,
-                          tertiaryText? : interfaces.display.TextField) : this {
+                          tertiaryText? : interfaces.display.TextField): this {
         this.template.textContent = TextUtils.makeTextContent(primaryText, secondaryText, tertiaryText);
 
         return this;
     }
 
-    public setToken(token : string) : this {
+    public setToken(token: string): this {
         this.template.token = token;
 
         return this;
     }
 
-    public setBackgroundImage(image : interfaces.display.Image) : this {
-       this.template.backgroundImage = image;
+    public setBackgroundImage(image: interfaces.display.Image): this {
+        this.template.backgroundImage = image;
 
-       return this;
+        return this;
     }
 
-    public setBackButtonBehavior(backButtonBehavior : interfaces.display.BackButtonBehavior) : this {
+    public setBackButtonBehavior(backButtonBehavior: interfaces.display.BackButtonBehavior): this {
         this.template.backButton = backButtonBehavior;
 
         return this;
     }
 
-    public setImage(image : interfaces.display.Image) : this {
+    public setImage(image: interfaces.display.Image): this {
         this.template.image = image;
 
         return this;
     }
 
-    public build() : interfaces.display.BodyTemplate6 {
+    public build(): interfaces.display.BodyTemplate6 {
         return this.template;
     }
 }

@@ -12,7 +12,7 @@
  */
 
 export interface RefreshTokenConfig {
-    clientId : string;
-    clientSecret : string;
-    refreshToken : string;
+    clientId: string;
+    clientSecret: string;
+    refreshToken: string;
 }

@@ -14,7 +14,7 @@
 import { expect } from 'chai';
 import { ServiceError } from '../../lib/services/serviceError';
 
-function throwServiceError() : void {
+function throwServiceError(): void {
     throw new ServiceError(202, 'Error Message');
 }
 

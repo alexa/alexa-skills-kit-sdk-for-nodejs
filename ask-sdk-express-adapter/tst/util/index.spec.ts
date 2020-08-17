@@ -9,15 +9,15 @@ import { DataProvider } from '../mocks/DataProvider';
 
 describe('util test', () => {
     describe('async function asyncVerifyRequestAndDispatch', () => {
-        const httpHeaders : IncomingHttpHeaders = DataProvider.requestHeader();
-        const requestBody : RequestEnvelope = DataProvider.requestEnvelope();
-        const skill : Skill = SkillBuilders.custom().create();
+        const httpHeaders: IncomingHttpHeaders = DataProvider.requestHeader();
+        const requestBody: RequestEnvelope = DataProvider.requestEnvelope();
+        const skill: Skill = SkillBuilders.custom().create();
 
         afterEach(() => {
             sinon.restore();
         });
 
-        it('should throw verification failed error when any verifier throw error', async() => {
+        it('should throw verification failed error when any verifier throw error', async () => {
             sinon.stub(TimestampVerifier.prototype, 'verify').throws(new Error('unknownError'));
             try {
                 await asyncVerifyRequestAndDispatch(httpHeaders, JSON.stringify(requestBody), skill, [new TimestampVerifier()]);
@@ -30,7 +30,7 @@ describe('util test', () => {
             throw new Error('should have thrown an error!');
         });
 
-        it('should throw skill dispatch failed error when request dispatch fail', async() => {
+        it('should throw skill dispatch failed error when request dispatch fail', async () => {
             sinon.stub(skill, 'invoke').throws(new Error('unknownError'));
             try {
                 await asyncVerifyRequestAndDispatch(httpHeaders, JSON.stringify(requestBody), skill, []);
@@ -43,13 +43,13 @@ describe('util test', () => {
             throw new Error('should have thrown an error!');
         });
 
-        it('should return responseEnvelope when verify and invoke execute correctly', async() => {
-            const fakeResponse : ResponseEnvelope = DataProvider.responseEnvelope();
-            const verifiers : Verifier[] = [];
+        it('should return responseEnvelope when verify and invoke execute correctly', async () => {
+            const fakeResponse: ResponseEnvelope = DataProvider.responseEnvelope();
+            const verifiers: Verifier[] = [];
             verifiers.push(new TimestampVerifier());
             sinon.stub(skill, 'invoke').resolves(fakeResponse);
             sinon.stub(TimestampVerifier.prototype, 'verify');
-            let response : ResponseEnvelope;
+            let response: ResponseEnvelope;
             try {
                 response = await asyncVerifyRequestAndDispatch(httpHeaders, JSON.stringify(requestBody), skill, verifiers);
             } catch (err) {

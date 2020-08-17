@@ -21,7 +21,7 @@ import { pki } from 'node-forge';
 
 const CERT_START_KEY = '-----BEGIN CERTIFICATE-----';
 const CERT_END_KEY = '-----END CERTIFICATE-----';
-export function generateCertificatesArray(certChain : string) : pki.Certificate[] {
+export function generateCertificatesArray(certChain: string): pki.Certificate[] {
     const certs = [];
     while (certChain.length > 0) {
         const start = certChain.indexOf(CERT_START_KEY);
@@ -38,7 +38,7 @@ export function generateCertificatesArray(certChain : string) : pki.Certificate[
  * Function used to generate ca store based on input root CAs list
  * @param {string[]} certs root CAs in pem format
  */
-export function generateCAStore(certs : string[]) : pki.CAStore {
+export function generateCAStore(certs: string[]): pki.CAStore {
     const caStore = pki.createCaStore([]);
 
     for (const cert of certs) {
@@ -46,7 +46,7 @@ export function generateCAStore(certs : string[]) : pki.CAStore {
             caStore.addCertificate(cert);
         } catch (e) {
             // do nothing
-            // node-forge doesn't support ECDSA encryped pem
+            // node-forge doesn't support ECDSA encrypted pem
         }
 
     }

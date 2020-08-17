@@ -12,12 +12,12 @@
  */
 
 export declare type Header = Array<{
-    key : string;
-    value : string;
+    key: string;
+    value: string;
 }>;
 
-export function getValueFromHeader(header : Header, key : string) : string[] {
-    const result : string[] = [];
+export function getValueFromHeader(header: Header, key: string): string[] {
+    const result: string[] = [];
     if (!header || !key) {
         return result;
     }

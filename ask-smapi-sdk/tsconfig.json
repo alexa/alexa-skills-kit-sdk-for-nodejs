@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2017",
     "module": "commonjs",
     "moduleResolution": "node",
-    "rootDir": "lib",
+    "rootDir": "./",
     "outDir" : "dist",
     "sourceMap" : true,
     "alwaysStrict" : true,
     "declaration" : true,
-    "lib": [
-      "es2017",
-      "dom"
-    ]
+    "lib": []
   },
-  "include": ["lib"]
+  "include": [
+    "lib",
+    "tst"
+  ]
 }

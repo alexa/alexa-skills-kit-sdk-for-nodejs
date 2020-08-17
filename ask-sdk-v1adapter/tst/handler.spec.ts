@@ -21,21 +21,21 @@ import { MockPersistenceAdapter } from './mock/mockPersistenceAdapter';
 import {
     DisplayElementSelectedRequest,
     LaunchRequest,
-    RecipeIntentRequest,
+    RecipeIntentRequest
 } from './mock/mockSampleRequest';
 
 const mockContext = {
-    succeed : (responseEnvelope : ResponseEnvelope) => {
+    succeed : (responseEnvelope: ResponseEnvelope) => {
         // do something
     },
-    fail : (error : Error) => {
+    fail : (error: Error) => {
         // do something
     },
 };
 /* tslint:disable */
 describe('Handler', () => {
     it('should return true if the listenerCount of adapter is more than 1', () => {
-        const handlerInput : HandlerInput = {
+        const handlerInput: HandlerInput = {
             requestEnvelope : LaunchRequest,
             attributesManager : AttributesManagerFactory.init({
                 requestEnvelope : LaunchRequest,
@@ -44,16 +44,14 @@ describe('Handler', () => {
             responseBuilder : ResponseFactory.init(),
         };
         const adapter = new Adapter(LaunchRequest, mockContext);
-        adapter.listenerCount = (name : string) : number => {
-            return 1;
-        };
+        adapter.listenerCount = (name: string): number => 1;
         const testHandler = new Handler(adapter);
 
         expect(testHandler.canHandle(handlerInput)).to.equal(true);
     });
 
     it('should return false if the listenerCount of adapter is less than 1', () => {
-        const handlerInput : HandlerInput = {
+        const handlerInput: HandlerInput = {
             requestEnvelope : DisplayElementSelectedRequest,
             attributesManager : AttributesManagerFactory.init({
                 requestEnvelope : DisplayElementSelectedRequest,
@@ -62,9 +60,7 @@ describe('Handler', () => {
             responseBuilder : ResponseFactory.init(),
         };
         const adapter = new Adapter(LaunchRequest, mockContext);
-        adapter.listenerCount = (name : string) : number => {
-            return 0;
-        };
+        adapter.listenerCount = (name: string): number => 0;
         const testHandler = new Handler(adapter);
 
         expect(testHandler.canHandle(handlerInput)).to.equal(false);
@@ -72,16 +68,16 @@ describe('Handler', () => {
 
     it('should emit the handler function by target handler name', () => {
         const mockV1Handler = {
-            'LaunchRequest' : function() {
+            'LaunchRequest'() {
                 this.response.speak('in launch request');
                 this.emit(':responseReady');
             },
-            ':responseReady' : function() {
+            ':responseReady'() {
                 this.handler.promiseResolve(this.handler.response.response);
             },
         };
 
-        const handlerInput : HandlerInput = {
+        const handlerInput: HandlerInput = {
             requestEnvelope : LaunchRequest,
             attributesManager : AttributesManagerFactory.init({
                 requestEnvelope : LaunchRequest,
@@ -110,21 +106,21 @@ describe('Handler', () => {
         testHandler.handle(handlerInput).then((response) => {
             expect(response.outputSpeech.type).to.equal('SSML');
             expect((<ui.SsmlOutputSpeech> response.outputSpeech).ssml).to.equal('<speak>in launch request</speak>');
-        });
+        }).catch(error => console.log(error));
     });
 
     it('should emit the Unhandled function if target handler name does not exist ', () => {
         const mockV1Handler = {
-            'Unhandled' : function() {
+            'Unhandled'() {
                 this.response.speak('in Unhandled function');
                 this.emit(':responseReady');
             },
-            ':responseReady' : function() {
+            ':responseReady'() {
                 this.handler.promiseResolve(this.handler.response.response);
             },
         };
 
-        const handlerInput : HandlerInput = {
+        const handlerInput: HandlerInput = {
             requestEnvelope : LaunchRequest,
             attributesManager : AttributesManagerFactory.init({
                 requestEnvelope : LaunchRequest,
@@ -152,24 +148,24 @@ describe('Handler', () => {
         testHandler.handle(handlerInput).then((response) => {
             expect(response.outputSpeech.type).to.equal('SSML');
             expect((<ui.SsmlOutputSpeech> response.outputSpeech).ssml).to.equal('<speak>in Unhandled function</speak>');
-        });
+        }).catch(error => console.log(error));
     });
 
     it('should forward to the right handler function return a response', () => {
         const mockV1Handler = {
-            RecipeIntent : function () {
+            RecipeIntent() {
                 this.emit('HelpIntent');
             },
-            HelpIntent : function() {
+            HelpIntent() {
                 this.response.speak('in help intent');
                 this.emit(':responseReady');
             },
-            ':responseReady' : function() {
+            ':responseReady'() {
                 this.handler.promiseResolve(this.handler.response.response);
             },
         };
 
-        const handlerInput : HandlerInput = {
+        const handlerInput: HandlerInput = {
             requestEnvelope : RecipeIntentRequest,
             attributesManager : AttributesManagerFactory.init({
                 requestEnvelope : RecipeIntentRequest,
@@ -198,17 +194,17 @@ describe('Handler', () => {
         testHandler.handle(handlerInput).then((response) => {
             expect(response.outputSpeech.type).to.equal('SSML');
             expect((<ui.SsmlOutputSpeech> response.outputSpeech).ssml).to.equal('<speak>in help intent</speak>');
-        });
+        }).catch(error => console.log(error));
     });
 
     it('should set session attributes if it is in session request', () => {
         const mockV1Handler = {
-            LaunchRequest : function () {
+            LaunchRequest() {
                 this.handler.state = 'mock state';
                 this.attributes.mockAttribute = 'mock attribute';
                 this.emit(':responseReady');
             },
-            ':responseReady' : function () {
+            ':responseReady'() {
                 if (this.handler.state) {
                     this.attributes.state = this.handler.state;
                 }
@@ -218,7 +214,7 @@ describe('Handler', () => {
                 this.handler.promiseResolve(this.handler.response.response);
             }
         };
-        const handlerInput : HandlerInput = {
+        const handlerInput: HandlerInput = {
             requestEnvelope : LaunchRequest,
             attributesManager : AttributesManagerFactory.init({
                 requestEnvelope : LaunchRequest,
@@ -246,7 +242,7 @@ describe('Handler', () => {
         const canHandle = testHandler.canHandle(handlerInput);
         testHandler.handle(handlerInput).then((response) => {
             expect(handlerInput.attributesManager.getSessionAttributes()).to.deep.equal({state : 'mock state', mockAttribute: 'mock attribute'});
-        });
+        }).catch(error => console.log(error));
     });
 
 });

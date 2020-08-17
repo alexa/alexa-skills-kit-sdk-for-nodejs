@@ -18,31 +18,31 @@ import { ServiceError } from './serviceError';
 import { V1ApiClient } from './v1ApiClient';
 
 export class DirectiveService {
-    protected apiClient : ApiClient;
-    protected directivesApiPath : string;
+    protected apiClient: ApiClient;
+    protected directivesApiPath: string;
 
     constructor(apiClient? : ApiClient) {
         this.apiClient = apiClient || new V1ApiClient();
         this.directivesApiPath = '/v1/directives';
     }
 
-    public enqueue(directive : VoicePlayerSpeakDirective, apiEndpoint : string, token : string) : Promise<void> {
+    public enqueue(directive: VoicePlayerSpeakDirective, apiEndpoint: string, token: string): Promise<void> {
         const uri = apiEndpoint + this.directivesApiPath;
 
         return this.dispatch(directive, uri, token);
     }
 
-    private async dispatch(directive : VoicePlayerSpeakDirective, url : string, token : string) : Promise<void> {
+    private async dispatch(directive: VoicePlayerSpeakDirective, url: string, token: string): Promise<void> {
         const body = JSON.stringify(directive);
         const headers = [{key : 'Authorization', value : `Bearer ${token}`},
-                         {key : 'Content-Type', value : 'application/json'}];
+            {key : 'Content-Type', value : 'application/json'}];
 
         const response = await this.apiClient.post(url, headers, body);
 
         return this.validateApiResponse(response);
     }
 
-    private validateApiResponse(apiClientResponse : services.ApiClientResponse) : void {
+    private validateApiResponse(apiClientResponse: services.ApiClientResponse): void {
         const isResponseCodeValid = apiClientResponse.statusCode >= 200 && apiClientResponse.statusCode < 300;
         if (isResponseCodeValid) {
             return;

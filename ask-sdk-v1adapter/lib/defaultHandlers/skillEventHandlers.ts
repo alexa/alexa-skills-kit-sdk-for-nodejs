@@ -13,20 +13,20 @@
 
 import { V1Handler } from '../v1Handler';
 
-export const SkillEventHandlers : V1Handler = {
-    'AlexaSkillEvent.SkillAccountLinked'() : void {
+export const SkillEventHandlers: V1Handler = {
+    'AlexaSkillEvent.SkillAccountLinked'(): void {
         // do something
     },
-    'AlexaSkillEvent.SkillDisabled'() : void {
+    'AlexaSkillEvent.SkillDisabled'(): void {
         // do something
     },
-    'AlexaSkillEvent.SkillEnabled'() : void {
+    'AlexaSkillEvent.SkillEnabled'(): void {
         // do something
     },
-    'AlexaSkillEvent.SkillPermissionAccepted'() : void {
+    'AlexaSkillEvent.SkillPermissionAccepted'(): void {
         // do something
     },
-    'AlexaSkillEvent.SkillPermissionChanged'() : void {
+    'AlexaSkillEvent.SkillPermissionChanged'(): void {
         // do something
     },
 };

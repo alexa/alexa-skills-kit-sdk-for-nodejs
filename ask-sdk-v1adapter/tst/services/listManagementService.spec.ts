@@ -21,12 +21,12 @@ const mockToken = 'token';
 const mockListId = 'listId';
 const mockListItemId = 'listItemId';
 const mockListItemStatus = 'active';
-const mockAPIResult : services.ApiClientResponse = {
+const mockAPIResult: services.ApiClientResponse = {
     headers : [],
     statusCode: 200,
     body: '',
 };
-const mockAPIFailedResult : services.ApiClientResponse = {
+const mockAPIFailedResult: services.ApiClientResponse = {
     headers : [],
     statusCode: 400,
     body: 'Error',
@@ -35,24 +35,24 @@ describe('ListManagementService', () => {
     it('should call corresponding apiClient method', () => {
         const mockListObject = {};
         const mockListItemObject = {};
-        const apiStub : ApiClient = {
+        const apiStub: ApiClient = {
             post : (
-                uri : string,
-                headers : Array<{key : string, value : string}>,
-                body : string,
+                uri: string,
+                headers: Array<{key: string, value: string}>,
+                body: string,
             ) => Promise.resolve(mockAPIResult),
             put : (
-                uri : string,
-                headers : Array<{key : string, value : string}>,
-                body : string,
+                uri: string,
+                headers: Array<{key: string, value: string}>,
+                body: string,
             ) => Promise.resolve(mockAPIResult),
             get : (
-                uri : string,
-                headers : Array<{key : string, value : string}>,
+                uri: string,
+                headers: Array<{key: string, value: string}>,
             ) => Promise.resolve(mockAPIResult),
             delete : (
-                uri : string,
-                headers : Array<{key : string, value : string}>,
+                uri: string,
+                headers: Array<{key: string, value: string}>,
             ) => Promise.resolve(mockAPIResult),
         };
         const spyPost = sinon.spy(apiStub, 'post');
@@ -63,30 +63,14 @@ describe('ListManagementService', () => {
         const lms = new ListManagementService(apiStub);
 
         return lms.getListsMetadata(mockToken)
-            .then(() => {
-                return lms.createList(mockListObject, mockToken);
-            })
-            .then(() => {
-                return lms.getList(mockListId, mockListItemStatus, mockToken);
-            })
-            .then(() => {
-                return lms.updateList(mockListId, mockListObject, mockToken);
-            })
-            .then(() => {
-                return lms.deleteList(mockListId, mockToken);
-            })
-            .then(() => {
-                return lms.createListItem(mockListId, mockListItemObject, mockToken);
-            })
-            .then(() => {
-                return lms.getListItem(mockListId, mockListItemId, mockToken);
-            })
-            .then(() => {
-                return lms.updateListItem(mockListId, mockListItemId, mockListItemObject, mockToken);
-            })
-            .then(() => {
-                return lms.deleteListItem(mockListId, mockListItemId, mockToken);
-            })
+            .then(() => lms.createList(mockListObject, mockToken))
+            .then(() => lms.getList(mockListId, mockListItemStatus, mockToken))
+            .then(() => lms.updateList(mockListId, mockListObject, mockToken))
+            .then(() => lms.deleteList(mockListId, mockToken))
+            .then(() => lms.createListItem(mockListId, mockListItemObject, mockToken))
+            .then(() => lms.getListItem(mockListId, mockListItemId, mockToken))
+            .then(() => lms.updateListItem(mockListId, mockListItemId, mockListItemObject, mockToken))
+            .then(() => lms.deleteListItem(mockListId, mockListItemId, mockToken))
             .then(() => {
                 expect(spyPost.callCount).to.equal(2);
                 expect(spyPut.callCount).to.equal(2);
@@ -95,7 +79,7 @@ describe('ListManagementService', () => {
             });
     });
 
-    it('should preperly set API Endpoint address with given value', () => {
+    it('should properly set API Endpoint address with given value', () => {
         const defaultApiEndpoint = 'https://api.amazonalexa.com';
         const updatedApiEndpoint = 'https://dummy.com';
 
@@ -106,10 +90,10 @@ describe('ListManagementService', () => {
     });
 
     it('should properly construct uri and headers with given non empty query parameters', () => {
-        const apiStub : ApiClient = {
+        const apiStub: ApiClient = {
             get : (
-                uri : string,
-                headers : Array<{key : string, value : string}>,
+                uri: string,
+                headers: Array<{key: string, value: string}>,
             ) => Promise.resolve(mockAPIResult),
         };
         const spyGet = sinon.spy(apiStub, 'get');
@@ -127,10 +111,10 @@ describe('ListManagementService', () => {
     });
 
     it('should reject promise on http request error', () => {
-        const apiStub : ApiClient = {
+        const apiStub: ApiClient = {
             get : (
-                uri : string,
-                headers : Array<{key : string, value : string}>,
+                uri: string,
+                headers: Array<{key: string, value: string}>,
             ) => Promise.reject(new Error('Error')),
         };
 
@@ -148,10 +132,10 @@ describe('ListManagementService', () => {
     });
 
     it('should reject promise with error message if the device API returns a non 2xx status', () => {
-        const apiStub : ApiClient = {
+        const apiStub: ApiClient = {
             get : (
-                uri : string,
-                headers : Array<{key : string, value : string}>,
+                uri: string,
+                headers: Array<{key: string, value: string}>,
             ) => Promise.resolve(mockAPIFailedResult),
         };
 

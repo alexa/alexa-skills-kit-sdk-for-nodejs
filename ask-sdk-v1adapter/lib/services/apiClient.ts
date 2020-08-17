@@ -14,8 +14,8 @@
 import { services } from 'ask-sdk-model';
 
 export interface ApiClient {
-    post? : (uri : string, headers : Array<{key : string, value : string}>, body : string) => Promise<services.ApiClientResponse>;
-    get? : (uri : string, headers : Array<{key : string, value : string}>) => Promise<services.ApiClientResponse>;
-    put? : (uri : string, headers : Array<{key : string, value : string}>, body : string) => Promise<services.ApiClientResponse>;
-    delete? : (uri : string, headers : Array<{key : string, value : string}>) => Promise<services.ApiClientResponse>;
+    post? : (uri: string, headers: Array<{key: string, value: string}>, body: string) => Promise<services.ApiClientResponse>;
+    get? : (uri: string, headers: Array<{key: string, value: string}>) => Promise<services.ApiClientResponse>;
+    put? : (uri: string, headers: Array<{key: string, value: string}>, body: string) => Promise<services.ApiClientResponse>;
+    delete? : (uri: string, headers: Array<{key: string, value: string}>) => Promise<services.ApiClientResponse>;
 }

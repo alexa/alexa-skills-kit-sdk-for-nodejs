@@ -13,11 +13,11 @@
 
 import {
     HandlerInput,
-    RequestInterceptor,
+    RequestInterceptor
 } from 'ask-sdk';
 
 export class CopySessionAttributesInterceptor implements RequestInterceptor {
-    public process(handlerInput : HandlerInput) : void {
+    public process(handlerInput: HandlerInput): void {
         const attributes = handlerInput.requestEnvelope.session.attributes;
         handlerInput.attributesManager.setSessionAttributes(attributes);
     }

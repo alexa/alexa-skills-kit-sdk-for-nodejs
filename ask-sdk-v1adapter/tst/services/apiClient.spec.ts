@@ -84,7 +84,7 @@ describe('APIClient', () => {
             .replyWithError('ERROR');
 
         return apiClient.post(url, [{key: 'authorization', value: 'AUTH'}], body)
-            .then(() =>  {
+            .then(() => {
                 expect.fail(null, null, 'Resolved promise when it should rejected it');
             })
             .catch((err) => {

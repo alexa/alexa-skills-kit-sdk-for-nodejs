@@ -14,11 +14,11 @@
 import { expect } from 'chai';
 import { EventParser } from '../lib/eventParser';
 import { DisplayElementSelectedRequest,
-         HouseholdListEvent,
-         LaunchRequest,
-         PlaybackControllerRequest,
-         RecipeIntentRequest,
-         SkillEnabledRequest } from './mock/mockSampleRequest';
+    HouseholdListEvent,
+    LaunchRequest,
+    PlaybackControllerRequest,
+    RecipeIntentRequest,
+    SkillEnabledRequest } from './mock/mockSampleRequest';
 
 describe('Event Parser can parse Launch Requests', () => {
     it('should return LaunchRequest', () => {

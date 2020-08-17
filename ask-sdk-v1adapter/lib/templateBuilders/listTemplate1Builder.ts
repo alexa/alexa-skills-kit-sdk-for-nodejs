@@ -14,43 +14,43 @@
 import { interfaces } from 'ask-sdk-model';
 
 export class ListTemplate1Builder {
-    protected template : interfaces.display.ListTemplate1;
+    protected template: interfaces.display.ListTemplate1;
 
     constructor() {
         this.template = { type : 'ListTemplate1' };
     }
 
-    public setListItems(listItems : interfaces.display.ListItem[]) : this {
+    public setListItems(listItems: interfaces.display.ListItem[]): this {
         this.template.listItems = listItems;
 
         return this;
     }
 
-    public setTitle(title : string) : this {
+    public setTitle(title: string): this {
         this.template.title = title;
 
         return this;
     }
 
-    public setToken(token : string) : this {
+    public setToken(token: string): this {
         this.template.token = token;
 
         return this;
     }
 
-    public setBackgroundImage(image : interfaces.display.Image) : this {
-       this.template.backgroundImage = image;
+    public setBackgroundImage(image: interfaces.display.Image): this {
+        this.template.backgroundImage = image;
 
-       return this;
+        return this;
     }
 
-    public setBackButtonBehavior(backButtonBehavior : interfaces.display.BackButtonBehavior) : this {
+    public setBackButtonBehavior(backButtonBehavior: interfaces.display.BackButtonBehavior): this {
         this.template.backButton = backButtonBehavior;
 
         return this;
     }
 
-    public build() : interfaces.display.ListTemplate1 {
+    public build(): interfaces.display.ListTemplate1 {
         return this.template;
     }
 }

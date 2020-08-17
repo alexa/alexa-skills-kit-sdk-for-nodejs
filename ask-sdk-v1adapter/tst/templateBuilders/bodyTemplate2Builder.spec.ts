@@ -26,13 +26,13 @@ describe('BodyTemplate2Builder', () => {
         const expectedFgImage = ImageUtils.makeImage('url2');
 
         const template = new BodyTemplate2Builder()
-                                    .setBackButtonBehavior(expectedBackButtonBehavior)
-                                    .setBackgroundImage(expectedBgImage)
-                                    .setTextContent(expectedPrimaryText)
-                                    .setTitle(expectedTitle)
-                                    .setToken(expectedToken)
-                                    .setImage(expectedFgImage)
-                                    .build();
+            .setBackButtonBehavior(expectedBackButtonBehavior)
+            .setBackgroundImage(expectedBgImage)
+            .setTextContent(expectedPrimaryText)
+            .setTitle(expectedTitle)
+            .setToken(expectedToken)
+            .setImage(expectedFgImage)
+            .build();
 
         expect(template.type).to.equal('BodyTemplate2');
         expect(template.backButton).to.equal(expectedBackButtonBehavior);

@@ -12,5 +12,5 @@
  */
 
 export interface V1Handler {
-    [key : string] : (...args : any[]) => void;
+    [key: string]: (...args: any[]) => void;
 }

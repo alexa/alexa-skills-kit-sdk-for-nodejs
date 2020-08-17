@@ -13,43 +13,43 @@
 
 import {
     ResponseBuilder as ResponseHelper,
-    ResponseFactory,
+    ResponseFactory
 } from 'ask-sdk';
 import {
     Directive,
     Intent,
     interfaces,
-    ResponseEnvelope,
+    ResponseEnvelope
 } from 'ask-sdk-model';
 import { Adapter } from './adapter';
 
 export class ResponseBuilder {
 
-    public _responseObject : ResponseEnvelope;
-    protected responseHelper : ResponseHelper;
+    public _responseObject: ResponseEnvelope;
+    protected responseHelper: ResponseHelper;
 
-    constructor(adapter : Adapter) {
+    constructor(adapter: Adapter) {
         this._responseObject = adapter.response;
         this._responseObject.sessionAttributes = adapter._event.session.attributes;
         this.responseHelper = ResponseFactory.init().withShouldEndSession(true);
     }
 
-    public speak(speechOutput : string) : this {
+    public speak(speechOutput: string): this {
         this.responseHelper.speak(speechOutput);
         this._responseObject.response = this.responseHelper.getResponse();
 
         return this;
     }
 
-    public listen(repromptSpeechOutput : string) : this {
+    public listen(repromptSpeechOutput: string): this {
         this.responseHelper.reprompt(repromptSpeechOutput)
-                            .withShouldEndSession(false);
+            .withShouldEndSession(false);
         this._responseObject.response = this.responseHelper.getResponse();
 
         return this;
     }
 
-    public cardRenderer(cardTitle : string, cardContent : string, cardImage? : {[key : string] : string}) : this {
+    public cardRenderer(cardTitle: string, cardContent: string, cardImage? : {[key: string]: string}): this {
         if (cardImage && cardImage.smallImageUrl && cardImage.largeImageUrl) {
             this.responseHelper.withStandardCard(cardTitle, cardContent, cardImage.smallImageUrl, cardImage.largeImageUrl);
         } else if (cardImage && cardImage.smallImageUrl) {
@@ -64,90 +64,90 @@ export class ResponseBuilder {
         return this;
     }
 
-    public linkAccountCard() : this {
+    public linkAccountCard(): this {
         this.responseHelper.withLinkAccountCard();
         this._responseObject.response = this.responseHelper.getResponse();
 
         return this;
     }
 
-    public askForPermissionsConsentCard(permissions : string[]) : this {
+    public askForPermissionsConsentCard(permissions: string[]): this {
         this.responseHelper.withAskForPermissionsConsentCard(permissions);
         this._responseObject.response = this.responseHelper.getResponse();
 
         return this;
     }
 
-    public delegate(intent : Intent) : this {
+    public delegate(intent: Intent): this {
         this.responseHelper.addDelegateDirective(intent)
-                            .withShouldEndSession(false);
+            .withShouldEndSession(false);
         this._responseObject.response = this.responseHelper.getResponse();
 
         return this;
     }
 
-    public elicitSlot(slotName : string, updatedIntent : Intent) : this {
+    public elicitSlot(slotName: string, updatedIntent: Intent): this {
         this.responseHelper.addElicitSlotDirective(slotName, updatedIntent)
-                            .withShouldEndSession(false);
+            .withShouldEndSession(false);
         this._responseObject.response = this.responseHelper.getResponse();
 
         return this;
     }
 
-    public confirmSlot(slotName : string, updatedIntent? : Intent) : this {
+    public confirmSlot(slotName: string, updatedIntent? : Intent): this {
         this.responseHelper.addConfirmSlotDirective(slotName, updatedIntent)
-                            .withShouldEndSession(false);
+            .withShouldEndSession(false);
         this._responseObject.response = this.responseHelper.getResponse();
 
         return this;
     }
 
-    public confirmIntent(updatedIntent : Intent) : this {
+    public confirmIntent(updatedIntent: Intent): this {
         this.responseHelper.addConfirmIntentDirective(updatedIntent)
-                            .withShouldEndSession(false);
+            .withShouldEndSession(false);
         this._responseObject.response = this.responseHelper.getResponse();
 
         return this;
     }
 
-    public audioPlayerPlay(behavior : interfaces.audioplayer.PlayBehavior,  url : string,
-                           audioToken : string, expectedPreviousToken : string,
-                           offsetInMilliseconds : number) : this {
+    public audioPlayerPlay(behavior: interfaces.audioplayer.PlayBehavior, url: string,
+                           audioToken: string, expectedPreviousToken: string,
+                           offsetInMilliseconds: number): this {
         this.responseHelper.addAudioPlayerPlayDirective(behavior, url, audioToken, offsetInMilliseconds, expectedPreviousToken);
         this._responseObject.response = this.responseHelper.getResponse();
 
         return this;
     }
 
-    public audioPlayerStop() : this {
+    public audioPlayerStop(): this {
         this.responseHelper.addAudioPlayerStopDirective();
         this._responseObject.response = this.responseHelper.getResponse();
 
         return this;
     }
 
-    public audioPlayerClearQueue(clearBehavior : interfaces.audioplayer.ClearBehavior) : this {
+    public audioPlayerClearQueue(clearBehavior: interfaces.audioplayer.ClearBehavior): this {
         this.responseHelper.addAudioPlayerClearQueueDirective(clearBehavior);
         this._responseObject.response = this.responseHelper.getResponse();
 
         return this;
     }
 
-    public renderTemplate(template : interfaces.display.Template) : this {
+    public renderTemplate(template: interfaces.display.Template): this {
         this.responseHelper.addRenderTemplateDirective(template);
         this._responseObject.response = this.responseHelper.getResponse();
 
         return this;
     }
 
-    public hint(hintText : string) : this {
+    public hint(hintText: string): this {
         this.responseHelper.addHintDirective(hintText);
         this._responseObject.response = this.responseHelper.getResponse();
 
         return this;
     }
 
-    public playVideo(source : string, metadata? : {[key : string] : string}) : this {
+    public playVideo(source: string, metadata? : {[key: string]: string}): this {
         if (metadata) {
             this.responseHelper.addVideoAppLaunchDirective(source, metadata.title, metadata.subtitle);
         } else {
@@ -159,14 +159,14 @@ export class ResponseBuilder {
         return this;
     }
 
-    public shouldEndSession(val : boolean) : this {
+    public shouldEndSession(val: boolean): this {
         this.responseHelper.withShouldEndSession(val);
         this._responseObject.response = this.responseHelper.getResponse();
 
         return this;
     }
 
-    public _addDirective(directive : Directive) : this {
+    public _addDirective(directive: Directive): this {
         this.responseHelper.addDirective(directive);
         this._responseObject.response = this.responseHelper.getResponse();
 

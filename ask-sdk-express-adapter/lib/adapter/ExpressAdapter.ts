@@ -22,8 +22,8 @@ import { SkillRequestSignatureVerifier, TimestampVerifier, Verifier } from '../v
  * Express adapter class
  */
 export class ExpressAdapter {
-    protected skill : Skill;
-    protected verifiers : Verifier[];
+    protected skill: Skill;
+    protected verifiers: Verifier[];
 
     /**
      * Constructor
@@ -33,8 +33,8 @@ export class ExpressAdapter {
      * @param {boolean} verifyTimeStamp boolean flag decide if timestamp verifier is needed
      * @param {Verifier[]} verifiers Array of user customized Verifier instances
      */
-    constructor(skill : Skill, verifySignature : boolean = true,
-                verifyTimeStamp : boolean = true, verifiers : Verifier[] = []) {
+    constructor(skill: Skill, verifySignature: boolean = true,
+                verifyTimeStamp: boolean = true, verifiers: Verifier[] = []) {
         this.skill = skill;
         this.verifiers = verifiers;
         if (!this.skill) {
@@ -60,8 +60,8 @@ export class ExpressAdapter {
      * 1: text parser 2: async function to get response envelope after verification, then send result back
      * Example usage: app.post('/', new ExpressAdapter(skill).getASKRequestHandler());
      */
-    public getRequestHandlers() : RequestHandler[] {
-        const requestHandlers : RequestHandler[] = [];
+    public getRequestHandlers(): RequestHandler[] {
+        const requestHandlers: RequestHandler[] = [];
         requestHandlers.push(
             (req, res, next) => {
                 if (req.body) {
@@ -77,9 +77,9 @@ export class ExpressAdapter {
             type: '*/*',
         }));
         requestHandlers.push(
-            async(req, res) => {
+            async (req, res) => {
                 try {
-                    const responseEnvelope : ResponseEnvelope = await asyncVerifyRequestAndDispatch(req.headers, req.body, this.skill, this.verifiers);
+                    const responseEnvelope: ResponseEnvelope = await asyncVerifyRequestAndDispatch(req.headers, req.body, this.skill, this.verifiers);
                     res.json(responseEnvelope);
                 } catch (err) {
                     res.statusCode = err.name === 'AskSdk.Request verification failed Error' ? 400 : 500;

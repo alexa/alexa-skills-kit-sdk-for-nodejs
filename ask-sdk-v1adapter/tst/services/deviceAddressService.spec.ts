@@ -20,7 +20,7 @@ import { DeviceAddressService } from '../../lib/services/deviceAddressService';
 const mockDeviceId = 'deviceId';
 const mockApiEndpoint = 'http://api.amazonalexa.com';
 const mockToken = 'token';
-const mockAPIResult : services.ApiClientResponse = {
+const mockAPIResult: services.ApiClientResponse = {
     headers : [],
     statusCode: 200,
     body: '',
@@ -33,10 +33,10 @@ const mockAPIFailedResult = {
 
 describe('DeviceAddressService', () => {
     it('should call corresponding apiClient method', () => {
-        const apiStub : ApiClient = {
+        const apiStub: ApiClient = {
             get : (
-                uri : string,
-                headers : Array<{key : string, value : string}>,
+                uri: string,
+                headers: Array<{key: string, value: string}>,
             ) => Promise.resolve(mockAPIResult),
         };
 
@@ -44,19 +44,17 @@ describe('DeviceAddressService', () => {
         const das = new DeviceAddressService(apiStub);
 
         return das.getFullAddress(mockDeviceId, mockApiEndpoint, mockToken)
-            .then(() => {
-                return das.getCountryAndPostalCode(mockDeviceId, mockApiEndpoint, mockToken);
-            })
+            .then(() => das.getCountryAndPostalCode(mockDeviceId, mockApiEndpoint, mockToken))
             .then(() => {
                 expect(spyGet.callCount).to.equal(2);
             });
     });
 
     it('should properly construct uri and headers with given null parameters', () => {
-        const apiStub : ApiClient = {
+        const apiStub: ApiClient = {
             get : (
-                uri : string,
-                headers : Array<{key : string, value : string}>,
+                uri: string,
+                headers: Array<{key: string, value: string}>,
             ) => Promise.resolve(mockAPIResult),
         };
         const spyGet = sinon.spy(apiStub, 'get');
@@ -75,10 +73,10 @@ describe('DeviceAddressService', () => {
     });
 
     it('should reject promise on http request error', () => {
-        const apiStub : ApiClient = {
+        const apiStub: ApiClient = {
             get : (
-                uri : string,
-                headers : Array<{key : string, value : string}>,
+                uri: string,
+                headers: Array<{key: string, value: string}>,
             ) => Promise.reject(new Error('Error')),
         };
 
@@ -96,10 +94,10 @@ describe('DeviceAddressService', () => {
     });
 
     it('should reject promise with error message if the device API returns a non 2xx status', () => {
-        const apiStub : ApiClient = {
+        const apiStub: ApiClient = {
             get : (
-                uri : string,
-                headers : Array<{key : string, value : string}>,
+                uri: string,
+                headers: Array<{key: string, value: string}>,
             ) => Promise.resolve(mockAPIFailedResult),
         };
 

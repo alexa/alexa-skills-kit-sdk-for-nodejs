@@ -15,11 +15,11 @@ import { DynamoDbPersistenceAdapter } from 'ask-sdk';
 import { Intent } from 'ask-sdk-model';
 import { V1Handler } from './v1Handler';
 
-let dynamoDbPersistenceAdapter : DynamoDbPersistenceAdapter;
+let dynamoDbPersistenceAdapter: DynamoDbPersistenceAdapter;
 
 /* tslint:disable */
-export const ResponseHandlers : V1Handler = {
-    ':tell'(speechOutput : string) : void {
+export const ResponseHandlers: V1Handler = {
+    ':tell'(speechOutput: string): void {
         if (this.isOverridden()) {
             return;
         }
@@ -27,7 +27,7 @@ export const ResponseHandlers : V1Handler = {
         this.emit(':responseReady');
     },
 
-    ':ask'(speechOutput : string, repromptSpeech : string) : void {
+    ':ask'(speechOutput: string, repromptSpeech: string): void {
         if (this.isOverridden()) {
             return;
         }
@@ -35,65 +35,65 @@ export const ResponseHandlers : V1Handler = {
         this.emit(':responseReady');
     },
 
-    ':askWithCard'(speechOutput : string, repromptSpeech : string, cardTitle : string, cardContent : string,
-                   imageObj : {[key : string] : string}) : void {
+    ':askWithCard'(speechOutput: string, repromptSpeech: string, cardTitle: string, cardContent: string,
+                   imageObj: {[key: string]: string}): void {
         if (this.isOverridden()) {
             return;
         }
         this.response.speak(speechOutput)
-                    .listen(repromptSpeech)
-                    .cardRenderer(cardTitle, cardContent, imageObj);
+            .listen(repromptSpeech)
+            .cardRenderer(cardTitle, cardContent, imageObj);
         this.emit(':responseReady');
     },
 
-    ':tellWithCard'(speechOutput : string, cardTitle : string, cardContent : string, imageObj : {[key : string] : string}) : void {
+    ':tellWithCard'(speechOutput: string, cardTitle: string, cardContent: string, imageObj: {[key: string]: string}): void {
         if (this.isOverridden()) {
             return;
         }
         this.response.speak(speechOutput)
-                    .cardRenderer(cardTitle, cardContent, imageObj);
+            .cardRenderer(cardTitle, cardContent, imageObj);
         this.emit(':responseReady');
     },
 
-    ':tellWithLinkAccountCard'(speechOutput : string) : void {
+    ':tellWithLinkAccountCard'(speechOutput: string): void {
         if (this.isOverridden()) {
             return;
         }
         this.response.speak(speechOutput)
-                    .linkAccountCard();
+            .linkAccountCard();
         this.emit(':responseReady');
     },
 
-    ':askWithLinkAccountCard'(speechOutput : string, repromptSpeech : string) : void {
+    ':askWithLinkAccountCard'(speechOutput: string, repromptSpeech: string): void {
         if (this.isOverridden()) {
             return;
         }
         this.response.speak(speechOutput)
-                    .listen(repromptSpeech)
-                    .linkAccountCard();
+            .listen(repromptSpeech)
+            .linkAccountCard();
         this.emit(':responseReady');
     },
 
-    ':askWithPermissionCard'(speechOutput : string, repromptSpeech : string, permissions : string[]) : void {
+    ':askWithPermissionCard'(speechOutput: string, repromptSpeech: string, permissions: string[]): void {
         if (this.isOverridden()) {
             return;
         }
         this.response.speak(speechOutput)
-                    .listen(repromptSpeech)
-                    .askForPermissionsConsentCard(permissions);
+            .listen(repromptSpeech)
+            .askForPermissionsConsentCard(permissions);
         this.emit(':responseReady');
     },
 
-    ':tellWithPermissionCard'(speechOutput : string, permissions : string[]) : void {
+    ':tellWithPermissionCard'(speechOutput: string, permissions: string[]): void {
         if (this.isOverridden()) {
             return;
         }
         this.response.speak(speechOutput)
-                    .askForPermissionsConsentCard(permissions);
+            .askForPermissionsConsentCard(permissions);
         this.emit(':responseReady');
     },
 
-    ':delegate'(updatedIntent : Intent) : void {
+    ':delegate'(updatedIntent: Intent): void {
         if (this.isOverridden()) {
             return;
         }
@@ -101,73 +101,73 @@ export const ResponseHandlers : V1Handler = {
         this.emit(':responseReady');
     },
 
-    ':elicitSlot'(slotName : string, speechOutput : string, repromptSpeech : string, updatedIntent : Intent) : void {
+    ':elicitSlot'(slotName: string, speechOutput: string, repromptSpeech: string, updatedIntent: Intent): void {
         if (this.isOverridden()) {
             return;
         }
         this.response.speak(speechOutput)
-                    .listen(repromptSpeech)
-                    .elicitSlot(slotName, updatedIntent);
+            .listen(repromptSpeech)
+            .elicitSlot(slotName, updatedIntent);
         this.emit(':responseReady');
     },
 
-    ':elicitSlotWithCard'(slotName : string, speechOutput : string, repromptSpeech : string, cardTitle : string, cardContent : string,
-                          updatedIntent : Intent, imageObj : {[key : string] : string}) : void {
+    ':elicitSlotWithCard'(slotName: string, speechOutput: string, repromptSpeech: string, cardTitle: string, cardContent: string,
+                          updatedIntent: Intent, imageObj: {[key: string]: string}): void {
         if (this.isOverridden()) {
             return;
         }
         this.response.speak(speechOutput)
-                    .listen(repromptSpeech)
-                    .cardRenderer(cardTitle, cardContent, imageObj)
-                    .elicitSlot(slotName, updatedIntent);
+            .listen(repromptSpeech)
+            .cardRenderer(cardTitle, cardContent, imageObj)
+            .elicitSlot(slotName, updatedIntent);
         this.emit(':responseReady');
     },
 
-    ':confirmSlot'(slotName : string, speechOutput : string, repromptSpeech : string, updatedIntent : Intent) : void {
+    ':confirmSlot'(slotName: string, speechOutput: string, repromptSpeech: string, updatedIntent: Intent): void {
         if (this.isOverridden()) {
             return;
         }
         this.response.speak(speechOutput)
-                    .listen(repromptSpeech)
-                    .confirmSlot(slotName, updatedIntent);
+            .listen(repromptSpeech)
+            .confirmSlot(slotName, updatedIntent);
         this.emit(':responseReady');
     },
 
-    ':confirmSlotWithCard'(slotName : string, speechOutput : string, repromptSpeech : string, cardTitle : string, cardContent : string,
-                           updatedIntent : Intent, imageObj : {[key : string] : string}) : void {
+    ':confirmSlotWithCard'(slotName: string, speechOutput: string, repromptSpeech: string, cardTitle: string, cardContent: string,
+                           updatedIntent: Intent, imageObj: {[key: string]: string}): void {
         if (this.isOverridden()) {
             return;
         }
         this.response.speak(speechOutput)
-                    .listen(repromptSpeech)
-                    .cardRenderer(cardTitle, cardContent, imageObj)
-                    .confirmSlot(slotName, updatedIntent);
+            .listen(repromptSpeech)
+            .cardRenderer(cardTitle, cardContent, imageObj)
+            .confirmSlot(slotName, updatedIntent);
         this.emit(':responseReady');
     },
 
-    ':confirmIntent'(speechOutput : string, repromptSpeech : string, updatedIntent : Intent) : void {
+    ':confirmIntent'(speechOutput: string, repromptSpeech: string, updatedIntent: Intent): void {
         if (this.isOverridden()) {
             return;
         }
         this.response.speak(speechOutput)
-                    .listen(repromptSpeech)
-                    .confirmIntent(updatedIntent);
+            .listen(repromptSpeech)
+            .confirmIntent(updatedIntent);
         this.emit(':responseReady');
     },
 
-    ':confirmIntentWithCard'(speechOutput : string, repromptSpeech : string, cardTitle : string, cardContent : string,
-                             updatedIntent : Intent, imageObj : {[key : string] : string}) : void {
+    ':confirmIntentWithCard'(speechOutput: string, repromptSpeech: string, cardTitle: string, cardContent: string,
+                             updatedIntent: Intent, imageObj: {[key: string]: string}): void {
         if (this.isOverridden()) {
             return;
         }
         this.response.speak(speechOutput)
-                    .listen(repromptSpeech)
-                    .cardRenderer(cardTitle, cardContent, imageObj)
-                    .confirmIntent(updatedIntent);
+            .listen(repromptSpeech)
+            .cardRenderer(cardTitle, cardContent, imageObj)
+            .confirmIntent(updatedIntent);
         this.emit(':responseReady');
     },
 
-    ':responseReady'() : void {
+    ':responseReady'(): void {
         if (this.isOverridden()) {
             return;
         }
@@ -182,7 +182,7 @@ export const ResponseHandlers : V1Handler = {
         this.handler.promiseResolve(this.handler.response.response);
     },
 
-    ':saveState'(forceSave : boolean) : void {
+    ':saveState'(forceSave: boolean): void {
         if (this.isOverridden()) {
             return;
         }
@@ -204,17 +204,17 @@ export const ResponseHandlers : V1Handler = {
 
             dynamoDbPersistenceAdapter.saveAttributes(this.event, this.attributes).then(() => {
                 this.handler.promiseResolve(response);
-                }).catch((error) => {
-                    if (error) {
-                        return this.emit(':saveStateError', error);
-                    }
-                });
+            }).catch((error) => {
+                if (error) {
+                    return this.emit(':saveStateError', error);
+                }
+            });
         } else {
             this.handler.promiseResolve(response);
         }
     },
 
-    ':saveStateError'(error : Error) : void {
+    ':saveStateError'(error: Error): void {
         if (this.isOverridden()) {
             return;
         }

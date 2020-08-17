@@ -16,14 +16,14 @@ import { IncomingHttpHeaders } from 'http';
 import { pki } from 'node-forge';
 
 export const DataProvider = {
-    requestHeader() : IncomingHttpHeaders {
+    requestHeader(): IncomingHttpHeaders {
         return {
             'content-type': null,
             'signature': null,
             'signaturecertchainurl': null,
         };
     },
-    requestEnvelope() : RequestEnvelope {
+    requestEnvelope(): RequestEnvelope {
         return {
             context : {
                 AudioPlayer : null,
@@ -66,7 +66,7 @@ export const DataProvider = {
             version: '1.0',
         };
     },
-    responseEnvelope() : ResponseEnvelope {
+    responseEnvelope(): ResponseEnvelope {
         return {
             version: '1.0',
             response: {
@@ -76,7 +76,8 @@ export const DataProvider = {
     },
 };
 
-export function createInvalidCert (extensions : object[]) : pki.Certificate {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function createInvalidCert(extensions: object[]): pki.Certificate {
     const keys = pki.rsa.generateKeyPair(512);
     const cert = pki.createCertificate();
     cert.publicKey = keys.publicKey;

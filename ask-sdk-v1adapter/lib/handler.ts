@@ -14,23 +14,23 @@
 import {
     createAskSdkError,
     HandlerInput,
-    RequestHandler,
+    RequestHandler
 } from 'ask-sdk';
 import { Response } from 'ask-sdk-model';
 import { Adapter } from './adapter';
 import { EventParser } from './eventParser';
 
 export class Handler implements RequestHandler {
-    protected adapter : Adapter;
-    protected targetHandlerName : string;
+    protected adapter: Adapter;
+    protected targetHandlerName: string;
 
-    constructor(adapter : Adapter) {
+    constructor(adapter: Adapter) {
         this.adapter = adapter;
     }
 
-    public canHandle(handlerInput : HandlerInput) : boolean {
+    public canHandle(handlerInput: HandlerInput): boolean {
         if (this.adapter._event.session && this.adapter._event.session.new
-            && this.adapter.listenerCount('NewSession' + this.adapter.state) >= 1) {
+            && this.adapter.listenerCount(`NewSession${ this.adapter.state}`) >= 1) {
             this.targetHandlerName = 'NewSession';
 
             return true;
@@ -38,17 +38,17 @@ export class Handler implements RequestHandler {
         this.targetHandlerName = EventParser(this.adapter._event);
 
         return this.adapter.listenerCount(this.targetHandlerName + this.adapter.state) >= 1
-            || this.adapter.listenerCount('Unhandled' + this.adapter.state) >= 1;
+            || this.adapter.listenerCount(`Unhandled${ this.adapter.state}`) >= 1;
     }
 
-    public handle(handlerInput : HandlerInput) : Promise<Response> {
+    public handle(handlerInput: HandlerInput): Promise<Response> {
         return new Promise((resolve, reject) => {
             this.adapter.promiseResolve = resolve;
             try {
                 if (this.adapter.listenerCount(this.targetHandlerName + this.adapter.state) >= 1) {
                     this.adapter.emit(this.targetHandlerName + this.adapter.state);
-                } else if (this.adapter.listenerCount('Unhandled' + this.adapter.state) >= 1) {
-                    this.adapter.emit('Unhandled' + this.adapter.state);
+                } else if (this.adapter.listenerCount(`Unhandled${ this.adapter.state}`) >= 1) {
+                    this.adapter.emit(`Unhandled${ this.adapter.state}`);
                 } else {
                     reject(createAskSdkError(
                         this.constructor.name,

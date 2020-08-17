@@ -29,8 +29,8 @@ describe('ListItemBuilder', () => {
         const expectedPrimaryText = TextUtils.makePlainText('text');
 
         const listItems = new ListItemBuilder()
-                                .addItem(expectedImage, expectedToken, expectedPrimaryText)
-                                .build();
+            .addItem(expectedImage, expectedToken, expectedPrimaryText)
+            .build();
 
         expect(listItems.length).to.equal(1);
         expect(listItems[0].image).to.equal(expectedImage);
@@ -45,9 +45,9 @@ describe('ListItemBuilder', () => {
         const expectedPrimaryText = TextUtils.makePlainText('text');
 
         const listItems = new ListItemBuilder()
-                                .addItem(expectedImage, expectedToken, expectedPrimaryText)
-                                .addItem(expectedImage, expectedToken, expectedPrimaryText)
-                                .build();
+            .addItem(expectedImage, expectedToken, expectedPrimaryText)
+            .addItem(expectedImage, expectedToken, expectedPrimaryText)
+            .build();
 
         expect(listItems.length).to.equal(2);
     });

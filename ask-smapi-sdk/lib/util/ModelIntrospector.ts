@@ -12,17 +12,17 @@
  */
 
 /**
- * Introspects on the Skill Managament API (SMAPI) model.
+ * Introspects on the Skill Management API (SMAPI) model.
  */
 export class ModelIntrospector {
-    private operations : Map<string, ApiOperation>;
-    private definitions : Map<string, TypeDefinition>;
-    private modelJson : any;
-    private customizationProcessor : CustomizationProcessor;
+    private operations: Map<string, ApiOperation>;
+    private definitions: Map<string, TypeDefinition>;
+    private modelJson: any;
+    private customizationProcessor: CustomizationProcessor;
 
     constructor(modelJson? : any, customizationProcessor? : CustomizationProcessor) {
         if (!modelJson) {
-            const modelContent : string = require('ask-smapi-model/spec.json');
+            const modelContent: string = require('ask-smapi-model/spec.json');
             this.modelJson = modelContent;
         } else {
             this.modelJson = modelJson;
@@ -32,25 +32,25 @@ export class ModelIntrospector {
     }
 
     /**
-     * Returns the operation definition for a given Skill Managament API (SMAPI) operation.
+     * Returns the operation definition for a given Skill Management API (SMAPI) operation.
      * @param operationName operation name
      */
-    public getOperationDefinition(operationName : string) : ApiOperation {
+    public getOperationDefinition(operationName: string): ApiOperation {
         return this.operations.get(operationName);
     }
 
     /**
-     * Returns a Map of all Skill Managament API (SMAPI) operations
+     * Returns a Map of all Skill Management API (SMAPI) operations
      */
-    public getOperations() : Map<string, ApiOperation> {
+    public getOperations(): Map<string, ApiOperation> {
         return this.operations;
     }
 
-    private processModel() : void {
+    private processModel(): void {
         const modelDefinitions = this.modelJson.definitions;
         this.definitions = new Map(Object.keys(modelDefinitions).map((key) => [key, modelDefinitions[key]]));
 
-        const operationDefinitions : any[] = [];
+        const operationDefinitions: any[] = [];
         Object.keys(this.modelJson.paths).forEach((pathKey) => {
             Object.keys(this.modelJson.paths[pathKey]).forEach((operationKey) => {
                 operationDefinitions.push(this.modelJson.paths[pathKey][operationKey]);
@@ -62,7 +62,7 @@ export class ModelIntrospector {
             const apiOperationName = operationDefinition['x-operation-name'];
             if (apiOperationName) {
                 const apiVersion = parseInt(apiOperationName.substring(apiOperationName.length - 1), 10);
-                const apiOperation : ApiOperation = {
+                const apiOperation: ApiOperation = {
                     apiOperationName,
                     apiVersion,
                     description: operationDefinition.description,
@@ -92,7 +92,7 @@ export interface CustomizationProcessor {
      * Processes an API operation name
      * @param operationName operation name
      */
-    processOperationName(operationName : string) : string;
+    processOperationName(operationName: string): string;
 
     /**
      * Processes an API operation
@@ -100,7 +100,7 @@ export interface CustomizationProcessor {
      * @param operation operation definition
      * @param definitions map of modeled API definitions
      */
-    processOperation(operationName : string, operation : ApiOperation, definitions : Map<string, TypeDefinition>) : void;
+    processOperation(operationName: string, operation: ApiOperation, definitions: Map<string, TypeDefinition>): void;
 
     /**
      * Processes an API parameter
@@ -108,40 +108,40 @@ export interface CustomizationProcessor {
      * @param parentOperation operation this parameter belongs to
      * @param definitions map of modeled API definitions
      */
-    processParameter(parameter : ApiParameter, parentOperation : ApiOperation, definitions : Map<string, TypeDefinition>) : void;
+    processParameter(parameter: ApiParameter, parentOperation: ApiOperation, definitions: Map<string, TypeDefinition>): void;
 }
 
 /**
  * Represents an API operation.
  */
 export interface ApiOperation {
-    apiOperationName : string;
-    apiVersion : number;
-    description : string;
-    params : ApiParameter[];
-    customizationMetadata : { [key : string] : any };
+    apiOperationName: string;
+    apiVersion: number;
+    description: string;
+    params: ApiParameter[];
+    customizationMetadata: { [key: string]: any };
 }
 
 /**
  * Represents an API type definition.
  */
 export interface TypeDefinition {
-    type : string;
-    description : string;
-    required : boolean;
-    enum : string[];
-    items : {};
-    properties : { [key : string] : ApiParameter };
+    type: string;
+    description: string;
+    required: boolean;
+    enum: string[];
+    items: {};  /* eslint-disable-line @typescript-eslint/ban-types */
+    properties: { [key: string]: ApiParameter };
 }
 
 /**
  * Represents an API parameter.
  */
 export interface ApiParameter extends TypeDefinition {
-    name : string;
-    schema : {
-        $ref : string;
+    name: string;
+    schema: {
+        $ref: string;
     };
-    $ref : string;
-    customizationMetadata : { [key : string] : any };
+    $ref: string;
+    customizationMetadata: { [key: string]: any };
 }

@@ -15,5 +15,5 @@ export { ExpressAdapter } from './adapter/ExpressAdapter';
 export {
     SkillRequestSignatureVerifier,
     TimestampVerifier,
-    Verifier,
+    Verifier
 } from './verifier';
