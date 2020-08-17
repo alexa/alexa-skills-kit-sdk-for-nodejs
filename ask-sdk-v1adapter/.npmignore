@@ -5,3 +5,4 @@ node_modules/
 tst/
 package-lock.json
 tsconfig.json
+.eslintrc.json
