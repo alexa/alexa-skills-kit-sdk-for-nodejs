@@ -25,17 +25,17 @@ import { generateCAStore, generateCertificatesArray } from './helper';
  * Provide constant value
  * For more info, check `link <https://developer.amazon.com/docs/custom-skills/host-a-custom-skill-as-a-web-service.html#checking-the-signature-of-the-request>
  */
-const VALID_SIGNING_CERT_CHAIN_PROTOCOL : string = 'https:';
-const VALID_SIGNING_CERT_CHAIN_URL_HOST_NAME : string = 's3.amazonaws.com';
-const VALID_SIGNING_CERT_CHAIN_URL_PATH_PREFIX : string = '/echo.api/';
-const SIGNATURE_CERT_CHAIN_URL_HEADER : string = 'SignatureCertChainUrl';
-const SIGNATURE_HEADER : string = 'Signature';
-const SIGNATURE_FORMAT : crypto.HexBase64Latin1Encoding = 'base64';
-const CERT_CHAIN_URL_PORT : number = 443;
+const VALID_SIGNING_CERT_CHAIN_PROTOCOL: string = 'https:';
+const VALID_SIGNING_CERT_CHAIN_URL_HOST_NAME: string = 's3.amazonaws.com';
+const VALID_SIGNING_CERT_CHAIN_URL_PATH_PREFIX: string = '/echo.api/';
+const SIGNATURE_CERT_CHAIN_URL_HEADER: string = 'SignatureCertChainUrl';
+const SIGNATURE_HEADER: string = 'Signature';
+const SIGNATURE_FORMAT: crypto.HexBase64Latin1Encoding = 'base64';
+const CERT_CHAIN_URL_PORT: number = 443;
 const CERT_CHAIN_DOMAIN = 'echo-api.amazon.com';
-const CHARACTER_ENCODING : crypto.Utf8AsciiLatin1Encoding = 'utf8';
-const DEFAULT_TIMESTAMP_TOLERANCE_IN_MILLIS : number = 150000;
-const MAX_TIMESTAMP_TOLERANCE_IN_MILLIS : number = 3600000;
+const CHARACTER_ENCODING: crypto.Utf8AsciiLatin1Encoding = 'utf8';
+const DEFAULT_TIMESTAMP_TOLERANCE_IN_MILLIS: number = 150000;
+const MAX_TIMESTAMP_TOLERANCE_IN_MILLIS: number = 3600000;
 
 /**
  * Verifiers are run against incoming requests to verify authenticity and integrity of the request before processing
@@ -49,14 +49,14 @@ export interface Verifier {
      * @param {string} requestEnvelope The request body in string format
      * @param {IncomingHttpHeaders} headers The request headers
      */
-    verify(requestEnvelope : string, headers? : IncomingHttpHeaders) : Promise<void | string>;
+    verify(requestEnvelope: string, headers? : IncomingHttpHeaders): Promise<void | string>;
 }
 
 /**
- * Implemention of Verifier which provides a utility method to verify the signature of a skill request.
+ * Implementation of Verifier which provides a utility method to verify the signature of a skill request.
  */
 export class SkillRequestSignatureVerifier implements Verifier {
-    protected certCache : Map<string, string>;
+    protected certCache: Map<string, string>;
     constructor() {
         this.certCache = new Map<string, string>();
     }
@@ -70,10 +70,10 @@ export class SkillRequestSignatureVerifier implements Verifier {
      * @param {string} requestEnvelope Request body of the input POST request in string format
      * @param {IncomingHttpHeaders} headers Headers of the input POST request
      */
-    public async verify (requestEnvelope : string, headers : IncomingHttpHeaders) : Promise<void> {
+    public async verify(requestEnvelope: string, headers: IncomingHttpHeaders): Promise<void> {
         // throw error if signature or signatureCertChainUrl are not present
-        let signatureCertChainUrl : string;
-        let signature : string;
+        let signatureCertChainUrl: string;
+        let signature: string;
         for (const key of Object.keys(headers)) {
             const keyInLowerCase = key.toLocaleLowerCase();
             if (keyInLowerCase === SIGNATURE_CERT_CHAIN_URL_HEADER.toLowerCase()) {
@@ -96,8 +96,8 @@ export class SkillRequestSignatureVerifier implements Verifier {
             );
         }
         try {
-            // retrive validated certification chain in pem format, then check if signature and request body are matched
-            const pemCert : string = await this._validateUrlAndRetriveCertChain(signatureCertChainUrl);
+            // retrieve validated certification chain in pem format, then check if signature and request body are matched
+            const pemCert: string = await this._validateUrlAndRetrieveCertChain(signatureCertChainUrl);
             this._validateRequestBody(pemCert, signature, requestEnvelope);
         } catch (err) {
             throw createAskSdkError(
@@ -108,7 +108,7 @@ export class SkillRequestSignatureVerifier implements Verifier {
     }
 
     /**
-     *  Validate Url and retrive certificate chain
+     *  Validate Url and retrieve certificate chain
      *
      *  This method validates if the URL is valid and loads
      *  the certificate chain, before returning it.
@@ -116,7 +116,7 @@ export class SkillRequestSignatureVerifier implements Verifier {
      * @param {string} signatureCertChainUrl URL for retrieving certificate chain
      * @return {Promise<string>}
      */
-    private async _validateUrlAndRetriveCertChain(signatureCertChainUrl : string) : Promise<string> {
+    private async _validateUrlAndRetrieveCertChain(signatureCertChainUrl: string): Promise<string> {
         this._validateCertificateUrl(signatureCertChainUrl);
         const pemCert = await this._loadCertChain(signatureCertChainUrl);
 
@@ -131,11 +131,11 @@ export class SkillRequestSignatureVerifier implements Verifier {
      * @private
      * @param {string} signatureCertChainUrl URL for retrieving certificate chain
      */
-    private _validateCertificateUrl(signatureCertChainUrl : string) : void {
+    private _validateCertificateUrl(signatureCertChainUrl: string): void {
         const urlObj = url.parse(signatureCertChainUrl);
 
         // Validate the protocol
-        const protocol : string = urlObj.protocol;
+        const protocol: string = urlObj.protocol;
         if (protocol.toLowerCase() !== VALID_SIGNING_CERT_CHAIN_PROTOCOL) {
             throw createAskSdkError(
                 this.constructor.name,
@@ -145,7 +145,7 @@ export class SkillRequestSignatureVerifier implements Verifier {
         }
 
         // Validate the hostname
-        const hostname : string = urlObj.hostname;
+        const hostname: string = urlObj.hostname;
         if (hostname !== VALID_SIGNING_CERT_CHAIN_URL_HOST_NAME) {
             throw createAskSdkError(
                 this.constructor.name,
@@ -155,7 +155,7 @@ export class SkillRequestSignatureVerifier implements Verifier {
         }
 
         // Validate the path prefix
-        const path : string = urlObj.pathname;
+        const path: string = urlObj.pathname;
         if (!path.startsWith(VALID_SIGNING_CERT_CHAIN_URL_PATH_PREFIX)) {
             throw createAskSdkError(
                 this.constructor.name,
@@ -165,7 +165,7 @@ export class SkillRequestSignatureVerifier implements Verifier {
         }
 
         // Validate the port uses the default of 443 for HTTPS if explicitly defined in the URL
-        const port : number = Number(urlObj.port);
+        const port: number = Number(urlObj.port);
         if (port && port !== CERT_CHAIN_URL_PORT) {
             throw createAskSdkError(
                 this.constructor.name,
@@ -186,7 +186,7 @@ export class SkillRequestSignatureVerifier implements Verifier {
      * @param {string} signatureCertChainUrl URL for retrieving certificate chain
      * @return {Promise<string>}
      */
-    private async _loadCertChain(signatureCertChainUrl : string) : Promise<string> {
+    private async _loadCertChain(signatureCertChainUrl: string): Promise<string> {
         // try to get cert chain in cache
         if (this.certCache.has(signatureCertChainUrl)) {
             return this.certCache.get(signatureCertChainUrl);
@@ -204,23 +204,23 @@ export class SkillRequestSignatureVerifier implements Verifier {
     /**
      * Loads the certificate chain from the URL.
      *
-     * This method use the validated cerificate url to retrive certificate chain
+     * This method use the validated certificate url to retrieve certificate chain
      * @private
      * @param {string} signatureCertChainUrl URL for retrieving certificate chain
      * @return {Promise<string>}
      */
-    private _getCertChainByUrl(signatureCertChainUrl : string) : Promise<string> {
+    private _getCertChainByUrl(signatureCertChainUrl: string): Promise<string> {
 
         return new Promise<string> ((resolve, reject) => {
             const clientRequest = client.get(signatureCertChainUrl, (resp) => {
-                let data : string = '';
-                let statusCode : number ;
+                let data: string = '';
+                let statusCode: number;
 
                 if (!resp || resp.statusCode !== 200) {
                     statusCode = resp ? resp.statusCode : 0;
                     reject(new Error(`Unable to load x509 certificate from URL: ${signatureCertChainUrl}. Response status code: ${statusCode}`));
                 }
-                // A chunk of data has been recieved.
+                // A chunk of data has been received.
                 resp.setEncoding(CHARACTER_ENCODING);
                 resp.on('data', (chunk) => {
                     data += chunk;
@@ -249,13 +249,13 @@ export class SkillRequestSignatureVerifier implements Verifier {
      * @private
      * @param {string} pemCert Certificate chain in pem format
      */
-    private _validateCertChain(pemCert : string) : void {
-        const cert : pki.Certificate = pki.certificateFromPem(pemCert);
+    private _validateCertChain(pemCert: string): void {
+        const cert: pki.Certificate = pki.certificateFromPem(pemCert);
 
         // check the before/after dates on the certificate are still valid for the present time
-        const now : number = new Date().getTime();
-        const notAfter : number = new Date(cert.validity.notAfter).getTime();
-        const notBefore : number = new Date(cert.validity.notBefore).getTime();
+        const now: number = new Date().getTime();
+        const notAfter: number = new Date(cert.validity.notAfter).getTime();
+        const notBefore: number = new Date(cert.validity.notBefore).getTime();
 
         if (!(now <= notAfter && now >= notBefore)) {
             throw createAskSdkError(
@@ -265,10 +265,10 @@ export class SkillRequestSignatureVerifier implements Verifier {
         }
 
         // verify Echo API's hostname is specified as one of subject alternative names on the signing certificate
-        const subjectAltNameExtention = cert.getExtension('subjectAltName');
+        const subjectAltNameExtension = cert.getExtension('subjectAltName');
         const keyName = 'altNames';
         const domainExist = (domain) => domain.value === CERT_CHAIN_DOMAIN;
-        if (!subjectAltNameExtention[keyName].some(domainExist)) {
+        if (!subjectAltNameExtension[keyName].some(domainExist)) {
             throw createAskSdkError(
                 this.constructor.name,
                 `${CERT_CHAIN_DOMAIN} domain missing in Signature Certificate Chain.`,
@@ -276,9 +276,9 @@ export class SkillRequestSignatureVerifier implements Verifier {
         }
         // Use the pki.verifyCertificateChain function from Node-forge to
         // validate that all certificates in the chain combine to create a chain of trust to a trusted root CA certificate
-        // TODO: Implement certificate revocation check which is misssed in pki.verifyCertificateChain function
-        const certChain : pki.Certificate[] = generateCertificatesArray(pemCert);
-        const caStore : pki.CAStore = generateCAStore(require('ssl-root-cas/latest').create());
+        // TODO: Implement certificate revocation check which is missed in pki.verifyCertificateChain function
+        const certChain: pki.Certificate[] = generateCertificatesArray(pemCert);
+        const caStore: pki.CAStore = generateCAStore(require('ssl-root-cas/latest').create());
         try {
             pki.verifyCertificateChain(caStore, certChain);
         } catch (e) {
@@ -299,7 +299,7 @@ export class SkillRequestSignatureVerifier implements Verifier {
      * @param signature Encrypted signature of the request
      * @param requestEnvelope Request body of the input POST request in string format
      */
-    private _validateRequestBody(pemCert : string, signature : string, requestEnvelope : string) : void {
+    private _validateRequestBody(pemCert: string, signature: string, requestEnvelope: string): void {
 
         const verifier = crypto.createVerify('RSA-SHA1');
         verifier.update(requestEnvelope, CHARACTER_ENCODING);
@@ -311,12 +311,12 @@ export class SkillRequestSignatureVerifier implements Verifier {
 }
 
 /**
- * Implemention of Verifier which provides a utility method to handle
+ * Implementation of Verifier which provides a utility method to handle
  * the request timestamp verification of the input request.
  */
 export class TimestampVerifier implements Verifier {
-    protected toleranceInMillis : number;
-    constructor(tolerance : number = DEFAULT_TIMESTAMP_TOLERANCE_IN_MILLIS) {
+    protected toleranceInMillis: number;
+    constructor(tolerance: number = DEFAULT_TIMESTAMP_TOLERANCE_IN_MILLIS) {
         if (tolerance > MAX_TIMESTAMP_TOLERANCE_IN_MILLIS) {
             throw createAskSdkError(
                 this.constructor.name,
@@ -329,7 +329,7 @@ export class TimestampVerifier implements Verifier {
                 `Negative tolerance values not supported`,
             );
         }
-        this.toleranceInMillis  = tolerance;
+        this.toleranceInMillis = tolerance;
     }
     /**
      * Verifies the certificate authenticity.
@@ -341,8 +341,8 @@ export class TimestampVerifier implements Verifier {
      * @param {string} requestEnvelope Request envelope of the input POST request in string format
      * @return {Promise<void>}
      */
-    public async verify(requestEnvelope : string) : Promise<void> {
-        const requestEnvelopeJson : RequestEnvelope = JSON.parse(requestEnvelope);
+    public async verify(requestEnvelope: string): Promise<void> {
+        const requestEnvelopeJson: RequestEnvelope = JSON.parse(requestEnvelope);
         if (!(requestEnvelopeJson.request && requestEnvelopeJson.request.timestamp)) {
             throw createAskSdkError(
                 this.constructor.name,

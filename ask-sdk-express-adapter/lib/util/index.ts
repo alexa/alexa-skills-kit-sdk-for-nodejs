@@ -26,7 +26,7 @@ import { Verifier } from '../verifier';
  * @param {Skill} skill ask-sdk-core custom skill instance
  * @param {Verifier[]} verifiers Array of user customized Verifier instances
  */
-export async function asyncVerifyRequestAndDispatch(httpRequestHeader : IncomingHttpHeaders, httpRequestBody : string, skill : Skill, verifiers : Verifier[]) : Promise<ResponseEnvelope> {
+export async function asyncVerifyRequestAndDispatch(httpRequestHeader: IncomingHttpHeaders, httpRequestBody: string, skill: Skill, verifiers: Verifier[]): Promise<ResponseEnvelope> {
     try {
         await Promise.all(verifiers.map(async (verifier) => {
             await verifier.verify(httpRequestBody, httpRequestHeader);
