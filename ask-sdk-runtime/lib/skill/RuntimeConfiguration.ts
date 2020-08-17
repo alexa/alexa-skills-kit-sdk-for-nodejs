@@ -18,8 +18,8 @@ import { ResponseInterceptor } from '../dispatcher/request/interceptor/ResponseI
 import { RequestMapper } from '../dispatcher/request/mapper/RequestMapper';
 
 export interface RuntimeConfiguration<Input, Output> {
-    requestMappers : Array<RequestMapper<Input, Output>>;
-    handlerAdapters : Array<HandlerAdapter<Input, Output>>;
+    requestMappers: Array<RequestMapper<Input, Output>>;
+    handlerAdapters: Array<HandlerAdapter<Input, Output>>;
     errorMapper? : ErrorMapper<Input, Output>;
     requestInterceptors? : Array<RequestInterceptor<Input>>;
     responseInterceptors? : Array<ResponseInterceptor<Input, Output>>;

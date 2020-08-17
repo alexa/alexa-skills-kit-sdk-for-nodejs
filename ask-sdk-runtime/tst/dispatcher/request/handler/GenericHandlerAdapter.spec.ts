@@ -25,7 +25,7 @@ describe('GenericHandlerAdapter', () => {
         expect(handlerAdapter.supports({canHandle : true, handle : true})).equal(false);
     });
 
-    it('should be able to invoke the execute function on supported handler object', async() => {
+    it('should be able to invoke the execute function on supported handler object', async () => {
         const response = await handlerAdapter.execute('test', new MockAlwaysTrueRequestHandler());
 
         expect(response).eq('Input(test) received at MockAlwaysTrueRequestHandler');

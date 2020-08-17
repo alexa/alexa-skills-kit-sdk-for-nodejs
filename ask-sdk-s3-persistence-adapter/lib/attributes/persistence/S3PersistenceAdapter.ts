@@ -13,27 +13,27 @@
 
 import {
     createAskSdkError,
-    PersistenceAdapter,
+    PersistenceAdapter
 } from 'ask-sdk-core';
 import { RequestEnvelope } from 'ask-sdk-model';
 import { S3 } from 'aws-sdk';
 import * as path from 'path';
 import {
     ObjectKeyGenerator,
-    ObjectKeyGenerators,
+    ObjectKeyGenerators
 } from './ObjectKeyGenerators';
 
 /**
  * Implementation of {@link PersistenceAdapter} using AWS S3
  */
 export class S3PersistenceAdapter implements PersistenceAdapter {
-    protected bucketName : string;
-    protected s3Client : S3;
-    protected objectKeyGenerator : ObjectKeyGenerator;
-    protected pathPrefix : string;
+    protected bucketName: string;
+    protected s3Client: S3;
+    protected objectKeyGenerator: ObjectKeyGenerator;
+    protected pathPrefix: string;
 
-    constructor(config : {
-        bucketName : string,
+    constructor(config: {
+        bucketName: string,
         s3Client? : S3,
         objectKeyGenerator? : ObjectKeyGenerator,
         pathPrefix? : string,
@@ -49,15 +49,15 @@ export class S3PersistenceAdapter implements PersistenceAdapter {
      * @param {RequestEnvelope} requestEnvelope Request envelope used to generate object key.
      * @returns {Promise<Object.<string, any>>}
      */
-    public async getAttributes(requestEnvelope : RequestEnvelope) : Promise<{[key : string] : string}> {
+    public async getAttributes(requestEnvelope: RequestEnvelope): Promise<{[key: string]: string}> {
         const objectId = path.join(this.pathPrefix, this.objectKeyGenerator(requestEnvelope));
 
-        const getParams : S3.GetObjectRequest = {
+        const getParams: S3.GetObjectRequest = {
             Bucket : this.bucketName,
             Key : objectId,
         };
 
-        let data : S3.GetObjectOutput;
+        let data: S3.GetObjectOutput;
 
         try {
             data = await this.s3Client.getObject(getParams).promise();
@@ -91,10 +91,10 @@ export class S3PersistenceAdapter implements PersistenceAdapter {
      * @param {Object.<string, any>} attributes Attributes to be saved to DynamoDB.
      * @return {Promise<void>}
      */
-    public async saveAttributes(requestEnvelope : RequestEnvelope, attributes : {[key : string] : string}) : Promise<void> {
+    public async saveAttributes(requestEnvelope: RequestEnvelope, attributes: {[key: string]: string}): Promise<void> {
         const objectId = path.join(this.pathPrefix, this.objectKeyGenerator(requestEnvelope));
 
-        const putParams : S3.PutObjectRequest = {
+        const putParams: S3.PutObjectRequest = {
             Bucket : this.bucketName,
             Key : objectId,
             Body : JSON.stringify(attributes),
@@ -110,10 +110,10 @@ export class S3PersistenceAdapter implements PersistenceAdapter {
         }
     }
 
-    public async deleteAttributes(requestEnvelope : RequestEnvelope) : Promise<void> {
+    public async deleteAttributes(requestEnvelope: RequestEnvelope): Promise<void> {
         const objectId = path.join(this.pathPrefix, this.objectKeyGenerator(requestEnvelope));
 
-        const deleteParams : S3.DeleteObjectRequest = {
+        const deleteParams: S3.DeleteObjectRequest = {
             Bucket : this.bucketName,
             Key : objectId,
         };

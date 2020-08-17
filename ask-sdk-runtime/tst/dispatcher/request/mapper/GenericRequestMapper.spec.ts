@@ -25,7 +25,7 @@ describe('GenericRequestMapper', () => {
         requestHandler : new MockAlwaysFalseRequestHandler(),
     });
 
-    it('should be able to get the request handler that can handle the input', async() => {
+    it('should be able to get the request handler that can handle the input', async () => {
         const mapper = new GenericRequestMapper<string, string>({
             requestHandlerChains : [
                 mockAlwaysFalseRequestHandlerChain,
@@ -38,7 +38,7 @@ describe('GenericRequestMapper', () => {
         expect(handlerChain.getRequestHandler()).instanceof(MockAlwaysTrueRequestHandler);
     });
 
-    it('should return null if no request handler can handle the input', async() => {
+    it('should return null if no request handler can handle the input', async () => {
         const mapper = new GenericRequestMapper<string, string>({
             requestHandlerChains : [
                 mockAlwaysFalseRequestHandlerChain,

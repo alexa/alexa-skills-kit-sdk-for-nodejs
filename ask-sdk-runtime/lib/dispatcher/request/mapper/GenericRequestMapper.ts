@@ -18,15 +18,15 @@ import { RequestMapper } from './RequestMapper';
  * Generic implementation for {@link RequestMapper}.
  */
 export class GenericRequestMapper<Input, Output> implements RequestMapper<Input, Output> {
-    protected requestHandlerChains : Array<GenericRequestHandlerChain<Input, Output>>;
+    protected requestHandlerChains: Array<GenericRequestHandlerChain<Input, Output>>;
 
-    constructor(options : {
-        requestHandlerChains : Array<GenericRequestHandlerChain<Input, Output>>,
+    constructor(options: {
+        requestHandlerChains: Array<GenericRequestHandlerChain<Input, Output>>,
     }) {
         this.requestHandlerChains = options.requestHandlerChains;
     }
 
-    public async getRequestHandlerChain(input : Input) : Promise<GenericRequestHandlerChain<Input, Output>> {
+    public async getRequestHandlerChain(input: Input): Promise<GenericRequestHandlerChain<Input, Output>> {
         for (const requestHandlerChain of this.requestHandlerChains) {
             const requestHandler = requestHandlerChain.getRequestHandler();
             if (await requestHandler.canHandle(input)) {

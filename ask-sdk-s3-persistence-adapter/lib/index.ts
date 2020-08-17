@@ -14,5 +14,5 @@
 export { S3PersistenceAdapter } from './attributes/persistence/S3PersistenceAdapter';
 export {
     ObjectKeyGenerator,
-    ObjectKeyGenerators,
+    ObjectKeyGenerators
 } from './attributes/persistence/ObjectKeyGenerators';

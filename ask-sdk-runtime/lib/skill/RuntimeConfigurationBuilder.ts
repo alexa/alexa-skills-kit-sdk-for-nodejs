@@ -23,15 +23,15 @@ import { createAskSdkError } from '../util/AskSdkUtils';
 import { RuntimeConfiguration } from './RuntimeConfiguration';
 
 export class RuntimeConfigurationBuilder<Input, Output> {
-    protected readonly requestHandlerChains : Array<GenericRequestHandlerChain<Input, Output>> = [];
-    protected readonly requestInterceptors : Array<RequestInterceptor<Input>> = [];
-    protected readonly responseInterceptors : Array<ResponseInterceptor<Input, Output>> = [];
-    protected readonly errorHandlers : Array<ErrorHandler<Input, Output>> = [];
+    protected readonly requestHandlerChains: Array<GenericRequestHandlerChain<Input, Output>> = [];
+    protected readonly requestInterceptors: Array<RequestInterceptor<Input>> = [];
+    protected readonly responseInterceptors: Array<ResponseInterceptor<Input, Output>> = [];
+    protected readonly errorHandlers: Array<ErrorHandler<Input, Output>> = [];
 
     public addRequestHandler(
-        matcher : (input : Input) => Promise<boolean> | boolean,
-        executor : (input : Input) => Promise<Output> | Output,
-    ) : this {
+        matcher: (input: Input) => Promise<boolean> | boolean,
+        executor: (input: Input) => Promise<Output> | Output,
+    ): this {
         if (typeof matcher !== 'function' || typeof executor !== 'function') {
             throw createAskSdkError(
                 this.constructor.name,
@@ -48,8 +48,8 @@ export class RuntimeConfigurationBuilder<Input, Output> {
         return this;
     }
 
-    public addRequestHandlers(...requestHandlers : Array<RequestHandler<Input, Output>>) : this {
-        for ( const requestHandler of requestHandlers ) {
+    public addRequestHandlers(...requestHandlers: Array<RequestHandler<Input, Output>>): this {
+        for (const requestHandler of requestHandlers) {
             this.requestHandlerChains.push(new GenericRequestHandlerChain<Input, Output>({
                 requestHandler,
             }));
@@ -58,8 +58,8 @@ export class RuntimeConfigurationBuilder<Input, Output> {
         return this;
     }
 
-    public addRequestInterceptors(...executors : Array<RequestInterceptor<Input> | ((input : Input) => Promise<void> | void)>) : this {
-        for ( const executor of executors ) {
+    public addRequestInterceptors(...executors: Array<RequestInterceptor<Input> | ((input: Input) => Promise<void> | void)>): this {
+        for (const executor of executors) {
             switch (typeof executor) {
                 case 'object' : {
                     this.requestInterceptors.push(executor as RequestInterceptor<Input>);
@@ -67,7 +67,7 @@ export class RuntimeConfigurationBuilder<Input, Output> {
                 }
                 case 'function' : {
                     this.requestInterceptors.push({
-                        process : executor as ((input : Input) => Promise<void | void>),
+                        process : executor as ((input: Input) => Promise<void | void>),
                     });
                     break;
                 }
@@ -82,8 +82,8 @@ export class RuntimeConfigurationBuilder<Input, Output> {
         return this;
     }
 
-    public addResponseInterceptors(...executors : Array<ResponseInterceptor<Input, Output> | ((input : Input, response? : Output) => Promise<void> | void)>) : this {
-        for ( const executor of executors ) {
+    public addResponseInterceptors(...executors: Array<ResponseInterceptor<Input, Output> | ((input: Input, response? : Output) => Promise<void> | void)>): this {
+        for (const executor of executors) {
             switch (typeof executor) {
                 case 'object' : {
                     this.responseInterceptors.push(executor as ResponseInterceptor<Input, Output>);
@@ -91,7 +91,7 @@ export class RuntimeConfigurationBuilder<Input, Output> {
                 }
                 case 'function' : {
                     this.responseInterceptors.push({
-                        process : executor as ((input : Input, response? : Output) => Promise<void> | void),
+                        process : executor as ((input: Input, response? : Output) => Promise<void> | void),
                     });
                     break;
                 }
@@ -107,9 +107,9 @@ export class RuntimeConfigurationBuilder<Input, Output> {
     }
 
     public addErrorHandler(
-        matcher : (input : Input, error : Error) => Promise<boolean> | boolean,
-        executor : (input : Input, error : Error) => Promise<Output> | Output,
-    ) : this {
+        matcher: (input: Input, error: Error) => Promise<boolean> | boolean,
+        executor: (input: Input, error: Error) => Promise<Output> | Output,
+    ): this {
 
         this.errorHandlers.push({
             canHandle : matcher,
@@ -119,22 +119,22 @@ export class RuntimeConfigurationBuilder<Input, Output> {
         return this;
     }
 
-    public addErrorHandlers(...errorHandlers : Array<ErrorHandler<Input, Output>>) : this {
+    public addErrorHandlers(...errorHandlers: Array<ErrorHandler<Input, Output>>): this {
         this.errorHandlers.push(...errorHandlers);
 
         return this;
     }
 
-    public getRuntimeConfiguration() : RuntimeConfiguration<Input, Output> {
+    public getRuntimeConfiguration(): RuntimeConfiguration<Input, Output> {
         const requestMapper = new GenericRequestMapper<Input, Output>({
             requestHandlerChains : this.requestHandlerChains,
         });
 
         const errorMapper = this.errorHandlers.length
-                            ? new GenericErrorMapper<Input, Output>({
+            ? new GenericErrorMapper<Input, Output>({
                 errorHandlers : this.errorHandlers,
             })
-                            : undefined;
+            : undefined;
 
         return {
             requestMappers : [requestMapper],

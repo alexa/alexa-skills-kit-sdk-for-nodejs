@@ -14,11 +14,11 @@
 import { ErrorHandler } from '../../../lib/dispatcher/error/handler/ErrorHandler';
 
 export class MockAlwaysFalseErrorHandler implements ErrorHandler<string, string> {
-    public canHandle(input : string, error : Error) : boolean {
+    public canHandle(input: string, error: Error): boolean {
         return false;
     }
 
-    public handle(input : string, error : Error) : string {
+    public handle(input: string, error: Error): string {
         throw new Error('This line should never be reached!');
     }
 }

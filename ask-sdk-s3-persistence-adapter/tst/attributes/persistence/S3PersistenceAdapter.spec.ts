@@ -14,6 +14,7 @@
 import * as AWS from 'aws-sdk';
 import * as AWS_MOCK from 'aws-sdk-mock';
 import { expect } from 'chai';
+import path = require ('path');
 import { ObjectKeyGenerators } from '../../../lib/attributes/persistence/ObjectKeyGenerators';
 import { S3PersistenceAdapter } from '../../../lib/attributes/persistence/S3PersistenceAdapter';
 import { JsonProvider } from '../../mocks/JsonProvider';
@@ -35,7 +36,7 @@ describe('S3PersistenceAdapter', () => {
     const nonJsonObjectKey = 'nonJsonObjectKey';
     const nonJsonObjectAttributes = 'This is a non json string';
 
-    const pathPrefixObjectKey = 'folder/userId';
+    const pathPrefixObjectKey = path.join('folder', 'userId');
     const pathPrefixObjectAttributes = {
         pathPrefixKey : 'pathPrefixValue',
     };
@@ -99,7 +100,7 @@ describe('S3PersistenceAdapter', () => {
         done();
     });
 
-    it('should be able to get an item from bucket', async() => {
+    it('should be able to get an item from bucket', async () => {
         const defaultPersistenceAdapter = new S3PersistenceAdapter({
             bucketName,
         });
@@ -123,7 +124,7 @@ describe('S3PersistenceAdapter', () => {
         expect(pathPrefixResult.pathPrefixKey).eq('pathPrefixValue');
     });
 
-    it('should be able to put an item to bucket', async() => {
+    it('should be able to put an item to bucket', async () => {
         const persistenceAdapter = new S3PersistenceAdapter({
             bucketName,
         });
@@ -131,7 +132,7 @@ describe('S3PersistenceAdapter', () => {
         await persistenceAdapter.saveAttributes(requestEnvelope, {});
     });
 
-    it('should be able to delete an item from bucket', async() => {
+    it('should be able to delete an item from bucket', async () => {
         const persistenceAdapter = new S3PersistenceAdapter({
             bucketName,
         });
@@ -139,7 +140,7 @@ describe('S3PersistenceAdapter', () => {
         await persistenceAdapter.deleteAttributes(requestEnvelope);
     });
 
-    it('should return an empty object when getting item that does not exist in bucket', async() => {
+    it('should return an empty object when getting item that does not exist in bucket', async () => {
         const persistenceAdapter = new S3PersistenceAdapter({
             bucketName,
         });
@@ -151,7 +152,7 @@ describe('S3PersistenceAdapter', () => {
         expect(result).deep.equal({});
     });
 
-    it('should return an empty object when getting item that has empty value', async() => {
+    it('should return an empty object when getting item that has empty value', async () => {
         const persistenceAdapter = new S3PersistenceAdapter({
             bucketName,
         });
@@ -163,7 +164,7 @@ describe('S3PersistenceAdapter', () => {
         expect(result).deep.equal({});
     });
 
-    it('should throw an error when reading and the bucket does not exist', async() => {
+    it('should throw an error when reading and the bucket does not exist', async () => {
         const persistenceAdapter = new S3PersistenceAdapter({
             bucketName : 'NonExistentBucket',
         });
@@ -180,7 +181,7 @@ describe('S3PersistenceAdapter', () => {
         throw new Error('should have thrown an error!');
     });
 
-    it('should throw an error when saving and the bucket does not exist', async() => {
+    it('should throw an error when saving and the bucket does not exist', async () => {
         const persistenceAdapter = new S3PersistenceAdapter({
             bucketName : 'NonExistentBucket',
         });
@@ -197,7 +198,7 @@ describe('S3PersistenceAdapter', () => {
         throw new Error('should have thrown an error!');
     });
 
-    it('should throw an error when deleting and the bucket does not exist', async() => {
+    it('should throw an error when deleting and the bucket does not exist', async () => {
         const persistenceAdapter = new S3PersistenceAdapter({
             bucketName : 'NonExistentBucket',
         });
@@ -214,7 +215,7 @@ describe('S3PersistenceAdapter', () => {
         throw new Error('should have thrown an error!');
     });
 
-    it('should throw an error when getting invalid json object', async() => {
+    it('should throw an error when getting invalid json object', async () => {
         const persistenceAdapter = new S3PersistenceAdapter({
             bucketName,
         });

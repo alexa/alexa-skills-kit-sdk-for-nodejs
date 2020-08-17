@@ -20,12 +20,12 @@ import { RequestHandlerChain } from './RequestHandlerChain';
  * Generic implementation of {@link RequestHandlerChain}.
  */
 export class GenericRequestHandlerChain<Input, Output> implements RequestHandlerChain<Input, Output> {
-    protected requestHandler : RequestHandler<Input, Output>;
-    protected requestInterceptors : Array<RequestInterceptor<Input>>;
-    protected responseInterceptors : Array<ResponseInterceptor<Input, Output>>;
+    protected requestHandler: RequestHandler<Input, Output>;
+    protected requestInterceptors: Array<RequestInterceptor<Input>>;
+    protected responseInterceptors: Array<ResponseInterceptor<Input, Output>>;
 
-    constructor(options : {
-        requestHandler : RequestHandler<Input, Output>,
+    constructor(options: {
+        requestHandler: RequestHandler<Input, Output>,
         requestInterceptors? : Array<RequestInterceptor<Input>>,
         responseInterceptors? : Array<ResponseInterceptor<Input, Output>>,
     }) {
@@ -34,15 +34,15 @@ export class GenericRequestHandlerChain<Input, Output> implements RequestHandler
         this.responseInterceptors = options.responseInterceptors;
     }
 
-    public getRequestHandler() : RequestHandler<Input, Output> {
+    public getRequestHandler(): RequestHandler<Input, Output> {
         return this.requestHandler;
     }
 
-    public getRequestInterceptors() : Array<RequestInterceptor<Input>> {
+    public getRequestInterceptors(): Array<RequestInterceptor<Input>> {
         return this.requestInterceptors;
     }
 
-    public getResponseInterceptors() : Array<ResponseInterceptor<Input, Output>> {
+    public getResponseInterceptors(): Array<ResponseInterceptor<Input, Output>> {
         return this.responseInterceptors;
     }
 }

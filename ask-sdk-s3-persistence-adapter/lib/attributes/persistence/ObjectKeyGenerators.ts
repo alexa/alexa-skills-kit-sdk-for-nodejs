@@ -17,7 +17,7 @@ import { RequestEnvelope } from 'ask-sdk-model';
 /**
  * Type definition of function used by {@link S3PersistenceAdapter} to extract attributes id from {@link RequestEnvelope}.
  */
-export type ObjectKeyGenerator = (requestEnvelope : RequestEnvelope) => string;
+export type ObjectKeyGenerator = (requestEnvelope: RequestEnvelope) => string;
 
 /**
  * Object containing implementations of {@link ObjectKeyGenerator}.
@@ -28,7 +28,7 @@ export const ObjectKeyGenerators = {
      * @param {RequestEnvelope} requestEnvelope
      * @returns {string}
      */
-    userId(requestEnvelope : RequestEnvelope) : string {
+    userId(requestEnvelope: RequestEnvelope): string {
         if (!(requestEnvelope
               && requestEnvelope.context
               && requestEnvelope.context.System
@@ -48,7 +48,7 @@ export const ObjectKeyGenerators = {
      * @param {RequestEnvelope} requestEnvelope
      * @returns {string}
      */
-    deviceId(requestEnvelope : RequestEnvelope) : string {
+    deviceId(requestEnvelope: RequestEnvelope): string {
         if (!(requestEnvelope
               && requestEnvelope.context
               && requestEnvelope.context.System
