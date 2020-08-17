@@ -15,8 +15,22 @@ import { expect } from 'chai';
 import { getValueFromHeader } from '../../lib/util/Util';
 
 describe('getValueFromHeaderByKeyName', () => {
-    // tslint:disable-next-line
-    const MockHeader = [{"key":"content-type","value":"application/json"},{"key":"content-length","value":"44"},{"key":"connection","value":"close"},{"key":"server","value":"Server1"},{"key":"server","value":"Server2"},{"key":"date","value":"Wed, 27 Nov 2019 00:33:32 GMT"},{"key":"x-amzn-requestid","value":"fakeId"},{"key":"x-amz-date","value":"Wed, 27 Nov 2019 00:33:32 GMT"},{"key":"x-amz-rid","value":"T5XCCNVZEVJFYHZ6A648"},{"key":"vary","value":"Accept-Encoding,X-Amzn-CDN-Cache,X-Amzn-AX-Treatment,User-Agent"},{"key":"x-cache","value":"Miss from cloudfront"},{"key":"via","value":"1.1 490c6b39f412c738a30c226f07db749c.cloudfront.net (CloudFront)"},{"key":"x-amz-cf-pop","value":"HIO51-C1"},{"key":"x-amz-cf-id","value":"rf53XdWct4udipVWarUytHSqb_ZXS8DA2byAOILCN5ESD65XEUcCvw=="}];
+    const MockHeader = [
+        {key:"content-type", value:"application/json"},
+        {key:"content-length", value:"44"},
+        {key:"connection", value:"close"},
+        {key:"server", value:"Server1"},
+        {key:"server", value:"Server2"},
+        {key:"date", value:"Wed, 27 Nov 2019 00:33:32 GMT"},
+        {key:"x-amzn-requestid", value:"fakeId"},
+        {key:"x-amz-date", value:"Wed, 27 Nov 2019 00:33:32 GMT"},
+        {key:"x-amz-rid", value:"T5XCCNVZEVJFYHZ6A648"},
+        {key:"vary", value:"Accept-Encoding,X-Amzn-CDN-Cache,X-Amzn-AX-Treatment,User-Agent"},
+        {key:"x-cache", value:"Miss from cloudfront"},
+        {key:"via", value:"1.1 490c6b39f412c738a30c226f07db749c.cloudfront.net (CloudFront)"},
+        {key:"x-amz-cf-pop", value:"HIO51-C1"},
+        {key:"x-amz-cf-id", value:"rf53XdWct4udipVWarUytHSqb_ZXS8DA2byAOILCN5ESD65XEUcCvw=="}
+    ];
 
     it('should be able to find value by valid key', () => {
         expect(getValueFromHeader(MockHeader, 'x-amzn-requestid')).deep.equal(['fakeId']);

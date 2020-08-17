@@ -21,22 +21,22 @@ import { RefreshTokenConfig } from './authMethods/AuthMethods';
  */
 export class SmapiClientBuilder {
 
-    protected customUserAgent : string;
-    protected refreshTokenConfig : RefreshTokenConfig;
+    protected customUserAgent: string;
+    protected refreshTokenConfig: RefreshTokenConfig;
 
-    public withCustomUserAgent(userAgent : string) : SmapiClientBuilder {
+    public withCustomUserAgent(userAgent: string): SmapiClientBuilder {
         this.customUserAgent = userAgent;
 
         return this;
     }
 
-    public withRefreshTokenConfig(refreshTokenConfig : RefreshTokenConfig) : SmapiClientBuilder {
+    public withRefreshTokenConfig(refreshTokenConfig: RefreshTokenConfig): SmapiClientBuilder {
         this.refreshTokenConfig = refreshTokenConfig;
 
         return this;
     }
 
-    public client() : services.skillManagement.SkillManagementServiceClient {
-        throw new Error('client funtion is not implemented');
+    public client(): services.skillManagement.SkillManagementServiceClient {
+        throw new Error('client function is not implemented');
     }
 }
