@@ -15,22 +15,22 @@ import { PersistenceAdapter } from 'ask-sdk';
 import { RequestEnvelope } from 'ask-sdk-model';
 
 export class MockPersistenceAdapter implements PersistenceAdapter {
-    public getCounter : number = 0;
-    public saveCounter : number = 0;
+    public getCounter: number = 0;
+    public saveCounter: number = 0;
 
-    private partitionKey : string = 'amzn1.ask.account.[unique-value-here]';
-    private savedAttributes : {[key : string] : any} = {
-        key_1 : 'v1',
-        key_2 : 'v2',
+    private partitionKey: string = 'amzn1.ask.account.[unique-value-here]';
+    private savedAttributes: {[key: string]: any} = {
+        key_1 : 'v1', /* eslint-disable-line camelcase */
+        key_2 : 'v2', /* eslint-disable-line camelcase */
         state : 'mockState',
     };
 
-    public getAttributes(requestEnvelope : RequestEnvelope) : Promise<{[key : string] : any}> {
+    public getAttributes(requestEnvelope: RequestEnvelope): Promise<{[key: string]: any}> {
         this.getCounter++;
 
         const id = requestEnvelope.context.System.user.userId;
 
-        return new Promise<{[key : string] : any}>((resolve, reject) => {
+        return new Promise<{[key: string]: any}>((resolve, reject) => {
             if (id === this.partitionKey) {
                 resolve(this.savedAttributes);
             } else {
@@ -39,7 +39,7 @@ export class MockPersistenceAdapter implements PersistenceAdapter {
         });
     }
 
-    public saveAttributes(requestEnvelope : RequestEnvelope, attributes : {[key : string] : any}) : Promise<void> {
+    public saveAttributes(requestEnvelope: RequestEnvelope, attributes: {[key: string]: any}): Promise<void> {
         this.saveCounter ++;
 
         const id = requestEnvelope.context.System.user.userId;
@@ -55,7 +55,7 @@ export class MockPersistenceAdapter implements PersistenceAdapter {
         });
     }
 
-    public resetCounter() : void {
+    public resetCounter(): void {
         this.getCounter = 0;
         this.saveCounter = 0;
     }

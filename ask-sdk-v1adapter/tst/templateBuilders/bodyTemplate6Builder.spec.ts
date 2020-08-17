@@ -26,12 +26,12 @@ describe('BodyTemplate6Builder', () => {
         const expectedFgImage = ImageUtils.makeImage('url2');
 
         const template = new BodyTemplate6Builder()
-                                    .setBackButtonBehavior(expectedBackButtonBehavior)
-                                    .setBackgroundImage(expectedBgImage)
-                                    .setTextContent(expectedPrimaryText)
-                                    .setToken(expectedToken)
-                                    .setImage(expectedFgImage)
-                                    .build();
+            .setBackButtonBehavior(expectedBackButtonBehavior)
+            .setBackgroundImage(expectedBgImage)
+            .setTextContent(expectedPrimaryText)
+            .setToken(expectedToken)
+            .setImage(expectedFgImage)
+            .build();
 
         expect(template.type).to.equal('BodyTemplate6');
         expect(template.backButton).to.equal(expectedBackButtonBehavior);

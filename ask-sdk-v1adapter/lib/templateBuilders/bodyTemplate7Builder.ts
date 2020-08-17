@@ -14,43 +14,43 @@
 import { interfaces } from 'ask-sdk-model';
 
 export class BodyTemplate7Builder {
-    protected template : interfaces.display.BodyTemplate7;
+    protected template: interfaces.display.BodyTemplate7;
 
     constructor() {
         this.template = { type : 'BodyTemplate7' };
     }
 
-    public setImage(image : interfaces.display.Image) : this {
+    public setImage(image: interfaces.display.Image): this {
         this.template.image = image;
 
         return this;
     }
 
-    public setTitle(title : string) : this {
+    public setTitle(title: string): this {
         this.template.title = title;
 
         return this;
     }
 
-    public setToken(token : string) : this {
+    public setToken(token: string): this {
         this.template.token = token;
 
         return this;
     }
 
-    public setBackgroundImage(image : interfaces.display.Image) : this {
-       this.template.backgroundImage = image;
+    public setBackgroundImage(image: interfaces.display.Image): this {
+        this.template.backgroundImage = image;
 
-       return this;
+        return this;
     }
 
-    public setBackButtonBehavior(backButtonBehavior : interfaces.display.BackButtonBehavior) : this {
+    public setBackButtonBehavior(backButtonBehavior: interfaces.display.BackButtonBehavior): this {
         this.template.backButton = backButtonBehavior;
 
         return this;
     }
 
-    public build() : interfaces.display.BodyTemplate7 {
+    public build(): interfaces.display.BodyTemplate7 {
         return this.template;
     }
 }

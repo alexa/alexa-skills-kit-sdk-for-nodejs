@@ -14,10 +14,10 @@
 import { services } from 'ask-sdk-model';
 
 export class VoicePlayerSpeakDirective implements services.directive.SendDirectiveRequest {
-    public directive : services.directive.Directive;
-    public header : services.directive.Header;
+    public directive: services.directive.Directive;
+    public header: services.directive.Header;
 
-    constructor(id : string, speechContent : string) {
+    constructor(id: string, speechContent: string) {
         this.directive = {
             speech: speechContent,
             type: 'VoicePlayer.Speak',

@@ -17,39 +17,39 @@ import { ApiClient } from './apiClient';
 
 export class V1ApiClient implements ApiClient {
 
-    protected defaultApiClient : DefaultApiClient;
+    protected defaultApiClient: DefaultApiClient;
 
     constructor() {
         this.defaultApiClient = new DefaultApiClient();
     }
 
-    public post(uri : string, headers : Array<{key : string, value : string}>, body : string) : Promise<services.ApiClientResponse> {
-       const options = this.buildOptions(uri, headers, 'POST');
+    public post(uri: string, headers: Array<{key: string, value: string}>, body: string): Promise<services.ApiClientResponse> {
+        const options = this.buildOptions(uri, headers, 'POST');
 
-       return this.dispatch(options, body);
+        return this.dispatch(options, body);
     }
 
-    public put(uri : string, headers : Array<{key : string, value : string}>, body : string) : Promise<services.ApiClientResponse> {
+    public put(uri: string, headers: Array<{key: string, value: string}>, body: string): Promise<services.ApiClientResponse> {
         const options = this.buildOptions(uri, headers, 'PUT');
 
         return this.dispatch(options, body);
     }
 
-    public get(uri : string, headers : Array<{key : string, value : string}>) : Promise<services.ApiClientResponse> {
+    public get(uri: string, headers: Array<{key: string, value: string}>): Promise<services.ApiClientResponse> {
         const options = this.buildOptions(uri, headers, 'GET');
 
         return this.dispatch(options);
     }
 
-    public delete(uri : string, headers : Array<{key : string, value : string}>) : Promise<services.ApiClientResponse> {
+    public delete(uri: string, headers: Array<{key: string, value: string}>): Promise<services.ApiClientResponse> {
         const options = this.buildOptions(uri, headers, 'DELETE');
 
         return this.dispatch(options);
     }
 
-    private buildOptions(uri : string, requestHeaders : Array<{key : string, value : string}>,
-                         requestMethod : string) : services.ApiClientRequest {
-        const request  = {
+    private buildOptions(uri: string, requestHeaders: Array<{key: string, value: string}>,
+                         requestMethod: string): services.ApiClientRequest {
+        const request = {
             headers : requestHeaders,
             method : requestMethod,
             url : uri,
@@ -58,7 +58,7 @@ export class V1ApiClient implements ApiClient {
         return <services.ApiClientRequest> request;
     }
 
-    private dispatch(options : services.ApiClientRequest, body? : string) : Promise<services.ApiClientResponse> {
+    private dispatch(options: services.ApiClientRequest, body? : string): Promise<services.ApiClientResponse> {
         options.body = body;
 
         return this.defaultApiClient.invoke(options);

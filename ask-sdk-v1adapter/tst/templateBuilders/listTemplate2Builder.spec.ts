@@ -24,12 +24,12 @@ describe('ListTemplate2Builder', () => {
         const expectedToken = 'token';
 
         const template = new ListTemplate2Builder()
-                                    .setBackButtonBehavior(expectedBackButtonBehavior)
-                                    .setBackgroundImage(expectedBgImage)
-                                    .setTitle(expectedTitle)
-                                    .setToken(expectedToken)
-                                    .setListItems([])
-                                    .build();
+            .setBackButtonBehavior(expectedBackButtonBehavior)
+            .setBackgroundImage(expectedBgImage)
+            .setTitle(expectedTitle)
+            .setToken(expectedToken)
+            .setListItems([])
+            .build();
 
         expect(template.type).to.equal('ListTemplate2');
         expect(template.backButton).to.equal(expectedBackButtonBehavior);

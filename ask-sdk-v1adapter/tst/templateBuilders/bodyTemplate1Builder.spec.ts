@@ -25,12 +25,12 @@ describe('BodyTemplate1Builder', () => {
         const expectedToken = 'token';
 
         const template = new BodyTemplate1Builder()
-                                    .setBackButtonBehavior(expectedBackButtonBehavior)
-                                    .setBackgroundImage(expectedBgImage)
-                                    .setTextContent(expectedPrimaryText)
-                                    .setTitle(expectedTitle)
-                                    .setToken(expectedToken)
-                                    .build();
+            .setBackButtonBehavior(expectedBackButtonBehavior)
+            .setBackgroundImage(expectedBgImage)
+            .setTextContent(expectedPrimaryText)
+            .setTitle(expectedTitle)
+            .setToken(expectedToken)
+            .build();
         expect(template.type).to.equal('BodyTemplate1');
         expect(template.backButton).to.equal(expectedBackButtonBehavior);
         expect(template.backgroundImage).to.equal(expectedBgImage);

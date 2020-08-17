@@ -18,10 +18,10 @@ import { ResponseBuilder } from '../lib/responseBuilderShim';
 import { LaunchRequest } from './mock/mockSampleRequest';
 
 const mockContext = {
-    succeed : (responseEnvelope : ResponseEnvelope) => {
+    succeed : (responseEnvelope: ResponseEnvelope) => {
         // do something
     },
-    fail : (error : Error) => {
+    fail : (error: Error) => {
         // do something
     },
 };
@@ -122,7 +122,7 @@ describe('ResponseBuilder Tests', () => {
         expect(result._responseObject.response.directives[0].type).to.equal('AudioPlayer.ClearQueue');
     });
 
-    it('should create rendertemplate directive', () => {
+    it('should create renderTemplate directive', () => {
         const result = responseBuilder.renderTemplate({});
 
         expect(result._responseObject.response.directives.length).to.equal(1);
@@ -145,7 +145,7 @@ describe('ResponseBuilder Tests', () => {
         expect(result._responseObject.response.directives[0].hint.type).to.equal('PlainText');
     });
 
-    it('should create videoapp directive', () => {
+    it('should create videoApp directive', () => {
         const result = responseBuilder.playVideo('url');
 
         expect(result._responseObject.response.directives.length).to.equal(1);

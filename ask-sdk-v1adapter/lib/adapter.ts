@@ -16,12 +16,12 @@ import {
     DefaultApiClient,
     DynamoDbPersistenceAdapter,
     RequestHandler,
-    SkillBuilders,
+    SkillBuilders
 } from 'ask-sdk';
 import {
     RequestEnvelope,
     Response,
-    ResponseEnvelope,
+    ResponseEnvelope
 } from 'ask-sdk-model';
 import { DynamoDB } from 'aws-sdk';
 import { EventEmitter } from 'events';
@@ -35,22 +35,22 @@ import { ResponseHandlers } from './responseHandlers';
 import { V1Handler } from './v1Handler';
 
 export class Adapter extends EventEmitter {
-    public readonly _event : RequestEnvelope;
-    public readonly _context : any;
-    public readonly _callback : (err : Error, result? : any) => void;
-    public state : string;
-    public appId : string;
-    public response : ResponseEnvelope;
-    public dynamoDBClient : DynamoDB;
-    public dynamoDBTableName : string;
-    public saveBeforeResponse : boolean;
-    public i18n : i18n;
-    public locale : string;
-    public resources : object;
-    public promiseResolve : (value? : Response | PromiseLike<Response>) => void;
-    private v2RequestHandlers : RequestHandler[];
+    public readonly _event: RequestEnvelope;
+    public readonly _context: any;
+    public readonly _callback: (err: Error, result? : any) => void;
+    public state: string;
+    public appId: string;
+    public response: ResponseEnvelope;
+    public dynamoDBClient: DynamoDB;
+    public dynamoDBTableName: string;
+    public saveBeforeResponse: boolean;
+    public i18n: i18n;
+    public locale: string;
+    public resources: object;  /* eslint-disable-line @typescript-eslint/ban-types */
+    public promiseResolve: (value? : Response | PromiseLike<Response>) => void;
+    private v2RequestHandlers: RequestHandler[];
 
-    constructor(event : RequestEnvelope, context : any, callback? : (err : Error, result? : any) => void) {
+    constructor(event: RequestEnvelope, context: any, callback? : (err: Error, result? : any) => void) {
         super();
 
         if (!event.session) {
@@ -84,8 +84,8 @@ export class Adapter extends EventEmitter {
         this.registerHandlers(ResponseHandlers);
     }
 
-    public registerHandlers(...v1Handlers : V1Handler[]) : void {
-        for ( const handler of v1Handlers) {
+    public registerHandlers(...v1Handlers: V1Handler[]): void {
+        for (const handler of v1Handlers) {
             if (!IsObject(handler)) {
                 throw createAskSdkError(this.constructor.name, `Argument #${handler.constructor.name} was not an Object`);
             }
@@ -108,9 +108,7 @@ export class Adapter extends EventEmitter {
                     handler: this,
                     i18n: this.i18n,
                     locale: this.locale,
-                    t : (...argArray : string[]) : string => {
-                        return this.i18n.t.apply(this.i18n, argArray);
-                    },
+                    t : (...argArray: string[]): string => this.i18n.t.apply(this.i18n, argArray),
                     event: this._event,
                     attributes : this._event.session.attributes,
                     context: this._context,
@@ -124,11 +122,11 @@ export class Adapter extends EventEmitter {
         }
     }
 
-    public registerV2Handlers(...requestHandlers : RequestHandler[]) : void {
+    public registerV2Handlers(...requestHandlers: RequestHandler[]): void {
         this.v2RequestHandlers = [...this.v2RequestHandlers, ...requestHandlers];
     }
 
-    public execute() : void {
+    public execute(): void {
         // tslint:disable-next-line
         this.locale = this._event.request['locale'] ? this._event.request['locale'] : 'en-US';
         if (this.resources) {
@@ -137,9 +135,9 @@ export class Adapter extends EventEmitter {
                 overloadTranslationOptionHandler: sprintf.overloadTranslationOptionHandler,
                 resources : this.resources,
                 returnObjects : true,
-            },                          (err) => {
+            }, (err) => {
                 if (err) {
-                    throw createAskSdkError(this.constructor.name, 'Error initializing i19next: ' + err);
+                    throw createAskSdkError(this.constructor.name, `Error initializing i19next: ${ err}`);
                 }
                 ValidateRequest.call(this);
             });
@@ -151,7 +149,7 @@ export class Adapter extends EventEmitter {
 
 export const StateString = Symbol('StateString');
 
-export function CreateStateHandler(state : string, requestHandler : V1Handler) : V1Handler {
+export function CreateStateHandler(state: string, requestHandler: V1Handler): V1Handler {
     if (!requestHandler) {
         requestHandler = {};
     }
@@ -164,10 +162,9 @@ export function CreateStateHandler(state : string, requestHandler : V1Handler) :
     return requestHandler;
 }
 
-let dynamoDbPersistenceAdapter : DynamoDbPersistenceAdapter;
+let dynamoDbPersistenceAdapter: DynamoDbPersistenceAdapter;
 
-/* tslint:disable */
-function ValidateRequest() : void {
+function ValidateRequest(): void {
     let requestAppId = '';
     if (this._event.context) {
         requestAppId = this._event.context.System.application.applicationId;
@@ -180,8 +177,8 @@ function ValidateRequest() : void {
     }
     try {
         if (this.appId && (requestAppId !== this.appId)) {
-            console.log(`The applicationIds don\'t match: ${requestAppId} and ${this.appId}`);
-            const error = createAskSdkError('In validating request', 'Invalid ApplicationId: ' + this.appId);
+            console.log(`The applicationIds don't match: ${requestAppId} and ${this.appId}`);
+            const error = createAskSdkError('In validating request', `Invalid ApplicationId: ${ this.appId}`);
             if (typeof this.callback === 'undefined') {
                 this._context.fail(error);
             } else {
@@ -206,7 +203,7 @@ function ValidateRequest() : void {
                     EmitEvent.call(this);
                 })
                 .catch((error) => {
-                    const err = createAskSdkError(this.constructor.name, 'Error fetching user state: ' + error);
+                    const err = createAskSdkError(this.constructor.name, `Error fetching user state: ${ error}`);
                     if (typeof this._callback === 'undefined') {
                         return this._context.fail(err);
                     } else {
@@ -221,47 +218,47 @@ function ValidateRequest() : void {
         if (typeof this._callback === 'undefined') {
             return this._context.fail(e);
         } else {
-            return  this._callback(e);
+            return this._callback(e);
         }
     }
 }
 
-function EmitEvent() : void {
+function EmitEvent(): void {
     const packageInfo = require('../package.json');
     this.state = this._event.session.attributes.STATE || '';
 
     SkillBuilders.custom()
-                 .addRequestHandlers(new Handler(this), ...this.v2RequestHandlers)
-                 .addRequestInterceptors(new CopySessionAttributesInterceptor())
-                 .withPersistenceAdapter(dynamoDbPersistenceAdapter)
-                 .withApiClient(new DefaultApiClient())
-                 .withCustomUserAgent(`${packageInfo.name}/${packageInfo.version}`)
-                 .create()
-                 .invoke(this._event, this._context)
-                 .then((responseEnvelope) => {
-                    if (typeof this._callback === 'undefined') {
-                        this._context.succeed(responseEnvelope);
-                    } else {
-                        this._callback(null, responseEnvelope);
-                    }
-                })
-                 .catch((err) => {
-                    if (typeof this._callback === 'undefined') {
-                        this._context.fail(err);
-                    } else {
-                        this._callback(err);
-                    }
-                });
+        .addRequestHandlers(new Handler(this), ...this.v2RequestHandlers)
+        .addRequestInterceptors(new CopySessionAttributesInterceptor())
+        .withPersistenceAdapter(dynamoDbPersistenceAdapter)
+        .withApiClient(new DefaultApiClient())
+        .withCustomUserAgent(`${packageInfo.name}/${packageInfo.version}`)
+        .create()
+        .invoke(this._event, this._context)
+        .then((responseEnvelope) => {
+            if (typeof this._callback === 'undefined') {
+                this._context.succeed(responseEnvelope);
+            } else {
+                this._callback(null, responseEnvelope);
+            }
+        })
+        .catch((err) => {
+            if (typeof this._callback === 'undefined') {
+                this._context.fail(err);
+            } else {
+                this._callback(err);
+            }
+        });
 }
 
-function EmitWithState() : void {
+function EmitWithState(): void {
     if (arguments.length === 0) {
         throw createAskSdkError(this.constructor.name, 'EmitWithState called without arguments');
     }
     arguments[0] = arguments[0] + this.state;
 
     if (this.listenerCount(arguments[0]) < 1) {
-        arguments[0] = 'Unhandled' + this.state;
+        arguments[0] = `Unhandled${ this.state}`;
     }
 
     if (this.listenerCount(arguments[0]) < 1) {
@@ -271,11 +268,11 @@ function EmitWithState() : void {
     this.emit.apply(this, arguments);
 }
 
-function IsOverridden(name : string) : boolean {
+function IsOverridden(name: string): boolean {
     return this.listenerCount(name) > 1;
 }
 
-function IsObject(obj : any) : boolean {
+function IsObject(obj: any): boolean {
     return (!!obj) && (obj.constructor === Object);
 }
 

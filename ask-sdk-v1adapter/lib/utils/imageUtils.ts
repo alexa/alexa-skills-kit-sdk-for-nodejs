@@ -14,17 +14,16 @@
 import { interfaces } from 'ask-sdk-model';
 
 export class ImageUtils {
-    public static makeImage(url : string, widthPixels? : number, heightPixels? : number,
-                            size? : interfaces.display.ImageSize, description? : string)
-    : interfaces.display.Image {
-        const imageInstance : interfaces.display.ImageInstance = {
+    public static makeImage(url: string, widthPixels? : number, heightPixels? : number,
+                            size? : interfaces.display.ImageSize, description? : string): interfaces.display.Image {
+        const imageInstance: interfaces.display.ImageInstance = {
             url,
             size,
             widthPixels,
             heightPixels,
         };
 
-        const image : interfaces.display.Image = {
+        const image: interfaces.display.Image = {
             sources : [imageInstance],
             contentDescription : description,
         };
@@ -32,9 +31,9 @@ export class ImageUtils {
         return image;
     }
 
-    public static makeImages(imgArr : interfaces.display.ImageInstance[],
-                             description? : string) : interfaces.display.Image {
-        const images : interfaces.display.Image = {
+    public static makeImages(imgArr: interfaces.display.ImageInstance[],
+                             description? : string): interfaces.display.Image {
+        const images: interfaces.display.Image = {
             sources : imgArr,
             contentDescription : description,
         };

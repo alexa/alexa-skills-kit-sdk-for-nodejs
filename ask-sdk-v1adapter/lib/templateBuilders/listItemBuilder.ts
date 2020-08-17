@@ -15,17 +15,17 @@ import { interfaces } from 'ask-sdk-model';
 import { TextUtils } from '../utils/textUtils';
 
 export class ListItemBuilder {
-    protected listItems : interfaces.display.ListItem[];
+    protected listItems: interfaces.display.ListItem[];
 
     constructor() {
         this.listItems = [];
     }
 
-    public addItem(image : interfaces.display.Image, token : string,
+    public addItem(image: interfaces.display.Image, token: string,
                    primaryText? : interfaces.display.TextField,
                    secondaryText? : interfaces.display.TextField,
-                   tertiaryText? : interfaces.display.TextField) : this {
-        const listItem : interfaces.display.ListItem  = {
+                   tertiaryText? : interfaces.display.TextField): this {
+        const listItem: interfaces.display.ListItem = {
             token,
             image,
             textContent : TextUtils.makeTextContent(primaryText, secondaryText, tertiaryText),
@@ -36,7 +36,7 @@ export class ListItemBuilder {
         return this;
     }
 
-    public build() : interfaces.display.ListItem[] {
+    public build(): interfaces.display.ListItem[] {
         return this.listItems;
     }
 }

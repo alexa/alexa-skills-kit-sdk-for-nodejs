@@ -32,13 +32,13 @@ import { V1Handler } from './v1Handler';
 export {
     Adapter,
     StateString,
-    CreateStateHandler,
+    CreateStateHandler
 } from './adapter';
 export { Handler } from './handler';
 export { V1Handler } from './v1Handler';
 export { ResponseBuilder } from './responseBuilderShim';
 
-export function handler(event : RequestEnvelope, context : any, callback? : (err : Error, result? : any) => void) : Adapter {
+export function handler(event: RequestEnvelope, context: any, callback? : (err: Error, result? : any) => void): Adapter {
     return new Adapter(event, context, callback);
 }
 

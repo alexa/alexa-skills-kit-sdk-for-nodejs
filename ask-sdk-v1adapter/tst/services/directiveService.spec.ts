@@ -20,13 +20,13 @@ import { DirectiveService } from '../../lib/services/directiveService';
 
 const testEndpoint = 'http://dummy';
 const testToken = 'token';
-const directive : VoicePlayerSpeakDirective = new VoicePlayerSpeakDirective('mock id', 'mock speech content');
-const mockAPIResult : services.ApiClientResponse = {
+const directive: VoicePlayerSpeakDirective = new VoicePlayerSpeakDirective('mock id', 'mock speech content');
+const mockAPIResult: services.ApiClientResponse = {
     headers : [],
     statusCode: 200,
     body: '',
 };
-const mockAPIFailedResult : services.ApiClientResponse = {
+const mockAPIFailedResult: services.ApiClientResponse = {
     headers : [],
     statusCode: 400,
     body: 'Error',
@@ -34,11 +34,11 @@ const mockAPIFailedResult : services.ApiClientResponse = {
 
 describe('DirectiveService', () => {
     it('should call /v1/directives API', () => {
-        const apiStub : ApiClient = {
+        const apiStub: ApiClient = {
             post : (
-                uri : string,
-                headers : Array<{key : string, value : string}>,
-                body : string,
+                uri: string,
+                headers: Array<{key: string, value: string}>,
+                body: string,
             ) => Promise.resolve(mockAPIResult),
         };
         const spy = sinon.spy(apiStub, 'post');
@@ -52,11 +52,11 @@ describe('DirectiveService', () => {
     });
 
     it('should not reject promise on error', () => {
-        const apiStub : ApiClient = {
+        const apiStub: ApiClient = {
             post : (
-                uri : string,
-                headers : Array<{key : string, value : string}>,
-                body : string,
+                uri: string,
+                headers: Array<{key: string, value: string}>,
+                body: string,
             ) => Promise.reject(new Error('error')),
         };
 
@@ -72,11 +72,11 @@ describe('DirectiveService', () => {
     });
 
     it('should reject the promise with the error message if the API client returns a non 2xx status', () => {
-        const apiStub : ApiClient = {
+        const apiStub: ApiClient = {
             post : (
-                uri : string,
-                headers : Array<{key : string, value : string}>,
-                body : string,
+                uri: string,
+                headers: Array<{key: string, value: string}>,
+                body: string,
             ) => Promise.resolve(mockAPIFailedResult),
         };
 
@@ -93,11 +93,11 @@ describe('DirectiveService', () => {
     });
 
     it('should not expose any implementation details on the returning promise', () => {
-        const apiStub : ApiClient = {
+        const apiStub: ApiClient = {
             post : (
-                uri : string,
-                headers : Array<{key : string, value : string}>,
-                body : string,
+                uri: string,
+                headers: Array<{key: string, value: string}>,
+                body: string,
             ) => Promise.resolve(mockAPIResult),
         };
         const ds = new DirectiveService(apiStub);

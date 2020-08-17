@@ -17,9 +17,9 @@ import { ServiceError } from './serviceError';
 import { V1ApiClient } from './v1ApiClient';
 
 export class ListManagementService {
-    protected apiClient : ApiClient;
-    protected listManagementPath : string;
-    protected apiEndpoint : string;
+    protected apiClient: ApiClient;
+    protected listManagementPath: string;
+    protected apiEndpoint: string;
 
     constructor(apiClient? : ApiClient) {
         this.apiClient = apiClient || new V1ApiClient();
@@ -27,15 +27,15 @@ export class ListManagementService {
         this.apiEndpoint = 'https://api.amazonalexa.com';
     }
 
-    public setApiEndpoint(apiEndpoint : string) : void {
+    public setApiEndpoint(apiEndpoint: string): void {
         this.apiEndpoint = apiEndpoint;
     }
 
-    public getApiEndpoint() : string {
+    public getApiEndpoint(): string {
         return this.apiEndpoint;
     }
 
-    public async getListsMetadata(token : string) : Promise<services.listManagement.AlexaListMetadata> {
+    public async getListsMetadata(token: string): Promise<services.listManagement.AlexaListMetadata> {
         const uri = this.apiEndpoint + this.listManagementPath;
         const headers = this.buildHeaders(token);
 
@@ -44,7 +44,8 @@ export class ListManagementService {
         return <services.listManagement.AlexaListMetadata> this.validateApiResponse(response);
     }
 
-    public async createList(listObject : object, token : string) : Promise<services.listManagement.AlexaListMetadata> {
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    public async createList(listObject: object, token: string): Promise<services.listManagement.AlexaListMetadata> {
         const uri = this.apiEndpoint + this.listManagementPath;
         const headers = this.buildHeaders(token, listObject);
 
@@ -53,8 +54,8 @@ export class ListManagementService {
         return <services.listManagement.AlexaListMetadata> this.validateApiResponse(response);
     }
 
-    public async getList(listId : string, itemStatus : string, token : string) : Promise<services.listManagement.AlexaList> {
-        const uri = this.apiEndpoint + this.listManagementPath + listId + '/' + itemStatus;
+    public async getList(listId: string, itemStatus: string, token: string): Promise<services.listManagement.AlexaList> {
+        const uri = `${this.apiEndpoint + this.listManagementPath + listId }/${ itemStatus}`;
         const headers = this.buildHeaders(token);
 
         const response = await this.apiClient.get(uri, headers);
@@ -62,16 +63,17 @@ export class ListManagementService {
         return <services.listManagement.AlexaList> this.validateApiResponse(response);
     }
 
-    public async updateList(listId : string, listOjbect : object, token : string) : Promise<services.listManagement.AlexaListMetadata> {
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    public async updateList(listId: string, listObject: object, token: string): Promise<services.listManagement.AlexaListMetadata> {
         const uri = this.apiEndpoint + this.listManagementPath + listId;
-        const headers = this.buildHeaders(token, listOjbect);
+        const headers = this.buildHeaders(token, listObject);
 
-        const response = await this.apiClient.put(uri, headers, JSON.stringify(listOjbect));
+        const response = await this.apiClient.put(uri, headers, JSON.stringify(listObject));
 
         return <services.listManagement.AlexaListMetadata> this.validateApiResponse(response);
     }
 
-    public async deleteList(listId : string, token : string) : Promise<void> {
+    public async deleteList(listId: string, token: string): Promise<void> {
         const uri = this.apiEndpoint + this.listManagementPath + listId;
         const headers = this.buildHeaders(token);
 
@@ -85,8 +87,9 @@ export class ListManagementService {
         throw new ServiceError(response.statusCode, JSON.stringify(response.body));
     }
 
-    public async createListItem(listId : string, listItemObject : object, token : string) : Promise<services.listManagement.AlexaListItem> {
-        const uri = this.apiEndpoint + this.listManagementPath + listId + '/items';
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    public async createListItem(listId: string, listItemObject: object, token: string): Promise<services.listManagement.AlexaListItem> {
+        const uri = `${this.apiEndpoint + this.listManagementPath + listId }/items`;
         const headers = this.buildHeaders(token, listItemObject);
 
         const response = await this.apiClient.post(uri, headers, JSON.stringify(listItemObject));
@@ -94,8 +97,8 @@ export class ListManagementService {
         return <services.listManagement.AlexaListItem> this.validateApiResponse(response);
     }
 
-    public async getListItem(listId : string, itemId : string, token : string) : Promise<services.listManagement.AlexaListItem> {
-        const uri = this.apiEndpoint + this.listManagementPath + listId + '/items/' + itemId;
+    public async getListItem(listId: string, itemId: string, token: string): Promise<services.listManagement.AlexaListItem> {
+        const uri = `${this.apiEndpoint + this.listManagementPath + listId }/items/${ itemId}`;
         const headers = this.buildHeaders(token);
 
         const response = await this.apiClient.get(uri, headers);
@@ -103,9 +106,9 @@ export class ListManagementService {
         return <services.listManagement.AlexaListItem> this.validateApiResponse(response);
     }
 
-    public async updateListItem(listId : string, itemId : string, listItemObject : object, token : string)
-    : Promise<services.listManagement.AlexaListItem> {
-        const uri = this.apiEndpoint + this.listManagementPath + listId + '/items/' + itemId;
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    public async updateListItem(listId: string, itemId: string, listItemObject: object, token: string): Promise<services.listManagement.AlexaListItem> {
+        const uri = `${this.apiEndpoint + this.listManagementPath + listId }/items/${ itemId}`;
         const headers = this.buildHeaders(token, listItemObject);
 
         const response = await this.apiClient.put(uri, headers, JSON.stringify(listItemObject));
@@ -113,8 +116,8 @@ export class ListManagementService {
         return <services.listManagement.AlexaListItem> this.validateApiResponse(response);
     }
 
-    public async deleteListItem(listId : string, itemId : string, token : string) : Promise<void> {
-        const uri = this.apiEndpoint + this.listManagementPath + listId + '/items/' + itemId;
+    public async deleteListItem(listId: string, itemId: string, token: string): Promise<void> {
+        const uri = `${this.apiEndpoint + this.listManagementPath + listId }/items/${ itemId}`;
         const headers = this.buildHeaders(token);
 
         const response = await this.apiClient.delete(uri, headers);
@@ -126,7 +129,9 @@ export class ListManagementService {
 
         throw new ServiceError(response.statusCode, JSON.stringify(response.body));
     }
-    private buildHeaders(token : string, body? : object) : Array<{key : string, value : string}> {
+
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    private buildHeaders(token: string, body? : object): Array<{key: string, value: string}> {
         const headers = [];
         headers.push({key : 'Authorization', value : `Bearer ${token}`});
         if (body) {
@@ -137,7 +142,8 @@ export class ListManagementService {
         return headers;
     }
 
-    private validateApiResponse(apiClientResponse : services.ApiClientResponse) : object {
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    private validateApiResponse(apiClientResponse: services.ApiClientResponse): object {
         const isResponseCodeValid = apiClientResponse.statusCode >= 200 && apiClientResponse.statusCode < 300;
         let responseBody;
         try {

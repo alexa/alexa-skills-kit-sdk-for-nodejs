@@ -17,25 +17,25 @@ import * as sinon from 'sinon';
 import {
     Adapter,
     CreateStateHandler,
-    StateString,
+    StateString
 } from '../lib/adapter';
 import { V1Handler } from '../lib/v1Handler';
 import { LaunchRequest, PlaybackControllerRequest } from './mock/mockSampleRequest';
 import { mockV2Requesthandler } from './mock/mockV2RequestHandler';
 
 const mockContext = {
-    succeed : (responseEnvelope : ResponseEnvelope) => {
+    succeed : (responseEnvelope: ResponseEnvelope) => {
         // do something
     },
-    fail : (error : Error) => {
+    fail : (error: Error) => {
         // do something
     },
 };
 
 describe('CreateStateHandler', () => {
     it('should be able to create handler object with state tag', () => {
-        const mockHandler : V1Handler = {
-            LaunchRequest() : (...args : any[]) => void {
+        const mockHandler: V1Handler = {
+            LaunchRequest(): (...args: any[]) => void {
                 return;
             },
         };
@@ -68,13 +68,13 @@ describe('Adapter', () => {
     });
 
     it('should be able to register v1 style request handlers', () => {
-        const mockHandler : V1Handler = {
-            LaunchRequest() : (...args : any[]) => void {
+        const mockHandler: V1Handler = {
+            LaunchRequest(): (...args: any[]) => void {
                 return;
             },
         };
-        const mockStateHandler : V1Handler = CreateStateHandler('TestState', {
-            LaunchRequest() : (...args : any[]) => void {
+        const mockStateHandler: V1Handler = CreateStateHandler('TestState', {
+            LaunchRequest(): (...args: any[]) => void {
                 return;
             },
         });
@@ -98,8 +98,8 @@ describe('Adapter', () => {
     });
 
     it('should fail if the appId does not match the requestAppId', () => {
-        const mockHandler : V1Handler = {
-            LaunchRequest() : (...args : any[]) => void {
+        const mockHandler: V1Handler = {
+            LaunchRequest(): (...args: any[]) => void {
                 return;
             },
         };
@@ -114,8 +114,8 @@ describe('Adapter', () => {
     });
 
     it('should init i18n client if there exists resources', () => {
-        const mockHandler : V1Handler = {
-            LaunchRequest() : (...args : any[]) => void {
+        const mockHandler: V1Handler = {
+            LaunchRequest(): (...args: any[]) => void {
                 return;
             },
         };

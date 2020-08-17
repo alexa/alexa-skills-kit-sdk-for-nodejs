@@ -14,8 +14,8 @@
 import { interfaces } from 'ask-sdk-model';
 
 export class TextUtils {
-    public static makePlainText(text : string) : interfaces.display.PlainText {
-        const plainText : interfaces.display.PlainText = {
+    public static makePlainText(text: string): interfaces.display.PlainText {
+        const plainText: interfaces.display.PlainText = {
             type : 'PlainText',
             text,
         };
@@ -23,8 +23,8 @@ export class TextUtils {
         return plainText;
     }
 
-    public static makeRichText(text : string) : interfaces.display.RichText {
-        const richText : interfaces.display.RichText = {
+    public static makeRichText(text: string): interfaces.display.RichText {
+        const richText: interfaces.display.RichText = {
             type : 'RichText',
             text,
         };
@@ -32,11 +32,10 @@ export class TextUtils {
         return richText;
     }
 
-    public static makeTextContent(primaryText : interfaces.display.TextField,
-                                  secondaryText : interfaces.display.TextField,
-                                  tertiaryText : interfaces.display.TextField)
-    : interfaces.display.TextContent {
-        const textContent : interfaces.display.TextContent = {
+    public static makeTextContent(primaryText: interfaces.display.TextField,
+                                  secondaryText: interfaces.display.TextField,
+                                  tertiaryText: interfaces.display.TextField): interfaces.display.TextContent {
+        const textContent: interfaces.display.TextContent = {
             primaryText,
             secondaryText,
             tertiaryText,
