@@ -7,9 +7,17 @@
 		"docs": "rm -rf ./alexa-sdk-node-typedoc && ./node_modules/.bin/typedoc --out alexa-sdk-node-typedoc"
 	},
 	"devDependencies": {
+		"@commitlint/cli": "^9.1.2",
+		"@commitlint/config-conventional": "^9.1.2",
+		"husky": "^4.2.5",
 		"lerna": "^3.16.4",
 		"typedoc": "^0.17.8",
 		"typescript": "^3.9.5"
+	},
+	"husky": {
+		"hooks": {
+			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+		}
 	},
 	"name": "alexa-skills-kit-sdk-for-nodejs"
 }
