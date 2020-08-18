@@ -6,6 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc && npm run lint",
+    "compile": "tsc",
     "test": "cross-env TS_NODE_FILES=true mocha -r ts-node/register \"./tst/**/*.spec.ts\"",
     "lint": "eslint \"lib/**/*.{ts,tsx}\" \"tst/**/*.{ts,tsx}\"",
     "clean": "rm -rf ./dist",
