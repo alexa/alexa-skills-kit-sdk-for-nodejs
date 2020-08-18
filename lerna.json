@@ -6,7 +6,8 @@
     "ask-sdk-dynamodb-persistence-adapter",
     "ask-sdk-runtime",
     "ask-sdk-s3-persistence-adapter",
-    "ask-sdk-v1adapter"
+    "ask-sdk-v1adapter",
+    "ask-sdk-express-adapter"
   ],
   "command": {
     "bootstrap": {
