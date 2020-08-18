@@ -288,7 +288,15 @@ launch.json file with suitable targets.
 
 ## 2.7. Get the source code
 
-Install [`ask-sdk-controls`](https://www.npmjs.com/package/ask-sdk-controls) from npm
+To get the Controls Framework source code for perusal or for development, clone the
+ASK-SDK v2 github repo, and locate the Controls Framework project:
+
+```bash
+git clone https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/
+cd alexa-skills-kit-sdk-for-nodejs/ask-sdk/ask-sdk-controls
+```
+
+To get the Controls Framework source code while developing your skill, install [`ask-sdk-controls`](https://www.npmjs.com/package/ask-sdk-controls) from npm
 
 ```bash
 npm install -S ask-sdk-controls
