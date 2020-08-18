@@ -4,7 +4,7 @@
 		"setup": "./node_modules/.bin/lerna exec npm install",
 		"bootstrap": "./node_modules/.bin/lerna bootstrap --force-local --hoist",
 		"compile": "./node_modules/.bin/lerna exec npm run compile",
-		"docs": "rm -rf ./api_docs && typedoc --out api_docs"
+		"docs": "rm -rf ./alexa-sdk-node-typedoc && ./node_modules/.bin/typedoc --out alexa-sdk-node-typedoc"
 	},
 	"devDependencies": {
 		"lerna": "^3.16.4",
