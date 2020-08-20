@@ -137,7 +137,7 @@ export class ControlHandler implements RequestHandler {
         }
         catch (error) {
             if (this.controlManager.handleInternalError) {
-                this.controlManager.handleInternalError(this.controlInput, error, handlerInput.responseBuilder);
+                this.controlManager.handleInternalError(this.controlInput, error, new ControlResponseBuilder(handlerInput.responseBuilder));
             }
             throw error; // rethrow so top-level observes it too.
         }
@@ -190,7 +190,7 @@ export class ControlHandler implements RequestHandler {
         }
         catch (error) {
             if (this.controlManager.handleInternalError) {
-                this.controlManager.handleInternalError(this.controlInput, error, handlerInput.responseBuilder);
+                this.controlManager.handleInternalError(this.controlInput, error, new ControlResponseBuilder(handlerInput.responseBuilder));
             }
 
             return { ...handlerInput.responseBuilder.getResponse(), isTurnEnding: true };
