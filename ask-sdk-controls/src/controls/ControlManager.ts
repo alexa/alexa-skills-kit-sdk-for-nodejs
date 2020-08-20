@@ -11,7 +11,6 @@
  * permissions and limitations under the License.
  */
 
-import { ResponseBuilder } from 'ask-sdk-core';
 import i18next, { Resource } from 'i18next';
 import _ from "lodash";
 import { systemResource } from '../commonControls/LanguageStrings';
@@ -175,7 +174,7 @@ export abstract class ControlManager implements IControlManager {
      * @param error - Error
      * @param responseBuilder - Response builder
      */
-    handleInternalError(input: ControlInput, error: any, responseBuilder: ResponseBuilder): void {
+    handleInternalError(input: ControlInput, error: any, responseBuilder: ControlResponseBuilder): void {
         const err = error.stack !== undefined ? { name: error.name, msg: error.message, stack: error.stack } : error; // Error doesn't have enumerable properties, so we convert it.
         log.error(`Error handled: ${JSON.stringify(err)}`);
     }

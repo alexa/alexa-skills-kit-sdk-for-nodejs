@@ -11,10 +11,10 @@
  * permissions and limitations under the License.
  */
 
-import { ResponseBuilder } from 'ask-sdk-core';
 import { IControlResult } from './IControlResult';
 import { IControl } from './IControl';
 import { IControlInput } from './IControlInput';
+import { ControlResponseBuilder } from '../../responseGeneration/ControlResponseBuilder';
 
 /**
  * Manages a skill built with Controls.
@@ -53,11 +53,11 @@ export interface IControlManager {
      * @param input - Input
      * @param responseBuilder - Response builder
      */
-    render(result: IControlResult, input: IControlInput, responseBuilder: ResponseBuilder): void | Promise<void>;
+    render(result: IControlResult, input: IControlInput, responseBuilder: ControlResponseBuilder): void | Promise<void>;
 
     /**
      * Custom handling of a internal error before the skill exits and closes the
      * user session.
      */
-    handleInternalError?(input: IControlInput, error: any, responseBuilder: ResponseBuilder): void;
+    handleInternalError?(input: IControlInput, error: any, responseBuilder: ControlResponseBuilder): void;
 }

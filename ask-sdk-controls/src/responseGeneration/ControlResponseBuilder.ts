@@ -12,7 +12,7 @@
  */
 
 import { ui, Intent, interfaces, Directive, Response, dialog, canfulfill } from "ask-sdk-model";
-import { ResponseBuilder, ResponseFactory } from 'ask-sdk-core';
+import { ResponseBuilder } from 'ask-sdk-core';
 
 
 /**
