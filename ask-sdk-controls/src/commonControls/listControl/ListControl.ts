@@ -89,6 +89,8 @@ export interface ListControlProps extends ControlProps {
     /**
      * Determines if the Control must obtain a value.
      *
+     * Default: `true`.
+     * 
      * If `true`:
      *  - the Control report isReady() = false if no value has been obtained.
      *  - the control will take the initiative when given the opportunity.
