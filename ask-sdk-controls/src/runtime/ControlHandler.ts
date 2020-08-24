@@ -101,7 +101,7 @@ export class ControlHandler implements RequestHandler {
 
         // build the control tree and attach state
         this.rootControl = this.controlManager.createControlTree(stateMap);
-        if(this.rootControl === undefined){
+        if (this.rootControl === undefined){
             throw new Error('controlManager.createControlTree returned \'undefined\'.');
         }
         attachStateToControlTree(this.rootControl, stateMap);
