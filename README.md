@@ -2,14 +2,13 @@
   <img src="https://m.media-amazon.com/images/G/01/mobile-apps/dex/avs/docs/ux/branding/mark1._TTH_.png">
   <br/>
   <h1 align="center">Alexa Skills Kit SDK for Node.js</h1>
-  <p align="center"><a href="https://travis-ci.org/alexa/alexa-skills-kit-sdk-for-nodejs"><img src="https://travis-ci.org/alexa/alexa-skills-kit-sdk-for-nodejs.svg?branch=2.0.x"></a></p>
 </p>
 
 *[English](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/blob/2.0.x/README.md) | [日本語](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/blob/2.0.x/README.ja.md)*
 
 The **ASK SDK v2 for Node.js** makes it easier for you to build highly engaging skills by allowing you to spend more time on implementing features and less on writing boilerplate code.
 
-The [**ASK SDK Controls Framework (Beta)**](./ask-sdk-controls) builds on the ASK SDK v2 for Node.js, providing a scalable solution for creating large, multi-turn skills in code with reusable components called *controls*.
+The [**ASK SDK Controls Framework (Beta)**](https://github.com/alexa/ask-sdk-controls) builds on the ASK SDK v2 for Node.js, providing a scalable solution for creating large, multi-turn skills in code with reusable components called *controls*.
 
 The **ASK SMAPI SDK for Node.js** provides developers a library for easily interacting with all Skill Management APIs (SMAPI), including interaction model, intent request history, and in-skill purchasing APIs.
 
@@ -25,7 +24,6 @@ The **ASK SMAPI SDK for Node.js** provides developers a library for easily inter
 |[ask-sdk-v1adapter](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-v1adapter)|[![npm](https://img.shields.io/npm/v/ask-sdk-v1adapter.svg)](https://www.npmjs.com/package/ask-sdk-v1adapter) [![npm](https://img.shields.io/npm/dt/ask-sdk-v1adapter.svg)](https://www.npmjs.com/package/ask-sdk-v1adapter)|
 |[ask-sdk-express-adapter](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-express-adapter)|[![npm](https://img.shields.io/npm/v/ask-sdk-express-adapter.svg)](https://www.npmjs.com/package/ask-sdk-express-adapter) [![npm](https://img.shields.io/npm/dt/ask-sdk-express-adapter.svg)](https://www.npmjs.com/package/ask-sdk-express-adapter)|
 |[ask-smapi-sdk](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-smapi-sdk)| [![npm](https://img.shields.io/npm/v/ask-smapi-sdk.svg)](https://www.npmjs.com/package/ask-smapi-sdk) [![npm](https://img.shields.io/npm/dt/ask-smapi-sdk.svg)](https://www.npmjs.com/package/ask-smapi-sdk)|
-|[ask-sdk-controls](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-controls)| [![npm](https://img.shields.io/npm/v/ask-sdk-controls.svg)](https://www.npmjs.com/package/ask-sdk-controls) [![npm](https://img.shields.io/npm/dt/ask-sdk-controls.svg)](https://www.npmjs.com/package/ask-sdk-controls)|
 |[ask-sdk-local-debug](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/tree/2.0.x/ask-sdk-local-debug)| [![npm](https://img.shields.io/npm/v/ask-sdk-local-debug.svg)](https://www.npmjs.com/package/ask-sdk-local-debug) [![npm](https://img.shields.io/npm/dt/ask-sdk-local-debug.svg)](https://www.npmjs.com/package/ask-sdk-local-debug)|
 
 ## Alexa Features Supported by SDK

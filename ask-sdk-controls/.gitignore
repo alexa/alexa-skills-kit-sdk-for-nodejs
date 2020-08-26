@@ -1,7 +1,0 @@
-dist
-node_modules
-.vscode
-.DS_Store
-.nycrc
-.nyc_output
-coverage/
