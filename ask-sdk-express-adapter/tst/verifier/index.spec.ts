@@ -1,5 +1,5 @@
 import { RequestEnvelope } from 'ask-sdk-model';
-import { expect } from 'chai';
+import { expect, assert } from 'chai';
 import * as fs from 'fs';
 import { IncomingHttpHeaders } from 'http';
 import * as nock from 'nock';
@@ -12,17 +12,12 @@ import { createInvalidCert, DataProvider } from '../mocks/DataProvider';
 
 describe('TimestampVerifier', () => {
     describe('Constructor', () => {
-        it('should throw error when tolerance is longer than max allowed value', () => {
-            const LARGE_TOLERANCE: number = 3600001;
-            try {
-                const verifier: Verifier = new TimestampVerifier(LARGE_TOLERANCE);
-            } catch (err) {
-                expect(err.name).equal('AskSdk.TimestampVerifier Error');
-                expect(err.message).equal(`Provided tolerance value ${LARGE_TOLERANCE} exceeds the maximum allowed value 3600000`);
-
-                return;
-            }
-            throw new Error('should have thrown an error!');
+        it('should set tolerance to maximum when input tolerance is too large', () => {
+            const consoleWarnSpy = sinon.stub(console, 'warn');
+            const LARGE_TOLERANCE: number = 150001;
+            const verifier: Verifier = new TimestampVerifier(LARGE_TOLERANCE);
+            assert.ok(consoleWarnSpy.calledOnceWith(`ask-sdk-express-adapter TimestampVerifier: Provided tolerance value ${LARGE_TOLERANCE} exceeds the maximum allowed value 150000, Maximum value will be used instead.`));
+            expect(verifier['toleranceInMillis']).equal(150000);
         });
 
         it('should throw error when tolerance is a negative number', () => {
@@ -41,6 +36,9 @@ describe('TimestampVerifier', () => {
     describe('async function verify', () => {
         const verifier: Verifier = new TimestampVerifier(1000);
         const requestEnvelope: RequestEnvelope = DataProvider.requestEnvelope();
+        afterEach(() => {
+            sinon.restore();
+        });
         it('should throw error when TimeStamp is not present in request', async () => {
             try {
                 await verifier.verify(JSON.stringify(requestEnvelope));
@@ -75,7 +73,32 @@ describe('TimestampVerifier', () => {
             } catch (err) {
                 expect.fail(`should not throw error${ err}`);
             }
-            sinon.restore();
+        });
+
+        it('should throw error when skill event outside tolerance', async () => {
+            requestEnvelope.request.timestamp = '2019-05-23T00:00:00Z';
+            requestEnvelope.request.type = 'AlexaSkillEvent.SkillEnabled';
+            sinon.useFakeTimers(new Date('2019-05-23T01:00:01Z'));
+            try {
+                await verifier.verify(JSON.stringify(requestEnvelope));
+            } catch (err) {
+                expect(err.name).equal('AskSdk.TimestampVerifier Error');
+                expect(err.message).equal('Timestamp verification failed');
+
+                return;
+            }
+            throw new Error('should have thrown an error!');
+        });
+
+        it('should not throw error when skill event is outside normal tolerance but within skill event tolerance', async () => {
+            requestEnvelope.request.timestamp = '2019-05-23T00:00:00Z';
+            requestEnvelope.request.type = 'AlexaSkillEvent.SkillEnabled';
+            sinon.useFakeTimers(new Date('2019-05-23T01:00:00Z'));
+            try {
+                await verifier.verify(JSON.stringify(requestEnvelope));
+            } catch (err) {
+                expect.fail(`should not throw error${ err}`);
+            }
         });
     });
 });
@@ -456,7 +479,7 @@ describe('SkillRequestSignatureVerifier', () => {
             throw new Error('should have thrown an error!');
         });
 
-        it('should throw error when certificate chain is not trused against CA store', () => {
+        it('should throw error when certificate chain is not trusted against CA store', () => {
             sinon.useFakeTimers(new Date(2019, 9, 1));
             sinon.stub(helper, 'generateCAStore').returns(pki.createCaStore([leafPem]));
             try {
