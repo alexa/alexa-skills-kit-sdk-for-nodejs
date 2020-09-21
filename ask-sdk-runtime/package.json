@@ -2,8 +2,8 @@
   "name": "ask-sdk-runtime",
   "version": "2.8.0",
   "description": "Base runtime package for Alexa Skills Kit SDK",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/lib/index.js",
+  "types": "dist/lib/index.d.ts",
   "scripts": {
     "build": "tsc && npm run lint",
     "compile": "tsc",
@@ -33,7 +33,6 @@
     "@typescript-eslint/parser": "^3.9.0",
     "chai": "^4.1.2",
     "cross-env": "^7.0.2",
-    "del": "^3.0.0",
     "eslint": "^7.6.0",
     "eslint-plugin-tsdoc": "^0.2.6",
     "mocha": "^5.0.5",
