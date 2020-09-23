@@ -44,7 +44,7 @@
 
         "eqeqeq": ["error", "smart"],
         "guard-for-in": "error",
-        "id-blacklist": ["error", "any", "Number", "number", "String", "string", "Boolean", "boolean", "Undefined", "undefined"],
+        // "id-blacklist": ["error", "any", "Number", "number", "String", "string", "Boolean", "boolean", "Undefined", "undefined"],
         "id-match": "error",
         "import/no-extraneous-dependencies": ["off", { "devDependencies": false }],
         "new-parens": "error",
