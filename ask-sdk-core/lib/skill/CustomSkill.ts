@@ -22,7 +22,8 @@ import {
     createAskSdkUserAgent,
     GenericRequestDispatcher,
     RequestDispatcher,
-    Skill
+    Skill,
+    UserAgentManager
 } from 'ask-sdk-runtime';
 import { AttributesManagerFactory } from '../attributes/AttributesManagerFactory';
 import { PersistenceAdapter } from '../attributes/persistence/PersistenceAdapter';
@@ -55,6 +56,12 @@ export class CustomSkill implements Skill<RequestEnvelope, ResponseEnvelope> {
             requestInterceptors : skillConfiguration.requestInterceptors,
             responseInterceptors : skillConfiguration.responseInterceptors,
         });
+
+        const packageInfo = require('../../package.json');
+        UserAgentManager.registerComponent(createAskSdkUserAgent(packageInfo.version));
+        if (this.customUserAgent) {
+            UserAgentManager.registerComponent(this.customUserAgent);
+        }
     }
 
     /**
@@ -89,12 +96,10 @@ export class CustomSkill implements Skill<RequestEnvelope, ResponseEnvelope> {
 
         const response = await this.requestDispatcher.dispatch(input);
 
-        const packageInfo = require('../../package.json');
-
         return {
             version : '1.0',
             response,
-            userAgent : createAskSdkUserAgent(packageInfo.version, this.customUserAgent),
+            userAgent : UserAgentManager.getUserAgent(),
             sessionAttributes : requestEnvelope.session ? input.attributesManager.getSessionAttributes() : undefined,
         };
     }
@@ -113,6 +118,6 @@ export class CustomSkill implements Skill<RequestEnvelope, ResponseEnvelope> {
      * @param userAgent
      */
     public appendAdditionalUserAgent(userAgent : string) : void {
-        this.customUserAgent = this.customUserAgent ? (`${this.customUserAgent} ${userAgent}`) : userAgent;
+        UserAgentManager.registerComponent(userAgent);
     }
 }
