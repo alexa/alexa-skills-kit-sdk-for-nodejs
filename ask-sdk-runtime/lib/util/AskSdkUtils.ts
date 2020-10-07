@@ -31,7 +31,7 @@ export function createAskSdkError(errorScope: string, errorMessage: string): Err
  * @param packageVersion
  * @param customUserAgent
  */
-export function createAskSdkUserAgent(packageVersion: string, customUserAgent: string): string {
+export function createAskSdkUserAgent(packageVersion: string, customUserAgent?: string): string {
     const customUserAgentString = customUserAgent ? (` ${ customUserAgent}`) : '';
 
     return `ask-node/${packageVersion} Node/${process.version}${ customUserAgentString}`;

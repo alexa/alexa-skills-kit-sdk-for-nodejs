@@ -34,3 +34,5 @@ export {
     createAskSdkError,
     createAskSdkUserAgent
 } from './util/AskSdkUtils';
+
+export { UserAgentManager } from './util/UserAgentManager';

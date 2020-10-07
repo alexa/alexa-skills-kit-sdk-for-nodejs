@@ -12,6 +12,7 @@
  */
 
 import { ui } from 'ask-sdk-model';
+import { UserAgentManager } from 'ask-sdk-runtime';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { HandlerInput } from '../../lib/dispatcher/request/handler/HandlerInput';
@@ -19,6 +20,10 @@ import { SkillBuilders } from '../../lib/skill/SkillBuilders';
 import { JsonProvider } from '../mocks/JsonProvider';
 import { MockAlwaysFalseRequestHandler } from '../mocks/request/MockAlwaysFalseRequestHandler';
 import { MockAlwaysTrueRequestHandler } from '../mocks/request/MockAlwaysTrueRequestHandler';
+
+beforeEach(function() {
+    UserAgentManager.clear();
+});
 
 describe('CustomSkill', () => {
     it('should be able to send RequestEnvelope and context to RequestDispatcher', async () => {
@@ -181,7 +186,7 @@ describe('CustomSkill', () => {
     });
 
     it('should be able to append additional user agent', async () => {
-        const additionUserAnger : string = 'TEST_Agent';
+        const additionalUserAgent : string = 'TEST_Agent';
         const packageInfo = require('../../package.json');
         const skill = SkillBuilders.custom()
             .withCustomUserAgent('custom')
@@ -192,14 +197,14 @@ describe('CustomSkill', () => {
             .create();
 
         const requestEnvelope = JsonProvider.requestEnvelope();
-        skill.appendAdditionalUserAgent(additionUserAnger);
+        skill.appendAdditionalUserAgent(additionalUserAgent);
         const responseEnvelope = await skill.invoke(requestEnvelope);
 
-        expect(responseEnvelope.userAgent).equal(`ask-node/${packageInfo.version} Node/${process.version} custom ${additionUserAnger}`);
+        expect(responseEnvelope.userAgent).equal(`ask-node/${packageInfo.version} Node/${process.version} custom ${additionalUserAgent}`);
     });
 
     it('should be able to append additional user agent', async () => {
-        const additionUserAnger : string = 'TEST_Agent';
+        const additionalUserAgent : string = 'TEST_Agent';
         const packageInfo = require('../../package.json');
         const skill = SkillBuilders.custom()
             .addRequestHandlers(
@@ -209,9 +214,26 @@ describe('CustomSkill', () => {
             .create();
 
         const requestEnvelope = JsonProvider.requestEnvelope();
-        skill.appendAdditionalUserAgent(additionUserAnger);
+        skill.appendAdditionalUserAgent(additionalUserAgent);
         const responseEnvelope = await skill.invoke(requestEnvelope);
 
-        expect(responseEnvelope.userAgent).equal(`ask-node/${packageInfo.version} Node/${process.version} ${additionUserAnger}`);
+        expect(responseEnvelope.userAgent).equal(`ask-node/${packageInfo.version} Node/${process.version} ${additionalUserAgent}`);
+    });
+
+    it('should append user agent component added through the UserAgentManager', async () => {
+        const additionalUserAgent : string = 'TEST_Agent';
+        const packageInfo = require('../../package.json');
+        const skill = SkillBuilders.custom()
+            .addRequestHandlers(
+                new MockAlwaysTrueRequestHandler(),
+                new MockAlwaysFalseRequestHandler(),
+            )
+            .create();
+
+        const requestEnvelope = JsonProvider.requestEnvelope();
+        UserAgentManager.registerComponent(additionalUserAgent);
+        const responseEnvelope = await skill.invoke(requestEnvelope);
+
+        expect(responseEnvelope.userAgent).equal(`ask-node/${packageInfo.version} Node/${process.version} ${additionalUserAgent}`);
     });
 });
