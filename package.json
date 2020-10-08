@@ -3,10 +3,9 @@
 	"scripts": {
 		"lerna": "./node_modules/.bin/lerna",
 		"setup": "lerna exec npm install",
-		"bootstrap": "lerna bootstrap --force-local --hoist",
+		"bootstrap": "lerna bootstrap --force-local --hoist --nohoist=ts-node",
 		"build": "lerna exec npm run build",
 		"test": "lerna exec npm run test",
-		"version": "lerna version --no-git-tag-version --no-push --conventional-commits --yes ---message \"chore(release): publish %s\"",
 		"docs": "rm -rf ./alexa-sdk-node-typedoc && ./node_modules/.bin/typedoc --out alexa-sdk-node-typedoc"
 	},
 	"devDependencies": {
