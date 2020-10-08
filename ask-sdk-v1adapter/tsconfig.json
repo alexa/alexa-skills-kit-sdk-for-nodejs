@@ -3,7 +3,7 @@
     "target": "es2017",
     "module": "commonjs",
     "moduleResolution": "node",
-    "rootDir": "./",
+    "rootDir": "./lib",
     "outDir" : "dist",
     "sourceMap" : true,
     "alwaysStrict" : true,
@@ -11,7 +11,6 @@
     "lib": []
   },
   "include": [
-    "lib",
-    "tst"
+    "lib"
   ]
 }

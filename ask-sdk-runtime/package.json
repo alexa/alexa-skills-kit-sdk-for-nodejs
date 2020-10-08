@@ -2,8 +2,8 @@
   "name": "ask-sdk-runtime",
   "version": "2.8.0",
   "description": "Base runtime package for Alexa Skills Kit SDK",
-  "main": "dist/lib/index.js",
-  "types": "dist/lib/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc && npm run lint",
     "compile": "tsc",

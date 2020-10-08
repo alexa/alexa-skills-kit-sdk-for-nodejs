@@ -26,7 +26,7 @@
             "modules": true,
             "impliedStrict": true
         },
-        "project": "tsconfig.json"
+        "project": ["tsconfig.json", "tst/tsconfig.json"]
     },
     "rules": {
 

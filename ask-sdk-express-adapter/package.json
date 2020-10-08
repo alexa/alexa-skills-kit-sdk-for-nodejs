@@ -2,8 +2,8 @@
   "name": "ask-sdk-express-adapter",
   "version": "2.1.0",
   "description": "Express adapter package for Alexa Skills Kit SDK",
-  "main": "dist/lib/index.js",
-  "types": "dist/lib/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc && npm run lint",
     "compile": "tsc",
