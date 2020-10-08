@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.10.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.9.0...v2.10.0) (2020-10-08)
+
+
+### Bug Fixes
+
+* Addded new line at end of tsconfig.json files ([d94a1c6](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/d94a1c656484ca067d82411269283e5d1370d535))
+* fix the github action workflow and compilation making relative require fail issue ([#658](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/658)) ([895c88e](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/895c88e8bd875488a62966680a3d9d8eb2bcd9ea))
+* Updated all packages .npmignore files ([de76a18](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/de76a18bcd21c6a411ddd72a09064e6d8b00c6ae))
+* Updated all packages package.json ([#656](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/656)) ([c27c3e6](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/c27c3e6842834d0fea365613da7f3598955b558f))
+
+
+### Features
+
+* eslint migration and fixes, git workflows and updates on package.json for ask-sdk-dynamodb-persistence-adapter ([0e29817](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/0e298173e168e7625ae96027bfc9299a85b3283d))
+* Update root package.json to fix doc generation ([4bf482b](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/4bf482bb889fc9b93ad8d0afe8725862c5690f24))
+
+
+
+
+
 # [2.9.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.8.0...v2.9.0) (2020-07-22)
 
 

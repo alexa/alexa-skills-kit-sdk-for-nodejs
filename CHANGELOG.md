@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.10.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.9.0...v2.10.0) (2020-10-08)
+
+
+### Bug Fixes
+
+* Add .withApiResponse() to ControlResponseBuilder ([#636](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/636)) ([752b17c](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/752b17c53acc7ad8ee5da5811a7945082a9c7e25))
+* Addded new line at end of each workflows ([4f562fe](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/4f562fed06d35b65c45f9eb053e01367435db7b2))
+* Addded new line at end of tsconfig.json files ([d94a1c6](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/d94a1c656484ca067d82411269283e5d1370d535))
+* added commitlint and husky package config for commit rules and removed alexa-apis-for-nodejs reference ([f857438](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/f85743895090ca98813336a174d0e7e75b709b69))
+* fix linting violations ([c7e23e7](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/c7e23e733c30edf2f5572516297c7cf6d9dafc28))
+* fix the github action workflow and compilation making relative require fail issue ([#658](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/658)) ([895c88e](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/895c88e8bd875488a62966680a3d9d8eb2bcd9ea))
+* Fix(controls) launch.json to work out-of-box in vscode ([#637](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/637)) ([24afdf8](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/24afdf87b21357e3a977d4e5ac29475e6060942a))
+* removed unused dependencies from ask-sdk-control ([8120f93](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/8120f93916ccd29b86b817c43ae36aad5baea58d))
+* throw if createControlTree returns undefined ([d7506e9](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/d7506e962f5f6f041c37e7feb0ec7267d38d96ec))
+* Update ask-sdk-core package.json dependencies ([752d6ec](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/752d6ec309f40f42702740a9af7d646b77ea70a3))
+* update rootDir to point to the right root dir in tsconfig file in tst ([66ca284](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/66ca284e13ed1dc881a13d69a399035eb4725e28))
+* update SMAPI SDK Readme for generate-lwa-tokens usage ([279d96d](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/279d96dc1236bb220a00205c42fde902e2a58657))
+* update the script of the mono project ([148fad2](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/148fad253df605fbc1d6c83db11668317cfc9ee5))
+* Updated all packages .npmignore files ([de76a18](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/de76a18bcd21c6a411ddd72a09064e6d8b00c6ae))
+* Updated all packages package.json ([#656](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/656)) ([c27c3e6](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/c27c3e6842834d0fea365613da7f3598955b558f))
+* updated ControlManager responseBuilder type ([1dd13a8](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/1dd13a8d7bf145b7f5fb3026e643b99352390680))
+* Updated lerna.json and use installed typedoc module ([a115b58](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/a115b58d54503846e55a6f4dade3ae36c03882dc))
+* Windows failures on path separtor issue on ask-sdk-s3-persistence-adapter ([1bd1a15](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/1bd1a15ff20cbf4cba00b886c547bb8adf489199))
+
+
+### Features
+
+* Add special timestamp verification for skill event requests ([#651](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/651)) ([9b0dd9f](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/9b0dd9fbd0169e140be09ed3dfda2e30772dd0af))
+* add UserAgentManager ([bc03b55](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/bc03b554e072f0ea1feffa90fa2486dcbdfcc9db))
+* Adding individual workflows to be triggered on subdir changes ([c5eb69f](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/c5eb69fa487d03e7e96214c878d8f71d6a62de75))
+* eslint migration and fixes, git workflows and updates on package.json for ask-sdk-dynamodb-persistence-adapter ([0e29817](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/0e298173e168e7625ae96027bfc9299a85b3283d))
+* eslint migration and fixes, git workflows and updates on package.json for ask-sdk-runtime ([7265239](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/7265239581fe7aa0654f5b095f86482a60499b0a))
+* eslint migration and fixes, git workflows and updates on package.json for ask-sdk-s3-persistence-adapter ([2789886](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/27898865f9f761225ca1fb1e8f0a69ef385f4dc0))
+* eslint migration and fixes, github actions workflows and updates on package.json for ask-sdk ([89560a6](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/89560a6bf77f514fdb7a054a49654b20362b40f7))
+* eslint migration and fixes, github actions workflows and updates on package.json for ask-sdk-express-adapter ([e944476](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/e94447697fe0b93f7dc35bd201ac40b02ec7a811))
+* eslint migration and fixes, github actions workflows and updates on package.json for ask-sdk-v1adapter ([a76053a](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/a76053aa4fe72f69f173c639dfafe6a85ea6031c))
+* eslint migration and fixes, github actions workflows and updates on package.json for ask-smapi-sdk ([4d3f9b2](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/4d3f9b217c553856f2c2f61990e4939625a32ceb))
+* Update root package.json to fix doc generation ([4bf482b](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/4bf482bb889fc9b93ad8d0afe8725862c5690f24))
+
+
+
+
+
 # [2.9.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.8.0...v2.9.0) (2020-07-22)
 
 

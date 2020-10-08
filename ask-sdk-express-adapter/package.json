@@ -1,6 +1,6 @@
 {
   "name": "ask-sdk-express-adapter",
-  "version": "2.1.0",
+  "version": "2.10.0",
   "description": "Express adapter package for Alexa Skills Kit SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,7 +45,7 @@
     "@types/supertest": "^2.0.7",
     "@typescript-eslint/eslint-plugin": "^3.9.0",
     "@typescript-eslint/parser": "^3.9.0",
-    "ask-sdk-core": "^2.7.0",
+    "ask-sdk-core": "^2.10.0",
     "ask-sdk-model": "^1.29.0",
     "chai": "^4.1.2",
     "cross-env": "^7.0.2",
