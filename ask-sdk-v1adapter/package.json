@@ -2,8 +2,8 @@
   "name": "ask-sdk-v1adapter",
   "version": "2.9.0",
   "description": "Adapter from v1 Alexa Node.js SDK to v2",
-  "main": "dist/lib/index.js",
-  "types": "dist/lib/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc && npm run lint",
     "compile": "tsc",

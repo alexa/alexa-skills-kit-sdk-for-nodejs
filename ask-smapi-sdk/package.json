@@ -2,8 +2,8 @@
   "name": "ask-smapi-sdk",
   "version": "1.2.2",
   "description": "Core package for SMAPI Skills Kit SDK",
-  "main": "dist/lib/index.js",
-  "types": "dist/lib/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc && npm run lint",
     "compile": "tsc",
