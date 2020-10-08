@@ -4,17 +4,9 @@ on:
   push:
     branches:
       - 2.0.x
-    paths:
-      - 'ask-sdk/**'
   pull_request:
     branches:
       - 2.0.x
-    paths:
-      - 'ask-sdk/**'
-
-defaults:
-  run:
-    working-directory: ask-sdk
 
 jobs:
   build:
@@ -30,5 +22,6 @@ jobs:
       with:
         node-version: ${{ matrix.node }}
     - run: npm install
+    - run: npm run bootstrap
     - run: npm run build
     - run: npm run test
