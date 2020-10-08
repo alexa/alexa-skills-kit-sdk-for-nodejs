@@ -10,7 +10,8 @@
     "test": "cross-env TS_NODE_FILES=true mocha -r ts-node/register \"./tst/**/*.spec.ts\"",
     "lint": "eslint \"lib/**/*.{ts,tsx}\" \"tst/**/*.{ts,tsx}\"",
     "clean": "rm -rf ./dist",
-    "reinstall": "rm -rf ./node_modules && npm install"
+    "reinstall": "rm -rf ./node_modules && npm install",
+    "coverage": "nyc -x tst -e .ts -r html -r text-summary -t coverage/.nyc_output --cache npm test"
   },
   "keywords": [
     "Alexa",

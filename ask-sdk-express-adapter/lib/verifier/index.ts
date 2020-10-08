@@ -11,8 +11,8 @@
  * permissions and limitations under the License.
  */
 
-import { createAskSdkError } from 'ask-sdk-core';
-import { RequestEnvelope } from 'ask-sdk-model';
+import { createAskSdkError, getRequestType } from 'ask-sdk-core';
+import { RequestEnvelope, events } from 'ask-sdk-model';
 import crypto = require ('crypto');
 import { IncomingHttpHeaders } from 'http';
 import * as client from 'https';
@@ -34,8 +34,15 @@ const SIGNATURE_FORMAT: crypto.HexBase64Latin1Encoding = 'base64';
 const CERT_CHAIN_URL_PORT: number = 443;
 const CERT_CHAIN_DOMAIN = 'echo-api.amazon.com';
 const CHARACTER_ENCODING: crypto.Utf8AsciiLatin1Encoding = 'utf8';
-const DEFAULT_TIMESTAMP_TOLERANCE_IN_MILLIS: number = 150000;
-const MAX_TIMESTAMP_TOLERANCE_IN_MILLIS: number = 3600000;
+const MAXIMUM_NORMAL_REQUEST_TOLERANCE_IN_MILLIS: number = 150000;
+const MAXIMUM_SKILL_EVENT_TOLERANCE_IN_MILLIS: number = 3600000;
+const ALEXA_SKILL_EVENT_LIST = new Set([
+    'AlexaSkillEvent.SkillEnabled',
+    'AlexaSkillEvent.SkillDisabled',
+    'AlexaSkillEvent.SkillPermissionChanged',
+    'AlexaSkillEvent.SkillPermissionAccepted',
+    'AlexaSkillEvent.SkillAccountLinked'
+]);
 
 /**
  * Verifiers are run against incoming requests to verify authenticity and integrity of the request before processing
@@ -316,12 +323,10 @@ export class SkillRequestSignatureVerifier implements Verifier {
  */
 export class TimestampVerifier implements Verifier {
     protected toleranceInMillis: number;
-    constructor(tolerance: number = DEFAULT_TIMESTAMP_TOLERANCE_IN_MILLIS) {
-        if (tolerance > MAX_TIMESTAMP_TOLERANCE_IN_MILLIS) {
-            throw createAskSdkError(
-                this.constructor.name,
-                `Provided tolerance value ${tolerance} exceeds the maximum allowed value ${MAX_TIMESTAMP_TOLERANCE_IN_MILLIS}`,
-            );
+    constructor(tolerance: number = MAXIMUM_NORMAL_REQUEST_TOLERANCE_IN_MILLIS) {
+        if (tolerance > MAXIMUM_NORMAL_REQUEST_TOLERANCE_IN_MILLIS) {
+            console.warn(`ask-sdk-express-adapter TimestampVerifier: Provided tolerance value ${tolerance} exceeds the maximum allowed value ${MAXIMUM_NORMAL_REQUEST_TOLERANCE_IN_MILLIS}, Maximum value will be used instead.`);
+            tolerance = MAXIMUM_NORMAL_REQUEST_TOLERANCE_IN_MILLIS;
         }
         if (tolerance < 0) {
             throw createAskSdkError(
@@ -352,6 +357,12 @@ export class TimestampVerifier implements Verifier {
         const requestTimeStamp = new Date(requestEnvelopeJson.request.timestamp);
         const localNow = new Date();
         if (requestTimeStamp.getTime() + this.toleranceInMillis < localNow.getTime()) {
+            // If the request is a skill event, check whether the time delta exceed the maximum tolerance for skill event
+            if (ALEXA_SKILL_EVENT_LIST.has(getRequestType(requestEnvelopeJson))
+                && (requestTimeStamp.getTime() + MAXIMUM_SKILL_EVENT_TOLERANCE_IN_MILLIS >= localNow.getTime())
+            ) {
+                return;
+            }
             throw createAskSdkError(
                 this.constructor.name,
                 'Timestamp verification failed',
