@@ -22,7 +22,8 @@ import { MockAlwaysFalseRequestHandler } from '../mocks/request/MockAlwaysFalseR
 import { MockAlwaysTrueRequestHandler } from '../mocks/request/MockAlwaysTrueRequestHandler';
 
 beforeEach(function() {
-    UserAgentManager.clear();
+    UserAgentManager['components'].clear();
+    UserAgentManager['userAgent'] = '';
 });
 
 describe('CustomSkill', () => {

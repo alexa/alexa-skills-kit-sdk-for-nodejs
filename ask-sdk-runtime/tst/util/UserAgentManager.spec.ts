@@ -33,7 +33,8 @@ describe('UserAgentManager', () => {
     it('should clear components', () => {
         UserAgentManager.registerComponent('foo');
         UserAgentManager.registerComponent('bar');
-        UserAgentManager.clear();
+        UserAgentManager['components'].clear();
+        UserAgentManager['userAgent'] = '';
         expect(UserAgentManager.getUserAgent()).equal('');
     });
 });

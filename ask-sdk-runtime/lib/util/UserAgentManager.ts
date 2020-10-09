@@ -42,13 +42,4 @@ export class UserAgentManager {
             this.userAgent = updatedUserAgent;
         }
     }
-
-    /**
-     * Clears any existing components from the user agent and resets it to empty.
-     */
-    static clear() {
-        this.components.clear();
-        this.userAgent = '';
-    }
-
 }
