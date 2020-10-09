@@ -68,5 +68,6 @@ export {
 
 export {
     createAskSdkError,
-    createAskSdkUserAgent
+    createAskSdkUserAgent,
+    UserAgentManager
 } from 'ask-sdk-runtime';
