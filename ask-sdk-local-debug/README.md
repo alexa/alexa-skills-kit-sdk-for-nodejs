@@ -26,7 +26,7 @@ The [Alexa Skills Toolkit for Visual Studio](https://developer.amazon.com/en-US/
       ```bash
       node ./node_modules/ask-sdk-local-debug/dist/LocalDebuggerInvoker.js 
             --accessToken <ACCESS_TOKEN>
-            --skillID <SKILL_ID>
+            --skillId <SKILL_ID>
             --skillEntryFile <FILE_NAME>
             --handlerName <HANDLER_NAME>
       ```
