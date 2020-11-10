@@ -16,7 +16,7 @@ import { ClientConfigBuilder } from './builder/ClientConfigBuilder';
 import { SkillInvokerConfigBuilder } from './builder/SkillInvokerConfigBuilder';
 import { WebSocketClientConfigBuilder } from './builder/WebSocketClientConfigBuilder';
 import { LocalDebugClient } from './client/LocalDebugClient';
-import { argsParser } from './util/ArgsParserUtils';
+import { argsParser, getHandlerFunction } from './util/ArgsParserUtils';
 
 const { argv } = argsParser();
 
@@ -25,16 +25,17 @@ const clientConfig = new ClientConfigBuilder()
   .withHandlerName(argv.handlerName)
   .withSkillEntryFile(argv.skillEntryFile)
   .withSkillId(argv.skillId)
+  .withRegion(argv.region)
   .build();
 
 const skillInvokerConfig = new SkillInvokerConfigBuilder()
-  // eslint-disable-next-line import/no-dynamic-require
-  .withHandler(require(clientConfig.skillEntryFile)[clientConfig.handlerName])
+  .withHandler(getHandlerFunction(clientConfig.skillEntryFile, clientConfig.handlerName))
   .build();
 
 const webSocketClientConfig = new WebSocketClientConfigBuilder()
   .withSkillId(clientConfig.skillId)
   .withAccessToken(clientConfig.accessToken)
+  .withRegion(clientConfig.region)
   .build();
 
 const webSocketClient = new WsClient(webSocketClientConfig.webSocketServerUri, {

@@ -10,35 +10,48 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 import { WebSocketClientConfig } from '../config/WebSocketClientConfig';
+import { RegionEndpointMapping } from '../constants/Constants';
 
 export class WebSocketClientConfigBuilder {
-    private _webSocketServerUri: string;
+  private _headers: {};
 
-    private _headers: {};
+  private _skillId: string;
 
-    public withSkillId(skillId: string): WebSocketClientConfigBuilder {
-        this._webSocketServerUri = `wss://bob-dispatch-prod-na.amazon.com/v1/skills/${skillId}/stages/development/connectCustomDebugEndpoint`;
+  private _region: string;
 
-        return this;
-    }
+  public withSkillId(skillId: string): WebSocketClientConfigBuilder {
+    this._skillId = skillId;
 
-    public withAccessToken(accessToken: string): WebSocketClientConfigBuilder {
-        this._headers = { authorization: accessToken };
+    return this;
+  }
 
-        return this;
-    }
+  public withRegion(region: string): WebSocketClientConfigBuilder {
+    this._region = region;
 
-    public get webSocketServerUri(): string {
-        return this._webSocketServerUri;
-    }
+    return this;
+  }
 
-    public get headers(): {} {
-        return this._headers;
-    }
+  public withAccessToken(accessToken: string): WebSocketClientConfigBuilder {
+    this._headers = { authorization: accessToken };
 
-    public build(): WebSocketClientConfig {
-        return new WebSocketClientConfig(this);
-    }
+    return this;
+  }
+
+  public get webSocketServerUri(): string {
+    console.log(`Region chosen: ${this._region}`);
+    return `wss://${RegionEndpointMapping.get(
+      this._region,
+    )}/v1/skills/${
+      this._skillId
+    }/stages/development/connectCustomDebugEndpoint`;
+  }
+
+  public get headers(): {} {
+    return this._headers;
+  }
+
+  public build(): WebSocketClientConfig {
+    return new WebSocketClientConfig(this);
+  }
 }

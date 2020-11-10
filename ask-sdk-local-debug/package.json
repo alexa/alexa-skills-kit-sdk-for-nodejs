@@ -8,14 +8,8 @@
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
     "compile": "tsc",
-    "mkdir": "mkdir -p build/lib/commonjs/ask-sdk-local-debug",
-    "copy-pkg": "cp package.json build/lib/commonjs/ask-sdk-local-debug/",
-    "copy-dist": "cp -r dist build/lib/commonjs/ask-sdk-local-debug/",
-    "copy-src": "cp -r lib build/lib/commonjs/ask-sdk-local-debug/",
-    "copy-tst": "cp -r tst build/lib/commonjs/ask-sdk-local-debug/",
-    "copy": "npm run mkdir && npm run copy-pkg && npm run copy-src && npm run copy-dist",
     "cleanup": "rm -rf dist",
-    "start": "npm run lint && npm run cleanup && npm run compile && npm run copy",
+    "start": "npm run lint && npm run cleanup && npm run compile",
     "release": "npm run start",
     "pack": "npm run release && npm pack"
   },
@@ -27,8 +21,6 @@
     "@types/yargs": "^15.0.5",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
-    "ask-sdk-model": "^1.28.1",
-    "ask-sdk-core": "^2.8.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-import-resolver-typescript": "^2.0.0",
     "eslint-config-prettier": "^6.11.0",
@@ -46,6 +38,9 @@
   },
   "dependencies": {
     "ws": "^7.3.0",
-    "yargs": "^15.3.1"
+    "yargs": "^15.3.1",
+    "immutable": "^4.0.0-rc.11",
+    "ask-sdk-model": "^1.29.0",
+    "ask-sdk-core": "^2.8.0"
   }
 }

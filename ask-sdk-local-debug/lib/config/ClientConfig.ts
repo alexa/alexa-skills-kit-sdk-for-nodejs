@@ -22,11 +22,14 @@ export class ClientConfig {
 
     private readonly _skillEntryFile: string;
 
+    private readonly _region: string;
+
     constructor(clientConfigBuilder: ClientConfigBuilder) {
         this._skillEntryFile = clientConfigBuilder.skillEntryFile;
         this._handlerName = clientConfigBuilder.handlerName;
         this._accessToken = clientConfigBuilder.accessToken;
         this._skillId = clientConfigBuilder.skillId;
+        this._region = clientConfigBuilder.region;
     }
 
     public get skillEntryFile(): string {
@@ -43,5 +46,9 @@ export class ClientConfig {
 
     public get accessToken(): string {
         return this._accessToken;
+    }
+
+    public get region(): string {
+        return this._region;
     }
 }

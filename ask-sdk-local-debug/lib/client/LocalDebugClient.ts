@@ -52,8 +52,7 @@ export class LocalDebugClient implements ILocalDebugClient {
     }
 
     public connectedEvent(): void {
-        console.log('*****Starting Skill Debug Session in NA region*****', '\n');
-        console.log('*****NOTE: Skill debugging is currently only available for invocations from customer in North America region (https://developer.amazon.com/en-US/docs/alexa/custom-skills/develop-skills-in-multiple-languages.html#h2-multiple-endpoints)*****', '\n');
+        console.log('*****Starting Skill Debug Session*****', '\n');
         console.log('*****Session will last for 1 hour*****', '\n');
     }
 

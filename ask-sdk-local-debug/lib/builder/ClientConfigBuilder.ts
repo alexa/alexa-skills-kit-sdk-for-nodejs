@@ -22,6 +22,8 @@ export class ClientConfigBuilder {
 
     private _skillId: string;
 
+    private _region: string;
+
     public withSkillEntryFile(skillEntryFile: string): ClientConfigBuilder {
         this._skillEntryFile = skillEntryFile;
 
@@ -46,6 +48,12 @@ export class ClientConfigBuilder {
         return this;
     }
 
+    withRegion(region: string): ClientConfigBuilder {
+        this._region = region;
+
+        return this;
+    }
+
     public get skillEntryFile(): string {
         return this._skillEntryFile;
     }
@@ -60,6 +68,10 @@ export class ClientConfigBuilder {
 
     public get skillId(): string {
         return this._skillId;
+    }
+
+    public get region(): string {
+        return this._region;
     }
 
     public build(): ClientConfig {

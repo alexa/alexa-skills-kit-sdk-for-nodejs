@@ -19,7 +19,10 @@ module.exports = {
     // ---------------------------------------------------------
     // --- Rules from eslint:recommended that we override
     // ---------------------------------------------------------
-    "class-methods-use-this": ["error", { "exceptMethods": ["errorEvent", "connectedEvent"] }],
+    "class-methods-use-this": [
+      "error",
+      { exceptMethods: ["errorEvent", "connectedEvent"] },
+    ],
     "no-unused-vars": "off", // because it flags types that are imported for type declarations (but otherwise unused).
     "no-undef": "off", // because if flags lack of import for Set.  // TODO: fix the issues and remove this override.
 
@@ -46,14 +49,15 @@ module.exports = {
       "error",
       "ignorePackages",
       {
-        "js": "never",
-        "jsx": "never",
-        "ts": "never",
-        "tsx": "never"
-      }
+        js: "never",
+        jsx: "never",
+        ts: "never",
+        tsx: "never",
+      },
     ],
     "import/no-cycle": "off",
     "import/no-default-export": "error",
+    "import/no-dynamic-require": "off",
     "import/no-extraneous-dependencies": ["off", { devDependencies: false }],
     "import/prefer-default-export": "off",
     indent: "off",
@@ -61,6 +65,7 @@ module.exports = {
     "jsx-a11y/label-has-associated-control": "off",
     "new-parens": "error",
     "no-caller": "error",
+    "no-console": "off",
     "no-duplicate-imports": "error",
     "no-eval": "error",
     "no-extra-bind": "error",
@@ -70,9 +75,13 @@ module.exports = {
     "no-sequences": "error",
     "no-shadow": ["off", { hoist: "all" }],
     "no-undef-init": "error",
-    "no-underscore-dangle": ["error", {
-      "allowAfterThis": true
-    }],
+    "no-underscore-dangle": [
+      "error",
+      {
+        allowAfterThis: true,
+      },
+    ],
+    "global-require": 0,
     "no-var": "error",
     "object-shorthand": "error",
     "one-var": ["error", "never"],
@@ -126,6 +135,7 @@ module.exports = {
     "@typescript-eslint/no-parameter-properties": "off",
     "@typescript-eslint/no-this-alias": "error",
     "@typescript-eslint/no-unused-expressions": "off",
+    "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/no-var-requires": "error",
     "@typescript-eslint/prefer-for-of": "error",
