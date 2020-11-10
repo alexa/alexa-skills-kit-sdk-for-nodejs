@@ -10,9 +10,8 @@ ASK SDK Local Debug is a package which enables you to test your skill code local
 ## Installation
 
 ```
-`npm install --save ask-sdk-model@^1.29.0
-``npm install --save-dev ask-sdk-local-debug
-`
+npm install --save ask-sdk-model@^1.29.0
+npm install --save-dev ask-sdk-local-debug
 ```
 
 ## Configuration

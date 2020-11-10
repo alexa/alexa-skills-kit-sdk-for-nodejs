@@ -83,7 +83,6 @@ export function argsParser(): any {
       return true;
     })
     .check((argv) => {
-      RegionEndpointMapping.delete('NA');
       if (argv.region != null && !RegionEndpointMapping.has(argv.region)) {
         const errorMessage = `Invalid region - ${argv.region}. Please ensure that the region value is one of - ${RegionEndpointMapping.keySeq().toArray()}`;
         console.error(errorMessage);
