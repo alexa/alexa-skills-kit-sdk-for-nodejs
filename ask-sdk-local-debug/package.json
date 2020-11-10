@@ -1,6 +1,6 @@
 {
   "name": "ask-sdk-local-debug",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Local debug package for Alexa Skills Kit SDK",
   "main": "dist/client/WebSocketClient.js",
   "types": "dist/client/WebSocketClient.d.ts",
