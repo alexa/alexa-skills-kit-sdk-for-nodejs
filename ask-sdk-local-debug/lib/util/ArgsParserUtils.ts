@@ -34,17 +34,18 @@ export function argsParser(): any {
       type: 'string',
       description:
         'Name of the handler function that will be invoked to run the skill code.',
-      demandOption: true,
-      requiresArg: true,
     },
     skillEntryFile: {
       type: 'string',
       description:
         'Path of the file in the skill code package where the handler function is located.',
-      demandOption: true,
-      requiresArg: true,
     },
     region: {
+      type: 'string',
+      description:
+        'Region of the developer account. TODO:: dev documentation link.',
+    },
+    remoteUrl: {
       type: 'string',
       description:
         'Region of the developer account. TODO:: dev documentation link.',
@@ -65,19 +66,8 @@ export function argsParser(): any {
       return true;
     })
     .check((argv) => {
-      if (argv.handlerName == null) {
-        console.error('Handler name cannot be null or empty.');
-        return false;
-      }
-      return true;
-    })
-    .check((argv) => {
-      if (argv.skillEntryFile == null) {
-        console.error('Skill entry file cannot be null or empty.');
-        return false;
-      }
-      if (!existsSync(argv.skillEntryFile)) {
-        console.error('Skill entry file does not  exist.');
+      if ((argv.handlerName == null || argv.skillEntryFile == null) && argv.remoteUrl == null) {
+        console.error('Must provide either skillEntryFile and handlerName, or a remoteUrl.');
         return false;
       }
       return true;

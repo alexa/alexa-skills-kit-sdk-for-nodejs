@@ -35,14 +35,18 @@ const clientConfig = new ClientConfigBuilder()
 let skillInvokerConfig: SkillInvokerConfig;
 let remoteInvokerConfig: RemoteInvokerConfig;
 
-if (clientConfig.skillEntryFile !== '' && clientConfig.handlerName !== '') {
+// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+if (clientConfig.skillEntryFile && clientConfig.handlerName) {
   skillInvokerConfig = new SkillInvokerConfigBuilder()
     .withHandler(getHandlerFunction(clientConfig.skillEntryFile, clientConfig.handlerName))
     .build();
-} else if (clientConfig.remoteUrl !== '') {
+// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+} else if (clientConfig.remoteUrl) {
   remoteInvokerConfig = new RemoteInvokerConfigBuilder()
     .withRemoteUrl(clientConfig.remoteUrl)
     .build();
+} else {
+  throw new Error('Must provide skillEntryFile and handlerName, or a remoteUrl');
 }
 
 const webSocketClientConfig = new WebSocketClientConfigBuilder()
