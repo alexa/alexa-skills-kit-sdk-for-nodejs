@@ -24,12 +24,15 @@ export class ClientConfig {
 
     private readonly _region: string;
 
+    private readonly _remoteUrl: string;
+
     constructor(clientConfigBuilder: ClientConfigBuilder) {
         this._skillEntryFile = clientConfigBuilder.skillEntryFile;
         this._handlerName = clientConfigBuilder.handlerName;
         this._accessToken = clientConfigBuilder.accessToken;
         this._skillId = clientConfigBuilder.skillId;
         this._region = clientConfigBuilder.region;
+        this._remoteUrl = clientConfigBuilder.remoteUrl;
     }
 
     public get skillEntryFile(): string {
@@ -50,5 +53,9 @@ export class ClientConfig {
 
     public get region(): string {
         return this._region;
+    }
+
+    public get remoteUrl(): string {
+      return this._remoteUrl;
     }
 }

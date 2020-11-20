@@ -13,9 +13,12 @@
 
 import WsClient from 'ws';
 import { ClientConfigBuilder } from './builder/ClientConfigBuilder';
+import { RemoteInvokerConfigBuilder } from './builder/RemoteInvokerConfigBuilder';
 import { SkillInvokerConfigBuilder } from './builder/SkillInvokerConfigBuilder';
 import { WebSocketClientConfigBuilder } from './builder/WebSocketClientConfigBuilder';
 import { LocalDebugClient } from './client/LocalDebugClient';
+import { RemoteInvokerConfig } from './config/RemoteInvokerConfig';
+import { SkillInvokerConfig } from './config/SkillInvokerConfig';
 import { argsParser, getHandlerFunction } from './util/ArgsParserUtils';
 
 const { argv } = argsParser();
@@ -26,11 +29,21 @@ const clientConfig = new ClientConfigBuilder()
   .withSkillEntryFile(argv.skillEntryFile)
   .withSkillId(argv.skillId)
   .withRegion(argv.region)
+  .withRemoteUrl(argv.remoteUrl)
   .build();
 
-const skillInvokerConfig = new SkillInvokerConfigBuilder()
-  .withHandler(getHandlerFunction(clientConfig.skillEntryFile, clientConfig.handlerName))
-  .build();
+let skillInvokerConfig: SkillInvokerConfig;
+let remoteInvokerConfig: RemoteInvokerConfig;
+
+if (clientConfig.skillEntryFile !== '' && clientConfig.handlerName !== '') {
+  skillInvokerConfig = new SkillInvokerConfigBuilder()
+    .withHandler(getHandlerFunction(clientConfig.skillEntryFile, clientConfig.handlerName))
+    .build();
+} else if (clientConfig.remoteUrl !== '') {
+  remoteInvokerConfig = new RemoteInvokerConfigBuilder()
+    .withRemoteUrl(clientConfig.remoteUrl)
+    .build();
+}
 
 const webSocketClientConfig = new WebSocketClientConfigBuilder()
   .withSkillId(clientConfig.skillId)
@@ -42,4 +55,4 @@ const webSocketClient = new WsClient(webSocketClientConfig.webSocketServerUri, {
   headers: webSocketClientConfig.headers,
 });
 
-const client = new LocalDebugClient(webSocketClient, skillInvokerConfig);
+const client = new LocalDebugClient(webSocketClient, skillInvokerConfig, remoteInvokerConfig);

@@ -13,20 +13,24 @@
 
 import WebSocket from 'ws';
 import { SkillInvokerConfig } from '../config/SkillInvokerConfig';
-import { getDynamicEndpointsRequest, getSkillResponse } from '../util/RequestResponseUtils';
+import { getDynamicEndpointsRequest, getSkillResponse, getRemoteSkillResponse } from '../util/RequestResponseUtils';
 import { ILocalDebugClient } from './ILocalDebugClient';
+import { RemoteInvokerConfig } from '../config/RemoteInvokerConfig';
 
 const PING_FREQUENCY_IN_MILLISECONDS = 5 * 60 * 1000;
 
 export class LocalDebugClient implements ILocalDebugClient {
-    private readonly _skillInvokerConfig: SkillInvokerConfig;
+    private readonly _skillInvokerConfig?: SkillInvokerConfig;
+
+    private readonly _remoteInvokerConfig?: RemoteInvokerConfig;
 
     private readonly _webSocketClient: WebSocket;
 
     private readonly heartbeat: NodeJS.Timeout;
 
-    constructor(webSocketClient: WebSocket, skillInvokerConfig: SkillInvokerConfig) {
+    constructor(webSocketClient: WebSocket, skillInvokerConfig?: SkillInvokerConfig, remoteInvokerConfig?: RemoteInvokerConfig) {
         this._skillInvokerConfig = skillInvokerConfig;
+        this._remoteInvokerConfig = remoteInvokerConfig;
         this._webSocketClient = webSocketClient;
         this.configureClientEvents();
         this.heartbeat = setInterval(() => {
@@ -59,9 +63,16 @@ export class LocalDebugClient implements ILocalDebugClient {
     public messageEvent(data: WebSocket.Data): void {
         console.log('Skill request', '\n', JSON.stringify(JSON.parse(data.toString()), null, 2), '\n');
         const dynamicEndpointsRequest = getDynamicEndpointsRequest(data.toString());
-        getSkillResponse(dynamicEndpointsRequest, this._skillInvokerConfig, (responseString) => {
-            this.sendResponse(responseString);
-        });
+
+        if (this._skillInvokerConfig) {
+            getSkillResponse(dynamicEndpointsRequest, this._skillInvokerConfig, (responseString) => {
+                this.sendResponse(responseString);
+            });
+        } else if (this._remoteInvokerConfig) {
+            getRemoteSkillResponse(dynamicEndpointsRequest, this._remoteInvokerConfig, (responseString) => {
+                this.sendResponse(responseString);
+            });
+        }
     }
 
     public sendResponse(responseString: string): void {

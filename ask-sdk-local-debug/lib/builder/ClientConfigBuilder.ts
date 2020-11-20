@@ -24,6 +24,8 @@ export class ClientConfigBuilder {
 
     private _region: string;
 
+    private _remoteUrl: string;
+
     public withSkillEntryFile(skillEntryFile: string): ClientConfigBuilder {
         this._skillEntryFile = skillEntryFile;
 
@@ -54,6 +56,12 @@ export class ClientConfigBuilder {
         return this;
     }
 
+    public withRemoteUrl(remoteUrl: string): ClientConfigBuilder {
+        this._remoteUrl = remoteUrl;
+
+        return this;
+    }
+
     public get skillEntryFile(): string {
         return this._skillEntryFile;
     }
@@ -72,6 +80,10 @@ export class ClientConfigBuilder {
 
     public get region(): string {
         return this._region;
+    }
+
+    public get remoteUrl(): string {
+         return this._remoteUrl;
     }
 
     public build(): ClientConfig {

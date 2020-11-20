@@ -11,7 +11,10 @@
  * permissions and limitations under the License.
  */
 
+import axios from 'axios';
+
 import { dynamicEndpoints } from 'ask-sdk-model';
+import { RemoteInvokerConfig } from '../config/RemoteInvokerConfig';
 import { SkillInvokerConfig } from '../config/SkillInvokerConfig';
 import { DynamicEndpointsRequest } from '../request/DynamicEndpointsRequest';
 
@@ -53,4 +56,40 @@ export function getSkillResponse(dynamicEndpointsRequest: DynamicEndpointsReques
         console.log('----------------------');
         callback(responseString);
     });
+}
+
+export function getRemoteSkillResponse(dynamicEndpointsRequest: DynamicEndpointsRequest,
+                                       remoteInvokerConfig: RemoteInvokerConfig,
+                                       callback: (responseString: string) => void): void {
+    const postData = dynamicEndpointsRequest.requestPayload;
+
+    axios
+        .post(remoteInvokerConfig.url, JSON.parse(postData))
+        .then((res) => {
+        const successResponse: dynamicEndpoints.SuccessResponse = {
+            type: SKILL_RESPONSE_SUCCESS_MESSAGE_TYPE,
+            originalRequestId: dynamicEndpointsRequest.requestId,
+            version: dynamicEndpointsRequest.version,
+            responsePayload: JSON.stringify(res.data),
+        };
+
+        const responseString = JSON.stringify(successResponse, null, 2);
+        console.log('Skill response', '\n', responseString);
+        console.log('----------------------');
+        callback(responseString);
+        })
+        .catch((e) => {
+        const failureResponse: dynamicEndpoints.FailureResponse = {
+            type: SKILL_RESPONSE_FAILURE_MESSAGE_TYPE,
+            version: dynamicEndpointsRequest.version,
+            originalRequestId: dynamicEndpointsRequest.requestId,
+            errorCode: ERROR_CODE,
+            errorMessage: e.message,
+        };
+
+        const responseString = JSON.stringify(failureResponse, null, 2);
+        console.log('Skill response', '\n', responseString);
+        console.log('----------------------');
+        callback(responseString);
+        });
 }
