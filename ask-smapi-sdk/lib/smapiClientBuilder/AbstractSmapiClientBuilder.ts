@@ -11,8 +11,9 @@
  * permissions and limitations under the License.
  */
 
-import { services } from 'ask-smapi-model';
-import { RefreshTokenConfig } from './authMethods/AuthMethods';
+import { runtime, services } from 'ask-smapi-model';
+import AuthenticationConfiguration = runtime.AuthenticationConfiguration;
+import { AccessTokenConfig, RefreshTokenConfig } from './authMethods/AuthMethods';
 
 /**
  * Abstract Builder class which should be implemented.
@@ -22,10 +23,17 @@ import { RefreshTokenConfig } from './authMethods/AuthMethods';
 export class SmapiClientBuilder {
 
     protected customUserAgent: string;
+    protected accessTokenConfig: AccessTokenConfig;
     protected refreshTokenConfig: RefreshTokenConfig;
 
     public withCustomUserAgent(userAgent: string): SmapiClientBuilder {
         this.customUserAgent = userAgent;
+
+        return this;
+    }
+
+    public withAccessTokenConfig(accessTokenConfig: AccessTokenConfig): SmapiClientBuilder {
+        this.accessTokenConfig = accessTokenConfig;
 
         return this;
     }
@@ -38,5 +46,16 @@ export class SmapiClientBuilder {
 
     public client(): services.skillManagement.SkillManagementServiceClient {
         throw new Error('client function is not implemented');
+    }
+
+    protected getAuthenticationConfiguration(): AuthenticationConfiguration {
+        const authenticationConfiguration: AuthenticationConfiguration = {
+            clientId: this.refreshTokenConfig ? this.refreshTokenConfig.clientId : this.accessTokenConfig.clientId,
+            clientSecret: this.refreshTokenConfig ? this.refreshTokenConfig.clientSecret : this.accessTokenConfig.clientSecret,
+            accessToken: this.accessTokenConfig ? this.accessTokenConfig.accessToken : undefined,
+            refreshToken: this.refreshTokenConfig ? this.refreshTokenConfig.refreshToken : undefined
+        };
+
+        return authenticationConfiguration;
     }
 }

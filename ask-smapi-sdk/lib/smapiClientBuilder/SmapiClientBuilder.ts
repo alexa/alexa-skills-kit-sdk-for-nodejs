@@ -31,22 +31,19 @@ export class StandardSmapiClientBuilder extends SmapiClientBuilder {
      */
     public client(): services.skillManagement.SkillManagementServiceClient {
 
-        if (this.refreshTokenConfig) {
+        if (this.refreshTokenConfig || this.accessTokenConfig) {
             const apiConfiguration: ApiConfiguration = {
                 apiClient: new DefaultApiClient(),
                 apiEndpoint: DEFAULT_API_ENDPOINT,
                 authorizationValue: null,
             };
-            const authenticationConfiguration: AuthenticationConfiguration = {
-                clientId: this.refreshTokenConfig.clientId,
-                clientSecret: this.refreshTokenConfig.clientSecret,
-                refreshToken: this.refreshTokenConfig.refreshToken,
-            };
+
+            const authenticationConfiguration: AuthenticationConfiguration = this.getAuthenticationConfiguration();
 
             return new services.skillManagement.SkillManagementServiceClient(apiConfiguration, authenticationConfiguration, this.customUserAgent);
         }
 
-        throw new Error('Please provide refreshToken Config to build smapi client');
+        throw new Error('Please provide accessToken or refreshToken Config to build smapi client');
     }
 }
 
@@ -87,22 +84,18 @@ export class CustomSmapiClientBuilder extends StandardSmapiClientBuilder {
             this.apiClient = new DefaultApiClient();
         }
 
-        if (this.refreshTokenConfig) {
+        if (this.refreshTokenConfig || this.accessTokenConfig) {
             const apiConfiguration: ApiConfiguration = {
                 apiClient: this.apiClient,
                 apiEndpoint: this.apiEndpoint,
                 authorizationValue: null,
             };
-            const authenticationConfiguration: AuthenticationConfiguration = {
-                clientId: this.refreshTokenConfig.clientId,
-                clientSecret: this.refreshTokenConfig.clientSecret,
-                refreshToken: this.refreshTokenConfig.refreshToken,
-                authEndpoint: this.authEndpoint,
-            };
+            const authenticationConfiguration: AuthenticationConfiguration = this.getAuthenticationConfiguration();
+            authenticationConfiguration.authEndpoint = this.authEndpoint;
 
             return new services.skillManagement.SkillManagementServiceClient(apiConfiguration, authenticationConfiguration, this.customUserAgent);
         }
 
-        throw new Error('Please provide refreshToken Config to build smapi client');
+        throw new Error('Please provide accessToken or refreshToken Config to build smapi client');
     }
 }

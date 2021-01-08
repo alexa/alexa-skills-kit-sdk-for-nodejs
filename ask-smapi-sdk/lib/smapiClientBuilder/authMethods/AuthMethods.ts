@@ -16,3 +16,9 @@ export interface RefreshTokenConfig {
     clientSecret: string;
     refreshToken: string;
 }
+
+export interface AccessTokenConfig {
+    clientId: string;
+    clientSecret: string;
+    accessToken: string;
+}
