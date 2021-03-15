@@ -55,7 +55,7 @@ export class ExpressAdapter {
     /**
      * Get pre-defined request handlers
      *
-     * This function return an arry of pre-defined request handlers
+     * This function return an array of pre-defined request handlers
      * which are supposed to be registered on users' express application, including:
      * 1: text parser 2: async function to get response envelope after verification, then send result back
      * Example usage: app.post('/', new ExpressAdapter(skill).getASKRequestHandler());

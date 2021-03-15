@@ -119,6 +119,7 @@ describe('SkillRequestSignatureVerifier', () => {
     const invalidSignature = 'TEST_INVALID_SIGNATURE';
 
     beforeEach(() => {
+        sinon.stub(process, 'version').value('12.3.0');
         sinon.useFakeTimers(new Date(2019, 9, 1));
     });
 
@@ -413,7 +414,6 @@ describe('SkillRequestSignatureVerifier', () => {
 
     describe('function _validateCertChain', () => {
         const functionKey: string = '_validateCertChain';
-        const rootCA = require('ssl-root-cas/latest');
 
         it('should throw error when cert expired', () => {
             sinon.useFakeTimers(new Date(2022, 2, 15));
@@ -458,6 +458,19 @@ describe('SkillRequestSignatureVerifier', () => {
             } catch (err) {
                 expect(err.name).equal('AskSdk.SkillRequestSignatureVerifier Error');
                 expect(err.message).equal('echo-api.amazon.com domain missing in Signature Certificate Chain.');
+
+                return;
+            }
+            throw new Error('should have thrown an error!');
+        });
+
+        it('should throw error when node version is less than 12.3.0', () => {
+            sinon.stub(process, 'version').value('10.0.0');
+            try {
+                verifier[functionKey](validPem);
+            } catch (err) {
+                expect(err.name).equal('AskSdk.SkillRequestSignatureVerifier Error');
+                expect(err.message).equal('ask-sdk-express-adapter package require node version 12.3.0 or later, your current node version is 10.0.0. Please upgrade the node version.');
 
                 return;
             }
