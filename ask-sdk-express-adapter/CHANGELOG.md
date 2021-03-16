@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.2](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.10.0...v2.10.2) (2021-03-16)
+
+
+### Bug Fixes
+
+* deprecate ssl-root-cas and switch to use tls.rootCertificates to… ([#686](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/686)) ([8217a3f](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/8217a3f38ce1cba9d6b5b9d2488902cf12322cb7))
+
+
+
+
+
 # [2.10.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.9.0...v2.10.0) (2020-10-08)
 
 

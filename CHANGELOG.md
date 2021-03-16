@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.2](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.10.0...v2.10.2) (2021-03-16)
+
+
+### Bug Fixes
+
+* deprecate ssl-root-cas and switch to use tls.rootCertificates to… ([#686](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/686)) ([8217a3f](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/8217a3f38ce1cba9d6b5b9d2488902cf12322cb7))
+* export UserAgentManager from core ([#659](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/659)) ([b99d08d](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/b99d08df72e2b2296671d22d3d9bf6c7c030c682))
+* update and fix local-debug readme ([#663](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/663)) ([9522e94](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/9522e943a893a815a17e8d3afc73589170b95395))
+* update readme for local-debug ([bca8fad](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/bca8fad946d94f9b6d415272b6d7002dd0bc664d))
+* update readme to fix skillId spelling ([65f65f0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/65f65f010b96c5284e4ac689a95556bf5290dd12))
+
+
+### Features
+
+* add access token support ([#673](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/673)) ([9151628](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/915162897f04425fef77498c2003c2e3b6d6216d))
+* Adding support for EU and FE ([9f4b177](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/9f4b177573540dd3f159d623b2ec0f9cf766df03))
+
+
+
+
+
 # [2.10.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.9.0...v2.10.0) (2020-10-08)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.2](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.10.0...v2.10.2) (2021-03-16)
+
+
+### Bug Fixes
+
+* export UserAgentManager from core ([#659](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/659)) ([b99d08d](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/b99d08df72e2b2296671d22d3d9bf6c7c030c682))
+
+
+
+
+
 # [2.10.1](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.9.0...v2.10.0) (2020-10-09)
 
 

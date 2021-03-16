@@ -1,6 +1,6 @@
 {
   "name": "ask-sdk-v1adapter",
-  "version": "2.10.0",
+  "version": "2.10.2",
   "description": "Adapter from v1 Alexa Node.js SDK to v2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -43,7 +43,7 @@
     "@types/sinon": "^7.0.13",
     "@typescript-eslint/eslint-plugin": "^3.9.0",
     "@typescript-eslint/parser": "^3.9.0",
-    "ask-sdk": "^2.10.0",
+    "ask-sdk": "^2.10.2",
     "chai": "^4.1.2",
     "cross-env": "^7.0.2",
     "eslint": "^7.6.0",
