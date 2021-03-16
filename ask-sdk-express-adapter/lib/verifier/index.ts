@@ -27,7 +27,7 @@ import { generateCAStore, generateCertificatesArray } from './helper';
  * For more info, check `link <https://developer.amazon.com/docs/custom-skills/host-a-custom-skill-as-a-web-service.html#checking-the-signature-of-the-request>
  */
 
-const REQUIRED_NODE_VERSION = "12.3.0";
+export const REQUIRED_NODE_VERSION = "12.3.0";
 const VALID_SIGNING_CERT_CHAIN_PROTOCOL: string = 'https:';
 const VALID_SIGNING_CERT_CHAIN_URL_HOST_NAME: string = 's3.amazonaws.com';
 const VALID_SIGNING_CERT_CHAIN_URL_PATH_PREFIX: string = '/echo.api/';
@@ -289,7 +289,7 @@ export class SkillRequestSignatureVerifier implements Verifier {
         if (!gte(process.version, REQUIRED_NODE_VERSION)) {
             throw createAskSdkError(
                 this.constructor.name,
-                `ask-sdk-express-adapter package require node version ${REQUIRED_NODE_VERSION} or later, your current node version is ${process.version}. Please upgrade the node version.`,
+                `ask-sdk-express-adapter package require node version ${REQUIRED_NODE_VERSION} or later, your current node version is ${process.version}. Please update your node version.`,
             );
         }
 
