@@ -6,9 +6,10 @@ import * as nock from 'nock';
 import { pki } from 'node-forge';
 import * as sinon from 'sinon';
 import * as url from 'url';
-import { SkillRequestSignatureVerifier, TimestampVerifier, Verifier } from '../../lib/verifier';
+import { SkillRequestSignatureVerifier, TimestampVerifier, Verifier, REQUIRED_NODE_VERSION } from '../../lib/verifier';
 import * as helper from '../../lib/verifier/helper';
 import { createInvalidCert, DataProvider } from '../mocks/DataProvider';
+import { gte } from "semver";
 
 describe('TimestampVerifier', () => {
     describe('Constructor', () => {
@@ -118,6 +119,13 @@ describe('SkillRequestSignatureVerifier', () => {
         + '/qR3WYIMMfKuk1iEQOQY7jAFCS8zOjCaa4sM373T4mNUAojcgdAaHxzu2smLRzQSttTXfuemCijTigg==';
     const invalidSignature = 'TEST_INVALID_SIGNATURE';
 
+    before(function() {
+        if (!gte(process.version, REQUIRED_NODE_VERSION)) {
+            // skip unit tests when node version is less than required
+            this.skip();
+        }
+    });
+
     beforeEach(() => {
         sinon.useFakeTimers(new Date(2019, 9, 1));
     });
@@ -126,6 +134,7 @@ describe('SkillRequestSignatureVerifier', () => {
         sinon.restore();
         nock.cleanAll();
     });
+
 
     describe('async function verify', () => {
         it('should throw error when cert chain url is not present', async () => {
@@ -413,7 +422,6 @@ describe('SkillRequestSignatureVerifier', () => {
 
     describe('function _validateCertChain', () => {
         const functionKey: string = '_validateCertChain';
-        const rootCA = require('ssl-root-cas/latest');
 
         it('should throw error when cert expired', () => {
             sinon.useFakeTimers(new Date(2022, 2, 15));
@@ -458,6 +466,19 @@ describe('SkillRequestSignatureVerifier', () => {
             } catch (err) {
                 expect(err.name).equal('AskSdk.SkillRequestSignatureVerifier Error');
                 expect(err.message).equal('echo-api.amazon.com domain missing in Signature Certificate Chain.');
+
+                return;
+            }
+            throw new Error('should have thrown an error!');
+        });
+
+        it('should throw error when node version is less than 12.3.0', () => {
+            sinon.stub(process, 'version').value('10.0.0');
+            try {
+                verifier[functionKey](validPem);
+            } catch (err) {
+                expect(err.name).equal('AskSdk.SkillRequestSignatureVerifier Error');
+                expect(err.message).equal('ask-sdk-express-adapter package require node version 12.3.0 or later, your current node version is 10.0.0. Please update your node version.');
 
                 return;
             }

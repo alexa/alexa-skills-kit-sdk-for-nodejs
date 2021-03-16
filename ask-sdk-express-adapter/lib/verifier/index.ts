@@ -12,12 +12,13 @@
  */
 
 import { createAskSdkError, getRequestType } from 'ask-sdk-core';
-import { RequestEnvelope, events } from 'ask-sdk-model';
+import { RequestEnvelope } from 'ask-sdk-model';
 import crypto = require ('crypto');
 import { IncomingHttpHeaders } from 'http';
 import * as client from 'https';
 import { pki } from 'node-forge';
 import * as url from 'url';
+import { gte } from 'semver';
 
 import { generateCAStore, generateCertificatesArray } from './helper';
 
@@ -25,6 +26,8 @@ import { generateCAStore, generateCertificatesArray } from './helper';
  * Provide constant value
  * For more info, check `link <https://developer.amazon.com/docs/custom-skills/host-a-custom-skill-as-a-web-service.html#checking-the-signature-of-the-request>
  */
+
+export const REQUIRED_NODE_VERSION = "12.3.0";
 const VALID_SIGNING_CERT_CHAIN_PROTOCOL: string = 'https:';
 const VALID_SIGNING_CERT_CHAIN_URL_HOST_NAME: string = 's3.amazonaws.com';
 const VALID_SIGNING_CERT_CHAIN_URL_PATH_PREFIX: string = '/echo.api/';
@@ -281,11 +284,20 @@ export class SkillRequestSignatureVerifier implements Verifier {
                 `${CERT_CHAIN_DOMAIN} domain missing in Signature Certificate Chain.`,
             );
         }
+
+        // check whether the node version is greater or equal to 12.3.0
+        if (!gte(process.version, REQUIRED_NODE_VERSION)) {
+            throw createAskSdkError(
+                this.constructor.name,
+                `ask-sdk-express-adapter package require node version ${REQUIRED_NODE_VERSION} or later, your current node version is ${process.version}. Please update your node version.`,
+            );
+        }
+
+        const caStore: pki.CAStore = generateCAStore(require('tls').rootCertificates);
+        const certChain: pki.Certificate[] = generateCertificatesArray(pemCert);
         // Use the pki.verifyCertificateChain function from Node-forge to
         // validate that all certificates in the chain combine to create a chain of trust to a trusted root CA certificate
         // TODO: Implement certificate revocation check which is missed in pki.verifyCertificateChain function
-        const certChain: pki.Certificate[] = generateCertificatesArray(pemCert);
-        const caStore: pki.CAStore = generateCAStore(require('ssl-root-cas/latest').create());
         try {
             pki.verifyCertificateChain(caStore, certChain);
         } catch (e) {
