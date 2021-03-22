@@ -72,7 +72,7 @@ const smapiClient = new Alexa.StandardSmapiClientBuilder()
 
 ### List Skills
 ``` js
-# To only retrieve response body
+// To only retrieve response body
 smapiClient.listSkillsForVendorV1(vendorId)
     .then((response) => {
         console.log(JSON.stringify(response));
@@ -82,7 +82,7 @@ smapiClient.listSkillsForVendorV1(vendorId)
         console.log(JSON.stringify(err.response));
     });
     
-# To include response header and status code
+// To include response header and status code
 smapiClient.callListSkillsForVendorV1(vendorId)
     .then((response) => {
         console.log(response.header);
