@@ -12,6 +12,7 @@
  */
 
 import {
+    DialogState,
     IntentRequest,
     ListSlotValue,
     Request,
@@ -153,9 +154,9 @@ export function getUserId(requestEnvelope : RequestEnvelope) : string {
  * https://developer.amazon.com/docs/custom-skills/define-the-dialog-to-collect-and-confirm-required-information.html
  *
  * @param {RequestEnvelope} requestEnvelope
- * @return {string}
+ * @return {DialogState}
  */
-export function getDialogState(requestEnvelope : RequestEnvelope) : string {
+export function getDialogState(requestEnvelope : RequestEnvelope) : DialogState {
     if (getRequestType(requestEnvelope) === 'IntentRequest') {
         return (requestEnvelope.request as IntentRequest).dialogState;
     }
