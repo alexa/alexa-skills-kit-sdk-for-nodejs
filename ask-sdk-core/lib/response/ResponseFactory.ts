@@ -338,6 +338,21 @@ export class ResponseFactory {
 
                 return this;
             },
+            addDirectiveToReprompt(directive : Directive) : ResponseBuilder {
+                if (!response.reprompt) {
+                    response.reprompt = {};
+                }
+                if (!response.reprompt.directives) {
+                    response.reprompt.directives = [];
+                }
+                response.reprompt.directives.push(directive);
+
+                if (!isVideoAppLaunchDirectivePresent()) {
+                    this.withShouldEndSession(false);
+                }
+
+                return this;
+            },
             withApiResponse(apiResponse : any) : ResponseBuilder {
                 response.apiResponse = apiResponse;
 
