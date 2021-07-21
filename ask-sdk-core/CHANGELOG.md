@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.11.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.10.2...v2.11.0) (2021-07-21)
+
+
+### Bug Fixes
+
+* updated return type of getDialogState ([ef6b97e](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/ef6b97e9deaeb902856c33e570f56da8a2ff998a))
+
+
+### Features
+
+* add util function addDirectiveToReprompt ([#694](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/issues/694)) ([fb980db](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/fb980db2daf877bb332323f31a642dd6b325bd05))
+
+
+
+
+
 ## [2.10.2](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.10.0...v2.10.2) (2021-03-16)
 
 
