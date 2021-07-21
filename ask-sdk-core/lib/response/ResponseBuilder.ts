@@ -184,7 +184,7 @@ export interface ResponseBuilder {
     addDirective(directive : Directive) : this;
     /**
      * Helper method for adding directives to reprompt
-     * @param {Directive} directive the directive send back to Alexa device
+     * @param {Directive} directive the directive sent back to Alexa device
      * @returns {ResponseBuilder}
      */
     addDirectiveToReprompt(directive : Directive) : this;

@@ -348,7 +348,7 @@ export class ResponseFactory {
                 response.reprompt.directives.push(directive);
 
                 if (!isVideoAppLaunchDirectivePresent()) {
-                    response.shouldEndSession = false;
+                    this.withShouldEndSession(false);
                 }
 
                 return this;
