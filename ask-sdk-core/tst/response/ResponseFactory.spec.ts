@@ -841,4 +841,59 @@ describe('ResponseFactory', () => {
             .withApiResponse(apiResponse)
             .getResponse()).to.deep.equals(expectResponse);
     });
+
+    it('should build response with outputSpeech and reprompt with directives', () => {
+        const speechOutput = 'Hello world!';
+        const aplaDocument = {};
+        const expectResponse = {
+            outputSpeech: {
+                ssml: `<speak>${ speechOutput }</speak>`,
+                type: 'SSML',
+            },
+            reprompt : {
+                directives: [
+                    {
+                        type: 'Alexa.Presentation.APLA.RenderDocument',
+                        document: aplaDocument,
+                    }
+                ]
+            },
+            shouldEndSession : false,
+        };
+        expect(ResponseFactory.init()
+            .addDirectiveToReprompt({
+                type : 'Alexa.Presentation.APLA.RenderDocument',
+                document : aplaDocument,
+            })
+            .speak(speechOutput)
+            .getResponse()).to.deep.equals(expectResponse);
+    });
+
+    it('should build reprompt with shouldEndSession set to false', () => {
+        const speechOutput = 'Hello world!';
+        const aplaDocument = {};
+        const expectResponse = {
+            outputSpeech: {
+                ssml: `<speak>${ speechOutput }</speak>`,
+                type: 'SSML',
+            },
+            reprompt : {
+                directives: [
+                    {
+                        type: 'Alexa.Presentation.APLA.RenderDocument',
+                        document: aplaDocument,
+                    }
+                ]
+            },
+            shouldEndSession : false,
+        };
+        expect(ResponseFactory.init()
+            .withShouldEndSession(true)
+            .addDirectiveToReprompt({
+                type : 'Alexa.Presentation.APLA.RenderDocument',
+                document : aplaDocument,
+            })
+            .speak(speechOutput)
+            .getResponse()).to.deep.equals(expectResponse);
+    });
 });
