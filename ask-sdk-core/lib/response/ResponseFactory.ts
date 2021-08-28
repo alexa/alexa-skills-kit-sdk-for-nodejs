@@ -92,14 +92,16 @@ export class ResponseFactory {
                 return this;
             },
             reprompt(repromptSpeechOutput : string, playBehavior? : ui.PlayBehavior) : ResponseBuilder {
-                response.reprompt = {
-                    outputSpeech : {
-                        type : 'SSML',
-                        ssml : `<speak>${
-                            trimOutputSpeech(repromptSpeechOutput)
-                        }</speak>`,
-                        playBehavior,
-                    },
+                if (!response.reprompt) {
+                    response.reprompt = {};
+                }
+
+                response.reprompt.outputSpeech = {
+                    type : 'SSML',
+                    ssml : `<speak>${
+                        trimOutputSpeech(repromptSpeechOutput)
+                    }</speak>`,
+                    playBehavior,
                 };
 
                 if (!playBehavior) {

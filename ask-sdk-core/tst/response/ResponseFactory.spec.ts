@@ -851,6 +851,10 @@ describe('ResponseFactory', () => {
                 type: 'SSML',
             },
             reprompt : {
+                outputSpeech: {
+                    ssml: `<speak>${ speechOutput }</speak>`,
+                    type: 'SSML',
+                },
                 directives: [
                     {
                         type: 'Alexa.Presentation.APLA.RenderDocument',
@@ -866,6 +870,7 @@ describe('ResponseFactory', () => {
                 document : aplaDocument,
             })
             .speak(speechOutput)
+            .reprompt(speechOutput)
             .getResponse()).to.deep.equals(expectResponse);
     });
 
