@@ -8,9 +8,15 @@
     "sourceMap" : true,
     "alwaysStrict" : true,
     "declaration" : true,
-    "lib": []
+    "lib": [
+      // required for compiling @aws-sdk/*
+      "dom"
+    ]
   },
   "include": [
     "lib"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

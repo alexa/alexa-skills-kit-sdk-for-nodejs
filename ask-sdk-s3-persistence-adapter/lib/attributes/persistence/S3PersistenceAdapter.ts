@@ -16,7 +16,7 @@ import {
     PersistenceAdapter
 } from 'ask-sdk-core';
 import { RequestEnvelope } from 'ask-sdk-model';
-import { S3 } from 'aws-sdk';
+import { DeleteObjectCommand, DeleteObjectCommandInput, GetObjectCommand, GetObjectCommandInput, GetObjectCommandOutput, PutObjectCommand, PutObjectCommandInput, S3 } from '@aws-sdk/client-s3';
 import * as path from 'path';
 import {
     ObjectKeyGenerator,
@@ -52,15 +52,15 @@ export class S3PersistenceAdapter implements PersistenceAdapter {
     public async getAttributes(requestEnvelope: RequestEnvelope): Promise<{[key: string]: string}> {
         const objectId = path.join(this.pathPrefix, this.objectKeyGenerator(requestEnvelope));
 
-        const getParams: S3.GetObjectRequest = {
+        const getParams: GetObjectCommandInput = {
             Bucket : this.bucketName,
             Key : objectId,
         };
 
-        let data: S3.GetObjectOutput;
+        let data: GetObjectCommandOutput;
 
         try {
-            data = await this.s3Client.getObject(getParams).promise();
+            data = await this.s3Client.send(new GetObjectCommand(getParams));
         } catch (err) {
             if (err.code === 'NoSuchKey') {
                 return {};
@@ -94,14 +94,14 @@ export class S3PersistenceAdapter implements PersistenceAdapter {
     public async saveAttributes(requestEnvelope: RequestEnvelope, attributes: {[key: string]: string}): Promise<void> {
         const objectId = path.join(this.pathPrefix, this.objectKeyGenerator(requestEnvelope));
 
-        const putParams: S3.PutObjectRequest = {
+        const putParams: PutObjectCommandInput = {
             Bucket : this.bucketName,
             Key : objectId,
             Body : JSON.stringify(attributes),
         };
 
         try {
-            await this.s3Client.putObject(putParams).promise();
+            await this.s3Client.send(new PutObjectCommand(putParams));
         } catch (err) {
             throw createAskSdkError(
                 this.constructor.name,
@@ -113,13 +113,13 @@ export class S3PersistenceAdapter implements PersistenceAdapter {
     public async deleteAttributes(requestEnvelope: RequestEnvelope): Promise<void> {
         const objectId = path.join(this.pathPrefix, this.objectKeyGenerator(requestEnvelope));
 
-        const deleteParams: S3.DeleteObjectRequest = {
+        const deleteParams: DeleteObjectCommandInput = {
             Bucket : this.bucketName,
             Key : objectId,
         };
 
         try {
-            await this.s3Client.deleteObject(deleteParams).promise();
+            await this.s3Client.send(new DeleteObjectCommand(deleteParams));
         } catch (err) {
             throw createAskSdkError(
                 this.constructor.name,
