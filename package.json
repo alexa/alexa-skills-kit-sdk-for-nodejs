@@ -1,6 +1,7 @@
 {
 	"private": true,
 	"scripts": {
+		"postinstall": "lerna bootstrap",
 		"lerna": "./node_modules/.bin/lerna",
 		"setup": "lerna exec npm install",
 		"bootstrap": "lerna bootstrap --force-local --hoist --nohoist=ts-node",
