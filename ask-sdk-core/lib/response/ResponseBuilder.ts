@@ -195,6 +195,12 @@ export interface ResponseBuilder {
      */
     withApiResponse(apiResponse : any) : this;
     /**
+     * Helper method for adding experimentation trigger to responses
+     * @param {string} experimentId the id of the experiment that was triggered
+     * @returns {ResponseBuilder}
+     */
+    addExperimentTrigger(experimentId : string) : this;
+    /**
      * Returns the response object
      * @returns {Response}
      */

@@ -896,4 +896,20 @@ describe('ResponseFactory', () => {
             .speak(speechOutput)
             .getResponse()).to.deep.equals(expectResponse);
     });
+
+    it('should build response with experiment trigger response', () => {
+        const experimentId = "experimentId";
+        const responseBuilder : ResponseBuilder = ResponseFactory.init();
+        const apiResponse = {
+            experimentation: [
+                experimentId
+            ],
+        };
+        const expectResponse = {
+            apiResponse,
+        };
+        expect(responseBuilder
+            .withApiResponse(apiResponse)
+            .getResponse()).to.deep.equals(expectResponse);
+    });
 });
