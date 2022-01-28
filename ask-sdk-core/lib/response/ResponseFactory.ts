@@ -38,6 +38,7 @@ import ConfirmSlotDirective = dialog.ConfirmSlotDirective;
 import ConfirmIntentDirective = dialog.ConfirmIntentDirective;
 import AudioItemMetadata = interfaces.audioplayer.AudioItemMetadata;
 import CanFulfillIntent = canfulfill.CanFulfillIntent;
+import ExperimentTriggerResponse = interfaces.alexa.experimentation.ExperimentTriggerResponse;
 
 /**
  * Responsible for building JSON responses using ask-sdk-model as per the Alexa skills kit interface
@@ -356,6 +357,16 @@ export class ResponseFactory {
             withApiResponse(apiResponse : any) : ResponseBuilder {
                 response.apiResponse = apiResponse;
 
+                return this;
+            },
+            addExperimentTrigger(experimentId: string): ResponseBuilder {
+                if (!response.experimentation) {
+                    const experimentation : ExperimentTriggerResponse = {
+                        triggeredExperiments : []
+                    };
+                    response.experimentation = experimentation;
+                }
+                response.experimentation.triggeredExperiments.push(experimentId);
                 return this;
             },
             getResponse() : Response {
