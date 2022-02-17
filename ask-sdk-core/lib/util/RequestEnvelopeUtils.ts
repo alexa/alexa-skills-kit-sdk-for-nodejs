@@ -271,7 +271,7 @@ export function getSimpleSlotValues(slotValue : SlotValue) : SimpleSlotValue[] {
  * @return {SupportedInterfaces}
  */
 export function getSupportedInterfaces(requestEnvelope : RequestEnvelope) : SupportedInterfaces {
-    return requestEnvelope.context.System.device.supportedInterfaces;
+    return requestEnvelope.context.System.device?.supportedInterfaces ?? {};
 }
 
 /**

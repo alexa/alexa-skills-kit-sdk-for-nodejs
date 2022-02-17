@@ -265,6 +265,10 @@ describe('RequestEnvelopeUtils', () => {
         });
     });
 
+    it('should get empty supported interfaces if device not in request', () => {
+        expect(getSupportedInterfaces(requestEnvelopeWithNoDevice)).deep.eq({});
+    });
+
     it('should be able to get session new value', () => {
         expect(isNewSession(requestEnvelope)).eq(true);
     });
