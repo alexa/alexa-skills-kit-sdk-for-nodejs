@@ -129,7 +129,7 @@ describe('SkillRequestSignatureVerifier', () => {
     const rsaSha256PublicKey: string = fs.readFileSync(`${mocksDir}rsa_sha256_pub`).toString();
     const publicKeyBuffer: Buffer = Buffer.from(rsaSha256PublicKey, 'utf-8');
     const validRequestEnvelope: string = JSON.stringify(DataProvider.requestEnvelope());
-    const signer: crypto.Signer = crypto.createSign('RSA-SHA256');
+    const signer: crypto.Sign = crypto.createSign('RSA-SHA256');
     signer.update(validRequestEnvelope);
     const validSignature256: string = signer.sign(rsaSha256Key, 'base64');
     const invalidSignature: string = 'TEST_INVALID_SIGNATURE';
