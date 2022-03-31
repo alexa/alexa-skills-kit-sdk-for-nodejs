@@ -10,6 +10,8 @@ import { SkillRequestSignatureVerifier, TimestampVerifier, Verifier, REQUIRED_NO
 import * as helper from '../../lib/verifier/helper';
 import { createInvalidCert, DataProvider } from '../mocks/DataProvider';
 import { gte } from "semver";
+import crypto = require ('crypto');
+import { camelCase, capitalize } from 'lodash';
 
 describe('TimestampVerifier', () => {
     describe('Constructor', () => {
@@ -31,6 +33,15 @@ describe('TimestampVerifier', () => {
                 return;
             }
             throw new Error('should have thrown an error!');
+        });
+
+        it('happy path should set tolerance accordingly', () => {
+            const GOOD_TOLERANCES: number[] = [149999, 75000, 0];
+            const isToleranceSet = (currentValue: number) => {
+                const verifier: Verifier = new TimestampVerifier(currentValue);
+                expect(verifier['toleranceInMillis']).equal(currentValue);
+            };
+            GOOD_TOLERANCES.every(isToleranceSet);
         });
     });
 
@@ -106,18 +117,22 @@ describe('TimestampVerifier', () => {
 
 describe('SkillRequestSignatureVerifier', () => {
     const verifier: Verifier = new SkillRequestSignatureVerifier();
-    const signatureKey: string = 'signature';
+    const signatureKey: string = 'signature-256';
     const urlKey: string = 'signaturecertchainurl';
     const testUrl: string = 'https://s3.amazonaws.com/echo.api/echo-api-cert-4.pem';
     const certUrl = url.parse(testUrl);
-    const validPem: string = fs.readFileSync(`${__dirname }/../mocks/echo-api-cert-7.pem`).toString();
+    const mocksDir: string = `${__dirname }/../mocks/`;
+    const validPem: string = fs.readFileSync(`${mocksDir}echo-api-cert-7.pem`).toString();
     const leafPem: string = validPem.slice(validPem.indexOf('-----BEGIN CERTIFICATE-----'), validPem.indexOf('-----END CERTIFICATE-----') + 25);
     const lastPem: string = validPem.slice(validPem.lastIndexOf('-----BEGIN CERTIFICATE-----'), validPem.lastIndexOf('-----END CERTIFICATE-----') + 25);
-    const validSignature = 'jsHzkhi2zPaFXV4gnHN4foePDtv4SqmreEDqKqJc8kUX7skhOlZ03uKYeqLOHAot98tVJc9pMdi'
-        + '1TRMnkQ8sr/GoReO++yGi3iAYjO8/XXL1oscx1vMUzmOLmvCO/EfF3/iEpNOb3BIJEiNhT2ZIwp7EisQi3eYLDmDaklSmP'
-        + 'WWGVQRtcSq1EoHarMW9GrUaApu2cJdAjnF1aF3yFoLiHheN4DSW0qQ14N+ndba4C+YQBn4Ds2SXCFUyEC+q/H4A7SFioAE'
-        + '/qR3WYIMMfKuk1iEQOQY7jAFCS8zOjCaa4sM373T4mNUAojcgdAaHxzu2smLRzQSttTXfuemCijTigg==';
-    const invalidSignature = 'TEST_INVALID_SIGNATURE';
+    const rsaSha256Key: string = fs.readFileSync(`${mocksDir}rsa_sha256`).toString();
+    const rsaSha256PublicKey: string = fs.readFileSync(`${mocksDir}rsa_sha256_pub`).toString();
+    const publicKeyBuffer: Buffer = Buffer.from(rsaSha256PublicKey, 'utf-8');
+    const validRequestEnvelope: string = JSON.stringify(DataProvider.requestEnvelope());
+    const signer: crypto.Sign = crypto.createSign('RSA-SHA256');
+    signer.update(validRequestEnvelope);
+    const validSignature256: string = signer.sign(rsaSha256Key, 'base64');
+    const invalidSignature: string = 'TEST_INVALID_SIGNATURE';
 
     before(function() {
         if (!gte(process.version, REQUIRED_NODE_VERSION)) {
@@ -134,7 +149,6 @@ describe('SkillRequestSignatureVerifier', () => {
         sinon.restore();
         nock.cleanAll();
     });
-
 
     describe('async function verify', () => {
         it('should throw error when cert chain url is not present', async () => {
@@ -170,7 +184,7 @@ describe('SkillRequestSignatureVerifier', () => {
         it('should throw error when an error is thrown during the process of verification', async () => {
             const requestBody: RequestEnvelope = DataProvider.requestEnvelope();
             const requestHeader: IncomingHttpHeaders = DataProvider.requestHeader();
-            requestHeader[signatureKey] = validSignature;
+            requestHeader[signatureKey] = validSignature256;
             requestHeader[urlKey] = testUrl;
             sinon.stub(verifier, '_validateUrlAndRetrieveCertChain' as any).callsFake(() => {
                 throw new Error('unknownError');
@@ -187,31 +201,27 @@ describe('SkillRequestSignatureVerifier', () => {
         });
 
         it('should not throw error when everything is valid', async () => {
-            const validRequestBody: string = fs.readFileSync(`${__dirname }/../mocks/requestEnvelope.json`).toString();
             const requestHeader: IncomingHttpHeaders = DataProvider.requestHeader();
-            requestHeader[signatureKey] = validSignature;
+            requestHeader[signatureKey] = validSignature256;
             requestHeader[urlKey] = testUrl;
             nock('https://s3.amazonaws.com').get(certUrl.path).reply(200, validPem);
             sinon.stub(verifier, '_validateRequestBody' as any);
             sinon.stub(helper, 'generateCAStore').returns(pki.createCaStore([lastPem]));
             try {
-                await verifier.verify(validRequestBody, requestHeader);
+                await verifier.verify(validRequestEnvelope, requestHeader);
             } catch (err) {
                 expect.fail('should not throw error');
             }
         });
 
-        it('should not throw error when header keys are in camel case', async () => {
-            const validRequestBody: string = fs.readFileSync(`${__dirname }/../mocks/requestEnvelope.json`).toString();
+        it('should not throw error when header keys are in CamelCasing', async () => {
             const requestHeader: IncomingHttpHeaders = DataProvider.requestHeader();
-            const signatureKeyInCamel = 'Signature';
-            const urlKeyInCamel = 'SignatureCertChainUrl';
-            requestHeader[signatureKeyInCamel] = validSignature;
-            requestHeader[urlKeyInCamel] = testUrl;
+            requestHeader[capitalize(signatureKey)] = validSignature256;
+            requestHeader[camelCase(urlKey)] = testUrl;
             nock('https://s3.amazonaws.com').get(certUrl.path).reply(200, validPem);
             sinon.stub(verifier, '_validateRequestBody' as any);
             try {
-                await verifier.verify(validRequestBody, requestHeader);
+                await verifier.verify(validRequestEnvelope, requestHeader);
             } catch (err) {
                 expect.fail('should not throw error');
             }
@@ -519,10 +529,20 @@ describe('SkillRequestSignatureVerifier', () => {
 
     describe('function _validateRequestBody', () => {
         const functionKey: string = '_validateRequestBody';
-        const validRequestBody: string = fs.readFileSync(`${__dirname }/../mocks/requestEnvelope.json`).toString();
         it('should throw error when catch error during the process of validating body', () => {
             try {
-                verifier[functionKey](validPem, invalidSignature, validRequestBody);
+                verifier[functionKey](publicKeyBuffer, invalidSignature, validRequestEnvelope);
+            } catch (err) {
+                expect(err.message).equal('request body and signature does not match');
+
+                return;
+            }
+            throw new Error('should have thrown an error!');
+        });
+
+        it('should throw error when a different key is used', () => {
+            try {
+                verifier[functionKey](leafPem, validSignature256, validRequestEnvelope);
             } catch (err) {
                 expect(err.message).equal('request body and signature does not match');
 
@@ -533,7 +553,7 @@ describe('SkillRequestSignatureVerifier', () => {
 
         it('should not throw error when signature and body match', () => {
             try {
-                verifier[functionKey](validPem, validSignature, validRequestBody);
+                verifier[functionKey](publicKeyBuffer, validSignature256, validRequestEnvelope);
             } catch (err) {
                 expect.fail('should not throw error');
             }

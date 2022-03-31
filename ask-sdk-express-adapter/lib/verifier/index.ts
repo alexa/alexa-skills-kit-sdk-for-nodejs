@@ -32,8 +32,8 @@ const VALID_SIGNING_CERT_CHAIN_PROTOCOL: string = 'https:';
 const VALID_SIGNING_CERT_CHAIN_URL_HOST_NAME: string = 's3.amazonaws.com';
 const VALID_SIGNING_CERT_CHAIN_URL_PATH_PREFIX: string = '/echo.api/';
 const SIGNATURE_CERT_CHAIN_URL_HEADER: string = 'SignatureCertChainUrl';
-const SIGNATURE_HEADER: string = 'Signature';
-const SIGNATURE_FORMAT = 'base64';
+const SIGNATURE_HEADER: string = 'Signature-256';
+const SIGNATURE_FORMAT: crypto.BinaryToTextEncoding = 'base64';
 const CERT_CHAIN_URL_PORT: number = 443;
 const CERT_CHAIN_DOMAIN = 'echo-api.amazon.com';
 const CHARACTER_ENCODING = 'utf8';
@@ -320,7 +320,7 @@ export class SkillRequestSignatureVerifier implements Verifier {
      */
     private _validateRequestBody(pemCert: string, signature: string, requestEnvelope: string): void {
 
-        const verifier = crypto.createVerify('RSA-SHA1');
+        const verifier = crypto.createVerify('RSA-SHA256');
         verifier.update(requestEnvelope, CHARACTER_ENCODING);
 
         if (!verifier.verify(pemCert, signature, SIGNATURE_FORMAT)) {
