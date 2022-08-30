@@ -10,14 +10,22 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
-import * as AWS from 'aws-sdk';
-import * as AWS_MOCK from 'aws-sdk-mock';
+import {
+    S3Client,
+    GetObjectCommand,
+    PutObjectCommand,
+    DeleteObjectCommand
+} from '@aws-sdk/client-s3';
+import {
+    AwsClientStub,
+    mockClient
+} from 'aws-sdk-client-mock';
 import { expect } from 'chai';
 import path = require ('path');
 import { ObjectKeyGenerators } from '../../../lib/attributes/persistence/ObjectKeyGenerators';
 import { S3PersistenceAdapter } from '../../../lib/attributes/persistence/S3PersistenceAdapter';
 import { JsonProvider } from '../../mocks/JsonProvider';
+import { Readable } from 'stream';
 
 describe('S3PersistenceAdapter', () => {
     const bucketName = 'mockBucket';
@@ -25,88 +33,97 @@ describe('S3PersistenceAdapter', () => {
     const defaultAttributes = {
         defaultKey : 'defaultValue',
     };
-
     const customObjectKey = 'deviceId';
     const customAttributes = {
         customKey : 'customValue',
     };
-
     const emptyBodyKey = 'emptyBodyKey';
-
     const nonJsonObjectKey = 'nonJsonObjectKey';
     const nonJsonObjectAttributes = 'This is a non json string';
-
     const pathPrefixObjectKey = path.join('folder', 'userId');
     const pathPrefixObjectAttributes = {
         pathPrefixKey : 'pathPrefixValue',
     };
-
+    const NoSuchBucketName = 'NonExistentBucket';
     const bucketInvalidError = new Error('The specified bucket is not valid.');
     Object.defineProperty(bucketInvalidError, 'code', {
         value : 'InvalidBucketName',
         writable : false,
     });
-
+    const NoSuchS3ObjectKey = 'noSuchKey';
     const noSuchKeyError = new Error('The specified key does not exist.');
     Object.defineProperty(noSuchKeyError, 'code', {
         value : 'NoSuchKey',
         writable : false,
     });
-
     const requestEnvelope = JsonProvider.requestEnvelope();
     requestEnvelope.context.System.device.deviceId = 'deviceId';
     requestEnvelope.context.System.user.userId = 'userId';
 
+    let persistenceAdapter: S3PersistenceAdapter;
+    let mockS3: AwsClientStub<S3Client>;
+    let s3Client: S3Client;
+
     before((done) => {
-        AWS_MOCK.setSDKInstance(AWS);
-        AWS_MOCK.mock('S3', 'getObject', (params, callback) => {
-            if (params.Bucket !== bucketName) {
-                callback(bucketInvalidError, null);
-            } else {
-                if (params.Key === defaultObjectKey) {
-                    callback(null, {Body : Buffer.from(JSON.stringify(defaultAttributes))});
-                } else if (params.Key === customObjectKey) {
-                    callback(null, {Body : Buffer.from(JSON.stringify(customAttributes))});
-                } else if (params.Key === pathPrefixObjectKey) {
-                    callback(null, {Body : Buffer.from(JSON.stringify(pathPrefixObjectAttributes))});
-                } else if (params.Key === nonJsonObjectKey) {
-                    callback(null, {Body : Buffer.from(nonJsonObjectAttributes)});
-                } else if (params.Key === emptyBodyKey) {
-                    callback(null, {});
-                } else {
-                    callback(noSuchKeyError, null);
-                }
-            }
-        });
-        AWS_MOCK.mock('S3', 'putObject', (params, callback) => {
-            if (params.Bucket !== bucketName) {
-                callback(bucketInvalidError, null);
-            } else {
-                callback(null, {});
-            }
-        });
-        AWS_MOCK.mock('S3', 'deleteObject', (params, callback) => {
-            if (params.Bucket !== bucketName) {
-                callback(bucketInvalidError, null);
-            } else {
-                callback(null, {});
-            }
+        mockS3 = mockClient(S3Client)
+            .onAnyCommand({
+                Bucket: NoSuchBucketName
+            }).rejects(bucketInvalidError)
+
+            // GetObject
+            .on(GetObjectCommand, {
+                Bucket: bucketName,
+                Key: defaultObjectKey
+            }).resolves({
+                Body: Buffer.from(JSON.stringify(defaultAttributes)) as unknown as Readable
+            })
+            .on(GetObjectCommand, {
+                Key: customObjectKey
+            }).resolves({
+                Body: Buffer.from(JSON.stringify(customAttributes)) as unknown as Readable
+            })
+            .on(GetObjectCommand, {
+                Key: pathPrefixObjectKey
+            }).resolves({
+                Body: Buffer.from(JSON.stringify(pathPrefixObjectAttributes)) as unknown as Readable
+            })
+            .on(GetObjectCommand, {
+                Key: nonJsonObjectKey
+            }).resolves({
+                Body: Buffer.from(nonJsonObjectAttributes) as unknown as Readable
+            })
+            .on(GetObjectCommand, {
+                Key: emptyBodyKey
+            }).resolves({})
+            .on(GetObjectCommand, {
+                Key: NoSuchS3ObjectKey
+            }).rejects(noSuchKeyError)
+
+            // PutObject
+            .on(PutObjectCommand, {
+                Bucket: bucketName
+            }).resolves({})
+
+            // DeleteObject
+            .on(DeleteObjectCommand, {
+                Bucket: bucketName
+            }).resolves({});
+        s3Client = new S3Client({});
+        persistenceAdapter = new S3PersistenceAdapter({
+            bucketName
         });
         done();
     });
 
     after((done) => {
-        AWS_MOCK.restore('S3');
+        mockS3.restore();
         done();
     });
 
     it('should be able to get an item from bucket', async () => {
-        const defaultPersistenceAdapter = new S3PersistenceAdapter({
-            bucketName,
-        });
         const customPersistenceAdapter = new S3PersistenceAdapter({
             bucketName,
-            s3Client : new AWS.S3(),
+            s3Client,
             objectKeyGenerator : ObjectKeyGenerators.deviceId,
         });
         const pathPrefixPersistenceAdapter = new S3PersistenceAdapter({
@@ -114,7 +131,7 @@ describe('S3PersistenceAdapter', () => {
             pathPrefix : 'folder',
         });
 
-        const defaultResult = await defaultPersistenceAdapter.getAttributes(requestEnvelope);
+        const defaultResult = await persistenceAdapter.getAttributes(requestEnvelope);
         expect(defaultResult.defaultKey).eq('defaultValue');
 
         const customResult = await customPersistenceAdapter.getAttributes(requestEnvelope);
@@ -125,38 +142,22 @@ describe('S3PersistenceAdapter', () => {
     });
 
     it('should be able to put an item to bucket', async () => {
-        const persistenceAdapter = new S3PersistenceAdapter({
-            bucketName,
-        });
-
         await persistenceAdapter.saveAttributes(requestEnvelope, {});
     });
 
     it('should be able to delete an item from bucket', async () => {
-        const persistenceAdapter = new S3PersistenceAdapter({
-            bucketName,
-        });
-
         await persistenceAdapter.deleteAttributes(requestEnvelope);
     });
 
     it('should return an empty object when getting item that does not exist in bucket', async () => {
-        const persistenceAdapter = new S3PersistenceAdapter({
-            bucketName,
-        });
-
         const mockRequestEnvelope = JsonProvider.requestEnvelope();
-        mockRequestEnvelope.context.System.user.userId = 'NonExistentKey';
+        mockRequestEnvelope.context.System.user.userId = NoSuchS3ObjectKey;
 
         const result = await persistenceAdapter.getAttributes(mockRequestEnvelope);
         expect(result).deep.equal({});
     });
 
     it('should return an empty object when getting item that has empty value', async () => {
-        const persistenceAdapter = new S3PersistenceAdapter({
-            bucketName,
-        });
-
         const mockRequestEnvelope = JsonProvider.requestEnvelope();
         mockRequestEnvelope.context.System.user.userId = 'emptyBodyKey';
 
@@ -166,7 +167,8 @@ describe('S3PersistenceAdapter', () => {
 
     it('should throw an error when reading and the bucket does not exist', async () => {
         const persistenceAdapter = new S3PersistenceAdapter({
-            bucketName : 'NonExistentBucket',
+            bucketName : NoSuchBucketName,
+            s3Client
         });
 
         try {
@@ -183,7 +185,7 @@ describe('S3PersistenceAdapter', () => {
 
     it('should throw an error when saving and the bucket does not exist', async () => {
         const persistenceAdapter = new S3PersistenceAdapter({
-            bucketName : 'NonExistentBucket',
+            bucketName : NoSuchBucketName,
         });
 
         try {
@@ -200,7 +202,7 @@ describe('S3PersistenceAdapter', () => {
 
     it('should throw an error when deleting and the bucket does not exist', async () => {
         const persistenceAdapter = new S3PersistenceAdapter({
-            bucketName : 'NonExistentBucket',
+            bucketName : NoSuchBucketName,
         });
 
         try {
@@ -216,12 +218,8 @@ describe('S3PersistenceAdapter', () => {
     });
 
     it('should throw an error when getting invalid json object', async () => {
-        const persistenceAdapter = new S3PersistenceAdapter({
-            bucketName,
-        });
-
         const mockRequestEnvelope = JsonProvider.requestEnvelope();
-        mockRequestEnvelope.context.System.user.userId = 'nonJsonObjectKey';
+        mockRequestEnvelope.context.System.user.userId = nonJsonObjectKey;
 
         try {
             await persistenceAdapter.getAttributes(mockRequestEnvelope);

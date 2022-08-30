@@ -1,6 +1,6 @@
 {
   "name": "ask-sdk-dynamodb-persistence-adapter",
-  "version": "2.12.1",
+  "version": "3.0.0",
   "description": "DynamoDB based implementation package of PersistenceAdapter interface in ASK SDK v2 for Node.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -29,7 +29,8 @@
     "SDK"
   ],
   "dependencies": {
-    "aws-sdk": "^2.163.0"
+    "@aws-sdk/client-dynamodb": "^3.38.0",
+    "@aws-sdk/lib-dynamodb": "^3.38.0"
   },
   "peerDependencies": {
     "ask-sdk-core": "^2.0.0"
