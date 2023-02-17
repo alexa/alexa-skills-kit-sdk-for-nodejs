@@ -30,7 +30,8 @@ export class DelegateToConversationsHandler implements CustomSkillRequestHandler
         this.skillToConversationsMapper = getSkillToConversationMapper(mapPath);
     }
 
-    private isDelegateToConversationsRequest(requestEnvelope : RequestEnvelope) : boolean {
+    private isDelegateToConversationsRequest(input : HandlerInput) : boolean {
+        const requestEnvelope:RequestEnvelope = input.requestEnvelope;
         if (!this.skillToConversationsMapper ||
             !getDelegationMap(this.skillToConversationsMapper)) {
             return false;
@@ -40,7 +41,7 @@ export class DelegateToConversationsHandler implements CustomSkillRequestHandler
 
     public canHandle(input : HandlerInput) : boolean {
         return getRequestType(input.requestEnvelope) === 'IntentRequest'
-        && this.isDelegateToConversationsRequest(input.requestEnvelope);
+        && this.isDelegateToConversationsRequest(input);
     }
 
     public async handle(input : HandlerInput) : Promise<Response> {
