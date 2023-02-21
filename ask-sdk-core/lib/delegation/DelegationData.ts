@@ -6,8 +6,10 @@ export interface DelegationData {
     acirData? : any;
 }
 
+export declare type target = 'Conversations' | 'Component' | 'Skill';
+
 export interface DelegateTarget {
-    type: string;
+    type: target;
     name: string;
     slots? : {[key : string] : Slot}
 }
