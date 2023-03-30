@@ -16,6 +16,7 @@ export { AttributesManagerFactory } from './attributes/AttributesManagerFactory'
 export { PersistenceAdapter } from './attributes/persistence/PersistenceAdapter';
 export { CustomSkillErrorHandler as ErrorHandler } from './dispatcher/error/handler/CustomSkillErrorHandler';
 export { CustomSkillRequestHandler as RequestHandler } from './dispatcher/request/handler/CustomSkillRequestHandler';
+export { DelegateToIntentHandler } from './dispatcher/request/handler/DelegateToIntentHandler';
 export { HandlerInput } from './dispatcher/request/handler/HandlerInput';
 export { CustomSkillRequestInterceptor as RequestInterceptor } from './dispatcher/request/interceptor/CustomSkillRequestInterceptor';
 export { CustomSkillResponseInterceptor as ResponseInterceptor } from './dispatcher/request/interceptor/CustomSkillResponseInterceptor';

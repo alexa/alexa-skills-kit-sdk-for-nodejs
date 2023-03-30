@@ -14,17 +14,17 @@
 import {
     DialogState,
     IntentRequest,
-    ListSlotValue,
     Request,
     RequestEnvelope,
     Session,
     SimpleSlotValue,
     Slot,
     SlotValue,
-    SupportedInterfaces
+    SupportedInterfaces,
+    interfaces
 } from 'ask-sdk-model';
 import { createAskSdkError } from 'ask-sdk-runtime';
-
+import APIRequest = interfaces.conversations.APIRequest;
 /**
  * Retrieves the locale from the request.
  *
@@ -292,4 +292,30 @@ export function isNewSession(requestEnvelope : RequestEnvelope) : boolean {
     throw createAskSdkError(
         'RequestEnvelopeUtils',
         `The provided request doesn't contain a session.`);
+}
+
+/**
+ * Extracts slots from Dialog Api Request
+ *
+ *
+ * @param {APIRequest} apiRequest
+ */
+export function generateSlotsFromApiRequest(apiRequest:APIRequest) : {
+    [key: string]: Slot;
+} {
+    if (!apiRequest.slots) {
+        return {};
+    }
+    const intentSlots: {[key : string] : Slot} = {};
+    Object.keys(apiRequest.slots).forEach((slotKey:string) => {
+        const slotValue: SlotValue = apiRequest.slots[slotKey];
+        const intentSlot: Slot = {
+            name: slotKey,
+            confirmationStatus: 'NONE',
+            ...((slotValue as SimpleSlotValue).value ? { value : (slotValue as SimpleSlotValue).value } : {}),
+            ...((slotValue as SimpleSlotValue).resolutions ? { resolutions : (slotValue as SimpleSlotValue).resolutions } : {})
+        };
+        intentSlots[slotKey] = intentSlot;
+    });
+    return intentSlots;
 }
