@@ -71,3 +71,12 @@ export {
     createAskSdkUserAgent,
     UserAgentManager
 } from 'ask-sdk-runtime';
+
+export {
+    ComponentInterface
+} from './components/ComponentInterface';
+
+export {
+    launchComponent,
+    egressFromComponent
+} from './util/ComponentUtils';
