@@ -26,7 +26,6 @@ const SPLIT_CHAR:string = "_";
 export class DelegateToIntentHandler implements CustomSkillRequestHandler {
 
     canHandle(input : HandlerInput) : boolean {
-    
         if (getRequestType(input.requestEnvelope) !== 'Dialog.API.Invoked') {
             return false;
         }
@@ -42,7 +41,6 @@ export class DelegateToIntentHandler implements CustomSkillRequestHandler {
     }
 
     handle(input: HandlerInput): Response | Promise<Response> {
-    
         const apiRequest:APIRequest = (input.requestEnvelope.request as APIInvocationRequest).apiRequest;
         const apiName: string = apiRequest.name;
         const intentName: string = (apiName.substring(apiName.indexOf(SPLIT_CHAR) + 1));
