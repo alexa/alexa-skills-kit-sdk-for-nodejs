@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.12.1...v2.13.0) (2023-04-03)
+
+
+### Bug Fixes
+
+* **version:** typescript dependency ([c2756d9](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/c2756d9013c6d135b0f3562d13601a0b16905761))
+* **warnings:** removed extraneous spaces ([7ad1651](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/7ad1651f1ef878630ef213dd3460474db592115d))
+
+
+### Features
+
+* **component-interface:** egress and ingress interface for ac skill components ([41f5102](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/41f51027bd2b81628f4d5485a6bedd67a63b4b4d))
+* **delegation:** delegation handler for AC to IM ([06a2b2c](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/06a2b2c87d509bf879aa5a51e4b770bbc4d708b5))
+
+
+
+
+
 ## [2.12.1](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.12.0...v2.12.1) (2022-04-01)
 
 

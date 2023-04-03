@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.12.1...v2.13.0) (2023-04-03)
+
+
+### Bug Fixes
+
+* **version:** typescript dependency ([c2756d9](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/commit/c2756d9013c6d135b0f3562d13601a0b16905761))
+
+
+
+
+
 ## [2.12.1](https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs/compare/v2.12.0...v2.12.1) (2022-04-01)
 
 **Note:** Version bump only for package ask-sdk
