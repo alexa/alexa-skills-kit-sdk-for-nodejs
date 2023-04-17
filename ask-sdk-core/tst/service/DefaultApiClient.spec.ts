@@ -48,8 +48,7 @@ describe('DefaultApiClient', () => {
         expect(apiFake.isDone()).equal(true);
         expect(response.statusCode).equal(200);
         expect(response.body).equal('Success');
-        expect(response.headers[0]).deep.equal({key : 'v1', value : 'k_1'});
-        expect(response.headers[1]).deep.equal({key : 'v1', value : 'k_2'});
+        expect(response.headers[0]).deep.equal({key : 'v1', value : 'k_1, k_2'});
     });
 
     it('should be able to send GET request', async () => {
@@ -74,8 +73,7 @@ describe('DefaultApiClient', () => {
         expect(apiFake.isDone()).equal(true);
         expect(response.statusCode).equal(200);
         expect(response.body).equal('Success');
-        expect(response.headers[0]).deep.equal({key : 'v1', value : 'k_1'});
-        expect(response.headers[1]).deep.equal({key : 'v1', value : 'k_2'});
+        expect(response.headers[0]).deep.equal({key : 'v1', value : 'k_1, k_2'});
     });
 
     it('should be able to send DELETE request', async () => {
@@ -100,8 +98,7 @@ describe('DefaultApiClient', () => {
         expect(apiFake.isDone()).equal(true);
         expect(response.statusCode).equal(200);
         expect(response.body).equal('Success');
-        expect(response.headers[0]).deep.equal({key : 'v1', value : 'k_1'});
-        expect(response.headers[1]).deep.equal({key : 'v1', value : 'k_2'});
+        expect(response.headers[0]).deep.equal({key : 'v1', value : 'k_1, k_2'});
     });
 
     it('should be able to send PUT request', async () => {
