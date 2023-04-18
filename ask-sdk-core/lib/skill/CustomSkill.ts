@@ -30,6 +30,7 @@ import { PersistenceAdapter } from '../attributes/persistence/PersistenceAdapter
 import { HandlerInput } from '../dispatcher/request/handler/HandlerInput';
 import { ResponseFactory } from '../response/ResponseFactory';
 import { CustomSkillConfiguration } from './CustomSkillConfiguration';
+import { Logger } from '../util/Logger';
 import ServiceClientFactory = services.ServiceClientFactory;
 import ApiClient = services.ApiClient;
 
@@ -99,7 +100,7 @@ export class CustomSkill implements Skill<RequestEnvelope, ResponseEnvelope> {
         return {
             version : '1.0',
             response,
-            userAgent : UserAgentManager.getUserAgent(),
+            userAgent : UserAgentManager.getUserAgent() + Logger.getFeatures(),
             sessionAttributes : requestEnvelope.session ? input.attributesManager.getSessionAttributes() : undefined,
         };
     }

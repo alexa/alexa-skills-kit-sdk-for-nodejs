@@ -34,6 +34,7 @@ export { CustomSkillBuilder } from './skill/factory/CustomSkillBuilder';
 export { CustomSkillFactory } from './skill/factory/CustomSkillFactory';
 export { SkillBuilders } from './skill/SkillBuilders';
 export { CustomSkillConfiguration as SkillConfiguration } from './skill/CustomSkillConfiguration';
+export { Logger, MetricsType } from './util/Logger';
 export {
     getViewportDpiGroup,
     getViewportOrientation,
