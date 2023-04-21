@@ -174,9 +174,9 @@ export function getDialogState(requestEnvelope : RequestEnvelope) : DialogState 
  *
  * @param {RequestEnvelope} requestEnvelope
  * @param {string} slotName
- * @return {Slot}
+ * @return {Slot | null | undefined}
  */
-export function getSlot(requestEnvelope : RequestEnvelope, slotName : string) : Slot {
+export function getSlot(requestEnvelope : RequestEnvelope, slotName : string) : Slot | null | undefined {
     if (getRequestType(requestEnvelope) === 'IntentRequest') {
         const slots : {[key : string] : Slot} = (requestEnvelope.request as IntentRequest).intent.slots;
         if (slots != null) {
@@ -200,9 +200,9 @@ export function getSlot(requestEnvelope : RequestEnvelope, slotName : string) : 
  *
  * @param {RequestEnvelope} requestEnvelope
  * @param {string} slotName
- * @return {string}
+ * @return {string | null}
  */
-export function getSlotValue(requestEnvelope : RequestEnvelope, slotName : string) : string {
+export function getSlotValue(requestEnvelope : RequestEnvelope, slotName : string) : string | null {
     if (getRequestType(requestEnvelope) === 'IntentRequest') {
         const slot = getSlot(requestEnvelope, slotName);
         if (slot) {
@@ -225,9 +225,9 @@ export function getSlotValue(requestEnvelope : RequestEnvelope, slotName : strin
  *
  * @param {RequestEnvelope} requestEnvelope
  * @param {string} slotName
- * @return {SlotValue}
+ * @return {SlotValue | null}
  */
-export function getSlotValueV2(requestEnvelope : RequestEnvelope, slotName : string) : SlotValue {
+export function getSlotValueV2(requestEnvelope : RequestEnvelope, slotName : string) : SlotValue | null {
     const slot = getSlot(requestEnvelope, slotName);
     if (slot && slot.slotValue) {
         return slot.slotValue;
