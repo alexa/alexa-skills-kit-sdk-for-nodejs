@@ -78,6 +78,14 @@ export {
 } from './components/ComponentInterface';
 
 export {
+    IMComponentInterface
+} from './components/IMComponentInterface';
+
+export {
+    ComponentOrchestrator
+} from './components/ComponentOrchestrator';
+
+export {
     launchComponent,
     egressFromComponent
 } from './util/ComponentUtils';

@@ -18,6 +18,7 @@ import {
 import { RuntimeConfiguration } from 'ask-sdk-runtime';
 import { PersistenceAdapter } from '../attributes/persistence/PersistenceAdapter';
 import { HandlerInput} from '../dispatcher/request/handler/HandlerInput';
+import { ComponentOrchestrator } from '../components/ComponentOrchestrator';
 
 /**
  * An interfaces that represents the standard components needed to build {@link CustomSkill}.
@@ -27,4 +28,5 @@ export interface CustomSkillConfiguration extends RuntimeConfiguration<HandlerIn
     apiClient? : services.ApiClient;
     customUserAgent? : string;
     skillId? : string;
+    componentOrchestrator? : ComponentOrchestrator;
 }

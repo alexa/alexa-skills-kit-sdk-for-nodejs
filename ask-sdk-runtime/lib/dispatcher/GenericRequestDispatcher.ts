@@ -15,6 +15,7 @@ import { RuntimeConfiguration } from '../skill/RuntimeConfiguration';
 import { createAskSdkError } from '../util/AskSdkUtils';
 import { ErrorHandler } from './error/handler/ErrorHandler';
 import { ErrorMapper } from './error/mapper/ErrorMapper';
+import { GenericComponentOrchestrator } from './request/component-orchestrator/ComponentOrcehstrator';
 import { HandlerAdapter } from './request/handler/HandlerAdapter';
 import { RequestHandlerChain } from './request/handler/RequestHandlerChain';
 import { RequestInterceptor } from './request/interceptor/RequestInterceptor';
@@ -33,6 +34,7 @@ export class GenericRequestDispatcher<Input, Output> implements RequestDispatche
     protected handlerAdapters: Array<HandlerAdapter<Input, Output>>;
     protected requestInterceptors: Array<RequestInterceptor<Input>>;
     protected responseInterceptors: Array<ResponseInterceptor<Input, Output>>;
+    protected componentOrchestrator?: GenericComponentOrchestrator<Input, Output>;
 
     constructor(options: RuntimeConfiguration<Input, Output>) {
         this.requestMappers = options.requestMappers;
@@ -40,6 +42,7 @@ export class GenericRequestDispatcher<Input, Output> implements RequestDispatche
         this.errorMapper = options.errorMapper;
         this.requestInterceptors = options.requestInterceptors;
         this.responseInterceptors = options.responseInterceptors;
+        this.componentOrchestrator = options.componentOrchestrator;
     }
 
     /**
@@ -120,8 +123,16 @@ export class GenericRequestDispatcher<Input, Output> implements RequestDispatche
             }
         }
 
-        // Invoke the request handler
-        const output = await adapter.execute(input, handler);
+        let output: Output;
+
+        // pass the request to Component Orchestrator to execute if component canHandle
+        if (this.componentOrchestrator && this.componentOrchestrator.supports(input)) {
+            output = await this.componentOrchestrator.execute(input);
+        }
+        else {
+            // Invoke the skill's request handler
+            output = await adapter.execute(input, handler);
+        }
 
         // Execute response interceptors that are local to the handler chain
         if (responseInterceptors) {
