@@ -25,6 +25,7 @@ import { CustomSkillResponseInterceptor } from '../../dispatcher/request/interce
 import { CustomSkill } from '../CustomSkill';
 import { CustomSkillConfiguration } from '../CustomSkillConfiguration';
 import { BaseSkillBuilder } from './BaseSkillBuilder';
+import { ComponentOrchestrator } from '../../components/ComponentOrchestrator';
 
 /**
  * Type definition of LambdaHandler which contains inputs received in lambda function.
@@ -101,6 +102,7 @@ export class BaseSkillFactory {
 
                 return {
                     ...runtimeConfiguration,
+                    componentOrchestrator: ComponentOrchestrator.initialize(),
                     customUserAgent : thisCustomUserAgent,
                     skillId : thisSkillId,
                 };

@@ -17,6 +17,7 @@ import { CustomSkillConfiguration } from '../CustomSkillConfiguration';
 import { BaseSkillFactory } from './BaseSkillFactory';
 import { CustomSkillBuilder } from './CustomSkillBuilder';
 import ApiClient = services.ApiClient;
+import { ComponentOrchestrator } from '../../components/ComponentOrchestrator';
 
 /**
  * Provider for {@link CustomSkillBuilder}
@@ -25,6 +26,7 @@ export class CustomSkillFactory {
     public static init() : CustomSkillBuilder {
         let thisPersistenceAdapter : PersistenceAdapter;
         let thisApiClient : ApiClient;
+        let thisComponentOrchestrator : ComponentOrchestrator;
 
         const baseSkillBuilder = BaseSkillFactory.init();
 
@@ -37,6 +39,7 @@ export class CustomSkillFactory {
                     ...skillConfiguration,
                     persistenceAdapter : thisPersistenceAdapter,
                     apiClient : thisApiClient,
+                    componentOrchestrator: thisComponentOrchestrator
                 };
             },
             withPersistenceAdapter(persistenceAdapter : PersistenceAdapter) : CustomSkillBuilder {
@@ -49,6 +52,11 @@ export class CustomSkillFactory {
 
                 return this;
             },
+            withComponentOrchestrator(componentOrchestrator: ComponentOrchestrator) : CustomSkillBuilder {
+                thisComponentOrchestrator = componentOrchestrator;
+
+                return this;
+            }
         };
     }
 

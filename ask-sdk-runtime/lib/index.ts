@@ -27,6 +27,7 @@ export { RuntimeConfiguration } from './skill/RuntimeConfiguration';
 export { RuntimeConfigurationBuilder } from './skill/RuntimeConfigurationBuilder';
 export { GenericRequestDispatcher } from './dispatcher/GenericRequestDispatcher';
 export { RequestDispatcher } from './dispatcher/RequestDispatcher';
+export {GenericComponentOrchestrator} from './dispatcher/request/component-orchestrator/ComponentOrcehstrator';
 
 export { Skill } from './skill/Skill';
 

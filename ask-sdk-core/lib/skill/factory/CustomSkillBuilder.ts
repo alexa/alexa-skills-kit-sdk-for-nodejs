@@ -15,6 +15,7 @@ import { services } from 'ask-sdk-model';
 import { PersistenceAdapter } from '../../attributes/persistence/PersistenceAdapter';
 import { BaseSkillBuilder } from './BaseSkillBuilder';
 import ApiClient = services.ApiClient;
+import { ComponentOrchestrator } from '../../components/ComponentOrchestrator';
 
 /**
  * An interface which helps building a customized skill.
@@ -22,4 +23,5 @@ import ApiClient = services.ApiClient;
 export interface CustomSkillBuilder extends BaseSkillBuilder {
     withPersistenceAdapter(persistenceAdapter : PersistenceAdapter) : this;
     withApiClient(apiClient : ApiClient) : this;
+    withComponentOrchestrator(componentOrchestrator: ComponentOrchestrator) : this;
 }

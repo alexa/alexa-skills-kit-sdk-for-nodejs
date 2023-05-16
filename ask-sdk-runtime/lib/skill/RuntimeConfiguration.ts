@@ -12,6 +12,7 @@
  */
 
 import { ErrorMapper } from '../dispatcher/error/mapper/ErrorMapper';
+import { GenericComponentOrchestrator } from '../dispatcher/request/component-orchestrator/ComponentOrcehstrator';
 import { HandlerAdapter } from '../dispatcher/request/handler/HandlerAdapter';
 import { RequestInterceptor } from '../dispatcher/request/interceptor/RequestInterceptor';
 import { ResponseInterceptor } from '../dispatcher/request/interceptor/ResponseInterceptor';
@@ -23,4 +24,5 @@ export interface RuntimeConfiguration<Input, Output> {
     errorMapper? : ErrorMapper<Input, Output>;
     requestInterceptors? : Array<RequestInterceptor<Input>>;
     responseInterceptors? : Array<ResponseInterceptor<Input, Output>>;
+    componentOrchestrator? : GenericComponentOrchestrator<Input, Output>;
 }

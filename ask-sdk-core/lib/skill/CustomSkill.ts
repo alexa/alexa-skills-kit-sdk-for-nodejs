@@ -32,6 +32,7 @@ import { ResponseFactory } from '../response/ResponseFactory';
 import { CustomSkillConfiguration } from './CustomSkillConfiguration';
 import ServiceClientFactory = services.ServiceClientFactory;
 import ApiClient = services.ApiClient;
+import { ComponentOrchestrator } from '../components/ComponentOrchestrator';
 
 /**
  * Top level container for request dispatcher.
@@ -42,12 +43,14 @@ export class CustomSkill implements Skill<RequestEnvelope, ResponseEnvelope> {
     protected apiClient : ApiClient;
     protected customUserAgent : string;
     protected skillId : string;
+    protected componentOrchestrator?: ComponentOrchestrator;
 
     constructor(skillConfiguration : CustomSkillConfiguration) {
         this.persistenceAdapter = skillConfiguration.persistenceAdapter;
         this.apiClient = skillConfiguration.apiClient;
         this.customUserAgent = skillConfiguration.customUserAgent;
         this.skillId = skillConfiguration.skillId;
+        this.componentOrchestrator = skillConfiguration.componentOrchestrator;
 
         this.requestDispatcher = new GenericRequestDispatcher<HandlerInput, Response>({
             requestMappers : skillConfiguration.requestMappers,
@@ -55,6 +58,7 @@ export class CustomSkill implements Skill<RequestEnvelope, ResponseEnvelope> {
             errorMapper : skillConfiguration.errorMapper,
             requestInterceptors : skillConfiguration.requestInterceptors,
             responseInterceptors : skillConfiguration.responseInterceptors,
+            componentOrchestrator: skillConfiguration.componentOrchestrator
         });
 
         const packageInfo = require('../../package.json');
@@ -93,7 +97,9 @@ export class CustomSkill implements Skill<RequestEnvelope, ResponseEnvelope> {
                 })
                 : undefined,
         };
-
+        if (this.componentOrchestrator) {
+            this.componentOrchestrator.saveState(input);
+        }
         const response = await this.requestDispatcher.dispatch(input);
 
         return {
