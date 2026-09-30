@@ -17,7 +17,6 @@ import crypto = require ('crypto');
 import { IncomingHttpHeaders } from 'http';
 import * as client from 'https';
 import { pki } from 'node-forge';
-import * as url from 'url';
 import { gte } from 'semver';
 
 import { generateCAStore, generateCertificatesArray } from './helper';
@@ -127,8 +126,9 @@ export class SkillRequestSignatureVerifier implements Verifier {
      * @return {Promise<string>}
      */
     private async _validateUrlAndRetrieveCertChain(signatureCertChainUrl: string): Promise<string> {
-        this._validateCertificateUrl(signatureCertChainUrl);
-        const pemCert = await this._loadCertChain(signatureCertChainUrl);
+        // Fetch the normalized URL returned by the validator so validation and fetch agree.
+        const validatedCertChainUrl = this._validateCertificateUrl(signatureCertChainUrl);
+        const pemCert = await this._loadCertChain(validatedCertChainUrl);
 
         return pemCert;
     }
@@ -141,8 +141,10 @@ export class SkillRequestSignatureVerifier implements Verifier {
      * @private
      * @param {string} signatureCertChainUrl URL for retrieving certificate chain
      */
-    private _validateCertificateUrl(signatureCertChainUrl: string): void {
-        const urlObj = url.parse(signatureCertChainUrl);
+    private _validateCertificateUrl(signatureCertChainUrl: string): string {
+        // Parse with the WHATWG URL parser (as used by https.get) so the validated URL is
+        // normalized (dot-segments removed) the same way as the fetched URL.
+        const urlObj = new URL(signatureCertChainUrl);
 
         // Validate the protocol
         const protocol: string = urlObj.protocol;
@@ -164,7 +166,7 @@ export class SkillRequestSignatureVerifier implements Verifier {
             );
         }
 
-        // Validate the path prefix
+        // Validate the path prefix (normalized by the URL parser)
         const path: string = urlObj.pathname;
         if (!path.startsWith(VALID_SIGNING_CERT_CHAIN_URL_PATH_PREFIX)) {
             throw createAskSdkError(
@@ -183,6 +185,9 @@ export class SkillRequestSignatureVerifier implements Verifier {
                 + ` Expecting ${CERT_CHAIN_URL_PORT}`,
             );
         }
+
+        // Return the normalized URL so the caller fetches what was validated.
+        return urlObj.href;
     }
 
     /**
@@ -202,13 +207,14 @@ export class SkillRequestSignatureVerifier implements Verifier {
             return this.certCache.get(signatureCertChainUrl);
         }
         // if there is a cache miss, load cert chain from certificate Url
-        const pemCert = await this._getCertChainByUrl(signatureCertChainUrl);
+        const pemChain = await this._getCertChainByUrl(signatureCertChainUrl);
 
-        // validate the cert chain loaded from url, if it is valid, update cache
-        this._validateCertChain(pemCert);
-        this.certCache.set(signatureCertChainUrl, pemCert);
+        // validate the cert chain; the validator returns the canonical PEM of the verified leaf,
+        // which the request signature is verified against.
+        const verifiedCertPem = this._validateCertChain(pemChain);
+        this.certCache.set(signatureCertChainUrl, verifiedCertPem);
 
-        return pemCert;
+        return verifiedCertPem;
     }
 
     /**
@@ -259,8 +265,18 @@ export class SkillRequestSignatureVerifier implements Verifier {
      * @private
      * @param {string} pemCert Certificate chain in pem format
      */
-    private _validateCertChain(pemCert: string): void {
-        const cert: pki.Certificate = pki.certificateFromPem(pemCert);
+    private _validateCertChain(pemCert: string): string {
+        // Parse with the strict CERTIFICATE parser used for chain-of-trust and run every check
+        // (validity, SAN, and ultimately signature verification) against certChain[0], so all
+        // consumers agree on the same certificate regardless of PEM label.
+        const certChain: pki.Certificate[] = generateCertificatesArray(pemCert);
+        if (certChain.length === 0) {
+            throw createAskSdkError(
+                this.constructor.name,
+                'No certificate found in Signature Certificate Chain.',
+            );
+        }
+        const cert: pki.Certificate = certChain[0];
 
         // check the before/after dates on the certificate are still valid for the present time
         const now: number = new Date().getTime();
@@ -294,7 +310,6 @@ export class SkillRequestSignatureVerifier implements Verifier {
         }
 
         const caStore: pki.CAStore = generateCAStore(require('tls').rootCertificates);
-        const certChain: pki.Certificate[] = generateCertificatesArray(pemCert);
         // Use the pki.verifyCertificateChain function from Node-forge to
         // validate that all certificates in the chain combine to create a chain of trust to a trusted root CA certificate
         // TODO: Implement certificate revocation check which is missed in pki.verifyCertificateChain function
@@ -307,6 +322,9 @@ export class SkillRequestSignatureVerifier implements Verifier {
             );
         }
 
+        // Return the canonical PEM of the verified leaf so the signature is verified against
+        // exactly this certificate.
+        return pki.certificateToPem(cert);
     }
 
     /**

@@ -252,7 +252,8 @@ describe('SkillRequestSignatureVerifier', () => {
             } catch (err) {
                 expect.fail(`should not throw error${ err}`);
             }
-            expect(permCert).equal(validPem);
+            // The verifier now returns the canonical PEM of the verified leaf certificate.
+            expect(permCert).equal(pki.certificateToPem(helper.generateCertificatesArray(validPem)[0]));
         });
     });
 
@@ -288,6 +289,25 @@ describe('SkillRequestSignatureVerifier', () => {
             } catch (err) {
                 expect.fail('Cannot pass valid url with dot');
             }
+        });
+
+        it ('should return the normalized url so the fetched url matches the validated url', () => {
+            expect(verifier[functionKey](validUrlWithDot))
+                .equal('https://s3.amazonaws.com/echo.api/echo-api-cert.pem');
+        });
+
+        it ('should throw error for url using path traversal to escape the /echo.api/ prefix', () => {
+            const traversalUrl: string = 'https://s3.amazonaws.com/echo.api/../attacker-bucket/chain.pem';
+            try {
+                verifier[functionKey](traversalUrl);
+            } catch (err) {
+                expect(err.name).equal('AskSdk.SkillRequestSignatureVerifier Error');
+                expect(err.message).equal('SignatureCertChainUrl has invalid path: /attacker-bucket/chain.pem.'
+                + ' Expecting the path to start with /echo.api/');
+
+                return;
+            }
+            throw new Error('should have thrown an error!');
         });
 
         it ('should throw error for url with invalid protocol', () => {
@@ -352,7 +372,7 @@ describe('SkillRequestSignatureVerifier', () => {
             nock('https://s3.amazonaws.com').get(certUrl.path).reply(200, validPem);
             try {
                 const pemCert: pki.Certificate = await verifier[functionKey](testUrl);
-                expect(pemCert).equal(validPem);
+                expect(pemCert).equal(pki.certificateToPem(helper.generateCertificatesArray(validPem)[0]));
             } catch (err) {
                 expect.fail('should not throw error');
             }
@@ -524,6 +544,63 @@ describe('SkillRequestSignatureVerifier', () => {
                 return;
             }
             throw new Error('should have thrown an error!');
+        });
+
+        it('should defeat PEM label confusion and verify against the genuine leaf certificate', () => {
+            sinon.useFakeTimers(new Date(2019, 9, 1));
+            // Trust the genuine root, mirroring the happy-path setup.
+            sinon.stub(helper, 'generateCAStore').returns(pki.createCaStore([lastPem]));
+
+            // Build an attacker certificate (SAN echo-api.amazon.com) relabeled as
+            // "X509 CERTIFICATE" and prepend it to the genuine, trusted chain.
+            const attackerKeys = pki.rsa.generateKeyPair(2048);
+            const attackerCert = pki.createCertificate();
+            attackerCert.publicKey = attackerKeys.publicKey;
+            attackerCert.serialNumber = '01';
+            attackerCert.validity.notBefore = new Date(2019, 0, 1);
+            attackerCert.validity.notAfter = new Date(2030, 0, 1);
+            attackerCert.setSubject([{ name: 'commonName', value: 'attacker' }]);
+            attackerCert.setIssuer([{ name: 'commonName', value: 'attacker' }]);
+            attackerCert.setExtensions([{
+                name: 'subjectAltName',
+                altNames: [{ type: 2, value: 'echo-api.amazon.com' }],
+            }]);
+            attackerCert.sign(attackerKeys.privateKey);
+            const attackerBody: string = pki.certificateToPem(attackerCert)
+                .replace(/-----(BEGIN|END) CERTIFICATE-----/g, '').trim();
+            const relabeledAttackerBlock: string =
+                `-----BEGIN X509 CERTIFICATE-----\n${attackerBody}\n-----END X509 CERTIFICATE-----\n`;
+            const maliciousPem: string = relabeledAttackerBlock + validPem;
+
+            // The validator must return the genuine leaf certificate, not the attacker's.
+            const returnedPem: string = verifier[functionKey](maliciousPem);
+            expect(returnedPem).equal(pki.certificateToPem(helper.generateCertificatesArray(validPem)[0]));
+
+            // A signature produced with the attacker's key must NOT verify against the
+            // certificate the verifier selected.
+            const attackerSigner: crypto.Sign = crypto.createSign('RSA-SHA256');
+            attackerSigner.update(validRequestEnvelope);
+            const attackerSignature: string =
+                attackerSigner.sign(pki.privateKeyToPem(attackerKeys.privateKey), 'base64');
+            try {
+                verifier['_validateRequestBody'](returnedPem, attackerSignature, validRequestEnvelope);
+            } catch (err) {
+                expect(err.message).equal('request body and signature does not match');
+
+                return;
+            }
+            throw new Error('attacker signature should not have verified against the genuine certificate!');
+        });
+
+        it('should return the leaf (first) certificate of the chain, not a later one', () => {
+            sinon.useFakeTimers(new Date(2019, 9, 1));
+            sinon.stub(helper, 'generateCAStore').returns(pki.createCaStore([lastPem]));
+            const chain = helper.generateCertificatesArray(validPem);
+            expect(chain.length).to.be.greaterThan(1);
+
+            const returnedPem: string = verifier[functionKey](validPem);
+            expect(returnedPem).equal(pki.certificateToPem(chain[0]));
+            expect(returnedPem).to.not.equal(pki.certificateToPem(chain[chain.length - 1]));
         });
     });
 
